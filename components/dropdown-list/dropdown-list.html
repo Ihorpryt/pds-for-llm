@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dropdown List — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../button/button.css">
+<link rel="stylesheet" href="dropdown-list.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--spacing-16); }
+  .row + .row { margin-top: var(--spacing-20); }
+  .row > .psds-dropdown { width: 220px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  td { width: 200px; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .tall { min-height: 320px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" fill="currentColor">
+  <symbol id="i-home" viewBox="0 0 14 14"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9256 1.26331C6.55755 0.771794 7.44245 0.771793 8.0744 1.2633L12.1577 4.43923C12.584 4.77078 12.8333 5.28056 12.8333 5.8206V11.0833C12.8333 12.0498 12.0498 12.8333 11.0833 12.8333H2.91667C1.95017 12.8333 1.16667 12.0498 1.16667 11.0833V5.8206C1.16667 5.28056 1.41599 4.77078 1.84227 4.43923L5.9256 1.26331ZM7.35813 2.18422C7.14748 2.02038 6.85252 2.02038 6.64187 2.18422L2.55853 5.36014C2.41644 5.47066 2.33333 5.64059 2.33333 5.8206V11.0833C2.33333 11.4055 2.5945 11.6667 2.91667 11.6667H4.66667V8.75C4.66667 7.46134 5.71134 6.41667 7 6.41667C8.28866 6.41667 9.33333 7.46134 9.33333 8.75V11.6667H11.0833C11.4055 11.6667 11.6667 11.4055 11.6667 11.0833V5.8206C11.6667 5.64059 11.5836 5.47066 11.4415 5.36014L7.35813 2.18422ZM8.16667 11.6667V8.75C8.16667 8.10567 7.64433 7.58333 7 7.58333C6.35567 7.58333 5.83333 8.10567 5.83333 8.75V11.6667H8.16667Z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 14 14"><path fill-rule="evenodd" clip-rule="evenodd" d="M7 1.75C4.1005 1.75 1.75 4.1005 1.75 7C1.75 9.89949 4.1005 12.25 7 12.25C9.89949 12.25 12.25 9.89949 12.25 7C12.25 4.1005 9.89949 1.75 7 1.75ZM0.583333 7C0.583333 3.45617 3.45617 0.583333 7 0.583333C10.5438 0.583333 13.4167 3.45617 13.4167 7C13.4167 10.5438 10.5438 13.4167 7 13.4167C3.45617 13.4167 0.583333 10.5438 0.583333 7ZM7.19364 5.55215C7.02415 5.52308 6.84984 5.55493 6.70158 5.64206C6.55332 5.7292 6.44068 5.86599 6.38361 6.02821C6.2767 6.33212 5.94367 6.49183 5.63976 6.38492C5.33585 6.27801 5.17615 5.94497 5.28305 5.64106C5.43155 5.21893 5.72465 4.86298 6.11045 4.63624C6.49624 4.40951 6.94983 4.32663 7.39088 4.40228C7.83192 4.47793 8.23196 4.70723 8.52015 5.04957C8.80826 5.39182 8.96598 5.82498 8.96539 6.27235C8.96512 7.01889 8.4129 7.4988 8.04987 7.74082C7.85056 7.87369 7.65541 7.97085 7.51237 8.03442C7.44003 8.06657 7.37893 8.09105 7.33455 8.10796C7.31232 8.11643 7.29414 8.12305 7.28069 8.12784L7.26409 8.13365L7.25858 8.13553L7.25655 8.13621L7.25571 8.13649C7.25571 8.13649 7.255 8.13673 7.07054 7.58333L7.255 8.13673C6.94937 8.23861 6.61901 8.07343 6.51714 7.7678C6.41529 7.46227 6.58032 7.13204 6.88576 7.03004L6.885 7.03029L6.88984 7.02858C6.8956 7.02654 6.9056 7.02291 6.91923 7.01772C6.94657 7.00731 6.98794 6.9908 7.03855 6.96831C7.14143 6.92258 7.27415 6.8558 7.40272 6.77009C7.69537 6.57499 7.79872 6.39931 7.79872 6.27181L7.79872 6.27094C7.79898 6.09898 7.73837 5.93246 7.62762 5.8009C7.51687 5.66934 7.36314 5.58122 7.19364 5.55215ZM6.50411 9.33333C6.50411 9.01117 6.76528 8.75 7.08744 8.75H7.09328C7.41544 8.75 7.67661 9.01117 7.67661 9.33333C7.67661 9.6555 7.41544 9.91667 7.09328 9.91667H7.08744C6.76528 9.91667 6.50411 9.6555 6.50411 9.33333Z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 14 14"><path d="M6.42578 7L6.43945 6.89062L6.4668 6.78125L6.52148 6.68555L6.58984 6.58984L6.68555 6.52148L6.78125 6.4668L6.89062 6.43945L7 6.42578L7.10938 6.43945L7.21875 6.4668L7.31445 6.52148L7.41016 6.58984L7.47852 6.68555L7.5332 6.78125L7.56055 6.89062L7.57422 7V9.35156L7.54688 9.46094L7.5332 9.51562L7.47852 9.61133L7.41016 9.70703L7.31445 9.77539L7.21875 9.83008L7.10938 9.85742L7 9.87109L6.89062 9.85742L6.78125 9.83008L6.68555 9.77539L6.58984 9.70703L6.52148 9.61133L6.4668 9.51562L6.43945 9.40625L6.42578 9.29688V7ZM6.42578 4.70312L6.43945 4.59375L6.4668 4.48438L6.52148 4.38867L6.58984 4.29297L6.68555 4.22461L6.78125 4.16992L6.89062 4.14258L7 4.12891L7.10938 4.14258L7.21875 4.16992L7.31445 4.22461L7.41016 4.29297L7.47852 4.38867L7.5332 4.48438L7.56055 4.59375L7.57422 4.70312L7.56055 4.8125L7.5332 4.92188L7.47852 5.01758L7.41016 5.11328L7.31445 5.18164L7.21875 5.23633L7.10938 5.26367L7 5.27734L6.89062 5.26367L6.78125 5.23633L6.68555 5.18164L6.58984 5.11328L6.52148 5.01758L6.4668 4.92188L6.43945 4.8125L6.42578 4.75781V4.70312ZM12.168 7L12.1543 6.74023L12.1406 6.4668L12.1133 6.20703L12.0586 5.96094L11.9355 5.46875L11.7578 4.99023L11.5391 4.53906L11.2793 4.11523L10.9922 3.71875L10.6504 3.34961L10.2812 3.00781L9.88477 2.7207L9.46094 2.46094L9.00977 2.24219L8.53125 2.06445L8.03906 1.94141L7.5332 1.85938L7 1.83203L6.4668 1.85938L5.96094 1.94141L5.46875 2.06445L4.99023 2.24219L4.53906 2.46094L4.11523 2.7207L3.71875 3.00781L3.34961 3.34961L3.00781 3.71875L2.7207 4.11523L2.46094 4.53906L2.24219 4.99023L2.06445 5.46875L1.94141 5.96094L1.85938 6.4668L1.83203 7L1.85938 7.5332L1.94141 8.03906L2.06445 8.53125L2.24219 9.00977L2.46094 9.46094L2.7207 9.88477L3.00781 10.2812L3.34961 10.6504L3.71875 10.9922L4.11523 11.2793L4.53906 11.5391L4.99023 11.7578L5.46875 11.9355L5.96094 12.0586L6.4668 12.1406L7 12.168L7.5332 12.1406L8.03906 12.0586L8.53125 11.9355L9.00977 11.7578L9.46094 11.5391L9.88477 11.2793L10.2812 10.9922L10.6504 10.6504L10.9922 10.2812L11.2793 9.88477L11.5391 9.46094L11.7578 9.00977L11.9355 8.53125L12.0586 8.03906L12.1406 7.5332L12.168 7ZM0.683594 7L0.710938 6.35742L0.806641 5.72852L0.970703 5.12695L1.17578 4.53906L1.44922 3.99219L1.76367 3.47266L2.13281 2.98047L2.5293 2.5293L2.98047 2.11914L3.47266 1.76367L3.99219 1.44922L4.53906 1.17578L5.12695 0.970703L5.72852 0.806641L6.35742 0.710938L7 0.683594L7.64258 0.710938L8.27148 0.806641L8.87305 0.970703L9.46094 1.17578L10.0078 1.44922L10.5273 1.76367L11.0195 2.11914L11.4707 2.5293L11.8672 2.98047L12.2363 3.47266L12.5508 3.99219L12.8242 4.53906L13.0293 5.12695L13.1934 5.72852L13.2891 6.35742L13.3164 7L13.2891 7.64258L13.1934 8.27148L13.0293 8.87305L12.8242 9.46094L12.5508 10.0078L12.2363 10.5273L11.8672 11.0195L11.4707 11.4707L11.0195 11.8809L10.5273 12.2363L10.0078 12.5508L9.46094 12.8242L8.87305 13.0293L8.27148 13.1934L7.64258 13.2891L7 13.3164L6.35742 13.2891L5.72852 13.1934L5.12695 13.0293L4.53906 12.8242L3.99219 12.5508L3.47266 12.2363L2.98047 11.8672L2.5293 11.4707L2.13281 11.0195L1.76367 10.5273L1.44922 10.0078L1.17578 9.46094L0.970703 8.87305L0.806641 8.27148L0.710938 7.64258L0.683594 7Z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 14 14"><path d="M11.5938 8.95508L9.29688 6.6582L4.36133 11.5938H11.0742L11.1836 11.5664L11.2383 11.5527L11.334 11.498L11.4297 11.4297L11.498 11.334L11.5527 11.2383L11.5801 11.1289L11.5938 11.0195V8.95508ZM5.27734 4.99023V4.93555L5.25 4.88086L5.22266 4.82617L5.19531 4.78516L5.1543 4.75781L5.09961 4.73047L5.04492 4.70312H4.99023H4.93555L4.88086 4.73047L4.82617 4.75781L4.78516 4.78516L4.75781 4.82617L4.73047 4.88086L4.70312 4.93555V4.99023V5.04492L4.73047 5.09961L4.75781 5.1543L4.78516 5.19531L4.82617 5.22266L4.88086 5.25L4.93555 5.27734H4.99023H5.04492L5.09961 5.25L5.1543 5.22266L5.19531 5.19531L5.22266 5.1543L5.25 5.09961L5.27734 5.04492V4.99023ZM3.55469 4.99023L3.58203 4.70312L3.66406 4.42969L3.80078 4.18359L3.97852 3.97852L4.18359 3.80078L4.42969 3.66406L4.70312 3.58203L4.99023 3.55469L5.27734 3.58203L5.55078 3.66406L5.79688 3.80078L6.00195 3.97852L6.17969 4.18359L6.31641 4.42969L6.39844 4.70312L6.42578 4.99023L6.39844 5.27734L6.31641 5.55078L6.17969 5.79688L6.00195 6.00195L5.79688 6.17969L5.55078 6.31641L5.27734 6.39844L4.99023 6.42578L4.70312 6.39844L4.42969 6.31641L4.18359 6.17969L3.97852 6.00195L3.80078 5.79688L3.66406 5.55078L3.58203 5.27734L3.55469 4.99023ZM11.0195 2.40625H2.92578L2.81641 2.43359L2.66602 2.50195L2.57031 2.57031L2.50195 2.66602L2.44727 2.76172L2.41992 2.87109L2.40625 2.98047V11.0195L2.43359 11.1836L2.50195 11.334L2.61133 11.457L2.77539 11.5527L8.92773 5.40039L9.02344 5.3457L9.13281 5.30469L9.24219 5.27734H9.35156L9.46094 5.30469L9.55664 5.3457L9.65234 5.40039L11.5938 7.3418V2.92578L11.5664 2.81641L11.498 2.66602L11.4297 2.57031L11.334 2.50195L11.2383 2.44727L11.1289 2.41992L11.0742 2.40625H11.0195ZM1.25781 2.98047L1.29883 2.63867L1.39453 2.31055L1.55859 2.02344L1.76367 1.76367L2.02344 1.55859L2.31055 1.39453L2.63867 1.29883L2.98047 1.25781H11.0195L11.3613 1.29883L11.6895 1.39453L11.9766 1.55859L12.2363 1.76367L12.4414 2.02344L12.6055 2.31055L12.7012 2.63867L12.7422 2.98047V11.0195L12.7012 11.3613L12.6055 11.6895L12.4414 11.9766L12.2363 12.2363L11.9766 12.4414L11.6895 12.6055L11.3613 12.7012L11.0195 12.7422H2.89844L2.55664 12.6875L2.25586 12.5781L1.98242 12.4141L1.73633 12.209L1.53125 11.9629L1.38086 11.6758L1.29883 11.3613L1.25781 11.0195V2.98047Z"/></symbol>
+</svg>
+
+<h1>Dropdown List</h1>
+<p class="sub">4 sizes &times; 11 states, Rounded shape. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="row" id="sizes"></div>
+  <div class="row">
+    <code>--xs&nbsp;24px</code><code>--sm&nbsp;32px</code><code>--md&nbsp;36px</code><code>--lg&nbsp;40px</code>
+  </div>
+</div>
+
+<h2>States</h2>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th scope="col">State</th><th scope="col">XS</th><th scope="col">SM</th><th scope="col">MD</th><th scope="col">LG</th></tr>
+    </thead>
+    <tbody id="states"></tbody>
+  </table>
+</div>
+
+<h2>Anatomy</h2>
+<div class="panel">
+  <div class="row">
+
+    <div class="psds-dropdown psds-dropdown--md">
+      <span class="psds-dropdown__label">Label</span>
+      <div class="psds-dropdown__control">
+        <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false">Select a vegetable</button>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="psds-dropdown psds-dropdown--md">
+      <span class="psds-dropdown__label">
+        Label
+        <span class="psds-dropdown__required" aria-hidden="true">*</span>
+        <span class="psds-dropdown__glyph"><svg><use href="#i-info"></use></svg></span>
+      </span>
+      <div class="psds-dropdown__control">
+        <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false">Select a vegetable</button>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+      </div>
+      <p class="psds-dropdown__alert">
+        <span class="psds-dropdown__glyph"><svg><use href="#i-help"></use></svg></span>
+        Helping Text
+      </p>
+    </div>
+
+    <div class="psds-dropdown psds-dropdown--md psds-dropdown--filled">
+      <span class="psds-dropdown__label">Leading icon</span>
+      <div class="psds-dropdown__control">
+        <span class="psds-dropdown__glyph psds-dropdown__icon"><svg><use href="#i-home"></use></svg></span>
+        <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false">Cabbage</button>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<h2>Native <code>&lt;select&gt;</code></h2>
+<div class="panel">
+  <div class="row">
+    <div class="psds-dropdown psds-dropdown--md psds-dropdown--filled">
+      <label class="psds-dropdown__label" for="veg-native">Vegetable</label>
+      <div class="psds-dropdown__control">
+        <select class="psds-dropdown__field" id="veg-native">
+          <option>Cabbage</option>
+          <option>Pumpkins</option>
+          <option>Spinach</option>
+        </select>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="psds-dropdown psds-dropdown--md">
+      <label class="psds-dropdown__label" for="veg-disabled">Disabled</label>
+      <div class="psds-dropdown__control">
+        <select class="psds-dropdown__field" id="veg-disabled" disabled>
+          <option>Select a vegetable</option>
+        </select>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Menu</h2>
+<div class="panel tall">
+  <div class="row">
+
+    <div class="psds-dropdown psds-dropdown--sm" id="demo">
+      <span class="psds-dropdown__label">Small</span>
+      <div class="psds-dropdown__control">
+        <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="demo-menu">Select a vegetable</button>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+        <div class="psds-dropdown__menu" id="demo-menu" role="listbox" hidden>
+          <div class="psds-dropdown__group">
+            <span class="psds-dropdown__glyph"><svg><use href="#i-image"></use></svg></span>
+            LEAFY AND SALAD
+          </div>
+          <div class="psds-dropdown__option" role="option">Cabbage</div>
+          <div class="psds-dropdown__option is-selected" role="option" aria-selected="true">Pumpkins</div>
+          <div class="psds-dropdown__option" role="option">Spinach</div>
+          <div class="psds-dropdown__group">
+            <span class="psds-dropdown__glyph"><svg><use href="#i-image"></use></svg></span>
+            BEANS
+          </div>
+          <div class="psds-dropdown__option" role="option">Chickpea</div>
+          <div class="psds-dropdown__option" role="option">Green bean</div>
+          <div class="psds-dropdown__option" role="option" aria-disabled="true">Horse gram</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="psds-dropdown psds-dropdown--md psds-dropdown--filled">
+      <span class="psds-dropdown__label">Medium</span>
+      <div class="psds-dropdown__control">
+        <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="true">Pumpkins</button>
+        <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+        <div class="psds-dropdown__menu" role="listbox">
+          <div class="psds-dropdown__group">
+            <span class="psds-dropdown__glyph"><svg><use href="#i-image"></use></svg></span>
+            LEAFY AND SALAD
+          </div>
+          <div class="psds-dropdown__option" role="option">Cabbage</div>
+          <div class="psds-dropdown__option is-selected" role="option" aria-selected="true">Pumpkins</div>
+          <div class="psds-dropdown__option" role="option">Spinach</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const SIZES = [
+    ['psds-dropdown--xs', 'XS'],
+    ['psds-dropdown--sm', 'SM'],
+    ['psds-dropdown--md', 'MD'],
+    ['psds-dropdown--lg', 'LG'],
+  ];
+
+  // [state class, label, shows a value instead of the placeholder]
+  const STATES = [
+    ['',                          'Default',   false],
+    ['is-hover',                  'Hover',     false],
+    ['is-focus',                  'Focus',     false],
+    ['is-active',                 'Active',    false],
+    ['psds-dropdown--filled',     'Filled',    true ],
+    ['psds-dropdown--readonly',   'Read Only', true ],
+    ['is-disabled',               'Disabled',  false],
+    ['psds-dropdown--info',       'Info',      true ],
+    ['psds-dropdown--success',    'Success',   true ],
+    ['psds-dropdown--warning',    'Warning',   true ],
+    ['psds-dropdown--danger',     'Danger',    true ],
+  ];
+
+  const dropdown = (sizeClass, stateClass, filled) => {
+    const root = document.createElement('div');
+    root.className = ['psds-dropdown', sizeClass, stateClass].filter(Boolean).join(' ');
+    root.innerHTML =
+      '<div class="psds-dropdown__control">' +
+        '<button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false" tabindex="-1">' +
+          (filled ? 'Cabbage' : 'Select a vegetable') +
+        '</button>' +
+        '<span class="psds-dropdown__toggle" aria-hidden="true"></span>' +
+      '</div>';
+    return root;
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const [sizeClass, sizeLabel] of SIZES) {
+    const root = dropdown(sizeClass, '', false);
+    root.insertAdjacentHTML('afterbegin', '<span class="psds-dropdown__label">' + sizeLabel + '</span>');
+    sizes.append(root);
+  }
+
+  const states = document.getElementById('states');
+  for (const [stateClass, stateLabel, filled] of STATES) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    th.textContent = stateLabel;
+    tr.append(th);
+    for (const [sizeClass] of SIZES) {
+      const td = document.createElement('td');
+      td.append(dropdown(sizeClass, stateClass, filled));
+      tr.append(td);
+    }
+    states.append(tr);
+  }
+
+  // Opening, selecting and keyboard navigation are the consumer's job; this is
+  // the smallest wiring that makes the Menu example clickable.
+  const demo = document.getElementById('demo');
+  const demoField = demo.querySelector('.psds-dropdown__field');
+  const demoMenu = document.getElementById('demo-menu');
+
+  demoField.addEventListener('click', () => {
+    const open = demoMenu.hidden;
+    demoMenu.hidden = !open;
+    demoField.setAttribute('aria-expanded', String(open));
+  });
+
+  demoMenu.addEventListener('click', (event) => {
+    const option = event.target.closest('.psds-dropdown__option');
+    if (!option || option.getAttribute('aria-disabled') === 'true') return;
+    for (const other of demoMenu.querySelectorAll('.psds-dropdown__option')) {
+      other.classList.remove('is-selected');
+      other.removeAttribute('aria-selected');
+    }
+    option.classList.add('is-selected');
+    option.setAttribute('aria-selected', 'true');
+    demoField.textContent = option.textContent.trim();
+    demo.classList.add('psds-dropdown--filled');
+    demoMenu.hidden = true;
+    demoField.setAttribute('aria-expanded', 'false');
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

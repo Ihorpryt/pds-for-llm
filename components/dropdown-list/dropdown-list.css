@@ -1,0 +1,482 @@
+/* Portside Design System — Dropdown List
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Dropdown List (node 27225:1406580)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * The Figma node ships two shapes, Rounded and Line. Only Rounded is implemented.
+ *
+ * Class API
+ *   .psds-dropdown                             base (Rounded shape, Default state)
+ *   .psds-dropdown--xs | --sm | --md | --lg    Sizes
+ *   .psds-dropdown--filled                     a value is selected
+ *   .psds-dropdown--readonly                   Read Only
+ *   .psds-dropdown--info | --success
+ *          | --warning | --danger              Validation
+ *
+ *   .psds-dropdown__label      .psds-dropdown__required   .psds-dropdown__glyph
+ *   .psds-dropdown__control    .psds-dropdown__icon       .psds-dropdown__field
+ *   .psds-dropdown__toggle     .psds-dropdown__alert
+ *   .psds-dropdown__menu       .psds-dropdown__group      .psds-dropdown__option
+ *
+ * States resolve from real interaction pseudo-classes on the wrapper. The
+ * .is-hover / .is-focus / .is-active / .is-disabled helpers force a state for
+ * documentation and visual-regression galleries.
+ */
+
+.psds-dropdown {
+  /* --- Size channel (set by the size modifiers; defaults are --md) --- */
+  --psds-dropdown-height          : var(--form-bigger-small);
+  --psds-dropdown-font-size       : var(--font-size-base);
+  --psds-dropdown-line-height     : var(--line-height-base);
+  --psds-dropdown-padding         : var(--spacing-12);
+  --psds-dropdown-gap             : var(--spacing-10);
+  --psds-dropdown-icon            : var(--font-icon-16);
+  --psds-dropdown-icon-inset      : var(--spacing-4);
+  --psds-dropdown-radius          : var(--control-radius-input-default-radius);
+  --psds-dropdown-note-font-size  : var(--font-size-sm);
+  --psds-dropdown-note-line-height: var(--line-height-sm);
+  --psds-dropdown-menu-gap        : var(--spacing-12);
+  --psds-dropdown-menu-header-h   : var(--form-mouse);
+
+  /* --- Colour channel (set by the state modifiers) --- */
+  --psds-dropdown-bg              : var(--background-content-bg-color);
+  --psds-dropdown-border          : var(--border);
+  --psds-dropdown-border-hover    : var(--border-hover);
+  --psds-dropdown-border-width    : var(--border-1);
+  --psds-dropdown-accent          : var(--buttons-primary-border-color);
+  --psds-dropdown-fg              : var(--foreground-placeholder-text-color);
+  --psds-dropdown-icon-color      : var(--icon-color);
+
+  /* tokens.css declares no font-family or shadow tokens; both come from the
+   * Figma text style and the $Shadow-sm / flyout effects. */
+  --psds-dropdown-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-dropdown-shadow     : 0 1px 2px 0 #0000000d;
+  --psds-dropdown-menu-shadow: 0 4px 6px 2px #0000000d, 0 10px 15px -3px #0000001a;
+
+  /* Figma "Icons/Chevron down", exported from the source node and painted as a
+   * mask so it follows the icon colour channel. */
+  --psds-dropdown-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.14453 4.86719L3.24023 4.79883L3.33594 4.74414L3.44531 4.7168L3.55469 4.70312L3.66406 4.7168L3.77344 4.74414L3.86914 4.79883L3.96484 4.86719L7 7.91602L10.0762 4.82617L10.1719 4.77148L10.2812 4.73047L10.3906 4.70312H10.5L10.6094 4.73047L10.7051 4.77148L10.8008 4.82617L10.8828 4.9082L10.9512 5.00391L10.9922 5.11328L11.0195 5.22266V5.33203L10.9922 5.44141L10.9512 5.55078L10.8828 5.64648L7.36914 9.17383L7.27344 9.22852L7.16406 9.26953L7.05469 9.29688H6.94531L6.83594 9.26953L6.72656 9.22852L6.63086 9.17383L3.11719 5.64648L3.04883 5.55078L3.00781 5.44141L2.98047 5.33203V5.22266L3.00781 5.11328L3.04883 5.00391L3.11719 4.9082L3.14453 4.86719Z'/%3E%3C/svg%3E");
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-4);
+
+  font-family   : var(--psds-dropdown-font-family);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.psds-dropdown *,
+.psds-dropdown *::before,
+.psds-dropdown *::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-dropdown--xs {
+  --psds-dropdown-height          : var(--form-mouse-small);
+  --psds-dropdown-font-size       : var(--font-size-xs);
+  --psds-dropdown-line-height     : var(--line-height-xs);
+  --psds-dropdown-padding         : var(--spacing-8);
+  --psds-dropdown-gap             : var(--spacing-6);
+  --psds-dropdown-icon            : var(--font-icon-12);
+  --psds-dropdown-icon-inset      : var(--spacing-2);
+  --psds-dropdown-note-font-size  : var(--font-size-xs);
+  --psds-dropdown-note-line-height: var(--line-height-xs);
+  --psds-dropdown-menu-gap        : var(--spacing-8);
+  --psds-dropdown-menu-header-h   : var(--spacing-30);
+}
+
+.psds-dropdown--sm {
+  --psds-dropdown-height          : var(--form-mouse);
+  --psds-dropdown-font-size       : var(--font-size-sm);
+  --psds-dropdown-line-height     : var(--line-height-sm);
+  --psds-dropdown-padding         : var(--spacing-8);
+  --psds-dropdown-gap             : var(--spacing-8);
+  --psds-dropdown-icon            : var(--font-icon-14);
+  --psds-dropdown-icon-inset      : var(--spacing-2);
+  --psds-dropdown-note-font-size  : var(--font-size-xs);
+  --psds-dropdown-note-line-height: var(--line-height-xs);
+  --psds-dropdown-menu-gap        : var(--spacing-8);
+  --psds-dropdown-menu-header-h   : var(--spacing-30);
+}
+
+.psds-dropdown--md {
+  --psds-dropdown-height          : var(--form-bigger-small);
+  --psds-dropdown-font-size       : var(--font-size-base);
+  --psds-dropdown-line-height     : var(--line-height-base);
+  --psds-dropdown-padding         : var(--spacing-12);
+  --psds-dropdown-gap             : var(--spacing-10);
+  --psds-dropdown-icon            : var(--font-icon-16);
+  --psds-dropdown-icon-inset      : var(--spacing-4);
+  --psds-dropdown-note-font-size  : var(--font-size-sm);
+  --psds-dropdown-note-line-height: var(--line-height-sm);
+  --psds-dropdown-menu-gap        : var(--spacing-12);
+  --psds-dropdown-menu-header-h   : var(--form-mouse);
+}
+
+.psds-dropdown--lg {
+  --psds-dropdown-height          : var(--form-bigger);
+  --psds-dropdown-font-size       : var(--font-size-base);
+  --psds-dropdown-line-height     : var(--line-height-base);
+  --psds-dropdown-padding         : var(--spacing-12);
+  --psds-dropdown-gap             : var(--spacing-10);
+  --psds-dropdown-icon            : var(--font-icon-16);
+  --psds-dropdown-icon-inset      : var(--spacing-4);
+  --psds-dropdown-note-font-size  : var(--font-size-sm);
+  --psds-dropdown-note-line-height: var(--line-height-sm);
+  --psds-dropdown-menu-gap        : var(--spacing-12);
+  --psds-dropdown-menu-header-h   : var(--form-mouse);
+}
+
+/* ------------------------------------------------------------------ Label */
+/* Label typography is the same at every size; only the icon scales. */
+
+.psds-dropdown__label {
+  display       : flex;
+  align-items   : center;
+  gap           : var(--spacing-4);
+
+  font-size     : var(--font-size-xs);
+  line-height   : var(--line-height-xs);
+  font-weight   : var(--font-weight-medium);
+  color         : var(--foreground-content-text-color);
+}
+
+.psds-dropdown__required {
+  font-weight: var(--font-weight-normal);
+  color      : var(--danger);
+}
+
+/* ------------------------------------------------------------- Icon slots */
+
+.psds-dropdown__glyph {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-dropdown-icon);
+  height         : var(--psds-dropdown-icon);
+}
+
+.psds-dropdown__glyph > svg,
+.psds-dropdown__glyph > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* The leading icon sits in a slot that carries a little extra inline padding,
+ * matching the "Search" frame in the Figma node. */
+.psds-dropdown__icon {
+  margin-inline-start: var(--psds-dropdown-icon-inset);
+}
+
+/* ---------------------------------------------------------------- Control */
+
+.psds-dropdown__control {
+  position    : relative;
+  display     : flex;
+  align-items : center;
+  gap         : var(--psds-dropdown-gap);
+
+  height        : var(--psds-dropdown-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--psds-dropdown-padding) var(--spacing-0);
+
+  background-color: var(--psds-dropdown-bg);
+  border          : var(--psds-dropdown-border-width) solid var(--psds-dropdown-border);
+  border-radius   : var(--psds-dropdown-radius);
+  box-shadow      : var(--psds-dropdown-shadow);
+  color           : var(--psds-dropdown-fg);
+
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.psds-dropdown__control .psds-dropdown__glyph {
+  color: var(--psds-dropdown-icon-color);
+}
+
+/* The field is either a <select> or a <button> trigger; both are stripped back
+ * to the control's own typography and colour. Focus is drawn on the control. */
+.psds-dropdown__field {
+  flex     : 1 1 auto;
+  min-width: 0;
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  outline   : none;
+
+  font-family   : inherit;
+  font-size     : var(--psds-dropdown-font-size);
+  line-height   : var(--psds-dropdown-line-height);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : inherit;
+  text-align    : start;
+
+  white-space  : nowrap;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  cursor       : pointer;
+}
+
+/* The chevron square is as wide as the control is tall and sits flush to the
+ * inline end. Clicks belong to the field underneath it. */
+.psds-dropdown__toggle {
+  flex           : none;
+  align-self     : stretch;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-dropdown-height);
+
+  color         : var(--psds-dropdown-icon-color);
+  pointer-events: none;
+}
+
+.psds-dropdown__toggle > svg,
+.psds-dropdown__toggle > img {
+  display: block;
+  width  : var(--psds-dropdown-icon);
+  height : var(--psds-dropdown-icon);
+}
+
+/* An empty toggle paints the Figma "Icons/Chevron down" glyph itself, so the
+ * affordance costs no markup. Put an <svg> inside to override it. */
+.psds-dropdown__toggle:empty {
+  background-color   : currentColor;
+  -webkit-mask-image : var(--psds-dropdown-chevron);
+  mask-image         : var(--psds-dropdown-chevron);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat        : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+  -webkit-mask-size  : var(--psds-dropdown-icon) var(--psds-dropdown-icon);
+  mask-size          : var(--psds-dropdown-icon) var(--psds-dropdown-icon);
+}
+
+/* ----------------------------------------------------------- Alert message */
+
+.psds-dropdown__alert {
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-4);
+  margin     : var(--spacing-0);
+
+  font-size  : var(--psds-dropdown-note-font-size);
+  line-height: var(--psds-dropdown-note-line-height);
+  font-weight: var(--font-weight-normal);
+  color      : var(--foreground-content-text-color-alt1);
+}
+
+/* ------------------------------------------------------------------ States */
+/*
+ * Figma models State as a single axis, so Filled / Read Only / the four
+ * validation states are modifiers, while Hover / Focus / Active / Disabled
+ * resolve from interaction. Each modifier remaps the colour channel:
+ *   --psds-dropdown-bg            surface
+ *   --psds-dropdown-border        border at rest
+ *   --psds-dropdown-border-hover  border under the pointer
+ *   --psds-dropdown-accent        2px border while focused or active
+ *   --psds-dropdown-fg            value text
+ *   --psds-dropdown-icon-color    leading icon and chevron
+ */
+
+/* A value has been chosen: the placeholder colour gives way to content text. */
+.psds-dropdown--filled {
+  --psds-dropdown-fg        : var(--foreground-content-text-color);
+  --psds-dropdown-icon-color: var(--icon-color-pressed);
+}
+
+.psds-dropdown--readonly {
+  --psds-dropdown-bg        : var(--background-content-bg-color-alt2);
+  --psds-dropdown-fg        : var(--foreground-content-text-color);
+  --psds-dropdown-icon-color: var(--icon-color-pressed);
+}
+
+.psds-dropdown--info {
+  --psds-dropdown-border      : var(--buttons-info-border-color);
+  --psds-dropdown-border-hover: var(--buttons-info-border-color);
+  --psds-dropdown-accent      : var(--buttons-info-border-color);
+  --psds-dropdown-fg          : var(--foreground-content-text-color);
+  --psds-dropdown-icon-color  : var(--icon-color-pressed);
+}
+
+.psds-dropdown--success {
+  --psds-dropdown-border      : var(--buttons-success-border-color);
+  --psds-dropdown-border-hover: var(--buttons-success-border-color);
+  --psds-dropdown-accent      : var(--buttons-success-border-color);
+  --psds-dropdown-fg          : var(--foreground-content-text-color);
+  --psds-dropdown-icon-color  : var(--icon-color-pressed);
+}
+
+.psds-dropdown--warning {
+  --psds-dropdown-border      : var(--buttons-warning-border-color);
+  --psds-dropdown-border-hover: var(--buttons-warning-border-color);
+  --psds-dropdown-accent      : var(--buttons-warning-border-color);
+  --psds-dropdown-fg          : var(--foreground-content-text-color);
+  --psds-dropdown-icon-color  : var(--icon-color-pressed);
+}
+
+.psds-dropdown--danger {
+  --psds-dropdown-border      : var(--buttons-danger-border-color);
+  --psds-dropdown-border-hover: var(--buttons-danger-border-color);
+  --psds-dropdown-accent      : var(--buttons-danger-border-color);
+  --psds-dropdown-fg          : var(--foreground-content-text-color);
+  --psds-dropdown-icon-color  : var(--icon-color-pressed);
+}
+
+/* ------------------------------------------------------------------- Hover */
+
+.psds-dropdown:hover,
+.psds-dropdown.is-hover {
+  --psds-dropdown-icon-color: var(--icon-color-hover);
+}
+
+.psds-dropdown:hover .psds-dropdown__control,
+.psds-dropdown.is-hover .psds-dropdown__control {
+  border-color: var(--psds-dropdown-border-hover);
+}
+
+/* ---------------------------------------------------------- Focus / Active */
+/*
+ * The Figma Focus and Active variants are identical: a 2px border in
+ * `Buttons/Primary/primary-border-color`. Declared after Hover so it wins a
+ * simultaneous hover, and bound to :focus-within because focus lands on the
+ * field inside the control.
+ */
+
+.psds-dropdown:focus-within,
+.psds-dropdown:active,
+.psds-dropdown.is-focus,
+.psds-dropdown.is-active {
+  --psds-dropdown-icon-color: var(--icon-color-pressed);
+}
+
+.psds-dropdown:focus-within .psds-dropdown__control,
+.psds-dropdown:active .psds-dropdown__control,
+.psds-dropdown.is-focus .psds-dropdown__control,
+.psds-dropdown.is-active .psds-dropdown__control {
+  border-color: var(--psds-dropdown-accent);
+  border-width: var(--border-2);
+}
+
+/* ---------------------------------------------------------------- Disabled */
+/* Declared last so it survives a simultaneous hover or focus. */
+
+.psds-dropdown:has(.psds-dropdown__field:disabled),
+.psds-dropdown.is-disabled {
+  --psds-dropdown-bg        : var(--background-content-bg-color-alt2);
+  --psds-dropdown-fg        : var(--foreground-content-text-color-disabled);
+  --psds-dropdown-icon-color: var(--icon-color-disabled);
+}
+
+.psds-dropdown:has(.psds-dropdown__field:disabled) .psds-dropdown__control,
+.psds-dropdown.is-disabled .psds-dropdown__control {
+  border-color: var(--border);
+  border-width: var(--psds-dropdown-border-width);
+}
+
+.psds-dropdown__field:disabled {
+  cursor: not-allowed;
+}
+
+.psds-dropdown.is-disabled {
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------- Menu */
+/*
+ * The flyout from the Figma "Context Menu" instance, anchored 4px below the
+ * control. Toggle it with the `hidden` attribute; opening and keyboard
+ * navigation are the consumer's job.
+ */
+
+.psds-dropdown__menu {
+  position    : absolute;
+  z-index     : 1;
+  top         : calc(100% + var(--psds-dropdown-border-width) + var(--spacing-4));
+  inset-inline: calc(-1 * var(--psds-dropdown-border-width));
+
+  display       : flex;
+  flex-direction: column;
+  padding-block : var(--spacing-4);
+  padding-inline: var(--spacing-0);
+
+  background-color: var(--background-flyout-bg-color);
+  border          : var(--border-1) solid var(--border-light);
+  border-radius   : var(--radius-8);
+  box-shadow      : var(--psds-dropdown-menu-shadow);
+  overflow        : hidden;
+}
+
+.psds-dropdown__menu[hidden] {
+  display: none;
+}
+
+.psds-dropdown__group {
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-dropdown-menu-gap);
+
+  min-height    : var(--psds-dropdown-menu-header-h);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--spacing-12);
+
+  border-block-end: var(--border-1) solid var(--border-light);
+  background-color: var(--transparent);
+
+  font-size  : var(--psds-dropdown-note-font-size);
+  line-height: var(--psds-dropdown-note-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--foreground-content-text-color-alt2);
+}
+
+.psds-dropdown__option {
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-dropdown-menu-gap);
+
+  min-height    : var(--form-mouse);
+  padding-block : var(--spacing-4);
+  padding-inline: var(--spacing-12);
+
+  background-color: var(--transparent);
+  font-size       : var(--psds-dropdown-font-size);
+  line-height     : var(--psds-dropdown-line-height);
+  font-weight     : var(--font-weight-normal);
+  color           : var(--foreground-content-text-color);
+  cursor          : pointer;
+
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.psds-dropdown__option:hover {
+  background-color: var(--background-content-bg-color-hover);
+  color           : var(--foreground-content-text-color-hover);
+}
+
+.psds-dropdown__option[aria-selected="true"],
+.psds-dropdown__option.is-selected {
+  background-color: var(--background-content-bg-color-pressed);
+  color           : var(--foreground-content-text-color-pressed);
+}
+
+.psds-dropdown__option[aria-disabled="true"] {
+  background-color: var(--transparent);
+  color           : var(--foreground-content-text-color-disabled);
+  cursor          : not-allowed;
+}
+
+/* --------------------------------------------------------- Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-dropdown__control,
+  .psds-dropdown__option {
+    transition: none;
+  }
+}

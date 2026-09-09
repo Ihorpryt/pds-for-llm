@@ -1,0 +1,311 @@
+/* Portside Design System — Checkbox
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Checkbox (node 4755:174067)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-checkbox                             base (Size = Small, Text Position = Right)
+ *   .psds-checkbox--xs | --sm | --md | --lg    Sizes
+ *   .psds-checkbox--label-start                Text Position = Left
+ *
+ *   .psds-checkbox__input                      the native <input type="checkbox">, styled directly
+ *   .psds-checkbox__text                       label + optional trailing icon
+ *   .psds-checkbox__label                      the label text
+ *   .psds-checkbox__icon                       optional trailing glyph (Figma "Icons/Circle info")
+ *
+ * Type (Unchecked / Checked / Intermediate) is the input's own state — :checked and
+ * :indeterminate — not a modifier. States resolve from real interaction pseudo-classes;
+ * the .is-hover / .is-active / .is-focus / .is-disabled helpers force a state for
+ * documentation and visual-regression galleries, and .is-indeterminate mirrors the
+ * `indeterminate` DOM property, which has no HTML attribute.
+ */
+
+.psds-checkbox {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-checkbox-size       : var(--spacing-16);
+  --psds-checkbox-radius     : var(--control-radius-checkbox-default-radius);
+  --psds-checkbox-glyph      : var(--font-icon-10);
+  --psds-checkbox-font-size  : var(--font-size-sm);
+  --psds-checkbox-line-height: var(--line-height-sm);
+  --psds-checkbox-font-weight: var(--font-weight-normal);
+  --psds-checkbox-icon       : var(--font-icon-14);
+
+  /* Figma auto-layout: 8px between the box and the text, 4px inside the text group. */
+  --psds-checkbox-gap     : var(--spacing-8);
+  --psds-checkbox-text-gap: var(--spacing-4);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-checkbox-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Figma "Icons/Check large" and "Icons/Remove", exported from the source node and
+   * carried as masks so both glyphs follow --psds-checkbox-glyph-color. */
+  --psds-checkbox-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M8.25195 1.58203L8.33008 1.52344L8.4082 1.46484L8.49609 1.41602L8.58398 1.37695L8.67188 1.34766L8.75977 1.32812L8.85742 1.30859H8.94531L9.04297 1.31836L9.14062 1.32812L9.22852 1.35742L9.31641 1.38672L9.4043 1.42578L9.49219 1.47461L9.57031 1.5332L9.63867 1.60156L9.70703 1.67969L9.76562 1.75781L9.81445 1.8457L9.85352 1.93359L9.88281 2.02148L9.90234 2.11914L9.92188 2.20703V2.30469L9.91211 2.40234L9.90234 2.49023L9.87305 2.58789L9.84375 2.67578L9.80469 2.76367L9.75586 2.8418L9.6875 2.91992L9.61914 2.99805L4.0625 8.4082L3.99414 8.47656L3.91602 8.53516L3.82812 8.58398L3.75 8.62305L3.65234 8.65234L3.56445 8.67188L3.47656 8.69141H3.37891H3.29102L3.19336 8.67188L3.10547 8.65234L3.01758 8.62305L2.92969 8.58398L2.85156 8.53516L2.76367 8.47656L2.69531 8.4082L0.371094 6.15234L0.302734 6.07422L0.244141 5.99609L0.195312 5.91797L0.15625 5.83008L0.126953 5.74219L0.0976562 5.64453L0.0878906 5.55664L0.078125 5.45898V5.36133L0.0976562 5.27344L0.117188 5.17578L0.146484 5.08789L0.185547 5L0.234375 4.91211L0.292969 4.83398L0.361328 4.75586L0.429688 4.6875L0.507812 4.62891L0.595703 4.58008L0.683594 4.54102L0.771484 4.51172L0.859375 4.48242L0.957031 4.47266L1.05469 4.46289H1.14258L1.24023 4.48242L1.32812 4.50195L1.42578 4.53125L1.51367 4.57031L1.5918 4.61914L1.66992 4.67773L1.74805 4.74609L3.37891 6.32812L8.25195 1.58203Z'/%3E%3C/svg%3E");
+  --psds-checkbox-remove: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0.078125 5L0.0878906 4.90234L0.0976562 4.80469L0.126953 4.70703L0.15625 4.61914L0.195312 4.53125L0.244141 4.45312L0.302734 4.375L0.371094 4.30664L0.439453 4.23828L0.507812 4.17969L0.595703 4.13086L0.683594 4.0918L0.771484 4.0625L0.869141 4.0332L0.966797 4.02344L1.06445 4.01367H8.93555L9.04297 4.02344L9.14062 4.0332L9.22852 4.0625L9.31641 4.0918L9.4043 4.13086L9.49219 4.17969L9.56055 4.23828L9.62891 4.30664L9.69727 4.375L9.75586 4.45312L9.80469 4.53125L9.84375 4.61914L9.87305 4.70703L9.90234 4.80469L9.91211 4.90234L9.92188 5L9.91211 5.09766L9.90234 5.19531L9.87305 5.29297L9.84375 5.38086L9.80469 5.46875L9.75586 5.54688L9.69727 5.625L9.62891 5.69336L9.56055 5.76172L9.49219 5.82031L9.4043 5.86914L9.31641 5.9082L9.22852 5.9375L9.14062 5.9668L9.04297 5.97656L8.93555 5.98633H1.06445L0.966797 5.97656L0.869141 5.9668L0.771484 5.9375L0.683594 5.9082L0.595703 5.86914L0.507812 5.82031L0.439453 5.76172L0.371094 5.69336L0.302734 5.625L0.244141 5.54688L0.195312 5.46875L0.15625 5.38086L0.126953 5.29297L0.0976562 5.19531L0.0878906 5.09766L0.078125 5Z'/%3E%3C/svg%3E");
+
+  box-sizing : border-box;
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-checkbox-gap);
+
+  margin : var(--spacing-0);
+  padding: var(--spacing-0);
+
+  font-family: var(--psds-checkbox-font-family);
+  cursor     : pointer;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-checkbox--xs {
+  --psds-checkbox-size       : var(--spacing-14);
+  --psds-checkbox-radius     : var(--control-radius-checkbox-small-radius);
+  --psds-checkbox-glyph      : var(--font-icon-8);
+  --psds-checkbox-font-size  : var(--font-size-xs);
+  --psds-checkbox-line-height: var(--line-height-xs);
+  --psds-checkbox-font-weight: var(--font-weight-medium);
+  --psds-checkbox-icon       : var(--font-icon-12);
+}
+
+.psds-checkbox--sm {
+  --psds-checkbox-size       : var(--spacing-16);
+  --psds-checkbox-radius     : var(--control-radius-checkbox-default-radius);
+  --psds-checkbox-glyph      : var(--font-icon-10);
+  --psds-checkbox-font-size  : var(--font-size-sm);
+  --psds-checkbox-line-height: var(--line-height-sm);
+  --psds-checkbox-font-weight: var(--font-weight-normal);
+  --psds-checkbox-icon       : var(--font-icon-14);
+}
+
+.psds-checkbox--md {
+  --psds-checkbox-size       : var(--spacing-20);
+  --psds-checkbox-radius     : var(--control-radius-checkbox-bigger-small-radius);
+  --psds-checkbox-glyph      : var(--font-icon-12);
+  --psds-checkbox-font-size  : var(--font-size-base);
+  --psds-checkbox-line-height: var(--line-height-base);
+  --psds-checkbox-font-weight: var(--font-weight-medium);
+  --psds-checkbox-icon       : var(--font-icon-16);
+}
+
+.psds-checkbox--lg {
+  --psds-checkbox-size       : var(--spacing-24);
+  --psds-checkbox-radius     : var(--control-radius-checkbox-bigger-radius);
+  --psds-checkbox-glyph      : var(--font-icon-14);
+  --psds-checkbox-font-size  : var(--font-size-base);
+  --psds-checkbox-line-height: var(--line-height-base);
+  --psds-checkbox-font-weight: var(--font-weight-medium);
+  --psds-checkbox-icon       : var(--font-icon-18);
+}
+
+/* ---------------------------------------------------------- Text position */
+/* Figma "Text Position = Left" keeps the same gap and only swaps the order. */
+
+.psds-checkbox--label-start {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------- Colour channels */
+/*
+ * Unchecked is the rest treatment: the box paints a content surface inside a
+ * 1px border. Figma leaves Hover and Active identical to Default here, so those
+ * channels point at the same tokens rather than inventing a difference.
+ */
+
+.psds-checkbox__input {
+  --psds-checkbox-bg         : var(--background-content-bg-color);
+  --psds-checkbox-bg-hover   : var(--background-content-bg-color);
+  --psds-checkbox-bg-pressed : var(--background-content-bg-color);
+  --psds-checkbox-bg-focus   : var(--background-content-bg-color);
+  --psds-checkbox-bg-disabled: var(--background-content-bg-color-disabled);
+
+  --psds-checkbox-border         : var(--border);
+  --psds-checkbox-border-hover   : var(--border);
+  --psds-checkbox-border-pressed : var(--border);
+  --psds-checkbox-border-focus   : var(--border);
+  --psds-checkbox-border-disabled: var(--border-light);
+
+  /* No glyph while unchecked: the mask is unset and the fill is a token, not a
+   * keyword, so the ::before square stays invisible without a display switch. */
+  --psds-checkbox-glyph-image: none;
+  --psds-checkbox-glyph-color: var(--transparent);
+}
+
+/*
+ * Checked and Intermediate share one filled treatment — the Figma variants differ
+ * only in which glyph sits on the fill. The border tracks the fill, as it does on
+ * a filled button, so the 1px box model is identical in every type.
+ */
+
+.psds-checkbox__input:checked,
+.psds-checkbox__input:indeterminate,
+.psds-checkbox.is-indeterminate .psds-checkbox__input {
+  --psds-checkbox-bg         : var(--buttons-primary-bg-color);
+  --psds-checkbox-bg-hover   : var(--buttons-primary-bg-color-hover);
+  --psds-checkbox-bg-pressed : var(--buttons-primary-bg-color-pressed);
+  --psds-checkbox-bg-focus   : var(--buttons-primary-bg-color-focus);
+  --psds-checkbox-bg-disabled: var(--buttons-primary-bg-color-disabled);
+
+  --psds-checkbox-border         : var(--buttons-primary-bg-color);
+  --psds-checkbox-border-hover   : var(--buttons-primary-bg-color-hover);
+  --psds-checkbox-border-pressed : var(--buttons-primary-bg-color-pressed);
+  --psds-checkbox-border-focus   : var(--buttons-primary-bg-color-focus);
+  --psds-checkbox-border-disabled: var(--buttons-primary-bg-color-disabled);
+
+  --psds-checkbox-glyph-image: var(--psds-checkbox-check);
+  --psds-checkbox-glyph-color: var(--primary-text-color);
+}
+
+/* Intermediate wins over Checked when both are set, matching the DOM, where
+ * `indeterminate` masks `checked`. */
+.psds-checkbox__input:indeterminate,
+.psds-checkbox.is-indeterminate .psds-checkbox__input {
+  --psds-checkbox-glyph-image: var(--psds-checkbox-remove);
+}
+
+/* -------------------------------------------------------------------- Box */
+
+.psds-checkbox__input {
+  box-sizing     : border-box;
+  flex           : none;
+  display        : inline-grid;
+  place-content  : center;
+  width          : var(--psds-checkbox-size);
+  height         : var(--psds-checkbox-size);
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  appearance: none;
+
+  border       : var(--border-1) solid var(--psds-checkbox-border);
+  border-radius: var(--psds-checkbox-radius);
+  background   : var(--psds-checkbox-bg);
+
+  cursor    : pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.psds-checkbox__input::before {
+  content: "";
+  display: block;
+  width  : var(--psds-checkbox-glyph);
+  height : var(--psds-checkbox-glyph);
+
+  background-color     : var(--psds-checkbox-glyph-color);
+  -webkit-mask-image   : var(--psds-checkbox-glyph-image);
+  mask-image           : var(--psds-checkbox-glyph-image);
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+  -webkit-mask-size    : contain;
+  mask-size            : contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-checkbox__input { transition: none; }
+}
+
+/* ------------------------------------------------------------------- Text */
+
+.psds-checkbox__text {
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-checkbox-text-gap);
+  min-width  : 0;
+}
+
+.psds-checkbox__label {
+  font-size     : var(--psds-checkbox-font-size);
+  line-height   : var(--psds-checkbox-line-height);
+  font-weight   : var(--psds-checkbox-font-weight);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--foreground-content-text-color);
+  transition    : color 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-checkbox__label { transition: none; }
+}
+
+/* The optional trailing glyph of the Figma "Text" group. */
+.psds-checkbox__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-checkbox-icon);
+  height         : var(--psds-checkbox-icon);
+  color          : var(--icon-color);
+}
+
+.psds-checkbox__icon > svg,
+.psds-checkbox__icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* ------------------------------------------------------------------ Hover */
+/* The whole control is the hover target, as the Figma variant is the whole frame. */
+
+.psds-checkbox:hover .psds-checkbox__input:not(:disabled),
+.psds-checkbox.is-hover .psds-checkbox__input {
+  border-color: var(--psds-checkbox-border-hover);
+  background  : var(--psds-checkbox-bg-hover);
+}
+
+/* ----------------------------------------------------------------- Active */
+
+.psds-checkbox:active .psds-checkbox__input:not(:disabled),
+.psds-checkbox.is-active .psds-checkbox__input {
+  border-color: var(--psds-checkbox-border-pressed);
+  background  : var(--psds-checkbox-bg-pressed);
+}
+
+/* ------------------------------------------------------------------ Focus */
+
+.psds-checkbox__input:focus-visible,
+.psds-checkbox.is-focus .psds-checkbox__input {
+  border-color: var(--psds-checkbox-border-focus);
+  background  : var(--psds-checkbox-bg-focus);
+}
+
+/* --------------------------------------------------------------- Disabled */
+
+.psds-checkbox__input:disabled,
+.psds-checkbox.is-disabled .psds-checkbox__input {
+  border-color: var(--psds-checkbox-border-disabled);
+  background  : var(--psds-checkbox-bg-disabled);
+  cursor      : not-allowed;
+}
+
+.psds-checkbox:has(.psds-checkbox__input:disabled),
+.psds-checkbox.is-disabled {
+  cursor: not-allowed;
+}
+
+.psds-checkbox__input:disabled ~ .psds-checkbox__text .psds-checkbox__label,
+.psds-checkbox.is-disabled .psds-checkbox__label {
+  color: var(--foreground-content-text-color-disabled);
+}
+
+.psds-checkbox__input:disabled ~ .psds-checkbox__text .psds-checkbox__icon,
+.psds-checkbox.is-disabled .psds-checkbox__icon {
+  color: var(--icon-color-disabled);
+}
+
+.psds-checkbox.is-disabled {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2: a 2px ring in the content background colour
+ * separating the control from a 4px ring in `primary`. Declared last so the ring
+ * survives a simultaneous hover.
+ */
+
+.psds-checkbox__input:focus-visible,
+.psds-checkbox.is-focus .psds-checkbox__input {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}

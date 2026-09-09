@@ -1,0 +1,384 @@
+/* Portside Design System — Toggle Switch
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Toggle Switch (node 4755:172855)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-toggle                               base (Size = Small, Text Position = Right)
+ *   .psds-toggle--xs | --sm | --md | --lg      Sizes
+ *   .psds-toggle--state-text                   Label = Yes — the ON/OFF caption inside the track
+ *   .psds-toggle--label-start                  Text Position = Left
+ *
+ *   .psds-toggle__input                        the native <input type="checkbox">, styled directly
+ *   .psds-toggle__text                         label + optional `*` + optional trailing icon
+ *   .psds-toggle__label                        the label text
+ *   .psds-toggle__required                     the red `*`
+ *   .psds-toggle__icon                         optional trailing glyph (Figma "Icons/Circle info")
+ *
+ * Active (OFF / ON) is the input's own :checked state, not a modifier. States resolve
+ * from real interaction pseudo-classes; the .is-active / .is-focus / .is-disabled helpers
+ * force a state for documentation and visual-regression galleries.
+ */
+
+.psds-toggle {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-toggle-track-width : var(--spacing-44);
+  --psds-toggle-track-height: var(--form-mouse-small);
+  --psds-toggle-thumb       : var(--spacing-20);
+  --psds-toggle-padding     : var(--spacing-2);
+
+  /* The caption inside the track (Label = Yes): its own type ramp, its own gap, and
+   * 6px of padding on the caption side against 2px on the thumb side. */
+  --psds-toggle-state-font-size  : var(--font-size-xs);
+  --psds-toggle-state-line-height: var(--line-height-xs);
+  --psds-toggle-state-gap        : var(--spacing-2);
+  --psds-toggle-state-padding    : var(--spacing-6);
+
+  /* The text beside the switch. */
+  --psds-toggle-gap              : var(--spacing-8);
+  --psds-toggle-text-gap         : var(--spacing-4);
+  --psds-toggle-font-size        : var(--font-size-sm);
+  --psds-toggle-line-height      : var(--line-height-sm);
+  --psds-toggle-required-font-size: var(--font-size-xs);
+  --psds-toggle-icon             : var(--font-icon-14);
+
+  /* Captions of the Label = Yes variant. Overridable so they can be localised. */
+  --psds-toggle-text-off: "OFF";
+  --psds-toggle-text-on : "ON";
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-toggle-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* tokens.css declares no shadow token; Figma effect $Shadow-sm lifts the thumb. */
+  --psds-toggle-shadow: 0 var(--spacing-1) var(--spacing-2) var(--spacing-0) #0000000d;
+
+  box-sizing : border-box;
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-toggle-gap);
+
+  margin : var(--spacing-0);
+  padding: var(--spacing-0);
+
+  font-family: var(--psds-toggle-font-family);
+  cursor     : pointer;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-toggle--xs {
+  --psds-toggle-track-width : var(--spacing-40);
+  --psds-toggle-track-height: var(--spacing-20);
+  --psds-toggle-thumb       : var(--spacing-16);
+
+  --psds-toggle-state-font-size  : var(--font-size-xxs);
+  --psds-toggle-state-line-height: var(--line-height-xxs);
+  --psds-toggle-state-gap        : var(--spacing-2);
+
+  --psds-toggle-gap              : var(--spacing-8);
+  --psds-toggle-font-size        : var(--font-size-xs);
+  --psds-toggle-line-height      : var(--line-height-xs);
+  --psds-toggle-required-font-size: var(--font-size-xs);
+  --psds-toggle-icon             : var(--font-icon-12);
+}
+
+.psds-toggle--sm {
+  --psds-toggle-track-width : var(--spacing-44);
+  --psds-toggle-track-height: var(--form-mouse-small);
+  --psds-toggle-thumb       : var(--spacing-20);
+
+  --psds-toggle-state-font-size  : var(--font-size-xs);
+  --psds-toggle-state-line-height: var(--line-height-xs);
+  --psds-toggle-state-gap        : var(--spacing-2);
+
+  --psds-toggle-gap              : var(--spacing-8);
+  --psds-toggle-font-size        : var(--font-size-sm);
+  --psds-toggle-line-height      : var(--line-height-sm);
+  --psds-toggle-required-font-size: var(--font-size-xs);
+  --psds-toggle-icon             : var(--font-icon-14);
+}
+
+.psds-toggle--md {
+  --psds-toggle-track-width : var(--spacing-52);
+  --psds-toggle-track-height: var(--spacing-28);
+  --psds-toggle-thumb       : var(--spacing-24);
+
+  --psds-toggle-state-font-size  : var(--font-size-sm);
+  --psds-toggle-state-line-height: var(--line-height-sm);
+  --psds-toggle-state-gap        : var(--spacing-4);
+
+  --psds-toggle-gap              : var(--spacing-12);
+  --psds-toggle-font-size        : var(--font-size-base);
+  --psds-toggle-line-height      : var(--line-height-base);
+  --psds-toggle-required-font-size: var(--font-size-base);
+  --psds-toggle-icon             : var(--font-icon-16);
+}
+
+.psds-toggle--lg {
+  --psds-toggle-track-width : var(--spacing-60);
+  --psds-toggle-track-height: var(--form-mouse);
+  --psds-toggle-thumb       : var(--spacing-28);
+
+  --psds-toggle-state-font-size  : var(--font-size-base);
+  --psds-toggle-state-line-height: var(--line-height-base);
+  --psds-toggle-state-gap        : var(--spacing-8);
+
+  --psds-toggle-gap              : var(--spacing-16);
+  --psds-toggle-font-size        : var(--font-size-base);
+  --psds-toggle-line-height      : var(--line-height-base);
+  --psds-toggle-required-font-size: var(--font-size-base);
+  --psds-toggle-icon             : var(--font-icon-16);
+}
+
+/* ---------------------------------------------------------- Text position */
+/* Figma "Text Position = Left" keeps the same gap and only swaps the order. */
+
+.psds-toggle--label-start {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------- Colour channels */
+/*
+ * OFF is the rest treatment: a neutral track carrying a white thumb. Figma leaves
+ * Hover identical to Default, and leaves Active identical to Default apart from the
+ * focus ring, so those channels point at the same tokens rather than inventing a
+ * difference.
+ */
+
+.psds-toggle__input {
+  --psds-toggle-track         : var(--background-content-bg-color-alt3);
+  --psds-toggle-track-disabled: var(--background-content-bg-color-alt2);
+
+  --psds-toggle-thumb-color         : var(--cool-gray-white);
+  --psds-toggle-thumb-color-disabled: var(--background-content-bg-color-disabled);
+
+  --psds-toggle-state-color         : var(--foreground-content-text-color);
+  --psds-toggle-state-color-disabled: var(--foreground-content-text-color-disabled);
+
+  --psds-toggle-state-text: var(--psds-toggle-text-off);
+}
+
+/* ON fills the track with the primary button surface — the same token the filled
+ * Primary button and the checked Checkbox use. */
+
+.psds-toggle__input:checked {
+  --psds-toggle-track         : var(--buttons-primary-bg-color);
+  --psds-toggle-track-disabled: var(--buttons-primary-bg-color-disabled);
+
+  --psds-toggle-state-color         : var(--buttons-primary-text);
+  --psds-toggle-state-color-disabled: var(--buttons-primary-text-disabled);
+
+  --psds-toggle-state-text: var(--psds-toggle-text-on);
+}
+
+/* ------------------------------------------------------------------ Track */
+
+.psds-toggle__input {
+  box-sizing : border-box;
+  flex       : none;
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-toggle-state-gap);
+
+  width         : var(--psds-toggle-track-width);
+  height        : var(--psds-toggle-track-height);
+  padding-block : var(--psds-toggle-padding);
+  padding-inline: var(--psds-toggle-padding);
+
+  margin    : var(--spacing-0);
+  appearance: none;
+  border    : var(--border-0) solid var(--transparent);
+  overflow  : hidden;
+
+  border-radius   : var(--radius-full);
+  background-color: var(--psds-toggle-track);
+
+  cursor    : pointer;
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* ------------------------------------------------------------------ Thumb */
+/*
+ * The thumb travels the free space left inside the padding box. With a fixed track
+ * width that is `track − 2 × padding − thumb`, so the transform is derived rather
+ * than authored per size.
+ */
+
+.psds-toggle__input::before {
+  content: "";
+  flex   : none;
+  display: block;
+
+  width : var(--psds-toggle-thumb);
+  height: var(--psds-toggle-thumb);
+
+  border-radius   : var(--radius-full);
+  background-color: var(--psds-toggle-thumb-color);
+  box-shadow      : var(--psds-toggle-shadow);
+
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+.psds-toggle__input:checked::before {
+  transform: translateX(calc(
+    var(--psds-toggle-track-width) - 2 * var(--psds-toggle-padding) - var(--psds-toggle-thumb)
+  ));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-toggle__input,
+  .psds-toggle__input::before { transition: none; }
+}
+
+/* -------------------------------------------------- Caption inside the track */
+/*
+ * Figma "Label = Yes". The track drops its fixed width and sizes to the caption,
+ * which sits opposite the thumb: OFF puts the thumb first, ON puts the caption
+ * first. So the caption never animates across a width change, the thumb is placed
+ * by flex order here rather than by the transform above.
+ */
+
+.psds-toggle--state-text .psds-toggle__input {
+  width         : auto;
+  padding-inline: var(--psds-toggle-padding) var(--psds-toggle-state-padding);
+}
+
+.psds-toggle--state-text .psds-toggle__input:checked {
+  padding-inline: var(--psds-toggle-state-padding) var(--psds-toggle-padding);
+}
+
+.psds-toggle--state-text .psds-toggle__input::before {
+  order    : 0;
+  transform: none;
+}
+
+.psds-toggle--state-text .psds-toggle__input:checked::before {
+  order    : 1;
+  transform: none;
+}
+
+.psds-toggle--state-text .psds-toggle__input::after {
+  content: var(--psds-toggle-state-text);
+  order  : 1;
+  flex   : none;
+
+  font-size     : var(--psds-toggle-state-font-size);
+  line-height   : var(--psds-toggle-state-line-height);
+  font-weight   : var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--psds-toggle-state-color);
+  white-space   : nowrap;
+}
+
+.psds-toggle--state-text .psds-toggle__input:checked::after {
+  order: 0;
+}
+
+/* ------------------------------------------------------------------- Text */
+
+.psds-toggle__text {
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-toggle-text-gap);
+  min-width  : 0;
+}
+
+.psds-toggle__label {
+  font-size     : var(--psds-toggle-font-size);
+  line-height   : var(--psds-toggle-line-height);
+  font-weight   : var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--foreground-content-text-color);
+  transition    : color 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-toggle__label { transition: none; }
+}
+
+.psds-toggle__required {
+  font-size  : var(--psds-toggle-required-font-size);
+  font-weight: var(--font-weight-medium);
+  color      : var(--danger);
+}
+
+/* The optional trailing glyph of the Figma "Text input container" group. */
+.psds-toggle__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-toggle-icon);
+  height         : var(--psds-toggle-icon);
+  color          : var(--icon-color);
+}
+
+.psds-toggle__icon > svg,
+.psds-toggle__icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* --------------------------------------------------------- Hover / Active */
+/*
+ * The Figma Hover variant is pixel-identical to Default at every size, in both OFF
+ * and ON — the source node ships no hover treatment, so none is invented here. The
+ * Active variant is likewise identical apart from the focus ring, which the ring
+ * block at the end of this file raises on :active as well as on :focus-visible.
+ */
+
+/* --------------------------------------------------------------- Disabled */
+
+.psds-toggle__input:disabled,
+.psds-toggle.is-disabled .psds-toggle__input {
+  background-color: var(--psds-toggle-track-disabled);
+  cursor          : not-allowed;
+}
+
+/* Figma drops $Shadow-sm from the disabled thumb. */
+.psds-toggle__input:disabled::before,
+.psds-toggle.is-disabled .psds-toggle__input::before {
+  background-color: var(--psds-toggle-thumb-color-disabled);
+  box-shadow      : none;
+}
+
+.psds-toggle__input:disabled::after,
+.psds-toggle.is-disabled .psds-toggle__input::after {
+  color: var(--psds-toggle-state-color-disabled);
+}
+
+.psds-toggle:has(.psds-toggle__input:disabled),
+.psds-toggle.is-disabled {
+  cursor: not-allowed;
+}
+
+.psds-toggle__input:disabled ~ .psds-toggle__text .psds-toggle__label,
+.psds-toggle.is-disabled .psds-toggle__label {
+  color: var(--foreground-content-text-color-disabled);
+}
+
+.psds-toggle__input:disabled ~ .psds-toggle__text .psds-toggle__icon,
+.psds-toggle.is-disabled .psds-toggle__icon {
+  color: var(--icon-color-disabled);
+}
+
+.psds-toggle.is-disabled {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2: a 2px ring in the content background colour
+ * separating the control from a 4px ring in `primary`. Both the Focus and the
+ * Active variant carry it. Declared last so the ring survives a simultaneous
+ * change of track colour.
+ */
+
+.psds-toggle__input:focus-visible,
+.psds-toggle:active .psds-toggle__input:not(:disabled),
+.psds-toggle.is-focus .psds-toggle__input,
+.psds-toggle.is-active .psds-toggle__input {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}

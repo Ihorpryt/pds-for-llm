@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text Box — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="text-box.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--spacing-24); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  td { min-width: 200px; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  .toolbar button {
+    height: var(--form-mouse); padding-inline: var(--spacing-10);
+    font: inherit; font-weight: var(--font-weight-semibold);
+    color: var(--buttons-secondary-text-color);
+    background: var(--buttons-secondary-bg-color);
+    border: var(--border-1) solid var(--buttons-secondary-border-color);
+    border-radius: var(--control-radius-btn-default-radius);
+    cursor: pointer;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+</style>
+</head>
+<body>
+
+<h1>Text Box</h1>
+<p class="sub">4 sizes &times; 11 states, Rounded shape only. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Anatomy</h2>
+<div class="panel">
+  <div class="grid">
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="a1">
+        Label
+        <span class="psds-textbox__required" aria-hidden="true">*</span>
+        <span class="psds-textbox__glyph" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 7.2v3.8M8 5.2h.01"/></svg>
+        </span>
+      </label>
+      <div class="psds-textbox__control">
+        <span class="psds-textbox__glyph" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.8 8 2.5l5.5 4.3v6.2a.8.8 0 0 1-.8.8H3.3a.8.8 0 0 1-.8-.8Z"/></svg>
+        </span>
+        <input class="psds-textbox__field" id="a1" type="text" placeholder="Placeholder" aria-describedby="a1-help">
+        <button class="psds-textbox__affix psds-textbox__clear" type="button" aria-label="Clear"></button>
+      </div>
+      <p class="psds-textbox__alert" id="a1-help">
+        <span class="psds-textbox__glyph" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M6.4 6.3a1.6 1.6 0 1 1 1.9 1.6v1M8 11.2h.01"/></svg>
+        </span>
+        Helping Text
+      </p>
+    </div>
+  </div>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="grid" id="sizes"></div>
+</div>
+
+<h2>States</h2>
+<p class="sub">Rendered with the forced-state helpers <code>.is-hover</code>, <code>.is-focus</code>, <code>.is-active</code>, <code>.is-disabled</code> and the content / validation modifiers.</p>
+<div class="panel">
+  <table>
+    <thead><tr><th>State</th><th>Extra small</th><th>Small</th><th>Medium</th><th>Large</th></tr></thead>
+    <tbody id="states"></tbody>
+  </table>
+</div>
+
+<h2>Affixes</h2>
+<div class="panel">
+  <div class="grid">
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="b1">No affix</label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="b1" type="text" placeholder="Placeholder">
+      </div>
+    </div>
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="b2">Leading glyph</label>
+      <div class="psds-textbox__control">
+        <span class="psds-textbox__glyph" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.2" cy="7.2" r="4.4"/><path d="m10.5 10.5 3 3"/></svg>
+        </span>
+        <input class="psds-textbox__field" id="b2" type="search" placeholder="Search">
+      </div>
+    </div>
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="b3">Clear button</label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="b3" type="text" value="Some value">
+        <button class="psds-textbox__affix psds-textbox__clear" type="button" aria-label="Clear"></button>
+      </div>
+    </div>
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="b4">Custom affix</label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="b4" type="password" value="secret">
+        <button class="psds-textbox__affix" type="button" aria-label="Show password">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z"/><circle cx="8" cy="8" r="1.9"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Interactive</h2>
+<p class="sub">Real <code>:hover</code>, <code>:focus-within</code>, <code>[readonly]</code> and <code>[disabled]</code> — tab through to see the 2px accent border. The clear buttons work.</p>
+<div class="panel">
+  <div class="grid">
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="c1">Email<span class="psds-textbox__required" aria-hidden="true">*</span></label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="c1" type="email" placeholder="name@example.com" required>
+        <button class="psds-textbox__affix psds-textbox__clear" type="button" aria-label="Clear"></button>
+      </div>
+    </div>
+    <div class="psds-textbox psds-textbox--md psds-textbox--danger">
+      <label class="psds-textbox__label" for="c2">Email</label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="c2" type="email" value="not-an-address" aria-invalid="true" aria-describedby="c2-help">
+      </div>
+      <p class="psds-textbox__alert" id="c2-help">Enter a valid email address.</p>
+    </div>
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="c3">Read only</label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="c3" type="text" value="ACME-2043-XY" readonly>
+      </div>
+    </div>
+    <div class="psds-textbox psds-textbox--md">
+      <label class="psds-textbox__label" for="c4">Disabled</label>
+      <div class="psds-textbox__control">
+        <input class="psds-textbox__field" id="c4" type="text" placeholder="Placeholder" disabled>
+        <button class="psds-textbox__affix psds-textbox__clear" type="button" aria-label="Clear" disabled></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SIZES = [['xs', 'Extra small — 24px'], ['sm', 'Small — 32px'], ['md', 'Medium — 36px'], ['lg', 'Large — 40px']];
+
+  const STATES = [
+    ['', '', 'Default', 'Placeholder', ''],
+    ['', 'is-hover', 'Hover', 'Placeholder', ''],
+    ['', 'is-focus', 'Focus', 'Placeholder', ''],
+    ['', 'is-active', 'Active', 'Placeholder', ''],
+    ['psds-textbox--filled', '', 'Filled', 'Value', ''],
+    ['psds-textbox--readonly', '', 'Read Only', 'Value', ''],
+    ['', 'is-disabled', 'Disabled', 'Placeholder', ''],
+    ['psds-textbox--info', '', 'Info', 'Value', 'Helping Text'],
+    ['psds-textbox--success', '', 'Success', 'Value', 'Helping Text'],
+    ['psds-textbox--warning', '', 'Warning', 'Value', 'Helping Text'],
+    ['psds-textbox--danger', '', 'Error', 'Value', 'Helping Text'],
+  ];
+
+  let uid = 0;
+
+  /* Builds one text box. `text` renders as a value when the state is a filled
+     one, otherwise as the placeholder. */
+  function textbox(size, modifier, stateClass, text, filled, note, label) {
+    const id = 'gen-' + (++uid);
+    const root = document.createElement('div');
+    root.className = ['psds-textbox', 'psds-textbox--' + size, modifier, stateClass].filter(Boolean).join(' ');
+
+    if (label) {
+      const l = document.createElement('label');
+      l.className = 'psds-textbox__label';
+      l.htmlFor = id;
+      l.textContent = label;
+      root.append(l);
+    }
+
+    const control = document.createElement('div');
+    control.className = 'psds-textbox__control';
+
+    const field = document.createElement('input');
+    field.className = 'psds-textbox__field';
+    field.type = 'text';
+    field.id = id;
+    if (filled) { field.value = text; } else { field.placeholder = text; }
+    control.append(field);
+
+    const clear = document.createElement('button');
+    clear.className = 'psds-textbox__affix psds-textbox__clear';
+    clear.type = 'button';
+    clear.setAttribute('aria-label', 'Clear');
+    control.append(clear);
+    root.append(control);
+
+    if (note) {
+      const p = document.createElement('p');
+      p.className = 'psds-textbox__alert';
+      p.textContent = note;
+      root.append(p);
+    }
+    return root;
+  }
+
+  const sizes = document.getElementById('sizes');
+  for (const [size, label] of SIZES) {
+    sizes.append(textbox(size, '', '', 'Placeholder', false, '', label));
+  }
+
+  const states = document.getElementById('states');
+  for (const [modifier, stateClass, label, text, note] of STATES) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    th.textContent = label;
+    tr.append(th);
+    for (const [size] of SIZES) {
+      const td = document.createElement('td');
+      const filled = text === 'Value';
+      td.append(textbox(size, modifier, stateClass, text, filled, note, ''));
+      tr.append(td);
+    }
+    states.append(tr);
+  }
+
+  /* The clear affix is presentational in CSS; wiring it up is the consumer's job. */
+  document.addEventListener('click', (event) => {
+    const clear = event.target.closest('.psds-textbox__clear');
+    if (!clear) return;
+    const field = clear.closest('.psds-textbox__control')?.querySelector('.psds-textbox__field');
+    if (!field) return;
+    field.value = '';
+    field.focus();
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

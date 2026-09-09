@@ -1,0 +1,73 @@
+:root {
+  --font-family-main: "Inter", sans-serif;
+}
+
+.text-xx-small {
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.text-x-small {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.text-small {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.text-base {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.text-large {
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.text-xl {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.text-2xl {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.text-3xl {
+  font-size: 30px;
+  line-height: 40px;
+}
+
+.text-4xl {
+  font-size: 36px;
+  line-height: 44px;
+}
+
+.text-5xl {
+  font-size: 48px;
+  line-height: 58px;
+}
+
+.text-6xl {
+  font-size: 60px;
+  line-height: 72px;
+}
+
+.text-7xl {
+  font-size: 72px;
+  line-height: 88px;
+}
+
+.text-8xl {
+  font-size: 96px;
+  line-height: 112px;
+}
+
+.text-9xl {
+  font-size: 128px;
+  line-height: 160px;
+}

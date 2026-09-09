@@ -1,0 +1,458 @@
+/* Portside Design System — Text Box
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Text Box (node 3651:11047)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * The Figma node ships two shapes, Rounded and Line. Only Rounded is implemented.
+ *
+ * Class API
+ *   .psds-textbox                              base (Rounded shape, Default state)
+ *   .psds-textbox--xs | --sm | --md | --lg     Sizes
+ *   .psds-textbox--filled                      a value has been typed
+ *   .psds-textbox--readonly                    Read Only
+ *   .psds-textbox--info | --success
+ *          | --warning | --danger              Validation
+ *
+ *   .psds-textbox__label   .psds-textbox__required   .psds-textbox__glyph
+ *   .psds-textbox__control .psds-textbox__field      .psds-textbox__affix
+ *   .psds-textbox__clear   .psds-textbox__alert
+ *
+ * States resolve from real interaction pseudo-classes on the wrapper. The
+ * .is-hover / .is-focus / .is-active / .is-disabled helpers force a state for
+ * documentation and visual-regression galleries.
+ */
+
+.psds-textbox {
+  /* --- Size channel (set by the size modifiers; defaults are --md) --- */
+  --psds-textbox-height            : var(--form-bigger-small);
+  --psds-textbox-font-size         : var(--font-size-sm);
+  --psds-textbox-line-height       : var(--line-height-sm);
+  --psds-textbox-padding           : var(--spacing-12);
+  --psds-textbox-gap               : var(--spacing-8);
+  --psds-textbox-icon              : var(--font-icon-18);
+  --psds-textbox-radius            : var(--control-radius-input-default-radius);
+  --psds-textbox-label-font-size   : var(--font-size-sm);
+  --psds-textbox-label-line-height : var(--line-height-sm);
+  --psds-textbox-label-icon        : var(--font-icon-14);
+  --psds-textbox-required-font-size: var(--font-size-xs);
+  --psds-textbox-note-font-size    : var(--font-size-sm);
+  --psds-textbox-note-line-height  : var(--line-height-sm);
+  --psds-textbox-note-icon         : var(--font-icon-14);
+  --psds-textbox-note-gap          : var(--spacing-4);
+
+  /* --- Colour channel (set by the state modifiers) --- */
+  --psds-textbox-bg          : var(--background-content-bg-color);
+  --psds-textbox-border      : var(--border);
+  --psds-textbox-border-hover: var(--border-hover);
+  --psds-textbox-border-width: var(--border-1);
+  --psds-textbox-accent      : var(--buttons-primary-border-color);
+  --psds-textbox-fg          : var(--foreground-content-text-color);
+  --psds-textbox-placeholder : var(--foreground-placeholder-text-color);
+  --psds-textbox-icon-color  : var(--icon-color);
+  --psds-textbox-note-color  : var(--foreground-content-text-color-alt1);
+
+  /* tokens.css declares no font-family or shadow tokens; both come from the
+   * Figma text style and the $Shadow-sm effect. */
+  --psds-textbox-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-textbox-shadow     : 0 1px 2px 0 #0000000d;
+
+  /* Figma "Icons/Close", exported from the source node and painted as a mask so
+   * it follows the icon colour channel. */
+  --psds-textbox-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.59375 3.59375L3.70312 3.51562L3.8125 3.45312L3.9375 3.42188L4.0625 3.40625L4.1875 3.42188L4.3125 3.45312L4.42188 3.51562L4.53125 3.59375L8 7.07812L11.5156 3.54688L11.625 3.48438L11.75 3.4375L11.875 3.40625H12L12.125 3.4375L12.2344 3.48438L12.3438 3.54688L12.4375 3.64062L12.5156 3.75L12.5625 3.875L12.5938 4V4.125L12.5625 4.25L12.5156 4.375L12.4375 4.48438L8.92188 8L12.4531 11.5156L12.5156 11.625L12.5625 11.75L12.5938 11.875V12L12.5625 12.125L12.5156 12.25L12.4531 12.3594L12.3594 12.4531L12.25 12.5156L12.125 12.5625L12 12.5938H11.875L11.75 12.5625L11.625 12.5156L11.5156 12.4531L8 8.92188L4.48438 12.4531L4.375 12.5156L4.25 12.5625L4.125 12.5938H4L3.875 12.5625L3.75 12.5156L3.64062 12.4531L3.54688 12.3594L3.48438 12.25L3.4375 12.125L3.40625 12V11.875L3.4375 11.75L3.48438 11.625L3.54688 11.5156L7.07812 8L3.54688 4.48438L3.48438 4.375L3.4375 4.25L3.40625 4.125V4L3.4375 3.875L3.48438 3.75L3.54688 3.64062L3.59375 3.59375Z'/%3E%3C/svg%3E");
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-4);
+
+  font-family   : var(--psds-textbox-font-family);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.psds-textbox *,
+.psds-textbox *::before,
+.psds-textbox *::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-textbox--xs {
+  --psds-textbox-height            : var(--form-mouse-small);
+  --psds-textbox-font-size         : var(--font-size-xs);
+  --psds-textbox-line-height       : var(--line-height-xs);
+  --psds-textbox-padding           : var(--spacing-8);
+  --psds-textbox-gap               : var(--spacing-6);
+  --psds-textbox-icon              : var(--font-icon-12);
+  --psds-textbox-label-font-size   : var(--font-size-xxs);
+  --psds-textbox-label-line-height : var(--line-height-xxs);
+  --psds-textbox-label-icon        : var(--font-icon-12);
+  --psds-textbox-required-font-size: var(--font-size-xxs);
+  --psds-textbox-note-font-size    : var(--font-size-xxs);
+  --psds-textbox-note-line-height  : var(--line-height-xxs);
+  --psds-textbox-note-icon         : var(--font-icon-10);
+  --psds-textbox-note-gap          : var(--spacing-2);
+}
+
+.psds-textbox--sm {
+  --psds-textbox-height            : var(--form-mouse);
+  --psds-textbox-font-size         : var(--font-size-sm);
+  --psds-textbox-line-height       : var(--line-height-sm);
+  --psds-textbox-padding           : var(--spacing-12);
+  --psds-textbox-gap               : var(--spacing-8);
+  --psds-textbox-icon              : var(--font-icon-16);
+  --psds-textbox-label-font-size   : var(--font-size-xs);
+  --psds-textbox-label-line-height : var(--line-height-xs);
+  --psds-textbox-label-icon        : var(--font-icon-14);
+  --psds-textbox-required-font-size: var(--font-size-xs);
+  --psds-textbox-note-font-size    : var(--font-size-xs);
+  --psds-textbox-note-line-height  : var(--line-height-xs);
+  --psds-textbox-note-icon         : var(--font-icon-12);
+  --psds-textbox-note-gap          : var(--spacing-4);
+}
+
+.psds-textbox--md {
+  --psds-textbox-height            : var(--form-bigger-small);
+  --psds-textbox-font-size         : var(--font-size-sm);
+  --psds-textbox-line-height       : var(--line-height-sm);
+  --psds-textbox-padding           : var(--spacing-12);
+  --psds-textbox-gap               : var(--spacing-8);
+  --psds-textbox-icon              : var(--font-icon-18);
+  --psds-textbox-label-font-size   : var(--font-size-sm);
+  --psds-textbox-label-line-height : var(--line-height-sm);
+  --psds-textbox-label-icon        : var(--font-icon-14);
+  --psds-textbox-required-font-size: var(--font-size-xs);
+  --psds-textbox-note-font-size    : var(--font-size-sm);
+  --psds-textbox-note-line-height  : var(--line-height-sm);
+  --psds-textbox-note-icon         : var(--font-icon-14);
+  --psds-textbox-note-gap          : var(--spacing-4);
+}
+
+.psds-textbox--lg {
+  --psds-textbox-height            : var(--form-bigger);
+  --psds-textbox-font-size         : var(--font-size-base);
+  --psds-textbox-line-height       : var(--line-height-base);
+  --psds-textbox-padding           : var(--spacing-12);
+  --psds-textbox-gap               : var(--spacing-8);
+  --psds-textbox-icon              : var(--font-icon-18);
+  --psds-textbox-label-font-size   : var(--font-size-sm);
+  --psds-textbox-label-line-height : var(--line-height-sm);
+  --psds-textbox-label-icon        : var(--font-icon-14);
+  --psds-textbox-required-font-size: var(--font-size-xs);
+  --psds-textbox-note-font-size    : var(--font-size-sm);
+  --psds-textbox-note-line-height  : var(--line-height-sm);
+  --psds-textbox-note-icon         : var(--font-icon-14);
+  --psds-textbox-note-gap          : var(--spacing-4);
+}
+
+/* ------------------------------------------------------------- Icon slots */
+/*
+ * One generic square, sized by whichever glyph token the surrounding row sets.
+ * Inside the control it also carries the gap to the field.
+ */
+
+.psds-textbox__glyph {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-textbox-glyph-size, var(--psds-textbox-icon));
+  height         : var(--psds-textbox-glyph-size, var(--psds-textbox-icon));
+}
+
+.psds-textbox__glyph > svg,
+.psds-textbox__glyph > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+.psds-textbox__control > .psds-textbox__glyph {
+  color              : var(--psds-textbox-icon-color);
+  margin-inline-end  : var(--psds-textbox-gap);
+}
+
+/* ------------------------------------------------------------------ Label */
+
+.psds-textbox__label {
+  --psds-textbox-glyph-size: var(--psds-textbox-label-icon);
+
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-4);
+
+  font-size  : var(--psds-textbox-label-font-size);
+  line-height: var(--psds-textbox-label-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--foreground-content-text-color);
+}
+
+.psds-textbox__label .psds-textbox__glyph {
+  color: var(--icon-color);
+}
+
+.psds-textbox__required {
+  font-size  : var(--psds-textbox-required-font-size);
+  font-weight: var(--font-weight-normal);
+  color      : var(--danger);
+}
+
+/* ---------------------------------------------------------------- Control */
+
+.psds-textbox__control {
+  position   : relative;
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-0);
+
+  height        : var(--psds-textbox-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--psds-textbox-padding);
+
+  background-color: var(--psds-textbox-bg);
+  border          : var(--psds-textbox-border-width) solid var(--psds-textbox-border);
+  border-radius   : var(--psds-textbox-radius);
+  box-shadow      : var(--psds-textbox-shadow);
+
+  transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* A trailing affix is a square as wide as the control is tall and sits flush to
+ * the inline end, so the control gives up its own trailing padding — exactly the
+ * `pr: 0` of the Figma node. Without an affix the padding is symmetric. */
+.psds-textbox__control:has(.psds-textbox__affix) {
+  padding-inline-end: var(--spacing-0);
+}
+
+.psds-textbox__field {
+  flex     : 1 1 auto;
+  min-width: 0;
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  outline   : none;
+
+  font-family   : inherit;
+  font-size     : var(--psds-textbox-font-size);
+  line-height   : var(--psds-textbox-line-height);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--psds-textbox-fg);
+
+  text-overflow: ellipsis;
+}
+
+.psds-textbox__field::placeholder {
+  color  : var(--psds-textbox-placeholder);
+  opacity: 1;
+}
+
+/* The clear affix replaces the platform widget on type="search". */
+.psds-textbox__field::-webkit-search-cancel-button,
+.psds-textbox__field::-webkit-search-decoration {
+  appearance: none;
+}
+
+/* ------------------------------------------------------------------ Affix */
+/*
+ * The Figma "Chevron" and "Close" frames: squares flush to the inline end,
+ * holding a glyph of the size channel's icon token.
+ */
+
+.psds-textbox__affix {
+  flex           : none;
+  align-self     : stretch;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-textbox-height);
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  color     : var(--psds-textbox-icon-color);
+
+  transition: color 120ms ease;
+}
+
+button.psds-textbox__affix,
+a.psds-textbox__affix {
+  cursor: pointer;
+}
+
+.psds-textbox__affix > svg,
+.psds-textbox__affix > img {
+  display: block;
+  width  : var(--psds-textbox-icon);
+  height : var(--psds-textbox-icon);
+}
+
+/* An empty clear affix paints the Figma "Icons/Close" glyph itself, so the
+ * affordance costs no markup. Put an <svg> inside to override it. */
+.psds-textbox__clear:empty {
+  background-color     : currentColor;
+  -webkit-mask-image   : var(--psds-textbox-close);
+  mask-image           : var(--psds-textbox-close);
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+  -webkit-mask-size    : var(--psds-textbox-icon) var(--psds-textbox-icon);
+  mask-size            : var(--psds-textbox-icon) var(--psds-textbox-icon);
+}
+
+/* ----------------------------------------------------------- Alert message */
+
+.psds-textbox__alert {
+  --psds-textbox-glyph-size: var(--psds-textbox-note-icon);
+
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-textbox-note-gap);
+  margin     : var(--spacing-0);
+
+  font-size  : var(--psds-textbox-note-font-size);
+  line-height: var(--psds-textbox-note-line-height);
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-textbox-note-color);
+}
+
+/* The alert glyph follows the message colour, so a validation state carries its
+ * colour through both. */
+.psds-textbox__alert .psds-textbox__glyph {
+  color: currentColor;
+}
+
+/* ------------------------------------------------------------------ States */
+/*
+ * Figma models State as a single axis of eleven values, so Filled / Read Only /
+ * the four validation states are modifiers, while Hover / Focus / Active /
+ * Disabled resolve from interaction. Each modifier remaps the colour channel:
+ *   --psds-textbox-bg            surface
+ *   --psds-textbox-border        border at rest
+ *   --psds-textbox-border-hover  border under the pointer
+ *   --psds-textbox-accent        2px border while focused or active
+ *   --psds-textbox-fg            value text
+ *   --psds-textbox-icon-color    leading glyph and affixes
+ *   --psds-textbox-note-color    helper text
+ */
+
+/* A real <input> separates its value from its placeholder on its own, so this
+ * modifier only carries what the element cannot: the icon shift Figma applies
+ * once the field holds a value. */
+.psds-textbox--filled {
+  --psds-textbox-icon-color: var(--icon-color-pressed);
+}
+
+.psds-textbox--readonly,
+.psds-textbox:has(.psds-textbox__field:read-only) {
+  --psds-textbox-bg         : var(--background-content-bg-color-alt2);
+  --psds-textbox-icon-color : var(--icon-color-pressed);
+}
+
+.psds-textbox--info {
+  --psds-textbox-border      : var(--buttons-info-border-color);
+  --psds-textbox-border-hover: var(--buttons-info-border-color);
+  --psds-textbox-accent      : var(--buttons-info-border-color);
+  --psds-textbox-icon-color  : var(--icon-color-pressed);
+  --psds-textbox-note-color  : var(--info);
+}
+
+.psds-textbox--success {
+  --psds-textbox-border      : var(--buttons-success-border-color);
+  --psds-textbox-border-hover: var(--buttons-success-border-color);
+  --psds-textbox-accent      : var(--buttons-success-border-color);
+  --psds-textbox-icon-color  : var(--icon-color-pressed);
+  --psds-textbox-note-color  : var(--success);
+}
+
+.psds-textbox--warning {
+  --psds-textbox-border      : var(--buttons-warning-border-color);
+  --psds-textbox-border-hover: var(--buttons-warning-border-color);
+  --psds-textbox-accent      : var(--buttons-warning-border-color);
+  --psds-textbox-icon-color  : var(--icon-color-pressed);
+  --psds-textbox-note-color  : var(--warning);
+}
+
+.psds-textbox--danger {
+  --psds-textbox-border      : var(--buttons-danger-border-color);
+  --psds-textbox-border-hover: var(--buttons-danger-border-color);
+  --psds-textbox-accent      : var(--buttons-danger-border-color);
+  --psds-textbox-icon-color  : var(--icon-color-pressed);
+  --psds-textbox-note-color  : var(--danger);
+}
+
+/* ------------------------------------------------------------------- Hover */
+
+.psds-textbox:hover,
+.psds-textbox.is-hover {
+  --psds-textbox-icon-color: var(--icon-color-hover);
+}
+
+.psds-textbox:hover .psds-textbox__control,
+.psds-textbox.is-hover .psds-textbox__control {
+  border-color: var(--psds-textbox-border-hover);
+}
+
+/* ---------------------------------------------------------- Focus / Active */
+/*
+ * The Figma Focus and Active variants are identical: a 2px border in
+ * `Buttons/Primary/primary-border-color`. Declared after Hover so it wins a
+ * simultaneous hover, and bound to :focus-within because focus lands on the
+ * field (or an affix button) inside the control.
+ */
+
+.psds-textbox:focus-within,
+.psds-textbox:active,
+.psds-textbox.is-focus,
+.psds-textbox.is-active {
+  --psds-textbox-icon-color: var(--icon-color-pressed);
+}
+
+.psds-textbox:focus-within .psds-textbox__control,
+.psds-textbox:active .psds-textbox__control,
+.psds-textbox.is-focus .psds-textbox__control,
+.psds-textbox.is-active .psds-textbox__control {
+  border-color: var(--psds-textbox-accent);
+  border-width: var(--border-2);
+}
+
+/* ---------------------------------------------------------------- Disabled */
+/* Declared last so it survives a simultaneous hover or focus. */
+
+.psds-textbox:has(.psds-textbox__field:disabled),
+.psds-textbox.is-disabled {
+  --psds-textbox-bg         : var(--background-content-bg-color-alt2);
+  --psds-textbox-fg         : var(--foreground-content-text-color-disabled);
+  --psds-textbox-placeholder: var(--foreground-content-text-color-disabled);
+  --psds-textbox-icon-color : var(--icon-color-disabled);
+}
+
+/* The Figma Disabled variant is the one state that drops $Shadow-sm. */
+.psds-textbox:has(.psds-textbox__field:disabled) .psds-textbox__control,
+.psds-textbox.is-disabled .psds-textbox__control {
+  border-color: var(--border);
+  border-width: var(--psds-textbox-border-width);
+  box-shadow  : none;
+}
+
+.psds-textbox__field:disabled {
+  cursor: not-allowed;
+}
+
+.psds-textbox.is-disabled {
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------- Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-textbox__control,
+  .psds-textbox__affix {
+    transition: none;
+  }
+}
