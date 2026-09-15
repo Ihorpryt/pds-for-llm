@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Segmented Controls — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../button/button.css">
+<link rel="stylesheet" href="segmented-controls.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-16); }
+  .row + .row { margin-top: var(--spacing-20); }
+  .narrow { max-width: 468px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  .tabpanel { margin-top: var(--spacing-12); color: var(--foreground-content-text-color-alt2); }
+  output { color: var(--foreground-content-text-color-alt2); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+</style>
+</head>
+<body>
+
+<h1>Segmented Controls</h1>
+<p class="sub">2 sizes, a block layout, and selected / unselected segments. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="row" id="sizes"></div>
+  <div class="row">
+    <code>--xs&nbsp;24px&nbsp;(Figma&nbsp;Small)</code><code>--sm&nbsp;32px&nbsp;(Figma&nbsp;Large)</code>
+  </div>
+</div>
+
+<h2>Block</h2>
+<p class="sub"><code>--block</code> fills the container and splits it evenly — the layout used for the Reminder switch in the modal pattern.</p>
+<div class="panel">
+  <div class="narrow">
+    <div class="psds-segmented psds-segmented--sm psds-segmented--block" role="radiogroup" aria-label="Reminder timing">
+      <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="timing" value="relative" checked>Relative Time</label>
+      <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="timing" value="specific">Specific Date/Time</label>
+    </div>
+  </div>
+</div>
+
+<h2>States</h2>
+<p class="sub">Rendered with the forced-state helpers <code>.is-selected</code>, <code>.is-focus</code>, <code>.is-disabled</code>. Hover and active are not drawn in Figma and have no treatment.</p>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Size</th><th>Unselected</th><th>Selected</th><th>Focus</th><th>Selected + focus</th><th>Disabled</th><th>Selected + disabled</th></tr>
+    </thead>
+    <tbody id="states"></tbody>
+  </table>
+</div>
+
+<h2>Interactive — radio group</h2>
+<p class="sub">Selecting a value. Native radios: <kbd>Tab</kbd> into the group, arrow keys move the selection.</p>
+<div class="panel">
+  <div class="row">
+    <div class="psds-segmented psds-segmented--sm" role="radiogroup" aria-label="View" id="view">
+      <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="view" value="day">Day</label>
+      <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="view" value="week" checked>Week</label>
+      <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="view" value="month">Month</label>
+      <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="view" value="year" disabled>Year</label>
+    </div>
+    <output id="view-out">week</output>
+  </div>
+</div>
+
+<h2>Interactive — tabs</h2>
+<p class="sub">Switching panels. <code>role="tab"</code> buttons with a roving <code>tabindex</code>; arrow keys, <kbd>Home</kbd> and <kbd>End</kbd> move between tabs.</p>
+<div class="panel">
+  <div class="psds-segmented psds-segmented--sm" role="tablist" aria-label="Aircraft details" id="tabs">
+    <button class="psds-segmented__item" type="button" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button>
+    <button class="psds-segmented__item" type="button" role="tab" id="tab-crew" aria-controls="panel-crew" aria-selected="false" tabindex="-1">Crew</button>
+    <button class="psds-segmented__item" type="button" role="tab" id="tab-docs" aria-controls="panel-docs" aria-selected="false" tabindex="-1">Documents</button>
+  </div>
+  <div class="tabpanel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">Overview panel.</div>
+  <div class="tabpanel" role="tabpanel" id="panel-crew" aria-labelledby="tab-crew" hidden>Crew panel.</div>
+  <div class="tabpanel" role="tabpanel" id="panel-docs" aria-labelledby="tab-docs" hidden>Documents panel.</div>
+</div>
+
+<script>
+  const SIZES = [['xs', 'Small'], ['sm', 'Large']];
+  const LABELS = ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4', 'Tab 5', 'Tab 6', 'Tab 7', 'Tab 8'];
+  const STATES = [
+    [],
+    ['is-selected'],
+    ['is-focus'],
+    ['is-selected', 'is-focus'],
+    ['is-disabled'],
+    ['is-selected', 'is-disabled'],
+  ];
+
+  const track = (size, label) => {
+    const t = document.createElement('div');
+    t.className = `psds-segmented psds-segmented--${size}`;
+    t.setAttribute('role', 'group');
+    t.setAttribute('aria-label', label);
+    return t;
+  };
+
+  const item = (text, ...classes) => {
+    const s = document.createElement('span');
+    s.className = ['psds-segmented__item', ...classes].join(' ');
+    s.textContent = text;
+    return s;
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const [size, figma] of SIZES) {
+    const t = track(size, `${figma} example`);
+    LABELS.forEach((text, i) => t.append(item(text, ...(i === 0 ? ['is-selected'] : []))));
+    sizes.append(t);
+  }
+
+  const states = document.getElementById('states');
+  for (const [size, figma] of SIZES) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    th.textContent = `--${size} (${figma})`;
+    tr.append(th);
+    for (const classes of STATES) {
+      const td = document.createElement('td');
+      const t = track(size, 'State example');
+      t.append(item('Tab', ...classes));
+      td.append(t);
+      tr.append(td);
+    }
+    states.append(tr);
+  }
+
+  const out = document.getElementById('view-out');
+  document.getElementById('view').addEventListener('change', (e) => { out.textContent = e.target.value; });
+
+  const tablist = document.getElementById('tabs');
+  const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+  const select = (tab) => {
+    for (const t of tabs) {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    }
+    tab.focus();
+  };
+  tablist.addEventListener('click', (e) => {
+    const tab = e.target.closest('[role="tab"]');
+    if (tab) select(tab);
+  });
+  tablist.addEventListener('keydown', (e) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    select(tabs[(next + tabs.length) % tabs.length]);
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

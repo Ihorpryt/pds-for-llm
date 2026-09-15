@@ -1,0 +1,182 @@
+/* Portside Design System — Segmented Controls
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Segment Tabs (node 52442:37223)
+ * Every value below resolves through a token declared in tokens.css, except the two
+ * component-level literals noted inline (font family and the $Shadow-sm effect).
+ *
+ * Class API
+ *   .psds-segmented                            track (the grey container)
+ *   .psds-segmented--xs | --sm                 Sizes  (Figma Small | Large; default --sm)
+ *   .psds-segmented--block                     fills its container, segments share the width
+ *   .psds-segmented__item                      one segment: a <label> wrapping a radio,
+ *                                              or a <button role="tab">
+ *   .psds-segmented__input                     the native <input type="radio">, visually hidden
+ *
+ * Selection resolves from :checked (radio) or [aria-selected="true"] (tab). Focus and
+ * disabled resolve from :focus-visible and :disabled / [aria-disabled="true"]. The
+ * .is-selected / .is-focus / .is-disabled helpers force a state for documentation and
+ * visual-regression galleries.
+ */
+
+.psds-segmented {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-segmented-height     : var(--form-mouse);
+  --psds-segmented-padding    : var(--spacing-2);
+  --psds-segmented-item-px    : var(--spacing-10);
+  --psds-segmented-font-size  : var(--font-size-sm);
+  --psds-segmented-line-height: var(--line-height-sm);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-segmented-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* tokens.css declares no shadow tokens; this is the Figma effect $Shadow-sm. */
+  --psds-segmented-shadow: 0 1px 2px #0000000d;
+
+  box-sizing : border-box;
+  display    : inline-flex;
+  align-items: stretch;
+  max-width  : 100%;
+
+  height          : var(--psds-segmented-height);
+  padding         : var(--psds-segmented-padding);
+  background-color: var(--background-content-bg-color-alt3);
+  border-radius   : var(--radius-8);
+
+  font-family   : var(--psds-segmented-font-family);
+  font-size     : var(--psds-segmented-font-size);
+  line-height   : var(--psds-segmented-line-height);
+  font-weight   : var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-segmented--xs {
+  --psds-segmented-height     : var(--form-mouse-small);
+  --psds-segmented-padding    : var(--spacing-1);
+  --psds-segmented-item-px    : var(--spacing-6);
+  --psds-segmented-font-size  : var(--font-size-xs);
+  --psds-segmented-line-height: var(--line-height-xs);
+}
+
+.psds-segmented--sm {
+  --psds-segmented-height     : var(--form-mouse);
+  --psds-segmented-padding    : var(--spacing-2);
+  --psds-segmented-item-px    : var(--spacing-10);
+  --psds-segmented-font-size  : var(--font-size-sm);
+  --psds-segmented-line-height: var(--line-height-sm);
+}
+
+/* ------------------------------------------------------------------ Block */
+
+.psds-segmented--block {
+  display: flex;
+  width  : 100%;
+}
+
+.psds-segmented--block > .psds-segmented__item {
+  flex     : 1 1 0;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------- Segment */
+/*
+ * Figma draws the selected border as an inside stroke, so selecting a segment never
+ * changes its size. Here every segment carries a 1px border (transparent until
+ * selected) and the inline padding gives that pixel back, so the text sits exactly
+ * where Figma puts it.
+ */
+
+.psds-segmented__item {
+  position       : relative;
+  box-sizing     : border-box;
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  gap            : var(--spacing-6);
+
+  padding-block : var(--spacing-0);
+  padding-inline: calc(var(--psds-segmented-item-px) - var(--border-1));
+  margin        : var(--spacing-0);
+
+  font          : inherit;
+  letter-spacing: inherit;
+  white-space   : nowrap;
+  color         : var(--foreground-content-text-color-alt2);
+
+  background-color: var(--transparent);
+  border          : var(--border-1) solid var(--transparent);
+  border-radius   : var(--control-radius-btn-bigger-small-radius);
+
+  cursor    : pointer;
+  appearance: none;
+  user-select: none;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-segmented__item { transition: none; }
+}
+
+/* The radio stays in the accessibility tree and the tab order; only its paint is removed. */
+.psds-segmented__input {
+  position: absolute;
+  inset   : 0;
+  width   : 100%;
+  height  : 100%;
+  margin  : 0;
+  opacity : 0;
+  cursor  : inherit;
+}
+
+/* --------------------------------------------------------------- Selected */
+
+.psds-segmented__item:has(> .psds-segmented__input:checked),
+.psds-segmented__item[aria-selected="true"],
+.psds-segmented__item.is-selected {
+  color           : var(--buttons-secondary-text-color);
+  background-color: var(--buttons-secondary-bg-color);
+  border-color    : var(--buttons-secondary-border-color);
+  box-shadow      : var(--psds-segmented-shadow);
+}
+
+/* ------------------------------------------------------------- Disabled */
+/* Not drawn in the Figma node; mapped onto the existing disabled tokens. */
+
+.psds-segmented__item:has(> .psds-segmented__input:disabled),
+.psds-segmented__item:disabled,
+.psds-segmented__item[aria-disabled="true"],
+.psds-segmented__item.is-disabled {
+  color : var(--foreground-content-text-color-disabled);
+  cursor: not-allowed;
+}
+
+.psds-segmented__item:has(> .psds-segmented__input:checked:disabled),
+.psds-segmented__item[aria-selected="true"]:disabled,
+.psds-segmented__item[aria-selected="true"][aria-disabled="true"],
+.psds-segmented__item.is-selected.is-disabled {
+  color           : var(--buttons-secondary-text-color-disabled);
+  background-color: var(--buttons-secondary-bg-color-disabled);
+  border-color    : var(--buttons-secondary-border-color-disabled);
+  box-shadow      : none;
+}
+
+.psds-segmented__item.is-disabled {
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2 — the segment ships it at zero spread. A 2px ring in
+ * the content background colour separates the segment from a 4px ring in `primary`.
+ * Declared last so it replaces the selected shadow while focused. It sits above the
+ * neighbouring segments, so the ring is never clipped by them.
+ */
+
+.psds-segmented__item:has(> .psds-segmented__input:focus-visible),
+.psds-segmented__item:focus-visible,
+.psds-segmented__item.is-focus {
+  z-index   : 1;
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
