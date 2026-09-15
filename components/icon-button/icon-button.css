@@ -1,0 +1,354 @@
+/* Portside Design System — Icon Button
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Icon Button (node 4755:58467)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-icon-btn                              base (Filled mode)
+ *   .psds-icon-btn--xs | --sm | --md | --lg     Sizes
+ *   .psds-icon-btn--primary | --secondary | --info
+ *          | --success | --warning | --danger   Type
+ *   .psds-icon-btn--outlined | --flat           Mode  (default: Filled)
+ *   .psds-icon-btn--circle                      Shape = Full Round (default: Round)
+ *
+ *   .psds-icon-btn__icon                        the glyph — required
+ *
+ * A square control: the size modifier sets one box dimension and the icon size,
+ * with no padding of its own. The colour model is Button's, with the icon standing
+ * in for the label.
+ *
+ * States resolve from real interaction pseudo-classes. The .is-hover / .is-active /
+ * .is-focus helpers force a state for documentation and visual-regression galleries.
+ */
+
+.psds-icon-btn {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-icon-btn-size     : var(--form-bigger-small);
+  --psds-icon-btn-icon-size: var(--font-icon-16);
+  --psds-icon-btn-radius   : var(--control-radius-btn-bigger-small-radius);
+
+  box-sizing     : border-box;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+
+  width  : var(--psds-icon-btn-size);
+  height : var(--psds-icon-btn-size);
+  padding: var(--spacing-0);
+
+  border       : var(--border-1) solid var(--transparent);
+  border-radius: var(--psds-icon-btn-radius);
+
+  cursor    : pointer;
+  appearance: none;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-icon-btn { transition: none; }
+}
+
+/* ------------------------------------------------------------------ Sizes */
+/*
+ * The radius does not follow one family across the ramp: --md alone binds
+ * --control-radius-btn-bigger-small-radius (6px) while the others land on 8px.
+ * That is the Figma binding, not a slip here.
+ */
+
+.psds-icon-btn--xs {
+  --psds-icon-btn-size     : var(--form-mouse-small);
+  --psds-icon-btn-icon-size: var(--font-icon-12);
+  --psds-icon-btn-radius   : var(--control-radius-btn-default-radius);
+}
+
+.psds-icon-btn--sm {
+  --psds-icon-btn-size     : var(--form-mouse);
+  --psds-icon-btn-icon-size: var(--font-icon-14);
+  --psds-icon-btn-radius   : var(--control-radius-btn-default-radius);
+}
+
+.psds-icon-btn--md {
+  --psds-icon-btn-size     : var(--form-bigger-small);
+  --psds-icon-btn-icon-size: var(--font-icon-16);
+  --psds-icon-btn-radius   : var(--control-radius-btn-bigger-small-radius);
+}
+
+.psds-icon-btn--lg {
+  --psds-icon-btn-size     : var(--form-bigger);
+  --psds-icon-btn-icon-size: var(--font-icon-16);
+  --psds-icon-btn-radius   : var(--control-radius-btn-bigger-radius);
+}
+
+/* ------------------------------------------------------------------ Shape */
+
+.psds-icon-btn--circle {
+  border-radius: var(--radius-full);
+}
+
+/* ------------------------------------------------------------------- Type */
+/*
+ * Each type maps the shared button tokens onto four channels:
+ *   --psds-icon-btn-bg-*      surface, Filled mode
+ *   --psds-icon-btn-border-*  border colour
+ *   --psds-icon-btn-fg-*      icon colour on a filled surface
+ *   --psds-icon-btn-accent-*  icon colour on a transparent surface (Outlined / Flat)
+ *
+ * These are the same button tokens Button consumes — the icon simply stands in for
+ * the label — so the two components stay in step through any retheme.
+ */
+
+.psds-icon-btn--primary {
+  --psds-icon-btn-bg          : var(--buttons-primary-bg-color);
+  --psds-icon-btn-bg-hover    : var(--buttons-primary-bg-color-hover);
+  --psds-icon-btn-bg-pressed  : var(--buttons-primary-bg-color-pressed);
+  --psds-icon-btn-bg-focus    : var(--buttons-primary-bg-color-focus);
+  --psds-icon-btn-bg-disabled : var(--buttons-primary-bg-color-disabled);
+
+  --psds-icon-btn-border          : var(--buttons-primary-border-color);
+  --psds-icon-btn-border-hover    : var(--buttons-primary-border-color-hover);
+  --psds-icon-btn-border-pressed  : var(--buttons-primary-border-color-pressed);
+  --psds-icon-btn-border-focus    : var(--buttons-primary-border-color-focus);
+  --psds-icon-btn-border-disabled : var(--buttons-primary-border-color-disabled);
+
+  --psds-icon-btn-fg          : var(--buttons-primary-text);
+  --psds-icon-btn-fg-hover    : var(--buttons-primary-text-hover);
+  --psds-icon-btn-fg-pressed  : var(--buttons-primary-text-pressed);
+  --psds-icon-btn-fg-focus    : var(--buttons-primary-text-focus);
+  --psds-icon-btn-fg-disabled : var(--buttons-primary-text-disabled);
+
+  --psds-icon-btn-accent          : var(--buttons-primary-bg-color);
+  --psds-icon-btn-accent-disabled : var(--buttons-primary-bg-color-disabled);
+}
+
+.psds-icon-btn--secondary {
+  --psds-icon-btn-bg          : var(--buttons-secondary-bg-color);
+  --psds-icon-btn-bg-hover    : var(--buttons-secondary-bg-color-hover);
+  --psds-icon-btn-bg-pressed  : var(--buttons-secondary-bg-color-pressed);
+  --psds-icon-btn-bg-focus    : var(--buttons-secondary-bg-color-focus);
+  --psds-icon-btn-bg-disabled : var(--buttons-secondary-bg-color-disabled);
+
+  --psds-icon-btn-border          : var(--buttons-secondary-border-color);
+  --psds-icon-btn-border-hover    : var(--buttons-secondary-border-color-hover);
+  --psds-icon-btn-border-pressed  : var(--buttons-secondary-border-color-pressed);
+  --psds-icon-btn-border-focus    : var(--buttons-secondary-border-color-focus);
+  --psds-icon-btn-border-disabled : var(--buttons-secondary-border-color-disabled);
+
+  /* Secondary is the one type whose glyph token is authored as `-text-color`. */
+  --psds-icon-btn-fg          : var(--buttons-secondary-text-color);
+  --psds-icon-btn-fg-hover    : var(--buttons-secondary-text-color-hover);
+  --psds-icon-btn-fg-pressed  : var(--buttons-secondary-text-color-pressed);
+  --psds-icon-btn-fg-focus    : var(--buttons-secondary-text-color-focus);
+  --psds-icon-btn-fg-disabled : var(--buttons-secondary-text-color-disabled);
+
+  --psds-icon-btn-accent          : var(--buttons-secondary-text-color);
+  --psds-icon-btn-accent-disabled : var(--buttons-secondary-text-color-disabled);
+}
+
+.psds-icon-btn--info {
+  --psds-icon-btn-bg          : var(--buttons-info-bg-color);
+  --psds-icon-btn-bg-hover    : var(--buttons-info-bg-color-hover);
+  --psds-icon-btn-bg-pressed  : var(--buttons-info-bg-color-pressed);
+  --psds-icon-btn-bg-focus    : var(--buttons-info-bg-color-focus);
+  --psds-icon-btn-bg-disabled : var(--buttons-info-bg-color-disabled);
+
+  --psds-icon-btn-border          : var(--buttons-info-border-color);
+  --psds-icon-btn-border-hover    : var(--buttons-info-border-color-hover);
+  --psds-icon-btn-border-pressed  : var(--buttons-info-border-color-pressed);
+  --psds-icon-btn-border-focus    : var(--buttons-info-border-color-focus);
+  --psds-icon-btn-border-disabled : var(--buttons-info-border-color-disabled);
+
+  --psds-icon-btn-fg          : var(--buttons-info-text);
+  --psds-icon-btn-fg-hover    : var(--buttons-info-text-hover);
+  --psds-icon-btn-fg-pressed  : var(--buttons-info-text-pressed);
+  --psds-icon-btn-fg-focus    : var(--buttons-info-text-focus);
+  --psds-icon-btn-fg-disabled : var(--buttons-info-text-disabled);
+
+  --psds-icon-btn-accent          : var(--buttons-info-bg-color);
+  --psds-icon-btn-accent-disabled : var(--buttons-info-bg-color-disabled);
+}
+
+.psds-icon-btn--success {
+  --psds-icon-btn-bg          : var(--buttons-success-bg-color);
+  --psds-icon-btn-bg-hover    : var(--buttons-success-bg-color-hover);
+  --psds-icon-btn-bg-pressed  : var(--buttons-success-bg-color-pressed);
+  --psds-icon-btn-bg-focus    : var(--buttons-success-bg-color-focus);
+  --psds-icon-btn-bg-disabled : var(--buttons-success-bg-color-disabled);
+
+  --psds-icon-btn-border          : var(--buttons-success-border-color);
+  --psds-icon-btn-border-hover    : var(--buttons-success-border-color-hover);
+  --psds-icon-btn-border-pressed  : var(--buttons-success-border-color-pressed);
+  --psds-icon-btn-border-focus    : var(--buttons-success-border-color-focus);
+  --psds-icon-btn-border-disabled : var(--buttons-success-border-color-disabled);
+
+  --psds-icon-btn-fg          : var(--buttons-success-text);
+  --psds-icon-btn-fg-hover    : var(--buttons-success-text-hover);
+  --psds-icon-btn-fg-pressed  : var(--buttons-success-text-pressed);
+  --psds-icon-btn-fg-focus    : var(--buttons-success-text-focus);
+  --psds-icon-btn-fg-disabled : var(--buttons-success-text-disabled);
+
+  --psds-icon-btn-accent          : var(--buttons-success-bg-color);
+  --psds-icon-btn-accent-disabled : var(--buttons-success-bg-color-disabled);
+}
+
+.psds-icon-btn--warning {
+  --psds-icon-btn-bg          : var(--buttons-warning-bg-color);
+  --psds-icon-btn-bg-hover    : var(--buttons-warning-bg-color-hover);
+  --psds-icon-btn-bg-pressed  : var(--buttons-warning-bg-color-pressed);
+  --psds-icon-btn-bg-focus    : var(--buttons-warning-bg-color-focus);
+  --psds-icon-btn-bg-disabled : var(--buttons-warning-bg-color-disabled);
+
+  --psds-icon-btn-border          : var(--buttons-warning-border-color);
+  --psds-icon-btn-border-hover    : var(--buttons-warning-border-color-hover);
+  --psds-icon-btn-border-pressed  : var(--buttons-warning-border-color-pressed);
+  --psds-icon-btn-border-focus    : var(--buttons-warning-border-color-focus);
+  --psds-icon-btn-border-disabled : var(--buttons-warning-border-color-disabled);
+
+  --psds-icon-btn-fg          : var(--buttons-warning-text);
+  --psds-icon-btn-fg-hover    : var(--buttons-warning-text-hover);
+  --psds-icon-btn-fg-pressed  : var(--buttons-warning-text-pressed);
+  --psds-icon-btn-fg-focus    : var(--buttons-warning-text-focus);
+  --psds-icon-btn-fg-disabled : var(--buttons-warning-text-disabled);
+
+  --psds-icon-btn-accent          : var(--buttons-warning-bg-color);
+  --psds-icon-btn-accent-disabled : var(--buttons-warning-bg-color-disabled);
+}
+
+.psds-icon-btn--danger {
+  --psds-icon-btn-bg          : var(--buttons-danger-bg-color);
+  --psds-icon-btn-bg-hover    : var(--buttons-danger-bg-color-hover);
+  --psds-icon-btn-bg-pressed  : var(--buttons-danger-bg-color-pressed);
+  --psds-icon-btn-bg-focus    : var(--buttons-danger-bg-color-focus);
+  --psds-icon-btn-bg-disabled : var(--buttons-danger-bg-color-disabled);
+
+  --psds-icon-btn-border          : var(--buttons-danger-border-color);
+  --psds-icon-btn-border-hover    : var(--buttons-danger-border-color-hover);
+  --psds-icon-btn-border-pressed  : var(--buttons-danger-border-color-pressed);
+  --psds-icon-btn-border-focus    : var(--buttons-danger-border-color-focus);
+  --psds-icon-btn-border-disabled : var(--buttons-danger-border-color-disabled);
+
+  --psds-icon-btn-fg          : var(--buttons-danger-text);
+  --psds-icon-btn-fg-hover    : var(--buttons-danger-text-hover);
+  --psds-icon-btn-fg-pressed  : var(--buttons-danger-text-pressed);
+  --psds-icon-btn-fg-focus    : var(--buttons-danger-text-focus);
+  --psds-icon-btn-fg-disabled : var(--buttons-danger-text-disabled);
+
+  --psds-icon-btn-accent          : var(--buttons-danger-bg-color);
+  --psds-icon-btn-accent-disabled : var(--buttons-danger-bg-color-disabled);
+}
+
+/* ------------------------------------------------------- Mode — enabled */
+/*
+ * Filled is the base. Outlined and Flat only redefine the *enabled* rest state
+ * (and, for Outlined, focus and disabled): on hover and active every mode
+ * collapses onto the filled treatment, exactly as the Figma variants do.
+ */
+
+.psds-icon-btn {
+  background-color: var(--psds-icon-btn-bg);
+  border-color    : var(--psds-icon-btn-border);
+  color           : var(--psds-icon-btn-fg);
+}
+
+.psds-icon-btn--outlined {
+  background-color: var(--transparent);
+  border-color    : var(--psds-icon-btn-border);
+  color           : var(--psds-icon-btn-accent);
+}
+
+.psds-icon-btn--flat {
+  background-color: var(--transparent);
+  border-color    : var(--transparent);
+  color           : var(--psds-icon-btn-accent);
+}
+
+/* ---------------------------------------------------------------- Hover */
+
+.psds-icon-btn:hover:not(:disabled):not(.is-disabled),
+.psds-icon-btn.is-hover {
+  background-color: var(--psds-icon-btn-bg-hover);
+  border-color    : var(--psds-icon-btn-border-hover);
+  color           : var(--psds-icon-btn-fg-hover);
+}
+
+/* --------------------------------------------------------------- Active */
+
+.psds-icon-btn:active:not(:disabled):not(.is-disabled),
+.psds-icon-btn.is-active {
+  background-color: var(--psds-icon-btn-bg-pressed);
+  border-color    : var(--psds-icon-btn-border-pressed);
+  color           : var(--psds-icon-btn-fg-pressed);
+}
+
+/* ---------------------------------------------------------------- Focus */
+
+.psds-icon-btn:focus-visible,
+.psds-icon-btn.is-focus {
+  background-color: var(--psds-icon-btn-bg-focus);
+  border-color    : var(--psds-icon-btn-border-focus);
+  color           : var(--psds-icon-btn-fg-focus);
+}
+
+/* Outlined keeps its transparent surface while focused. */
+.psds-icon-btn--outlined:focus-visible,
+.psds-icon-btn--outlined.is-focus {
+  background-color: var(--transparent);
+  border-color    : var(--psds-icon-btn-border-focus);
+  color           : var(--psds-icon-btn-accent);
+}
+
+/* ------------------------------------------------------------- Disabled */
+
+.psds-icon-btn:disabled,
+.psds-icon-btn.is-disabled {
+  background-color: var(--psds-icon-btn-bg-disabled);
+  border-color    : var(--psds-icon-btn-border-disabled);
+  color           : var(--psds-icon-btn-fg-disabled);
+  cursor          : not-allowed;
+}
+
+.psds-icon-btn--outlined:disabled,
+.psds-icon-btn--outlined.is-disabled {
+  background-color: var(--transparent);
+  border-color    : var(--psds-icon-btn-border-disabled);
+  color           : var(--psds-icon-btn-accent-disabled);
+}
+
+.psds-icon-btn.is-disabled {
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2: a 2px ring in the content background colour
+ * separating the control from a 4px ring in `primary`. Declared last so the ring
+ * survives a simultaneous hover.
+ */
+
+.psds-icon-btn:focus-visible,
+.psds-icon-btn.is-focus {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+/* ----------------------------------------------------------- Icon slot */
+/*
+ * The glyph is bound per size rather than scaled from a font size — --md and --lg
+ * share --font-icon-16 despite --lg being the larger box. Use currentColor in the
+ * icon so it follows the colour channel through every state.
+ */
+
+.psds-icon-btn__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-icon-btn-icon-size);
+  height         : var(--psds-icon-btn-icon-size);
+}
+
+.psds-icon-btn__icon > svg,
+.psds-icon-btn__icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badge — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="badge.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-16); }
+  .row + .row { margin-top: var(--spacing-20); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .theme-btn { font: inherit; padding: var(--spacing-6) var(--spacing-12); border-radius: var(--control-radius-btn-default-radius); border: var(--border-1) solid var(--buttons-secondary-border-color); background: var(--buttons-secondary-bg-color); color: var(--buttons-secondary-text-color); cursor: pointer; }
+  .stack { display: flex; align-items: center; gap: var(--spacing-8); }
+  .stack span.label { color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); }
+</style>
+</head>
+<body>
+
+<h1>Badge</h1>
+<p class="sub">2 sizes &times; 8 types &times; 3 contrasts &times; 3 modes &times; 2 shapes = 288 variants. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="theme-btn" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="row">
+    <span class="psds-badge psds-badge--sm psds-badge--primary">99+</span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary">99+</span>
+    <span class="psds-badge psds-badge--sm psds-badge--primary psds-badge--letter">9</span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--letter">9</span>
+    <span class="psds-badge psds-badge--sm psds-badge--primary psds-badge--dot"></span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--dot"></span>
+  </div>
+  <div class="row">
+    <code>--sm&nbsp;20px&nbsp;/&nbsp;10px&nbsp;text</code><code>--lg&nbsp;24px&nbsp;/&nbsp;12px&nbsp;text</code>
+  </div>
+</div>
+
+<h2>Shape</h2>
+<div class="panel">
+  <div class="row">
+    <span class="psds-badge psds-badge--lg psds-badge--primary">Rounded</span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--pill">Full Rounded</span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--letter">9</span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--letter psds-badge--pill">9</span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--dot"></span>
+    <span class="psds-badge psds-badge--lg psds-badge--primary psds-badge--dot psds-badge--pill"></span>
+  </div>
+</div>
+
+<h2>Type &times; Contrast</h2>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Type</th><th>Ascent</th><th>Subtle</th><th>Outline</th><th>Ascent&nbsp;pill</th><th>Subtle&nbsp;pill</th><th>Outline&nbsp;pill</th></tr>
+    </thead>
+    <tbody id="type-contrast"></tbody>
+  </table>
+</div>
+
+<h2>Mode</h2>
+<p class="sub">Word takes a label, Letter is a fixed-width counter, Dot is a bare marker with a 1px ring in the content background.</p>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Type</th><th>Word</th><th>Letter</th><th>Dot</th><th>Word&nbsp;pill</th><th>Letter&nbsp;pill</th><th>Dot&nbsp;pill</th></tr>
+    </thead>
+    <tbody id="modes"></tbody>
+  </table>
+</div>
+
+<h2>Icons</h2>
+<div class="panel">
+  <div class="row">
+    <span class="psds-badge psds-badge--lg psds-badge--success psds-badge--pill">
+      <span class="psds-badge__icon" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12.5V3.5M4 7.5 8 3.5l4 4"/></svg>
+      </span>
+      12%
+    </span>
+    <span class="psds-badge psds-badge--lg psds-badge--danger psds-badge--pill">
+      <span class="psds-badge__icon" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5v9M4 8.5l4 4 4-4"/></svg>
+      </span>
+      4%
+    </span>
+    <span class="psds-badge psds-badge--sm psds-badge--info psds-badge--outline">
+      <span class="psds-badge__icon" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7.5v4M8 4.6v.1"/></svg>
+      </span>
+      Info
+    </span>
+  </div>
+</div>
+
+<h2>In context</h2>
+<div class="panel">
+  <div class="row">
+    <span class="stack"><span class="label">Inbox</span><span class="psds-badge psds-badge--sm psds-badge--danger psds-badge--ascent psds-badge--pill">99+</span></span>
+    <span class="stack"><span class="label">Drafts</span><span class="psds-badge psds-badge--sm psds-badge--secondary psds-badge--letter psds-badge--pill">3</span></span>
+    <span class="stack"><span class="psds-badge psds-badge--sm psds-badge--success psds-badge--ascent psds-badge--dot psds-badge--pill" aria-hidden="true"></span><span class="label">Online</span></span>
+    <span class="stack"><span class="label">Build</span><span class="psds-badge psds-badge--sm psds-badge--warning">Pending</span></span>
+  </div>
+</div>
+
+<script>
+  const TYPES = ['primary', 'secondary', 'info', 'success', 'warning', 'danger', 'light', 'dark'];
+  const CONTRASTS = [['psds-badge--ascent', 'Ascent'], ['', 'Subtle'], ['psds-badge--outline', 'Outline']];
+  const MODES = [['', 'Word'], ['psds-badge--letter', 'Letter'], ['psds-badge--dot', 'Dot']];
+
+  const badge = (...classes) => {
+    const el = document.createElement('span');
+    el.className = ['psds-badge', 'psds-badge--lg', ...classes].filter(Boolean).join(' ');
+    if (classes.includes('psds-badge--dot')) el.setAttribute('aria-hidden', 'true');
+    else if (classes.includes('psds-badge--letter')) el.textContent = '9';
+    else el.textContent = '99+';
+    return el;
+  };
+
+  const rows = (tbody, columns, cell) => {
+    for (const type of TYPES) {
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.scope = 'row';
+      th.textContent = type[0].toUpperCase() + type.slice(1);
+      tr.append(th);
+      for (const pill of ['', 'psds-badge--pill']) {
+        for (const [columnClass] of columns) {
+          const td = document.createElement('td');
+          td.append(cell(type, columnClass, pill));
+          tr.append(td);
+        }
+      }
+      tbody.append(tr);
+    }
+  };
+
+  rows(document.getElementById('type-contrast'), CONTRASTS,
+    (type, contrast, pill) => badge('psds-badge--' + type, contrast, pill));
+
+  rows(document.getElementById('modes'), MODES,
+    (type, mode, pill) => badge('psds-badge--' + type, mode, pill));
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

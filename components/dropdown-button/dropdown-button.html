@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dropdown Button — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="dropdown-button.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-16); }
+  .row + .row { margin-top: var(--spacing-20); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+</style>
+</head>
+<body>
+
+<!-- Icons/Edit and Icons/Chevron down, exported from the source Figma node; recoloured with currentColor. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="icon-edit" viewBox="0 0 16 16">
+    <path fill="currentColor" d="M12.9688 5.375L10.625 3.01562L2.75 10.8906V13.25H5.10938L12.9688 5.375ZM10.1562 1.625L10.2656 1.54688L10.375 1.48438L10.5 1.45312L10.625 1.4375L10.75 1.45312L10.875 1.48438L10.9844 1.54688L11.0938 1.625L14.4062 4.95312L14.4844 5.0625L14.5312 5.1875L14.5625 5.3125V5.4375L14.5312 5.5625L14.4844 5.6875L14.4062 5.79688L5.84375 14.375L5.73438 14.4531L5.625 14.5156L5.5 14.5469L5.375 14.5625H2.03125L1.90625 14.5312L1.84375 14.5156L1.73438 14.4531L1.625 14.375L1.54688 14.2656L1.48438 14.1562L1.45312 14.0312L1.4375 13.9062V10.5625L1.46875 10.4375L1.48438 10.375L1.54688 10.2656L1.625 10.1562L10.1562 1.625Z"/>
+  </symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 16 16">
+    <path fill="currentColor" d="M3.59375 5.5625L3.70312 5.48438L3.8125 5.42188L3.9375 5.39062L4.0625 5.375L4.1875 5.39062L4.3125 5.42188L4.42188 5.48438L4.53125 5.5625L8 9.04688L11.5156 5.51562L11.625 5.45312L11.75 5.40625L11.875 5.375H12L12.125 5.40625L12.2344 5.45312L12.3438 5.51562L12.4375 5.60938L12.5156 5.71875L12.5625 5.84375L12.5938 5.96875V6.09375L12.5625 6.21875L12.5156 6.34375L12.4375 6.45312L8.42188 10.4844L8.3125 10.5469L8.1875 10.5938L8.0625 10.625H7.9375L7.8125 10.5938L7.6875 10.5469L7.57812 10.4844L3.5625 6.45312L3.48438 6.34375L3.4375 6.21875L3.40625 6.09375V5.96875L3.4375 5.84375L3.48438 5.71875L3.5625 5.60938L3.59375 5.5625Z"/>
+  </symbol>
+</svg>
+
+<h1>Dropdown Button</h1>
+<p class="sub">4 sizes &times; 6 types &times; 2 shapes &times; 3 modes &times; 5 states. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-dropdown-btn psds-dropdown-btn--sm psds-dropdown-btn--secondary" id="theme-toggle" type="button">
+    Toggle dark theme
+    <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+  </button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="row" id="sizes"></div>
+  <div class="row">
+    <code>--xs&nbsp;24px</code><code>--sm&nbsp;32px</code><code>--md&nbsp;36px</code><code>--lg&nbsp;40px</code>
+  </div>
+</div>
+
+<h2>Shape</h2>
+<div class="panel">
+  <div class="row" id="shape"></div>
+  <p class="sub" style="margin: var(--spacing-16) 0 0">Full Rounded is radius only — the padding and width are identical to Rounded.</p>
+</div>
+
+<h2>Type &times; Mode</h2>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Type</th><th>Filled</th><th>Outlined</th><th>Flat</th></tr>
+    </thead>
+    <tbody id="type-mode"></tbody>
+  </table>
+</div>
+
+<h2>States</h2>
+<p class="sub">Rendered with the forced-state helpers <code>.is-hover</code>, <code>.is-active</code>, <code>.is-focus</code>, <code>.is-disabled</code>.</p>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Mode</th><th>Enabled</th><th>Hover</th><th>Active</th><th>Focus</th><th>Disabled</th></tr>
+    </thead>
+    <tbody id="states"></tbody>
+  </table>
+</div>
+
+<h2>Interactive</h2>
+<p class="sub">Real <code>:hover</code>, <code>:active</code>, <code>:focus-visible</code> and <code>[disabled]</code> — tab through to see the focus ring, and click to toggle <code>aria-expanded</code>.</p>
+<div class="panel">
+  <div class="row">
+    <button class="psds-dropdown-btn psds-dropdown-btn--md psds-dropdown-btn--primary" type="button" aria-haspopup="menu" aria-expanded="false">
+      <span class="psds-dropdown-btn__icon" aria-hidden="true"><svg><use href="#icon-edit"></use></svg></span>
+      With icon
+      <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+    </button>
+    <button class="psds-dropdown-btn psds-dropdown-btn--md psds-dropdown-btn--secondary" type="button" aria-haspopup="menu" aria-expanded="false">
+      Sort by
+      <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+    </button>
+    <button class="psds-dropdown-btn psds-dropdown-btn--md psds-dropdown-btn--primary psds-dropdown-btn--outlined" type="button" aria-haspopup="menu" aria-expanded="false">
+      Outlined
+      <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+    </button>
+    <button class="psds-dropdown-btn psds-dropdown-btn--md psds-dropdown-btn--primary psds-dropdown-btn--flat" type="button" aria-haspopup="menu" aria-expanded="false">
+      Flat
+      <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+    </button>
+    <button class="psds-dropdown-btn psds-dropdown-btn--md psds-dropdown-btn--danger" type="button" aria-haspopup="menu" aria-expanded="false">
+      Danger
+      <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+    </button>
+    <button class="psds-dropdown-btn psds-dropdown-btn--md psds-dropdown-btn--primary" type="button" disabled>
+      Disabled
+      <span class="psds-dropdown-btn__chevron" aria-hidden="true"><svg><use href="#icon-chevron-down"></use></svg></span>
+    </button>
+  </div>
+</div>
+
+<script>
+  const SIZES = [['xs', 'Extra Small'], ['sm', 'Small'], ['md', 'Medium'], ['lg', 'Large']];
+  const TYPES = ['primary', 'secondary', 'info', 'success', 'warning', 'danger'];
+  const MODES = [['', 'Filled'], ['psds-dropdown-btn--outlined', 'Outlined'], ['psds-dropdown-btn--flat', 'Flat']];
+  const STATES = [['', 'Enabled'], ['is-hover', 'Hover'], ['is-active', 'Active'], ['is-focus', 'Focus'], ['is-disabled', 'Disabled']];
+
+  const slot = (cls, id) => {
+    const span = document.createElement('span');
+    span.className = cls;
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML = '<svg><use href="#' + id + '"></use></svg>';
+    return span;
+  };
+
+  const dd = (classes, { size = 'md', leading = false, label = 'Dropdown Button' } = {}) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = ['psds-dropdown-btn', 'psds-dropdown-btn--' + size, ...classes].filter(Boolean).join(' ');
+    b.setAttribute('aria-haspopup', 'menu');
+    if (leading) b.append(slot('psds-dropdown-btn__icon', 'icon-edit'));
+    b.append(document.createTextNode(label));
+    b.append(slot('psds-dropdown-btn__chevron', 'icon-chevron-down'));
+    return b;
+  };
+
+  const row = (label, cells) => {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    th.textContent = label;
+    tr.append(th);
+    for (const cell of cells) {
+      const td = document.createElement('td');
+      td.append(cell);
+      tr.append(td);
+    }
+    return tr;
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const [size] of SIZES) sizes.append(dd(['psds-dropdown-btn--primary'], { size, leading: true }));
+
+  const shape = document.getElementById('shape');
+  shape.append(
+    dd(['psds-dropdown-btn--primary'], { label: 'Rounded' }),
+    dd(['psds-dropdown-btn--primary', 'psds-dropdown-btn--pill'], { label: 'Full Rounded' }),
+    dd(['psds-dropdown-btn--primary', 'psds-dropdown-btn--outlined'], { label: 'Rounded' }),
+    dd(['psds-dropdown-btn--primary', 'psds-dropdown-btn--outlined', 'psds-dropdown-btn--pill'], { label: 'Full Rounded' }),
+  );
+
+  const typeMode = document.getElementById('type-mode');
+  for (const type of TYPES) {
+    typeMode.append(row(
+      type[0].toUpperCase() + type.slice(1),
+      MODES.map(([modeClass]) => dd(['psds-dropdown-btn--' + type, modeClass])),
+    ));
+  }
+
+  const states = document.getElementById('states');
+  for (const [modeClass, modeLabel] of MODES) {
+    states.append(row(
+      modeLabel,
+      STATES.map(([stateClass]) => dd(['psds-dropdown-btn--primary', modeClass, stateClass])),
+    ));
+  }
+
+  for (const b of document.querySelectorAll('.psds-dropdown-btn[aria-expanded]')) {
+    b.addEventListener('click', () => {
+      b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+    });
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

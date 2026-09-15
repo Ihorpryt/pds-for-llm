@@ -1,0 +1,365 @@
+/* Portside Design System — Alert Message
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Alert Message (node 647:3190)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-alert                                base (Small, Subtle, actions left, no shadow)
+ *   .psds-alert--sm | --lg                     Sizes
+ *   .psds-alert--default | --info | --success
+ *          | --warning | --danger              Type
+ *   .psds-alert--ascent | --outline            Mode   (default: Subtle)
+ *   .psds-alert--actions-end                   Button position = Bottom Right
+ *   .psds-alert--shadow                        Shadow = ON
+ *
+ * Elements
+ *   .psds-alert__body         icon + text + close, one row
+ *   .psds-alert__icon         leading status glyph (swappable in the source node)
+ *   .psds-alert__content      title + description column
+ *   .psds-alert__title
+ *   .psds-alert__description  optional second line, hidden by default in Figma
+ *   .psds-alert__close        dismiss button
+ *   .psds-alert__actions      optional button row
+ *
+ * The source node ships no interaction states, so this file declares none — the
+ * only exception is a focus ring on the close button, which the component needs
+ * to be keyboard-operable.
+ */
+
+.psds-alert {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-alert-padding    : var(--spacing-12);
+  --psds-alert-gap        : var(--spacing-12);
+  --psds-alert-text-gap   : var(--spacing-4);
+  --psds-alert-font-size  : var(--font-size-sm);
+  --psds-alert-line-height: var(--line-height-sm);
+  --psds-alert-icon-size  : var(--font-icon-16);
+  --psds-alert-close-slot : var(--spacing-12);
+  --psds-alert-radius     : var(--control-radius-message-default-radius);
+
+  /* --- Mode channel: Subtle is the base treatment --- */
+  --psds-alert-bg          : var(--psds-alert-subtle-bg);
+  --psds-alert-border      : var(--psds-alert-subtle-border);
+  --psds-alert-fg          : var(--psds-alert-subtle-fg);
+  --psds-alert-icon-color  : var(--psds-alert-subtle-icon);
+  --psds-alert-close-color : var(--psds-alert-subtle-close);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-alert-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--psds-alert-gap);
+
+  /* Figma draws the stroke *inside* the frame, so the content sits exactly
+   * --psds-alert-padding from the outer edge in every mode. The border is
+   * always present here, so the padding gives that pixel back. */
+  padding: calc(var(--psds-alert-padding) - var(--border-1));
+
+  font-family   : var(--psds-alert-font-family);
+  font-size     : var(--psds-alert-font-size);
+  line-height   : var(--psds-alert-line-height);
+  letter-spacing: var(--letter-spacing-normal);
+
+  background-color: var(--psds-alert-bg);
+  border          : var(--border-1) solid var(--psds-alert-border);
+  border-radius   : var(--psds-alert-radius);
+  color           : var(--psds-alert-fg);
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-alert--sm {
+  --psds-alert-padding    : var(--spacing-12);
+  --psds-alert-gap        : var(--spacing-12);
+  --psds-alert-text-gap   : var(--spacing-4);
+  --psds-alert-font-size  : var(--font-size-sm);
+  --psds-alert-line-height: var(--line-height-sm);
+  --psds-alert-icon-size  : var(--font-icon-16);
+  --psds-alert-close-slot : var(--spacing-12);
+  --psds-alert-radius     : var(--control-radius-message-default-radius);
+}
+
+.psds-alert--lg {
+  --psds-alert-padding    : var(--spacing-16);
+  --psds-alert-gap        : var(--spacing-12);
+  --psds-alert-text-gap   : var(--spacing-6);
+  --psds-alert-font-size  : var(--font-size-base);
+  --psds-alert-line-height: var(--line-height-base);
+  --psds-alert-icon-size  : var(--font-icon-18);
+  --psds-alert-close-slot : var(--spacing-16);
+  --psds-alert-radius     : var(--control-radius-message-bigger-radius);
+}
+
+/* ------------------------------------------------------------------- Type */
+/*
+ * Each type maps the shared message tokens onto three sets of five channels,
+ * which the mode rules then consume. The Figma suffixes are:
+ *   (none) Subtle · -alt1 Outline · -alt2 Ascent
+ */
+
+.psds-alert--default {
+  --psds-alert-subtle-bg    : var(--message-default-bg-color);
+  --psds-alert-subtle-border: var(--message-default-border-color);
+  --psds-alert-subtle-fg    : var(--message-default-color);
+  --psds-alert-subtle-icon  : var(--message-default-icon-color);
+  --psds-alert-subtle-close : var(--message-default-close-icon-color);
+
+  --psds-alert-outline-bg    : var(--message-default-bg-color-alt1);
+  --psds-alert-outline-border: var(--message-default-border-color-alt1);
+  --psds-alert-outline-fg    : var(--message-default-color-alt1);
+  --psds-alert-outline-icon  : var(--message-default-icon-color-alt1);
+  --psds-alert-outline-close : var(--message-default-close-icon-color-alt1);
+
+  --psds-alert-ascent-bg    : var(--message-default-bg-color-alt2);
+  --psds-alert-ascent-border: var(--message-default-border-color-alt2);
+  --psds-alert-ascent-fg    : var(--message-default-color-alt2);
+  --psds-alert-ascent-icon  : var(--message-default-icon-color-alt2);
+  --psds-alert-ascent-close : var(--message-default-close-icon-color-alt2);
+}
+
+.psds-alert--info {
+  --psds-alert-subtle-bg    : var(--message-info-bg-color);
+  --psds-alert-subtle-border: var(--message-info-border-color);
+  --psds-alert-subtle-fg    : var(--message-info-color);
+  --psds-alert-subtle-icon  : var(--message-info-icon-color);
+  --psds-alert-subtle-close : var(--message-info-close-icon-color);
+
+  --psds-alert-outline-bg    : var(--message-info-bg-color-alt1);
+  --psds-alert-outline-border: var(--message-info-border-color-alt1);
+  --psds-alert-outline-fg    : var(--message-info-color-alt1);
+  --psds-alert-outline-icon  : var(--message-info-icon-color-alt1);
+  --psds-alert-outline-close : var(--message-info-close-icon-color-alt1);
+
+  --psds-alert-ascent-bg    : var(--message-info-bg-color-alt2);
+  --psds-alert-ascent-border: var(--message-info-border-color-alt2);
+  --psds-alert-ascent-fg    : var(--message-info-color-alt2);
+  --psds-alert-ascent-icon  : var(--message-info-icon-color-alt2);
+  --psds-alert-ascent-close : var(--message-info-close-icon-color-alt2);
+}
+
+.psds-alert--success {
+  --psds-alert-subtle-bg    : var(--message-success-bg-color);
+  --psds-alert-subtle-border: var(--message-success-border-color);
+  --psds-alert-subtle-fg    : var(--message-success-color);
+  --psds-alert-subtle-icon  : var(--message-success-icon-color);
+  --psds-alert-subtle-close : var(--message-success-close-icon-color);
+
+  --psds-alert-outline-bg    : var(--message-success-bg-color-alt1);
+  --psds-alert-outline-border: var(--message-success-border-color-alt1);
+  --psds-alert-outline-fg    : var(--message-success-color-alt1);
+  --psds-alert-outline-icon  : var(--message-success-icon-color-alt1);
+  --psds-alert-outline-close : var(--message-success-close-icon-color-alt1);
+
+  --psds-alert-ascent-bg    : var(--message-success-bg-color-alt2);
+  --psds-alert-ascent-border: var(--message-success-border-color-alt2);
+  --psds-alert-ascent-fg    : var(--message-success-color-alt2);
+  --psds-alert-ascent-icon  : var(--message-success-icon-color-alt2);
+  --psds-alert-ascent-close : var(--message-success-close-icon-color-alt2);
+}
+
+.psds-alert--warning {
+  --psds-alert-subtle-bg    : var(--message-warning-bg-color);
+  --psds-alert-subtle-border: var(--message-warning-border-color);
+  --psds-alert-subtle-fg    : var(--message-warning-color);
+  --psds-alert-subtle-icon  : var(--message-warning-icon-color);
+  --psds-alert-subtle-close : var(--message-warning-close-icon-color);
+
+  --psds-alert-outline-bg    : var(--message-warning-bg-color-alt1);
+  --psds-alert-outline-border: var(--message-warning-border-color-alt1);
+  --psds-alert-outline-fg    : var(--message-warning-color-alt1);
+  --psds-alert-outline-icon  : var(--message-warning-icon-color-alt1);
+  --psds-alert-outline-close : var(--message-warning-close-icon-color-alt1);
+
+  --psds-alert-ascent-bg    : var(--message-warning-bg-color-alt2);
+  --psds-alert-ascent-border: var(--message-warning-border-color-alt2);
+  --psds-alert-ascent-fg    : var(--message-warning-color-alt2);
+  --psds-alert-ascent-icon  : var(--message-warning-icon-color-alt2);
+  --psds-alert-ascent-close : var(--message-warning-close-icon-color-alt2);
+}
+
+/* Danger is the one type whose Subtle surface and border are authored as raw
+ * hex in the source library (#fff5f5 / #fc8181) rather than palette steps;
+ * tokens.css already carries them, so nothing is hard-coded here. */
+.psds-alert--danger {
+  --psds-alert-subtle-bg    : var(--message-danger-bg-color);
+  --psds-alert-subtle-border: var(--message-danger-border-color);
+  --psds-alert-subtle-fg    : var(--message-danger-color);
+  --psds-alert-subtle-icon  : var(--message-danger-icon-color);
+  --psds-alert-subtle-close : var(--message-danger-close-icon-color);
+
+  --psds-alert-outline-bg    : var(--message-danger-bg-color-alt1);
+  --psds-alert-outline-border: var(--message-danger-border-color-alt1);
+  --psds-alert-outline-fg    : var(--message-danger-color-alt1);
+  --psds-alert-outline-icon  : var(--message-danger-icon-color-alt1);
+  --psds-alert-outline-close : var(--message-danger-close-icon-color-alt1);
+
+  --psds-alert-ascent-bg    : var(--message-danger-bg-color-alt2);
+  --psds-alert-ascent-border: var(--message-danger-border-color-alt2);
+  --psds-alert-ascent-fg    : var(--message-danger-color-alt2);
+  --psds-alert-ascent-icon  : var(--message-danger-icon-color-alt2);
+  --psds-alert-ascent-close : var(--message-danger-close-icon-color-alt2);
+}
+
+/* ------------------------------------------------------------------- Mode */
+/* Subtle is declared on the base rule above. */
+
+.psds-alert--outline {
+  --psds-alert-bg         : var(--psds-alert-outline-bg);
+  --psds-alert-border     : var(--psds-alert-outline-border);
+  --psds-alert-fg         : var(--psds-alert-outline-fg);
+  --psds-alert-icon-color : var(--psds-alert-outline-icon);
+  --psds-alert-close-color: var(--psds-alert-outline-close);
+}
+
+.psds-alert--ascent {
+  --psds-alert-bg         : var(--psds-alert-ascent-bg);
+  --psds-alert-border     : var(--psds-alert-ascent-border);
+  --psds-alert-fg         : var(--psds-alert-ascent-fg);
+  --psds-alert-icon-color : var(--psds-alert-ascent-icon);
+  --psds-alert-close-color: var(--psds-alert-ascent-close);
+}
+
+/* ----------------------------------------------------------------- Shadow */
+/*
+ * Figma effect $Shadow-lg. tokens.css declares no shadow token, so the two
+ * shadow colours are the only values on this component not sourced from it.
+ * Promote them to global tokens when a shadow scale is added.
+ */
+
+.psds-alert--shadow {
+  box-shadow: 0 var(--spacing-10) var(--spacing-15) calc(-1 * var(--spacing-3)) #0000001a,
+              0 var(--spacing-4) var(--spacing-6) var(--spacing-2) #0000000d;
+}
+
+/* ------------------------------------------------------------------- Body */
+
+.psds-alert__body {
+  display    : flex;
+  align-items: flex-start;
+  gap        : var(--psds-alert-gap);
+}
+
+/* --------------------------------------------------------------- Icon slot */
+/*
+ * The glyph is centred on the first line of the title, so the slot is one line
+ * tall. The source node ships Circle info in every type — the instance is meant
+ * to be swapped, so no glyph is baked in here.
+ */
+
+.psds-alert__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+
+  width : var(--psds-alert-icon-size);
+  height: var(--psds-alert-line-height);
+  color : var(--psds-alert-icon-color);
+}
+
+.psds-alert__icon > svg,
+.psds-alert__icon > img {
+  display: block;
+  width  : var(--psds-alert-icon-size);
+  height : var(--psds-alert-icon-size);
+}
+
+/* ---------------------------------------------------------------- Content */
+
+.psds-alert__content {
+  display       : flex;
+  flex          : 1 1 auto;
+  flex-direction: column;
+  gap           : var(--psds-alert-text-gap);
+  min-width     : 0;
+}
+
+.psds-alert__title {
+  margin     : var(--spacing-0);
+  font-size  : inherit;
+  line-height: inherit;
+  font-weight: var(--font-weight-medium);
+  color      : var(--psds-alert-fg);
+}
+
+.psds-alert__description {
+  margin     : var(--spacing-0);
+  font-size  : inherit;
+  line-height: inherit;
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-alert-fg);
+}
+
+/* ------------------------------------------------------------------ Close */
+/*
+ * Figma parks the glyph in a slot narrower than itself — 12px around a 16px
+ * icon at --sm, 16px around 18px at --lg — so the icon overhangs the slot by a
+ * pixel or two on each side and the text column keeps its width. The visible
+ * box stays that size; ::before widens the *hit* area to 24px.
+ */
+
+.psds-alert__close {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  position       : relative;
+
+  width : var(--psds-alert-close-slot);
+  height: var(--psds-alert-line-height);
+
+  padding      : var(--spacing-0);
+  border       : var(--border-0) solid var(--transparent);
+  border-radius: var(--radius-4);
+  background   : var(--transparent);
+  color        : var(--psds-alert-close-color);
+
+  font      : inherit;
+  cursor    : pointer;
+  appearance: none;
+}
+
+.psds-alert__close::before {
+  content : "";
+  position: absolute;
+  top     : 50%;
+  left    : 50%;
+  width   : var(--form-mouse-small);
+  height  : var(--form-mouse-small);
+  transform: translate(-50%, -50%);
+}
+
+.psds-alert__close > svg,
+.psds-alert__close > img {
+  display  : block;
+  flex     : none;
+  width    : var(--psds-alert-icon-size);
+  height   : var(--psds-alert-icon-size);
+  max-width: none;
+}
+
+/* The source node defines no states; the focus ring is an accessibility
+ * addition, reusing Button's $shadow-focus-ring2 treatment. */
+.psds-alert__close:focus-visible {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+/* ---------------------------------------------------------------- Actions */
+/*
+ * The button row sits --psds-alert-gap below the body. Use Button at --sm
+ * inside a --sm alert and at --lg inside a --lg alert, as the source node does.
+ */
+
+.psds-alert__actions {
+  display    : flex;
+  flex-wrap  : wrap;
+  align-items: center;
+  gap        : var(--spacing-12);
+}
+
+.psds-alert--actions-end .psds-alert__actions {
+  justify-content: flex-end;
+}

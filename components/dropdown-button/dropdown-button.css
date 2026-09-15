@@ -1,0 +1,409 @@
+/* Portside Design System — Dropdown Button
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Dropdown Button (node 336:602)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-dropdown-btn                              base (Filled mode)
+ *   .psds-dropdown-btn--xs | --sm | --md | --lg     Sizes
+ *   .psds-dropdown-btn--primary | --secondary | --info
+ *          | --success | --warning | --danger       Type
+ *   .psds-dropdown-btn--outlined | --flat           Mode  (default: Filled)
+ *   .psds-dropdown-btn--pill                        Shape = Full Rounded (default: Rounded)
+ *
+ *   .psds-dropdown-btn__icon                        optional leading icon
+ *   .psds-dropdown-btn__chevron                     required trailing chevron
+ *
+ * The variant matrix is the same as Button's — 720 variants across the same five
+ * axes — but the size ramp is its own: the dropdown button carries less inline
+ * padding and sizes its icons independently of the label.
+ *
+ * States resolve from real interaction pseudo-classes. The .is-hover / .is-active /
+ * .is-focus helpers force a state for documentation and visual-regression galleries.
+ */
+
+.psds-dropdown-btn {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-dropdown-btn-height     : var(--form-bigger-small);
+  --psds-dropdown-btn-font-size  : var(--font-size-base);
+  --psds-dropdown-btn-line-height: var(--line-height-base);
+  --psds-dropdown-btn-padding    : var(--spacing-10);
+  --psds-dropdown-btn-gap        : var(--spacing-6);
+  --psds-dropdown-btn-icon-size  : var(--font-icon-16);
+  --psds-dropdown-btn-radius     : var(--control-radius-btn-default-radius);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-dropdown-btn-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing     : border-box;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  gap            : var(--psds-dropdown-btn-gap);
+
+  height        : var(--psds-dropdown-btn-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--psds-dropdown-btn-padding);
+
+  font-family   : var(--psds-dropdown-btn-font-family);
+  font-size     : var(--psds-dropdown-btn-font-size);
+  line-height   : var(--psds-dropdown-btn-line-height);
+  font-weight   : var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-normal);
+  white-space   : nowrap;
+  text-decoration: none;
+
+  border       : var(--border-1) solid var(--transparent);
+  border-radius: var(--psds-dropdown-btn-radius);
+
+  cursor    : pointer;
+  appearance: none;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-dropdown-btn { transition: none; }
+}
+
+/* ------------------------------------------------------------------ Sizes */
+/*
+ * Unlike Button, inline padding barely moves across the ramp (8 / 10 / 10 / 10) —
+ * the chevron is what gives the control its width. Medium and Large share both a
+ * type ramp and an icon size, and differ only in height, gap and radius.
+ */
+
+.psds-dropdown-btn--xs {
+  --psds-dropdown-btn-height     : var(--form-mouse-small);
+  --psds-dropdown-btn-font-size  : var(--font-size-xs);
+  --psds-dropdown-btn-line-height : var(--line-height-xs);
+  --psds-dropdown-btn-padding    : var(--spacing-8);
+  --psds-dropdown-btn-gap        : var(--spacing-6);
+  --psds-dropdown-btn-icon-size  : var(--font-icon-12);
+  --psds-dropdown-btn-radius     : var(--control-radius-btn-default-radius);
+}
+
+.psds-dropdown-btn--sm {
+  --psds-dropdown-btn-height     : var(--form-mouse);
+  --psds-dropdown-btn-font-size  : var(--font-size-sm);
+  --psds-dropdown-btn-line-height : var(--line-height-sm);
+  --psds-dropdown-btn-padding    : var(--spacing-10);
+  --psds-dropdown-btn-gap        : var(--spacing-6);
+  --psds-dropdown-btn-icon-size  : var(--font-icon-14);
+  --psds-dropdown-btn-radius     : var(--control-radius-btn-default-radius);
+}
+
+.psds-dropdown-btn--md {
+  --psds-dropdown-btn-height     : var(--form-bigger-small);
+  --psds-dropdown-btn-font-size  : var(--font-size-base);
+  --psds-dropdown-btn-line-height : var(--line-height-base);
+  --psds-dropdown-btn-padding    : var(--spacing-10);
+  --psds-dropdown-btn-gap        : var(--spacing-6);
+  --psds-dropdown-btn-icon-size  : var(--font-icon-16);
+  --psds-dropdown-btn-radius     : var(--control-radius-btn-default-radius);
+}
+
+.psds-dropdown-btn--lg {
+  --psds-dropdown-btn-height     : var(--form-bigger);
+  --psds-dropdown-btn-font-size  : var(--font-size-base);
+  --psds-dropdown-btn-line-height : var(--line-height-base);
+  --psds-dropdown-btn-padding    : var(--spacing-10);
+  --psds-dropdown-btn-gap        : var(--spacing-8);
+  --psds-dropdown-btn-icon-size  : var(--font-icon-16);
+  --psds-dropdown-btn-radius     : var(--control-radius-btn-bigger-radius);
+}
+
+/* ------------------------------------------------------------------ Shape */
+/* Full Rounded is radius only — unlike Button, the padding does not change. */
+
+.psds-dropdown-btn--pill {
+  border-radius: var(--radius-full);
+}
+
+/* ------------------------------------------------------------------- Type */
+/*
+ * Each type maps the shared button tokens onto four channels:
+ *   --psds-dropdown-btn-bg-*      surface, Filled mode
+ *   --psds-dropdown-btn-border-*  border colour
+ *   --psds-dropdown-btn-fg-*      label colour on a filled surface
+ *   --psds-dropdown-btn-accent-*  label colour on a transparent surface (Outlined / Flat)
+ *
+ * These are the same button tokens Button consumes, so the two components stay in
+ * step through any retheme.
+ */
+
+.psds-dropdown-btn--primary {
+  --psds-dropdown-btn-bg          : var(--buttons-primary-bg-color);
+  --psds-dropdown-btn-bg-hover    : var(--buttons-primary-bg-color-hover);
+  --psds-dropdown-btn-bg-pressed  : var(--buttons-primary-bg-color-pressed);
+  --psds-dropdown-btn-bg-focus    : var(--buttons-primary-bg-color-focus);
+  --psds-dropdown-btn-bg-disabled : var(--buttons-primary-bg-color-disabled);
+
+  --psds-dropdown-btn-border          : var(--buttons-primary-border-color);
+  --psds-dropdown-btn-border-hover    : var(--buttons-primary-border-color-hover);
+  --psds-dropdown-btn-border-pressed  : var(--buttons-primary-border-color-pressed);
+  --psds-dropdown-btn-border-focus    : var(--buttons-primary-border-color-focus);
+  --psds-dropdown-btn-border-disabled : var(--buttons-primary-border-color-disabled);
+
+  --psds-dropdown-btn-fg          : var(--buttons-primary-text);
+  --psds-dropdown-btn-fg-hover    : var(--buttons-primary-text-hover);
+  --psds-dropdown-btn-fg-pressed  : var(--buttons-primary-text-pressed);
+  --psds-dropdown-btn-fg-focus    : var(--buttons-primary-text-focus);
+  --psds-dropdown-btn-fg-disabled : var(--buttons-primary-text-disabled);
+
+  --psds-dropdown-btn-accent          : var(--buttons-primary-bg-color);
+  --psds-dropdown-btn-accent-disabled : var(--buttons-primary-bg-color-disabled);
+}
+
+.psds-dropdown-btn--secondary {
+  --psds-dropdown-btn-bg          : var(--buttons-secondary-bg-color);
+  --psds-dropdown-btn-bg-hover    : var(--buttons-secondary-bg-color-hover);
+  --psds-dropdown-btn-bg-pressed  : var(--buttons-secondary-bg-color-pressed);
+  --psds-dropdown-btn-bg-focus    : var(--buttons-secondary-bg-color-focus);
+  --psds-dropdown-btn-bg-disabled : var(--buttons-secondary-bg-color-disabled);
+
+  --psds-dropdown-btn-border          : var(--buttons-secondary-border-color);
+  --psds-dropdown-btn-border-hover    : var(--buttons-secondary-border-color-hover);
+  --psds-dropdown-btn-border-pressed  : var(--buttons-secondary-border-color-pressed);
+  --psds-dropdown-btn-border-focus    : var(--buttons-secondary-border-color-focus);
+  --psds-dropdown-btn-border-disabled : var(--buttons-secondary-border-color-disabled);
+
+  /* Secondary is the one type whose label token is authored as `-text-color`. */
+  --psds-dropdown-btn-fg          : var(--buttons-secondary-text-color);
+  --psds-dropdown-btn-fg-hover    : var(--buttons-secondary-text-color-hover);
+  --psds-dropdown-btn-fg-pressed  : var(--buttons-secondary-text-color-pressed);
+  --psds-dropdown-btn-fg-focus    : var(--buttons-secondary-text-color-focus);
+  --psds-dropdown-btn-fg-disabled : var(--buttons-secondary-text-color-disabled);
+
+  --psds-dropdown-btn-accent          : var(--buttons-secondary-text-color);
+  --psds-dropdown-btn-accent-disabled : var(--buttons-secondary-text-color-disabled);
+}
+
+.psds-dropdown-btn--info {
+  --psds-dropdown-btn-bg          : var(--buttons-info-bg-color);
+  --psds-dropdown-btn-bg-hover    : var(--buttons-info-bg-color-hover);
+  --psds-dropdown-btn-bg-pressed  : var(--buttons-info-bg-color-pressed);
+  --psds-dropdown-btn-bg-focus    : var(--buttons-info-bg-color-focus);
+  --psds-dropdown-btn-bg-disabled : var(--buttons-info-bg-color-disabled);
+
+  --psds-dropdown-btn-border          : var(--buttons-info-border-color);
+  --psds-dropdown-btn-border-hover    : var(--buttons-info-border-color-hover);
+  --psds-dropdown-btn-border-pressed  : var(--buttons-info-border-color-pressed);
+  --psds-dropdown-btn-border-focus    : var(--buttons-info-border-color-focus);
+  --psds-dropdown-btn-border-disabled : var(--buttons-info-border-color-disabled);
+
+  --psds-dropdown-btn-fg          : var(--buttons-info-text);
+  --psds-dropdown-btn-fg-hover    : var(--buttons-info-text-hover);
+  --psds-dropdown-btn-fg-pressed  : var(--buttons-info-text-pressed);
+  --psds-dropdown-btn-fg-focus    : var(--buttons-info-text-focus);
+  --psds-dropdown-btn-fg-disabled : var(--buttons-info-text-disabled);
+
+  --psds-dropdown-btn-accent          : var(--buttons-info-bg-color);
+  --psds-dropdown-btn-accent-disabled : var(--buttons-info-bg-color-disabled);
+}
+
+.psds-dropdown-btn--success {
+  --psds-dropdown-btn-bg          : var(--buttons-success-bg-color);
+  --psds-dropdown-btn-bg-hover    : var(--buttons-success-bg-color-hover);
+  --psds-dropdown-btn-bg-pressed  : var(--buttons-success-bg-color-pressed);
+  --psds-dropdown-btn-bg-focus    : var(--buttons-success-bg-color-focus);
+  --psds-dropdown-btn-bg-disabled : var(--buttons-success-bg-color-disabled);
+
+  --psds-dropdown-btn-border          : var(--buttons-success-border-color);
+  --psds-dropdown-btn-border-hover    : var(--buttons-success-border-color-hover);
+  --psds-dropdown-btn-border-pressed  : var(--buttons-success-border-color-pressed);
+  --psds-dropdown-btn-border-focus    : var(--buttons-success-border-color-focus);
+  --psds-dropdown-btn-border-disabled : var(--buttons-success-border-color-disabled);
+
+  --psds-dropdown-btn-fg          : var(--buttons-success-text);
+  --psds-dropdown-btn-fg-hover    : var(--buttons-success-text-hover);
+  --psds-dropdown-btn-fg-pressed  : var(--buttons-success-text-pressed);
+  --psds-dropdown-btn-fg-focus    : var(--buttons-success-text-focus);
+  --psds-dropdown-btn-fg-disabled : var(--buttons-success-text-disabled);
+
+  --psds-dropdown-btn-accent          : var(--buttons-success-bg-color);
+  --psds-dropdown-btn-accent-disabled : var(--buttons-success-bg-color-disabled);
+}
+
+.psds-dropdown-btn--warning {
+  --psds-dropdown-btn-bg          : var(--buttons-warning-bg-color);
+  --psds-dropdown-btn-bg-hover    : var(--buttons-warning-bg-color-hover);
+  --psds-dropdown-btn-bg-pressed  : var(--buttons-warning-bg-color-pressed);
+  --psds-dropdown-btn-bg-focus    : var(--buttons-warning-bg-color-focus);
+  --psds-dropdown-btn-bg-disabled : var(--buttons-warning-bg-color-disabled);
+
+  --psds-dropdown-btn-border          : var(--buttons-warning-border-color);
+  --psds-dropdown-btn-border-hover    : var(--buttons-warning-border-color-hover);
+  --psds-dropdown-btn-border-pressed  : var(--buttons-warning-border-color-pressed);
+  --psds-dropdown-btn-border-focus    : var(--buttons-warning-border-color-focus);
+  --psds-dropdown-btn-border-disabled : var(--buttons-warning-border-color-disabled);
+
+  --psds-dropdown-btn-fg          : var(--buttons-warning-text);
+  --psds-dropdown-btn-fg-hover    : var(--buttons-warning-text-hover);
+  --psds-dropdown-btn-fg-pressed  : var(--buttons-warning-text-pressed);
+  --psds-dropdown-btn-fg-focus    : var(--buttons-warning-text-focus);
+  --psds-dropdown-btn-fg-disabled : var(--buttons-warning-text-disabled);
+
+  --psds-dropdown-btn-accent          : var(--buttons-warning-bg-color);
+  --psds-dropdown-btn-accent-disabled : var(--buttons-warning-bg-color-disabled);
+}
+
+.psds-dropdown-btn--danger {
+  --psds-dropdown-btn-bg          : var(--buttons-danger-bg-color);
+  --psds-dropdown-btn-bg-hover    : var(--buttons-danger-bg-color-hover);
+  --psds-dropdown-btn-bg-pressed  : var(--buttons-danger-bg-color-pressed);
+  --psds-dropdown-btn-bg-focus    : var(--buttons-danger-bg-color-focus);
+  --psds-dropdown-btn-bg-disabled : var(--buttons-danger-bg-color-disabled);
+
+  --psds-dropdown-btn-border          : var(--buttons-danger-border-color);
+  --psds-dropdown-btn-border-hover    : var(--buttons-danger-border-color-hover);
+  --psds-dropdown-btn-border-pressed  : var(--buttons-danger-border-color-pressed);
+  --psds-dropdown-btn-border-focus    : var(--buttons-danger-border-color-focus);
+  --psds-dropdown-btn-border-disabled : var(--buttons-danger-border-color-disabled);
+
+  --psds-dropdown-btn-fg          : var(--buttons-danger-text);
+  --psds-dropdown-btn-fg-hover    : var(--buttons-danger-text-hover);
+  --psds-dropdown-btn-fg-pressed  : var(--buttons-danger-text-pressed);
+  --psds-dropdown-btn-fg-focus    : var(--buttons-danger-text-focus);
+  --psds-dropdown-btn-fg-disabled : var(--buttons-danger-text-disabled);
+
+  --psds-dropdown-btn-accent          : var(--buttons-danger-bg-color);
+  --psds-dropdown-btn-accent-disabled : var(--buttons-danger-bg-color-disabled);
+}
+
+/* ------------------------------------------------------- Mode — enabled */
+/*
+ * Filled is the base. Outlined and Flat only redefine the *enabled* rest state
+ * (and, for Outlined, focus and disabled): on hover and active every mode
+ * collapses onto the filled treatment, exactly as the Figma variants do.
+ */
+
+.psds-dropdown-btn {
+  background-color: var(--psds-dropdown-btn-bg);
+  border-color    : var(--psds-dropdown-btn-border);
+  color           : var(--psds-dropdown-btn-fg);
+}
+
+.psds-dropdown-btn--outlined {
+  background-color: var(--transparent);
+  border-color    : var(--psds-dropdown-btn-border);
+  color           : var(--psds-dropdown-btn-accent);
+}
+
+.psds-dropdown-btn--flat {
+  background-color: var(--transparent);
+  border-color    : var(--transparent);
+  color           : var(--psds-dropdown-btn-accent);
+}
+
+/* ---------------------------------------------------------------- Hover */
+
+.psds-dropdown-btn:hover:not(:disabled):not(.is-disabled),
+.psds-dropdown-btn.is-hover {
+  background-color: var(--psds-dropdown-btn-bg-hover);
+  border-color    : var(--psds-dropdown-btn-border-hover);
+  color           : var(--psds-dropdown-btn-fg-hover);
+}
+
+/* --------------------------------------------------------------- Active */
+
+.psds-dropdown-btn:active:not(:disabled):not(.is-disabled),
+.psds-dropdown-btn.is-active {
+  background-color: var(--psds-dropdown-btn-bg-pressed);
+  border-color    : var(--psds-dropdown-btn-border-pressed);
+  color           : var(--psds-dropdown-btn-fg-pressed);
+}
+
+/* ---------------------------------------------------------------- Focus */
+
+.psds-dropdown-btn:focus-visible,
+.psds-dropdown-btn.is-focus {
+  background-color: var(--psds-dropdown-btn-bg-focus);
+  border-color    : var(--psds-dropdown-btn-border-focus);
+  color           : var(--psds-dropdown-btn-fg-focus);
+}
+
+/* Outlined keeps its transparent surface while focused. */
+.psds-dropdown-btn--outlined:focus-visible,
+.psds-dropdown-btn--outlined.is-focus {
+  background-color: var(--transparent);
+  border-color    : var(--psds-dropdown-btn-border-focus);
+  color           : var(--psds-dropdown-btn-accent);
+}
+
+/* ------------------------------------------------------------- Disabled */
+
+.psds-dropdown-btn:disabled,
+.psds-dropdown-btn.is-disabled {
+  background-color: var(--psds-dropdown-btn-bg-disabled);
+  border-color    : var(--psds-dropdown-btn-border-disabled);
+  color           : var(--psds-dropdown-btn-fg-disabled);
+  cursor          : not-allowed;
+}
+
+.psds-dropdown-btn--outlined:disabled,
+.psds-dropdown-btn--outlined.is-disabled {
+  background-color: var(--transparent);
+  border-color    : var(--psds-dropdown-btn-border-disabled);
+  color           : var(--psds-dropdown-btn-accent-disabled);
+}
+
+.psds-dropdown-btn.is-disabled {
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2: a 2px ring in the content background colour
+ * separating the control from a 4px ring in `primary`. Declared last so the ring
+ * survives a simultaneous hover.
+ */
+
+.psds-dropdown-btn:focus-visible,
+.psds-dropdown-btn.is-focus {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+/* ---------------------------------------------------- Icon and chevron */
+/*
+ * Both slots use the same per-size icon token. Unlike Button, the icon does not
+ * scale with the label: --md and --lg share --font-icon-16 despite --lg being the
+ * taller control.
+ */
+
+.psds-dropdown-btn__icon,
+.psds-dropdown-btn__chevron {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-dropdown-btn-icon-size);
+  height         : var(--psds-dropdown-btn-icon-size);
+}
+
+.psds-dropdown-btn__icon > svg,
+.psds-dropdown-btn__icon > img,
+.psds-dropdown-btn__chevron > svg,
+.psds-dropdown-btn__chevron > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/*
+ * Not in the source node: it ships no open state. Setting aria-expanded="true"
+ * flips the chevron, which is the conventional affordance for a menu that is
+ * showing. Authors who do not set the attribute get the Figma behaviour.
+ */
+
+.psds-dropdown-btn[aria-expanded="true"] .psds-dropdown-btn__chevron {
+  transform: rotate(180deg);
+}
+
+.psds-dropdown-btn__chevron {
+  transition: transform 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-dropdown-btn__chevron { transition: none; }
+}

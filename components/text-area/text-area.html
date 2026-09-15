@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text Area — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="text-area.css">
+<link rel="stylesheet" href="../button/button.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--spacing-24); }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .cap { display: block; margin-bottom: var(--spacing-6); font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .psds-textarea { width: 350px; max-width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- Figma "Icons/Circle info" and "help-circle", exported from the source node. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="icon-circle-info" viewBox="0 0 14 14"><path fill="currentColor" d="M6.42578 7L6.43945 6.89062L6.4668 6.78125L6.52148 6.68555L6.58984 6.58984L6.68555 6.52148L6.78125 6.4668L6.89062 6.43945L7 6.42578L7.10938 6.43945L7.21875 6.4668L7.31445 6.52148L7.41016 6.58984L7.47852 6.68555L7.5332 6.78125L7.56055 6.89062L7.57422 7V9.35156L7.54688 9.46094L7.5332 9.51562L7.47852 9.61133L7.41016 9.70703L7.31445 9.77539L7.21875 9.83008L7.10938 9.85742L7 9.87109L6.89062 9.85742L6.78125 9.83008L6.68555 9.77539L6.58984 9.70703L6.52148 9.61133L6.4668 9.51562L6.43945 9.40625L6.42578 9.29688V7ZM6.42578 4.70312L6.43945 4.59375L6.4668 4.48438L6.52148 4.38867L6.58984 4.29297L6.68555 4.22461L6.78125 4.16992L6.89062 4.14258L7 4.12891L7.10938 4.14258L7.21875 4.16992L7.31445 4.22461L7.41016 4.29297L7.47852 4.38867L7.5332 4.48438L7.56055 4.59375L7.57422 4.70312L7.56055 4.8125L7.5332 4.92188L7.47852 5.01758L7.41016 5.11328L7.31445 5.18164L7.21875 5.23633L7.10938 5.26367L7 5.27734L6.89062 5.26367L6.78125 5.23633L6.68555 5.18164L6.58984 5.11328L6.52148 5.01758L6.4668 4.92188L6.43945 4.8125L6.42578 4.75781V4.70312ZM12.168 7L12.1543 6.74023L12.1406 6.4668L12.1133 6.20703L12.0586 5.96094L12.0039 5.71484L11.9355 5.46875L11.8535 5.22266L11.7578 4.99023L11.6621 4.75781L11.5391 4.53906L11.416 4.32031L11.2793 4.11523L11.1426 3.91016L10.9922 3.71875L10.8281 3.52734L10.6504 3.34961L10.4727 3.17188L10.2812 3.00781L10.0898 2.85742L9.88477 2.7207L9.67969 2.58398L9.46094 2.46094L9.24219 2.33789L9.00977 2.24219L8.77734 2.14648L8.53125 2.06445L8.28516 1.99609L8.03906 1.94141L7.79297 1.88672L7.5332 1.85938L7.25977 1.83203H7H6.74023L6.4668 1.85938L6.20703 1.88672L5.96094 1.94141L5.71484 1.99609L5.46875 2.06445L5.22266 2.14648L4.99023 2.24219L4.75781 2.33789L4.53906 2.46094L4.32031 2.58398L4.11523 2.7207L3.91016 2.85742L3.71875 3.00781L3.52734 3.17188L3.34961 3.34961L3.17188 3.52734L3.00781 3.71875L2.85742 3.91016L2.7207 4.11523L2.58398 4.32031L2.46094 4.53906L2.33789 4.75781L2.24219 4.99023L2.14648 5.22266L2.06445 5.46875L1.99609 5.71484L1.94141 5.96094L1.88672 6.20703L1.85938 6.4668L1.8457 6.74023L1.83203 7L1.8457 7.25977L1.85938 7.5332L1.88672 7.79297L1.94141 8.03906L1.99609 8.28516L2.06445 8.53125L2.14648 8.77734L2.24219 9.00977L2.33789 9.24219L2.46094 9.46094L2.58398 9.67969L2.7207 9.88477L2.85742 10.0898L3.00781 10.2812L3.17188 10.4727L3.34961 10.6504L3.52734 10.8281L3.71875 10.9922L3.91016 11.1426L4.11523 11.2793L4.32031 11.416L4.53906 11.5391L4.75781 11.6621L4.99023 11.7578L5.22266 11.8535L5.46875 11.9355L5.71484 12.0039L5.96094 12.0586L6.20703 12.1133L6.4668 12.1406L6.74023 12.168H7H7.25977L7.5332 12.1406L7.79297 12.1133L8.03906 12.0586L8.28516 12.0039L8.53125 11.9355L8.77734 11.8535L9.00977 11.7578L9.24219 11.6621L9.46094 11.5391L9.67969 11.416L9.88477 11.2793L10.0898 11.1426L10.2812 10.9922L10.4727 10.8281L10.6504 10.6504L10.8281 10.4727L10.9922 10.2812L11.1426 10.0898L11.2793 9.88477L11.416 9.67969L11.5391 9.46094L11.6621 9.24219L11.7578 9.00977L11.8535 8.77734L11.9355 8.53125L12.0039 8.28516L12.0586 8.03906L12.1133 7.79297L12.1406 7.5332L12.1543 7.25977L12.168 7ZM0.683594 7L0.697266 6.67188L0.710938 6.35742L0.751953 6.04297L0.806641 5.72852L0.888672 5.42773L0.970703 5.12695L1.06641 4.82617L1.17578 4.53906L1.3125 4.26562L1.44922 3.99219L1.59961 3.71875L1.76367 3.47266L1.94141 3.22656L2.13281 2.98047L2.32422 2.74805L2.5293 2.5293L2.74805 2.32422L2.98047 2.11914L3.22656 1.94141L3.47266 1.76367L3.71875 1.59961L3.99219 1.44922L4.26562 1.3125L4.53906 1.17578L4.82617 1.06641L5.12695 0.970703L5.42773 0.888672L5.72852 0.806641L6.04297 0.751953L6.35742 0.710938L6.67188 0.697266L7 0.683594L7.32812 0.697266L7.64258 0.710938L7.95703 0.751953L8.27148 0.806641L8.57227 0.888672L8.87305 0.970703L9.17383 1.06641L9.46094 1.17578L9.73438 1.3125L10.0078 1.44922L10.2812 1.59961L10.5273 1.76367L10.7734 1.94141L11.0195 2.11914L11.252 2.32422L11.4707 2.5293L11.6758 2.74805L11.8672 2.98047L12.0586 3.22656L12.2363 3.47266L12.4004 3.71875L12.5508 3.99219L12.6875 4.26562L12.8242 4.53906L12.9336 4.82617L13.0293 5.12695L13.1113 5.42773L13.1934 5.72852L13.248 6.04297L13.2891 6.35742L13.3027 6.67188L13.3164 7L13.3027 7.32812L13.2891 7.64258L13.248 7.95703L13.1934 8.27148L13.1113 8.57227L13.0293 8.87305L12.9336 9.17383L12.8242 9.46094L12.6875 9.73438L12.5508 10.0078L12.4004 10.2812L12.2363 10.5273L12.0586 10.7734L11.8672 11.0195L11.6758 11.252L11.4707 11.4707L11.252 11.6758L11.0195 11.8809L10.7734 12.0586L10.5273 12.2363L10.2812 12.4004L10.0078 12.5508L9.73438 12.6875L9.46094 12.8242L9.17383 12.9336L8.87305 13.0293L8.57227 13.1113L8.27148 13.1934L7.95703 13.248L7.64258 13.2891L7.32812 13.3027L7 13.3164L6.67188 13.3027L6.35742 13.2891L6.04297 13.248L5.72852 13.1934L5.42773 13.1113L5.12695 13.0293L4.82617 12.9336L4.53906 12.8242L4.26562 12.6875L3.99219 12.5508L3.71875 12.4004L3.47266 12.2363L3.22656 12.0586L2.98047 11.8672L2.74805 11.6758L2.5293 11.4707L2.32422 11.252L2.13281 11.0195L1.94141 10.7734L1.76367 10.5273L1.59961 10.2812L1.44922 10.0078L1.3125 9.73438L1.17578 9.46094L1.06641 9.17383L0.970703 8.87305L0.888672 8.57227L0.806641 8.27148L0.751953 7.95703L0.710938 7.64258L0.697266 7.32812L0.683594 7Z"/></symbol>
+  <symbol id="icon-help-circle" viewBox="0 0 12 12"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6 1.5C3.51472 1.5 1.5 3.51472 1.5 6C1.5 8.48528 3.51472 10.5 6 10.5C8.48528 10.5 10.5 8.48528 10.5 6C10.5 3.51472 8.48528 1.5 6 1.5ZM0.5 6C0.5 2.96243 2.96243 0.5 6 0.5C9.03757 0.5 11.5 2.96243 11.5 6C11.5 9.03757 9.03757 11.5 6 11.5C2.96243 11.5 0.5 9.03757 0.5 6ZM6.16598 4.75899C6.0207 4.73407 5.87129 4.76137 5.74421 4.83605C5.61713 4.91074 5.52058 5.02799 5.47167 5.16704C5.38003 5.42753 5.09457 5.56442 4.83408 5.47279C4.57358 5.38115 4.4367 5.09569 4.52833 4.8352C4.65562 4.47337 4.90684 4.16827 5.23753 3.97392C5.56821 3.77958 5.957 3.70854 6.33504 3.77338C6.71308 3.83822 7.05597 4.03477 7.30298 4.3282C7.54994 4.62156 7.68513 4.99284 7.68462 5.3763C7.68439 6.01619 7.21105 6.42754 6.89989 6.63498C6.72905 6.74888 6.56178 6.83216 6.43918 6.88665C6.37717 6.91421 6.3248 6.93519 6.28676 6.94968C6.2677 6.95694 6.25212 6.96262 6.24059 6.96672L6.22637 6.9717L6.22164 6.97331L6.2199 6.9739L6.21918 6.97414C6.21918 6.97414 6.21857 6.97434 6.06046 6.5L6.21857 6.97434C5.9566 7.06167 5.67344 6.92009 5.58612 6.65811C5.49882 6.39623 5.64028 6.11317 5.90208 6.02575L5.90143 6.02596L5.90558 6.0245C5.91052 6.02275 5.91909 6.01964 5.93077 6.01519C5.9542 6.00626 5.98966 5.99211 6.03304 5.97283C6.12122 5.93364 6.23499 5.8764 6.34519 5.80293C6.59603 5.63571 6.68462 5.48513 6.68462 5.37584L6.68462 5.37509C6.68484 5.22769 6.63289 5.08497 6.53796 4.9722C6.44303 4.85944 6.31126 4.78391 6.16598 4.75899ZM5.57495 8C5.57495 7.72386 5.79881 7.5 6.07495 7.5H6.07995C6.35609 7.5 6.57995 7.72386 6.57995 8C6.57995 8.27614 6.35609 8.5 6.07995 8.5H6.07495C5.79881 8.5 5.57495 8.27614 5.57495 8Z"/></symbol>
+</svg>
+
+<h1>Text Area</h1>
+<p class="sub">4 sizes &times; 11 states. Only the Figma <em>Rounded</em> shape is implemented. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="grid" id="sizes"></div>
+</div>
+
+<h2>States</h2>
+<p class="sub">Interaction states use the forced-state helpers <code>.is-focus</code>, <code>.is-active</code>, <code>.is-disabled</code>. Figma binds the same border token to <em>Hover</em> as to <em>Default</em>, so hover is not a distinct treatment.</p>
+<div class="panel">
+  <div class="grid" id="states"></div>
+</div>
+
+<h2>Anatomy</h2>
+<p class="sub">Label with required marker and hint glyph, control, helper message.</p>
+<div class="panel">
+  <div class="row">
+    <div class="psds-textarea psds-textarea--md">
+      <label class="psds-textarea__label" for="ta-full">
+        Label
+        <span class="psds-textarea__required" aria-hidden="true">*</span>
+        <span class="psds-textarea__glyph" aria-hidden="true"><svg><use href="#icon-circle-info"/></svg></span>
+      </label>
+      <div class="psds-textarea__control">
+        <textarea class="psds-textarea__field" id="ta-full" rows="3" placeholder="Write a message..." required></textarea>
+      </div>
+      <p class="psds-textarea__alert">
+        Info message
+        <span class="psds-textarea__glyph" aria-hidden="true"><svg><use href="#icon-help-circle"/></svg></span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<h2>Without the resizer</h2>
+<p class="sub">The Figma boolean prop <em>Resizer&nbsp;=&nbsp;false</em>. The glyph goes, the field gives up the gutter, and dragging is off.</p>
+<div class="panel">
+  <div class="row">
+    <div class="psds-textarea psds-textarea--md psds-textarea--no-resizer">
+      <label class="psds-textarea__label" for="ta-fixed">Fixed height</label>
+      <div class="psds-textarea__control">
+        <textarea class="psds-textarea__field" id="ta-fixed" rows="3" placeholder="Write a message..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SIZES = [
+    ['--xs', 'psds-textarea--xs', '12/16 &middot; radius 4 &middot; 88px'],
+    ['--sm', 'psds-textarea--sm', '14/20 &middot; radius 8 &middot; 100px'],
+    ['--md', 'psds-textarea--md', '14/20 &middot; radius 8 &middot; 100px'],
+    ['--lg', 'psds-textarea--lg', '16/24 &middot; radius 8 &middot; 132px'],
+  ];
+
+  const STATES = [
+    ['Default', '', {}],
+    ['Hover', '', { hint: 'identical to Default in Figma' }],
+    ['Focus', 'is-focus', {}],
+    ['Active', 'is-active', {}],
+    ['Filled', 'psds-textarea--filled', { value: 'A message that has been typed.' }],
+    ['Read Only', 'psds-textarea--readonly', { value: 'A value you cannot edit.', readonly: true }],
+    ['Disabled', 'is-disabled', { disabled: true }],
+    ['Info', 'psds-textarea--info', { note: 'Info message' }],
+    ['Success', 'psds-textarea--success', { note: 'Success message' }],
+    ['Warning', 'psds-textarea--warning', { note: 'Warning message' }],
+    ['Error', 'psds-textarea--danger', { note: 'Error message' }],
+  ];
+
+  let uid = 0;
+
+  const field = (sizeClass, stateClass, opts = {}) => {
+    const id = `ta-${++uid}`;
+    const wrap = document.createElement('div');
+    wrap.className = ['psds-textarea', sizeClass, stateClass].filter(Boolean).join(' ');
+
+    const label = document.createElement('label');
+    label.className = 'psds-textarea__label';
+    label.htmlFor = id;
+    label.textContent = opts.label ?? 'Label';
+
+    const control = document.createElement('div');
+    control.className = 'psds-textarea__control';
+
+    const ta = document.createElement('textarea');
+    ta.className = 'psds-textarea__field';
+    ta.id = id;
+    ta.rows = 3;
+    ta.placeholder = 'Write a message...';
+    if (opts.value) ta.value = opts.value;
+    if (opts.readonly) ta.readOnly = true;
+    if (opts.disabled) ta.disabled = true;
+    control.append(ta);
+
+    wrap.append(label, control);
+
+    if (opts.note) {
+      const note = document.createElement('p');
+      note.className = 'psds-textarea__alert';
+      note.textContent = opts.note + ' ';
+      const glyph = document.createElement('span');
+      glyph.className = 'psds-textarea__glyph';
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.innerHTML = '<svg><use href="#icon-help-circle"/></svg>';
+      note.append(glyph);
+      wrap.append(note);
+    }
+    return wrap;
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const [name, cls, meta] of SIZES) {
+    const cell = document.createElement('div');
+    const cap = document.createElement('span');
+    cap.className = 'cap';
+    cap.innerHTML = `<code>${name}</code> — ${meta}`;
+    cell.append(cap, field(cls, '', { label: name }));
+    sizes.append(cell);
+  }
+
+  const states = document.getElementById('states');
+  for (const [name, cls, opts] of STATES) {
+    const cell = document.createElement('div');
+    const cap = document.createElement('span');
+    cap.className = 'cap';
+    cap.innerHTML = opts.hint ? `${name} <em>(${opts.hint})</em>` : name;
+    cell.append(cap, field('psds-textarea--md', cls, { ...opts, label: name }));
+    states.append(cell);
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

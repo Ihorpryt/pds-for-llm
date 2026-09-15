@@ -1,0 +1,428 @@
+/* Portside Design System — Text Area
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Text Area (node 7939:4545)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * The Figma node ships two shapes, Rounded and Line. Only Rounded is implemented.
+ *
+ * Class API
+ *   .psds-textarea                             base (Rounded shape, Default state)
+ *   .psds-textarea--xs | --sm | --md | --lg    Sizes
+ *   .psds-textarea--filled                     a value has been typed
+ *   .psds-textarea--readonly                   Read Only
+ *   .psds-textarea--info | --success
+ *          | --warning | --danger              Validation
+ *   .psds-textarea--no-resizer                 Figma boolean prop Resizer = false
+ *
+ *   .psds-textarea__label  .psds-textarea__required  .psds-textarea__glyph
+ *   .psds-textarea__control .psds-textarea__field    .psds-textarea__alert
+ *
+ * States resolve from real interaction pseudo-classes on the wrapper. The
+ * .is-hover / .is-focus / .is-active / .is-disabled helpers force a state for
+ * documentation and visual-regression galleries.
+ */
+
+.psds-textarea {
+  /* --- Size channel (set by the size modifiers; defaults are --md) --- */
+  --psds-textarea-font-size         : var(--font-size-sm);
+  --psds-textarea-line-height       : var(--line-height-sm);
+  --psds-textarea-padding-inline    : var(--spacing-12);
+  --psds-textarea-padding-block     : var(--spacing-8);
+  --psds-textarea-min-height        : calc(var(--spacing-80) + var(--spacing-20));
+  --psds-textarea-gutter            : var(--spacing-34);
+  --psds-textarea-radius            : var(--control-radius-input-default-radius);
+  --psds-textarea-label-font-size   : var(--font-size-sm);
+  --psds-textarea-label-line-height : var(--line-height-sm);
+  --psds-textarea-label-icon        : var(--font-icon-14);
+  --psds-textarea-required-font-size: var(--font-size-xs);
+  --psds-textarea-note-font-size    : var(--font-size-sm);
+  --psds-textarea-note-line-height  : var(--line-height-sm);
+  --psds-textarea-note-icon         : var(--font-icon-14);
+
+  /* --- Colour channel (set by the state modifiers) --- */
+  --psds-textarea-bg          : var(--background-content-bg-color);
+  --psds-textarea-border      : var(--border);
+  --psds-textarea-border-width: var(--border-1);
+  --psds-textarea-accent      : var(--buttons-primary-border-color);
+  --psds-textarea-fg          : var(--foreground-content-text-color);
+  --psds-textarea-placeholder : var(--foreground-placeholder-text-color);
+  --psds-textarea-icon-color  : var(--icon-color);
+  --psds-textarea-note-color  : var(--foreground-content-text-color-alt1);
+
+  /* tokens.css declares no font-family or shadow tokens; both come from the
+   * Figma text style and the $Shadow-sm effect. */
+  --psds-textarea-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-textarea-shadow     : 0 var(--spacing-1) var(--spacing-2) var(--spacing-0) #0000000d;
+
+  /* Figma "Icons/Resizer right", exported from the source node and painted as a
+   * mask so it follows the icon colour channel. */
+  --psds-textarea-resizer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M10.6523 8.56641L10.6992 8.51953L10.7578 8.47266L10.8281 8.4375L10.8867 8.40234L11.0273 8.36719L11.168 8.35547L11.3086 8.36719L11.4492 8.40234L11.5078 8.4375L11.5781 8.47266L11.6367 8.51953L11.6953 8.56641L11.7422 8.625L11.7891 8.68359L11.8242 8.74219L11.8477 8.8125L11.8945 8.95312L11.9062 9.09375L11.8945 9.23438L11.8477 9.375L11.8242 9.43359L11.7891 9.49219L11.7422 9.5625L11.6953 9.60938L9.60938 11.6953L9.5625 11.7422L9.49219 11.7891L9.43359 11.8242L9.36328 11.8477L9.23438 11.8945L9.09375 11.9062L8.95312 11.8945L8.8125 11.8477L8.74219 11.8242L8.68359 11.7891L8.625 11.7422L8.56641 11.6953L8.51953 11.6367L8.47266 11.5781L8.4375 11.5078L8.40234 11.4492L8.36719 11.3086L8.35547 11.168L8.36719 11.0273L8.40234 10.8867L8.4375 10.8281L8.47266 10.7578L8.51953 10.6992L8.56641 10.6406L10.6523 8.56641ZM10.5938 4.46484L10.6523 4.41797L10.7109 4.37109L10.7695 4.33594L10.8398 4.3125L10.9688 4.26562L11.1094 4.25391L11.25 4.26562L11.3906 4.3125L11.4609 4.33594L11.5195 4.37109L11.5781 4.41797L11.6367 4.46484L11.6836 4.52344L11.7305 4.58203L11.7656 4.65234L11.8008 4.71094L11.8359 4.85156L11.8477 4.99219L11.8359 5.13281L11.8008 5.27344L11.7656 5.33203L11.7305 5.40234L11.6836 5.46094L11.6367 5.51953L5.51953 11.6367L5.46094 11.6836L5.40234 11.7305L5.33203 11.7656L5.27344 11.8008L5.13281 11.8359L4.99219 11.8477L4.85156 11.8359L4.71094 11.8008L4.65234 11.7656L4.58203 11.7305L4.52344 11.6836L4.46484 11.6367L4.41797 11.5781L4.37109 11.5195L4.33594 11.4609L4.3125 11.3906L4.26562 11.25L4.25391 11.1094L4.26562 10.9688L4.3125 10.8281L4.33594 10.7695L4.37109 10.7109L4.41797 10.6406L4.46484 10.5938L10.5938 4.46484ZM10.5938 0.316406L10.6523 0.257812L10.7109 0.210938L10.7695 0.175781L10.8398 0.152344L10.9805 0.105469L11.1211 0.09375L11.2617 0.105469L11.3906 0.152344L11.4609 0.175781L11.5195 0.210938L11.5781 0.257812L11.6367 0.304688L11.6836 0.363281L11.7305 0.421875L11.7656 0.492188L11.8008 0.550781L11.8359 0.691406L11.8594 0.832031L11.8359 0.972656L11.8008 1.11328L11.7656 1.17188L11.7305 1.24219L11.6836 1.30078L11.6367 1.35938L1.35938 11.6367L1.30078 11.6836L1.24219 11.7305L1.17188 11.7656L1.11328 11.8008L0.972656 11.8359L0.832031 11.8594L0.691406 11.8359L0.550781 11.8008L0.492188 11.7656L0.421875 11.7305L0.363281 11.6836L0.304688 11.6367L0.257812 11.5781L0.210938 11.5195L0.175781 11.4609L0.152344 11.3906L0.105469 11.2617L0.09375 11.1211L0.105469 10.9805L0.152344 10.8398L0.175781 10.7695L0.210938 10.7109L0.257812 10.6523L0.304688 10.5938L10.5938 0.316406Z'/%3E%3C/svg%3E");
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-4);
+
+  font-family   : var(--psds-textarea-font-family);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.psds-textarea *,
+.psds-textarea *::before,
+.psds-textarea *::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+/*
+ * Unlike Text Box, each size carries its own input radius token, and the
+ * resizer gutter is authored per size in the source rather than shared.
+ */
+
+.psds-textarea--xs {
+  --psds-textarea-font-size         : var(--font-size-xs);
+  --psds-textarea-line-height       : var(--line-height-xs);
+  --psds-textarea-padding-inline    : var(--spacing-8);
+  --psds-textarea-padding-block     : var(--spacing-8);
+  --psds-textarea-min-height        : calc(var(--spacing-80) + var(--spacing-8));
+  --psds-textarea-gutter            : var(--spacing-34);
+  --psds-textarea-radius            : var(--control-radius-input-small-radius);
+  --psds-textarea-label-font-size   : var(--font-size-xxs);
+  --psds-textarea-label-line-height : var(--line-height-xxs);
+  --psds-textarea-label-icon        : var(--font-icon-12);
+  --psds-textarea-required-font-size: var(--font-size-xxs);
+  --psds-textarea-note-font-size    : var(--font-size-xxs);
+  --psds-textarea-note-line-height  : var(--line-height-xxs);
+  --psds-textarea-note-icon         : var(--font-icon-10);
+}
+
+.psds-textarea--sm {
+  --psds-textarea-font-size         : var(--font-size-sm);
+  --psds-textarea-line-height       : var(--line-height-sm);
+  --psds-textarea-padding-inline    : var(--spacing-12);
+  --psds-textarea-padding-block     : var(--spacing-8);
+  --psds-textarea-min-height        : calc(var(--spacing-80) + var(--spacing-20));
+  --psds-textarea-gutter            : var(--spacing-30);
+  --psds-textarea-radius            : var(--control-radius-input-default-radius);
+  --psds-textarea-label-font-size   : var(--font-size-xs);
+  --psds-textarea-label-line-height : var(--line-height-xs);
+  --psds-textarea-label-icon        : var(--font-icon-14);
+  --psds-textarea-required-font-size: var(--font-size-xs);
+  --psds-textarea-note-font-size    : var(--font-size-xs);
+  --psds-textarea-note-line-height  : var(--line-height-xs);
+  --psds-textarea-note-icon         : var(--font-icon-12);
+}
+
+.psds-textarea--md {
+  --psds-textarea-font-size         : var(--font-size-sm);
+  --psds-textarea-line-height       : var(--line-height-sm);
+  --psds-textarea-padding-inline    : var(--spacing-12);
+  --psds-textarea-padding-block     : var(--spacing-8);
+  --psds-textarea-min-height        : calc(var(--spacing-80) + var(--spacing-20));
+  --psds-textarea-gutter            : var(--spacing-34);
+  --psds-textarea-radius            : var(--control-radius-input-default-radius);
+  --psds-textarea-label-font-size   : var(--font-size-sm);
+  --psds-textarea-label-line-height : var(--line-height-sm);
+  --psds-textarea-label-icon        : var(--font-icon-14);
+  --psds-textarea-required-font-size: var(--font-size-xs);
+  --psds-textarea-note-font-size    : var(--font-size-sm);
+  --psds-textarea-note-line-height  : var(--line-height-sm);
+  --psds-textarea-note-icon         : var(--font-icon-14);
+}
+
+.psds-textarea--lg {
+  --psds-textarea-font-size         : var(--font-size-base);
+  --psds-textarea-line-height       : var(--line-height-base);
+  --psds-textarea-padding-inline    : var(--spacing-12);
+  --psds-textarea-padding-block     : var(--spacing-8);
+  --psds-textarea-min-height        : calc(var(--spacing-72) + var(--spacing-60));
+  --psds-textarea-gutter            : var(--spacing-36);
+  --psds-textarea-radius            : var(--control-radius-input-bigger-radius);
+  --psds-textarea-label-font-size   : var(--font-size-sm);
+  --psds-textarea-label-line-height : var(--line-height-sm);
+  --psds-textarea-label-icon        : var(--font-icon-14);
+  --psds-textarea-required-font-size: var(--font-size-xs);
+  --psds-textarea-note-font-size    : var(--font-size-sm);
+  --psds-textarea-note-line-height  : var(--line-height-sm);
+  --psds-textarea-note-icon         : var(--font-icon-14);
+}
+
+/* ------------------------------------------------------------- Icon slots */
+/* One generic square, sized by whichever glyph token the surrounding row sets. */
+
+.psds-textarea__glyph {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-textarea-glyph-size, var(--psds-textarea-label-icon));
+  height         : var(--psds-textarea-glyph-size, var(--psds-textarea-label-icon));
+}
+
+.psds-textarea__glyph > svg,
+.psds-textarea__glyph > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* ------------------------------------------------------------------ Label */
+
+.psds-textarea__label {
+  --psds-textarea-glyph-size: var(--psds-textarea-label-icon);
+
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-4);
+
+  font-size  : var(--psds-textarea-label-font-size);
+  line-height: var(--psds-textarea-label-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--foreground-content-text-color);
+}
+
+.psds-textarea__label .psds-textarea__glyph {
+  color: var(--icon-color);
+}
+
+.psds-textarea__required {
+  font-size  : var(--psds-textarea-required-font-size);
+  font-weight: var(--font-weight-normal);
+  color      : var(--danger);
+}
+
+/* ---------------------------------------------------------------- Control */
+/*
+ * The Figma "Normal" frame: padding on the leading and top edges only, with the
+ * trailing and bottom space supplied by the field's own padding so the caret can
+ * reach the full box. The resizer glyph is an overlay in the corner.
+ */
+
+.psds-textarea__control {
+  position: relative;
+  display : flex;
+
+  min-height    : var(--psds-textarea-min-height);
+  padding-block : var(--psds-textarea-padding-block) var(--spacing-0);
+  padding-inline: var(--psds-textarea-padding-inline) var(--spacing-0);
+
+  background-color: var(--psds-textarea-bg);
+  border          : var(--psds-textarea-border-width) solid var(--psds-textarea-border);
+  border-radius   : var(--psds-textarea-radius);
+  box-shadow      : var(--psds-textarea-shadow);
+
+  transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.psds-textarea__field {
+  flex     : 1 1 auto;
+  min-width: 0;
+  width    : 100%;
+
+  /* The gutter keeps wrapped text clear of the resizer glyph; the block padding
+   * matches the control's own top padding so the last line is not flush. */
+  margin        : var(--spacing-0);
+  padding-block : var(--spacing-0) var(--psds-textarea-padding-block);
+  padding-inline: var(--spacing-0) var(--psds-textarea-gutter);
+
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  outline   : none;
+
+  font-family   : inherit;
+  font-size     : var(--psds-textarea-font-size);
+  line-height   : var(--psds-textarea-line-height);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--psds-textarea-fg);
+
+  resize: vertical;
+}
+
+.psds-textarea__field::placeholder {
+  color  : var(--psds-textarea-placeholder);
+  opacity: 1;
+}
+
+/* The platform handle is made invisible rather than removed, so it keeps its
+ * drag behaviour while the Figma glyph below is what the user sees. */
+.psds-textarea__field::-webkit-resizer {
+  background: var(--transparent);
+}
+
+/* ---------------------------------------------------------------- Resizer */
+/*
+ * Figma "Icons/Resizer right": a 12px glyph inset 8px from the trailing and
+ * bottom edges of the control at every size. Decorative, so it never swallows a
+ * click meant for the field or the platform resize handle underneath it.
+ */
+
+.psds-textarea__control::after {
+  content : "";
+  position: absolute;
+  inset-inline-end: var(--spacing-8);
+  inset-block-end : var(--spacing-8);
+
+  width : var(--font-icon-12);
+  height: var(--font-icon-12);
+
+  background-color     : var(--psds-textarea-icon-color);
+  -webkit-mask-image   : var(--psds-textarea-resizer);
+  mask-image           : var(--psds-textarea-resizer);
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+  -webkit-mask-size    : contain;
+  mask-size            : contain;
+
+  pointer-events: none;
+}
+
+/* Figma boolean prop Resizer = false: the glyph goes, and the field gives up the
+ * gutter it was reserving as well as the ability to be dragged. */
+.psds-textarea--no-resizer .psds-textarea__control::after {
+  content: none;
+}
+
+.psds-textarea--no-resizer .psds-textarea__field {
+  padding-inline-end: var(--psds-textarea-padding-inline);
+  resize            : none;
+}
+
+/* ----------------------------------------------------------- Alert message */
+
+.psds-textarea__alert {
+  --psds-textarea-glyph-size: var(--psds-textarea-note-icon);
+
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-0);
+  margin     : var(--spacing-0);
+
+  font-size  : var(--psds-textarea-note-font-size);
+  line-height: var(--psds-textarea-note-line-height);
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-textarea-note-color);
+}
+
+/* The alert glyph follows the message colour, so a validation state carries its
+ * colour through both. */
+.psds-textarea__alert .psds-textarea__glyph {
+  color: currentColor;
+}
+
+/* ------------------------------------------------------------------ States */
+/*
+ * Figma models State as a single axis of eleven values, so Filled / Read Only /
+ * the four validation states are modifiers, while Hover / Focus / Active /
+ * Disabled resolve from interaction. Each modifier remaps the colour channel:
+ *   --psds-textarea-bg           surface
+ *   --psds-textarea-border       border at rest
+ *   --psds-textarea-accent       2px border while focused or active
+ *   --psds-textarea-fg           value text
+ *   --psds-textarea-note-color   helper text
+ */
+
+/* A real <textarea> separates its value from its placeholder on its own, so this
+ * modifier is kept for parity with the Figma axis and carries nothing further —
+ * the source leaves every other channel untouched between Default and Filled. */
+.psds-textarea--filled {
+  --psds-textarea-fg: var(--foreground-content-text-color);
+}
+
+.psds-textarea--readonly,
+.psds-textarea:has(.psds-textarea__field:read-only) {
+  --psds-textarea-bg: var(--background-content-bg-color-alt2);
+}
+
+.psds-textarea--info {
+  --psds-textarea-border: var(--buttons-info-border-color);
+  --psds-textarea-accent: var(--buttons-info-border-color);
+  --psds-textarea-note-color: var(--info);
+}
+
+.psds-textarea--success {
+  --psds-textarea-border: var(--buttons-success-border-color);
+  --psds-textarea-accent: var(--buttons-success-border-color);
+  --psds-textarea-note-color: var(--success);
+}
+
+.psds-textarea--warning {
+  --psds-textarea-border: var(--buttons-warning-border-color);
+  --psds-textarea-accent: var(--buttons-warning-border-color);
+  --psds-textarea-note-color: var(--warning);
+}
+
+.psds-textarea--danger {
+  --psds-textarea-border: var(--buttons-danger-border-color);
+  --psds-textarea-accent: var(--buttons-danger-border-color);
+  --psds-textarea-note-color: var(--danger);
+}
+
+/* ------------------------------------------------------------------- Hover */
+/*
+ * The Figma Hover variant binds the same Border/border token as Default, so the
+ * control does not change under the pointer. No hover rule is invented here.
+ */
+
+/* ---------------------------------------------------------- Focus / Active */
+/*
+ * The Figma Focus and Active variants are identical: a 2px border in
+ * Buttons/Primary/primary-border-color. Bound to :focus-within because focus
+ * lands on the field inside the control.
+ */
+
+.psds-textarea:focus-within .psds-textarea__control,
+.psds-textarea:active .psds-textarea__control,
+.psds-textarea.is-focus .psds-textarea__control,
+.psds-textarea.is-active .psds-textarea__control {
+  border-color: var(--psds-textarea-accent);
+  border-width: var(--border-2);
+}
+
+/* The 2px border eats a pixel of the padding box, so the leading padding gives
+ * one back and the text does not shift when the field takes focus. */
+.psds-textarea:focus-within .psds-textarea__control,
+.psds-textarea:active .psds-textarea__control,
+.psds-textarea.is-focus .psds-textarea__control,
+.psds-textarea.is-active .psds-textarea__control {
+  padding-block-start : calc(var(--psds-textarea-padding-block) - var(--border-1));
+  padding-inline-start: calc(var(--psds-textarea-padding-inline) - var(--border-1));
+}
+
+/* ---------------------------------------------------------------- Disabled */
+/* Declared last so it survives a simultaneous hover or focus. */
+
+.psds-textarea:has(.psds-textarea__field:disabled),
+.psds-textarea.is-disabled {
+  --psds-textarea-bg        : var(--background-content-bg-color-alt2);
+  --psds-textarea-fg        : var(--foreground-content-text-color-disabled);
+  --psds-textarea-placeholder: var(--foreground-content-text-color-disabled);
+  --psds-textarea-icon-color: var(--icon-color-disabled);
+}
+
+/* Unlike Text Box, the Figma Disabled variant keeps $Shadow-sm, and its border
+ * stays on the resting Border/border token. */
+.psds-textarea:has(.psds-textarea__field:disabled) .psds-textarea__control,
+.psds-textarea.is-disabled .psds-textarea__control {
+  border-color: var(--border);
+  border-width: var(--psds-textarea-border-width);
+}
+
+.psds-textarea__field:disabled {
+  cursor: not-allowed;
+  resize: none;
+}
+
+.psds-textarea.is-disabled {
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------- Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-textarea__control {
+    transition: none;
+  }
+}

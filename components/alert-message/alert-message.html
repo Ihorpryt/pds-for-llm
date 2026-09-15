@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alert Message — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../button/button.css">
+<link rel="stylesheet" href="alert-message.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .stack { display: flex; flex-direction: column; gap: var(--spacing-16); max-width: 520px; }
+  .stack + .stack { margin-top: var(--spacing-24); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  td { min-width: 300px; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .theme-btn { font: inherit; padding: var(--spacing-6) var(--spacing-12); border-radius: var(--control-radius-btn-default-radius); border: var(--border-1) solid var(--buttons-secondary-border-color); background: var(--buttons-secondary-bg-color); color: var(--buttons-secondary-text-color); cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>Alert Message</h1>
+<p class="sub">2 sizes &times; 3 modes &times; 5 types &times; 2 button positions &times; 2 shadows = 240 variants. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="theme-btn" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<!-- Reusable glyphs. The source node ships Circle info in every type; the slot is
+     meant to be swapped, so the gallery keeps one glyph and one close mark. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-info" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="8" cy="8" r="6.5"/><path d="M8 7.4v3.8M8 4.8v.4"/>
+  </symbol>
+  <symbol id="i-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.2 4.2l7.6 7.6M11.8 4.2l-7.6 7.6"/>
+  </symbol>
+</svg>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="stack">
+    <div class="psds-alert psds-alert--sm psds-alert--default" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content"><p class="psds-alert__title">New Message Notification</p></div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="psds-alert psds-alert--lg psds-alert--default" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content"><p class="psds-alert__title">New Message Notification</p></div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div><code>--sm&nbsp;44px&nbsp;&middot;&nbsp;14px&nbsp;text&nbsp;&middot;&nbsp;12px&nbsp;padding&nbsp;&middot;&nbsp;6px&nbsp;radius</code></div>
+    <div><code>--lg&nbsp;56px&nbsp;&middot;&nbsp;16px&nbsp;text&nbsp;&middot;&nbsp;16px&nbsp;padding&nbsp;&middot;&nbsp;8px&nbsp;radius</code></div>
+  </div>
+</div>
+
+<h2>Type &times; Mode</h2>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Type</th><th>Subtle</th><th>Ascent</th><th>Outline</th></tr>
+    </thead>
+    <tbody id="type-mode"></tbody>
+  </table>
+</div>
+
+<h2>Description</h2>
+<p class="sub">The second line is hidden in every source variant — it is an optional slot, one <code>--text-gap</code> below the title (4px at <code>--sm</code>, 6px at <code>--lg</code>).</p>
+<div class="panel">
+  <div class="stack">
+    <div class="psds-alert psds-alert--sm psds-alert--info" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content">
+          <p class="psds-alert__title">New Message Notification</p>
+          <p class="psds-alert__description">Displays recent messages with sender information, a message preview, and the time received.</p>
+        </div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="psds-alert psds-alert--lg psds-alert--info psds-alert--outline" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content">
+          <p class="psds-alert__title">New Message Notification</p>
+          <p class="psds-alert__description">Displays recent messages with sender information, a message preview, and the time received.</p>
+        </div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Button position</h2>
+<p class="sub">Bottom Left is the default; <code>--actions-end</code> is Bottom Right. Buttons are <code>--sm</code> inside a <code>--sm</code> alert and <code>--lg</code> inside a <code>--lg</code> alert.</p>
+<div class="panel">
+  <div class="stack">
+    <div class="psds-alert psds-alert--sm psds-alert--warning" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content">
+          <p class="psds-alert__title">Storage almost full</p>
+          <p class="psds-alert__description">You are using 94% of your plan&rsquo;s storage.</p>
+        </div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+      <div class="psds-alert__actions">
+        <button class="psds-btn psds-btn--sm psds-btn--warning" type="button">Upgrade</button>
+        <button class="psds-btn psds-btn--sm psds-btn--secondary" type="button">Later</button>
+      </div>
+    </div>
+    <div class="psds-alert psds-alert--sm psds-alert--warning psds-alert--actions-end" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content">
+          <p class="psds-alert__title">Storage almost full</p>
+          <p class="psds-alert__description">You are using 94% of your plan&rsquo;s storage.</p>
+        </div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+      <div class="psds-alert__actions">
+        <button class="psds-btn psds-btn--sm psds-btn--warning" type="button">Upgrade</button>
+        <button class="psds-btn psds-btn--sm psds-btn--secondary" type="button">Later</button>
+      </div>
+    </div>
+    <div class="psds-alert psds-alert--lg psds-alert--danger psds-alert--actions-end" role="alert">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content">
+          <p class="psds-alert__title">Deployment failed</p>
+          <p class="psds-alert__description">The build could not be published. Review the log before retrying.</p>
+        </div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+      <div class="psds-alert__actions">
+        <button class="psds-btn psds-btn--lg psds-btn--secondary" type="button">View log</button>
+        <button class="psds-btn psds-btn--lg psds-btn--danger" type="button">Retry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Shadow</h2>
+<p class="sub">Figma effect <code>$Shadow-lg</code>, applied by <code>--shadow</code> — for alerts that float above content rather than sitting in the flow.</p>
+<div class="panel">
+  <div class="stack">
+    <div class="psds-alert psds-alert--sm psds-alert--success" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content"><p class="psds-alert__title">Shadow OFF</p></div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="psds-alert psds-alert--sm psds-alert--success psds-alert--shadow" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+        <div class="psds-alert__content"><p class="psds-alert__title">Shadow ON</p></div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TYPES = ['default', 'info', 'success', 'warning', 'danger'];
+  const MODES = [['', 'Subtle'], ['psds-alert--ascent', 'Ascent'], ['psds-alert--outline', 'Outline']];
+
+  const svg = (id) => `<svg aria-hidden="true"><use href="#${id}"/></svg>`;
+
+  const alert = (type, mode) => {
+    const el = document.createElement('div');
+    el.className = ['psds-alert', 'psds-alert--sm', 'psds-alert--' + type, mode].filter(Boolean).join(' ');
+    el.setAttribute('role', 'status');
+    el.innerHTML =
+      '<div class="psds-alert__body">' +
+        '<span class="psds-alert__icon" aria-hidden="true">' + svg('i-info') + '</span>' +
+        '<div class="psds-alert__content"><p class="psds-alert__title">New Message Notification</p></div>' +
+        '<button class="psds-alert__close" type="button" aria-label="Dismiss">' + svg('i-close') + '</button>' +
+      '</div>';
+    return el;
+  };
+
+  const tbody = document.getElementById('type-mode');
+  for (const type of TYPES) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    th.textContent = type[0].toUpperCase() + type.slice(1);
+    tr.append(th);
+    for (const [modeClass] of MODES) {
+      const td = document.createElement('td');
+      td.append(alert(type, modeClass));
+      tr.append(td);
+    }
+    tbody.append(tr);
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+/* Portside Design System — Badge
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Badge (node 7521:1394)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-badge                                base (Small, Rounded, Subtle, Word)
+ *   .psds-badge--sm | --lg                     Sizes
+ *   .psds-badge--primary | --secondary | --info | --success
+ *          | --warning | --danger | --light | --dark   Type
+ *   .psds-badge--ascent | --outline            Contrast (default: Subtle)
+ *   .psds-badge--letter | --dot                Mode     (default: Word)
+ *   .psds-badge--pill                          Shape = Full Rounded (default: Rounded)
+ *
+ * The badge is a static status marker — the source node ships no interaction
+ * states, so this file declares none.
+ *
+ * Cascade order matters: Size → Type → Contrast → Mode → Shape. Later blocks
+ * redefine --psds-badge-radius, and Shape must win over all of them.
+ */
+
+.psds-badge {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-badge-height      : var(--spacing-20);
+  --psds-badge-font-size   : var(--font-size-xxs);
+  --psds-badge-line-height : var(--line-height-xxs);
+  --psds-badge-padding     : var(--spacing-8);
+  --psds-badge-gap         : var(--spacing-2);
+  --psds-badge-letter-width: var(--spacing-24);
+  --psds-badge-dot-size    : var(--spacing-12);
+
+  /* Rounded radius for the accent types; the neutral types and every Outline
+   * badge drop to --radius-4 below, matching the Figma bindings. */
+  --psds-badge-radius: var(--radius-8);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-badge-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing     : border-box;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  gap            : var(--psds-badge-gap);
+
+  height       : var(--psds-badge-height);
+  padding-block: var(--spacing-0);
+  /* Figma draws the Outline stroke *inside* the frame, so every contrast is the
+   * same width and the label always sits --psds-badge-padding from the outer
+   * edge. The border is always present here, so the padding gives that width back. */
+  padding-inline: calc(var(--psds-badge-padding) - var(--border-1));
+
+  font-family   : var(--psds-badge-font-family);
+  font-size     : var(--psds-badge-font-size);
+  line-height   : var(--psds-badge-line-height);
+  font-weight   : var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-normal);
+  text-align    : center;
+  white-space   : nowrap;
+
+  border       : var(--border-1) solid var(--transparent);
+  border-radius: var(--psds-badge-radius);
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-badge--sm {
+  --psds-badge-height      : var(--spacing-20);
+  --psds-badge-font-size   : var(--font-size-xxs);
+  --psds-badge-line-height : var(--line-height-xxs);
+  --psds-badge-padding     : var(--spacing-8);
+  --psds-badge-gap         : var(--spacing-2);
+  --psds-badge-letter-width: var(--spacing-24);
+  --psds-badge-dot-size    : var(--spacing-12);
+}
+
+.psds-badge--lg {
+  --psds-badge-height      : var(--spacing-24);
+  --psds-badge-font-size   : var(--font-size-xs);
+  --psds-badge-line-height : var(--line-height-xs);
+  --psds-badge-padding     : var(--spacing-8);
+  --psds-badge-gap         : var(--spacing-2);
+  --psds-badge-letter-width: calc(var(--spacing-24) + var(--spacing-2));
+  --psds-badge-dot-size    : var(--spacing-14);
+}
+
+/* ------------------------------------------------------------------- Type */
+/*
+ * Each type maps its tokens onto three channels, which the contrast rules consume:
+ *   --psds-badge-ascent-*  surface + label for the Ascent contrast
+ *   --psds-badge-subtle-*  surface + label for the Subtle contrast
+ *   --psds-badge-accent    border + label for the Outline contrast
+ */
+
+.psds-badge--primary {
+  --psds-badge-ascent-bg: var(--primary);
+  --psds-badge-ascent-fg: var(--primary-text-color);
+  --psds-badge-subtle-bg: var(--primary-lighter);
+  --psds-badge-subtle-fg: var(--primary);
+  --psds-badge-accent   : var(--primary);
+}
+
+.psds-badge--info {
+  --psds-badge-ascent-bg: var(--info-light);
+  --psds-badge-ascent-fg: var(--info);
+  --psds-badge-subtle-bg: var(--info-lighter);
+  --psds-badge-subtle-fg: var(--info);
+  --psds-badge-accent   : var(--info);
+}
+
+.psds-badge--success {
+  --psds-badge-ascent-bg: var(--success-light);
+  --psds-badge-ascent-fg: var(--success);
+  --psds-badge-subtle-bg: var(--success-lighter);
+  --psds-badge-subtle-fg: var(--success);
+  --psds-badge-accent   : var(--success);
+}
+
+.psds-badge--warning {
+  --psds-badge-ascent-bg: var(--warning-light);
+  --psds-badge-ascent-fg: var(--warning);
+  --psds-badge-subtle-bg: var(--warning-lighter);
+  --psds-badge-subtle-fg: var(--warning);
+  --psds-badge-accent   : var(--warning);
+}
+
+.psds-badge--danger {
+  --psds-badge-ascent-bg: var(--danger-light);
+  --psds-badge-ascent-fg: var(--danger);
+  --psds-badge-subtle-bg: var(--danger-lighter);
+  --psds-badge-subtle-fg: var(--danger);
+  --psds-badge-accent   : var(--danger);
+}
+
+/* The three neutral types carry --radius-4 in the Rounded shape, in every
+ * contrast — the accent types only drop to --radius-4 when Outlined. */
+
+.psds-badge--secondary {
+  --psds-badge-radius   : var(--radius-4);
+  --psds-badge-ascent-bg: var(--background-content-bg-color);
+  --psds-badge-ascent-fg: var(--foreground-content-text-color-alt1);
+  --psds-badge-subtle-bg: var(--background-content-bg-color-alt1);
+  --psds-badge-subtle-fg: var(--foreground-content-text-color-alt1);
+  --psds-badge-accent   : var(--foreground-content-text-color-alt1);
+}
+
+/* Light resolves Ascent and Subtle to the same pair in the source node. */
+.psds-badge--light {
+  --psds-badge-radius   : var(--radius-4);
+  --psds-badge-ascent-bg: var(--background-content-bg-color-alt1);
+  --psds-badge-ascent-fg: var(--foreground-content-text-color-alt1);
+  --psds-badge-subtle-bg: var(--background-content-bg-color-alt1);
+  --psds-badge-subtle-fg: var(--foreground-content-text-color-alt1);
+  --psds-badge-accent   : var(--foreground-content-text-color-alt1);
+}
+
+/* Dark likewise, and it inverts: the foreground token is the surface. */
+.psds-badge--dark {
+  --psds-badge-radius   : var(--radius-4);
+  --psds-badge-ascent-bg: var(--foreground-content-text-color-alt2);
+  --psds-badge-ascent-fg: var(--background-content-bg-color-alt2);
+  --psds-badge-subtle-bg: var(--foreground-content-text-color-alt2);
+  --psds-badge-subtle-fg: var(--background-content-bg-color-alt2);
+  --psds-badge-accent   : var(--foreground-content-text-color-alt2);
+}
+
+/* --------------------------------------------------------------- Contrast */
+/* Subtle is the base treatment. */
+
+.psds-badge {
+  background-color: var(--psds-badge-subtle-bg);
+  color           : var(--psds-badge-subtle-fg);
+}
+
+.psds-badge--ascent {
+  background-color: var(--psds-badge-ascent-bg);
+  color           : var(--psds-badge-ascent-fg);
+}
+
+.psds-badge--outline {
+  --psds-badge-radius: var(--radius-4);
+
+  background-color: var(--transparent);
+  border-color    : var(--psds-badge-accent);
+  color           : var(--psds-badge-accent);
+}
+
+/* ------------------------------------------------------------------- Mode */
+/* Word is the base. Letter is a fixed-width counter; Dot is a bare marker. */
+
+.psds-badge--letter {
+  min-width     : var(--psds-badge-letter-width);
+  padding-inline: var(--spacing-0);
+}
+
+.psds-badge--dot {
+  --psds-badge-radius: var(--radius-4);
+
+  width         : var(--psds-badge-dot-size);
+  height        : var(--psds-badge-dot-size);
+  min-width     : auto;
+  padding-inline: var(--spacing-0);
+
+  /* The dot rides on top of other content, so it keeps a 1px ring in the
+   * content background that separates it from whatever sits beneath. */
+  border-color: var(--background-content-bg-color);
+}
+
+/* Outlined, the ring is the type colour and the dot reads as hollow. */
+.psds-badge--dot.psds-badge--outline {
+  border-color: var(--psds-badge-accent);
+}
+
+/* ------------------------------------------------------------------ Shape */
+/* Full Rounded. Declared last so it wins over every radius set above. */
+
+.psds-badge--pill {
+  --psds-badge-radius: var(--radius-24);
+}
+
+/* A Full Rounded Letter badge is a circle: its width collapses to its height. */
+.psds-badge--pill.psds-badge--letter {
+  min-width: var(--psds-badge-height);
+}
+
+/* ------------------------------------------------------------- Icon slot */
+/*
+ * Word and Letter badges accept a leading or trailing icon, which consumes the
+ * gap token above. The Figma icon is 10px at --sm and 12px at --lg — exactly
+ * 1em at both sizes, so the icon scales with the label.
+ */
+
+.psds-badge__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : 1em;
+  height         : 1em;
+}
+
+.psds-badge__icon > svg,
+.psds-badge__icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
