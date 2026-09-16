@@ -1,0 +1,741 @@
+/* Portside Design System — Multiselect
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Multi Select Dropdown
+ * (node 27254:1456608)
+ * Every value below resolves through a token declared in tokens.css, except the
+ * component-level literals noted inline (font family, shadows and the close glyph).
+ *
+ * The Figma node ships two shapes, Rounded and Line. Only Rounded is implemented.
+ *
+ * Class API
+ *   .psds-multiselect                          base (Rounded shape, Default state)
+ *   .psds-multiselect--xs | --sm | --md | --lg Sizes
+ *   .psds-multiselect--readonly                Read Only
+ *   .psds-multiselect--info | --success
+ *          | --warning | --danger              Validation
+ *   .psds-multiselect--wrap                    chips wrap onto new lines (not in Figma)
+ *
+ *   .psds-multiselect__label     .psds-multiselect__required  .psds-multiselect__glyph
+ *   .psds-multiselect__control   .psds-multiselect__icon      .psds-multiselect__values
+ *   .psds-multiselect__chip      .psds-multiselect__chip-label .psds-multiselect__chip-remove
+ *   .psds-multiselect__input     .psds-multiselect__clear     .psds-multiselect__alert
+ *   .psds-multiselect__menu      .psds-multiselect__group     .psds-multiselect__option
+ *
+ * States resolve from real interaction pseudo-classes on the wrapper. The
+ * .is-hover / .is-focus / .is-active / .is-disabled helpers force a state for
+ * documentation and visual-regression galleries.
+ */
+
+.psds-multiselect {
+  /* --- Size channel (set by the size modifiers; defaults are --sm) --- */
+  --psds-multiselect-height          : var(--form-mouse);
+  --psds-multiselect-radius          : var(--control-radius-input-default-radius);
+  --psds-multiselect-font-size       : var(--font-size-sm);
+  --psds-multiselect-line-height     : var(--line-height-sm);
+  --psds-multiselect-padding         : var(--spacing-4);
+  --psds-multiselect-gap             : var(--spacing-8);
+  --psds-multiselect-icon            : var(--font-icon-14);
+  --psds-multiselect-icon-inset      : var(--spacing-2);
+  --psds-multiselect-label-font-size : var(--font-size-xs);
+  --psds-multiselect-label-line-height: var(--line-height-xs);
+  --psds-multiselect-note-font-size  : var(--font-size-xs);
+  --psds-multiselect-note-line-height: var(--line-height-xs);
+
+  --psds-multiselect-chip-height     : var(--form-mouse-small);
+  --psds-multiselect-chip-radius     : var(--control-radius-chip-default-radius);
+  --psds-multiselect-chip-icon       : var(--font-icon-14);
+  --psds-multiselect-chip-gap        : var(--spacing-4);
+
+  --psds-multiselect-menu-padding    : var(--spacing-4);
+  --psds-multiselect-menu-inline     : var(--spacing-12);
+  --psds-multiselect-menu-gap        : var(--spacing-8);
+  --psds-multiselect-group-height    : var(--spacing-30);
+  --psds-multiselect-group-font-size : var(--font-size-xs);
+  --psds-multiselect-group-line-height: var(--line-height-xs);
+  --psds-multiselect-option-height   : var(--form-mouse);
+  --psds-multiselect-option-block    : var(--spacing-4);
+
+  /* --- Colour channel (set by the state modifiers) --- */
+  --psds-multiselect-bg              : var(--background-content-bg-color);
+  --psds-multiselect-border          : var(--border);
+  --psds-multiselect-border-hover    : var(--border-hover);
+  --psds-multiselect-border-width    : var(--border-1);
+  --psds-multiselect-accent          : var(--buttons-primary-border-color);
+  --psds-multiselect-fg              : var(--foreground-content-text-color);
+  --psds-multiselect-placeholder     : var(--foreground-placeholder-text-color);
+  --psds-multiselect-icon-color      : var(--icon-color);
+  --psds-multiselect-label-color     : var(--foreground-content-text-color);
+  --psds-multiselect-required-color  : var(--danger);
+  --psds-multiselect-note-color      : var(--foreground-content-text-color-alt1);
+  --psds-multiselect-chip-bg         : var(--buttons-primary-bg-color);
+  --psds-multiselect-chip-border     : var(--buttons-primary-border-color);
+  --psds-multiselect-chip-fg         : var(--buttons-primary-text);
+
+  /* tokens.css declares no font-family or shadow tokens; both come from the
+   * Figma text style and the $Shadow-sm / flyout effects. */
+  --psds-multiselect-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-multiselect-shadow     : 0 1px 2px 0 #0000000d;
+  --psds-multiselect-menu-shadow: 0 4px 6px 2px #0000000d, 0 10px 15px -3px #0000001a;
+
+  /* Figma "Icons/Close", the same glyph Text Box uses, painted as a mask so it
+   * follows the colour of whatever carries it. */
+  --psds-multiselect-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.59375 3.59375L3.70312 3.51562L3.8125 3.45312L3.9375 3.42188L4.0625 3.40625L4.1875 3.42188L4.3125 3.45312L4.42188 3.51562L4.53125 3.59375L8 7.07812L11.5156 3.54688L11.625 3.48438L11.75 3.4375L11.875 3.40625H12L12.125 3.4375L12.2344 3.48438L12.3438 3.54688L12.4375 3.64062L12.5156 3.75L12.5625 3.875L12.5938 4V4.125L12.5625 4.25L12.5156 4.375L12.4375 4.48438L8.92188 8L12.4531 11.5156L12.5156 11.625L12.5625 11.75L12.5938 11.875V12L12.5625 12.125L12.5156 12.25L12.4531 12.3594L12.3594 12.4531L12.25 12.5156L12.125 12.5625L12 12.5938H11.875L11.75 12.5625L11.625 12.5156L11.5156 12.4531L8 8.92188L4.48438 12.4531L4.375 12.5156L4.25 12.5625L4.125 12.5938H4L3.875 12.5625L3.75 12.5156L3.64062 12.4531L3.54688 12.3594L3.48438 12.25L3.4375 12.125L3.40625 12V11.875L3.4375 11.75L3.48438 11.625L3.54688 11.5156L7.07812 8L3.54688 4.48438L3.48438 4.375L3.4375 4.25L3.40625 4.125V4L3.4375 3.875L3.48438 3.75L3.54688 3.64062L3.59375 3.59375Z'/%3E%3C/svg%3E");
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-4);
+
+  font-family   : var(--psds-multiselect-font-family);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.psds-multiselect *,
+.psds-multiselect *::before,
+.psds-multiselect *::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-multiselect--xs {
+  --psds-multiselect-height          : var(--form-mouse-small);
+  --psds-multiselect-radius          : var(--control-radius-input-bigger-radius);
+  --psds-multiselect-font-size       : var(--font-size-xs);
+  --psds-multiselect-line-height     : var(--line-height-xs);
+  --psds-multiselect-padding         : var(--spacing-3);
+  --psds-multiselect-gap             : var(--spacing-6);
+  --psds-multiselect-icon            : var(--font-icon-12);
+  --psds-multiselect-icon-inset      : var(--spacing-2);
+  --psds-multiselect-label-font-size : var(--font-size-xs);
+  --psds-multiselect-label-line-height: var(--line-height-xs);
+  --psds-multiselect-note-font-size  : var(--font-size-xs);
+  --psds-multiselect-note-line-height: var(--line-height-xs);
+  --psds-multiselect-chip-height     : var(--spacing-18);
+  --psds-multiselect-chip-radius     : var(--control-radius-chip-small-radius);
+  --psds-multiselect-chip-icon       : var(--font-icon-12);
+  --psds-multiselect-chip-gap        : var(--spacing-4);
+  --psds-multiselect-menu-padding    : var(--spacing-4);
+  --psds-multiselect-menu-inline     : var(--spacing-8);
+  --psds-multiselect-menu-gap        : var(--spacing-8);
+  --psds-multiselect-group-height    : var(--form-mouse-small);
+  --psds-multiselect-group-font-size : var(--font-size-xxs);
+  --psds-multiselect-group-line-height: var(--line-height-xxs);
+  --psds-multiselect-option-height   : var(--form-mouse-small);
+  --psds-multiselect-option-block    : var(--spacing-2);
+}
+
+.psds-multiselect--sm {
+  --psds-multiselect-height          : var(--form-mouse);
+  --psds-multiselect-radius          : var(--control-radius-input-default-radius);
+  --psds-multiselect-font-size       : var(--font-size-sm);
+  --psds-multiselect-line-height     : var(--line-height-sm);
+  --psds-multiselect-padding         : var(--spacing-4);
+  --psds-multiselect-gap             : var(--spacing-8);
+  --psds-multiselect-icon            : var(--font-icon-14);
+  --psds-multiselect-icon-inset      : var(--spacing-2);
+  --psds-multiselect-label-font-size : var(--font-size-xs);
+  --psds-multiselect-label-line-height: var(--line-height-xs);
+  --psds-multiselect-note-font-size  : var(--font-size-xs);
+  --psds-multiselect-note-line-height: var(--line-height-xs);
+  --psds-multiselect-chip-height     : var(--form-mouse-small);
+  --psds-multiselect-chip-radius     : var(--control-radius-chip-default-radius);
+  --psds-multiselect-chip-icon       : var(--font-icon-14);
+  --psds-multiselect-chip-gap        : var(--spacing-4);
+  --psds-multiselect-menu-padding    : var(--spacing-4);
+  --psds-multiselect-menu-inline     : var(--spacing-12);
+  --psds-multiselect-menu-gap        : var(--spacing-8);
+  --psds-multiselect-group-height    : var(--spacing-30);
+  --psds-multiselect-group-font-size : var(--font-size-xs);
+  --psds-multiselect-group-line-height: var(--line-height-xs);
+  --psds-multiselect-option-height   : var(--form-mouse);
+  --psds-multiselect-option-block    : var(--spacing-4);
+}
+
+.psds-multiselect--md {
+  --psds-multiselect-height          : var(--form-bigger-small);
+  --psds-multiselect-radius          : var(--control-radius-input-bigger-small-radius);
+  --psds-multiselect-font-size       : var(--font-size-base);
+  --psds-multiselect-line-height     : var(--line-height-base);
+  --psds-multiselect-padding         : var(--spacing-12);
+  --psds-multiselect-gap             : var(--spacing-10);
+  --psds-multiselect-icon            : var(--font-icon-16);
+  --psds-multiselect-icon-inset      : var(--spacing-4);
+  --psds-multiselect-label-font-size : var(--font-size-sm);
+  --psds-multiselect-label-line-height: var(--line-height-sm);
+  --psds-multiselect-note-font-size  : var(--font-size-sm);
+  --psds-multiselect-note-line-height: var(--line-height-sm);
+  --psds-multiselect-chip-height     : var(--spacing-28);
+  --psds-multiselect-chip-radius     : var(--control-radius-chip-default-radius);
+  --psds-multiselect-chip-icon       : var(--font-icon-14);
+  --psds-multiselect-chip-gap        : var(--spacing-8);
+  --psds-multiselect-menu-padding    : var(--spacing-4);
+  --psds-multiselect-menu-inline     : var(--spacing-12);
+  --psds-multiselect-menu-gap        : var(--spacing-12);
+  --psds-multiselect-group-height    : var(--form-mouse);
+  --psds-multiselect-group-font-size : var(--font-size-sm);
+  --psds-multiselect-group-line-height: var(--line-height-sm);
+  --psds-multiselect-option-height   : var(--form-mouse);
+  --psds-multiselect-option-block    : var(--spacing-4);
+}
+
+.psds-multiselect--lg {
+  --psds-multiselect-height          : var(--form-bigger);
+  --psds-multiselect-radius          : var(--control-radius-input-bigger-radius);
+  --psds-multiselect-font-size       : var(--font-size-base);
+  --psds-multiselect-line-height     : var(--line-height-base);
+  --psds-multiselect-padding         : var(--spacing-12);
+  --psds-multiselect-gap             : var(--spacing-10);
+  --psds-multiselect-icon            : var(--font-icon-16);
+  --psds-multiselect-icon-inset      : var(--spacing-4);
+  --psds-multiselect-label-font-size : var(--font-size-base);
+  --psds-multiselect-label-line-height: var(--line-height-base);
+  --psds-multiselect-note-font-size  : var(--font-size-sm);
+  --psds-multiselect-note-line-height: var(--line-height-sm);
+  --psds-multiselect-chip-height     : var(--form-mouse);
+  --psds-multiselect-chip-radius     : var(--control-radius-chip-default-radius);
+  --psds-multiselect-chip-icon       : var(--font-icon-14);
+  --psds-multiselect-chip-gap        : var(--spacing-8);
+  --psds-multiselect-menu-padding    : var(--spacing-6);
+  --psds-multiselect-menu-inline     : var(--spacing-16);
+  --psds-multiselect-menu-gap        : var(--spacing-12);
+  --psds-multiselect-group-height    : var(--form-bigger-small);
+  --psds-multiselect-group-font-size : var(--font-size-sm);
+  --psds-multiselect-group-line-height: var(--line-height-sm);
+  --psds-multiselect-option-height   : var(--form-bigger);
+  --psds-multiselect-option-block    : var(--spacing-4);
+}
+
+/* ------------------------------------------------------------------ Label */
+
+.psds-multiselect__label {
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-4);
+
+  font-size  : var(--psds-multiselect-label-font-size);
+  line-height: var(--psds-multiselect-label-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--psds-multiselect-label-color);
+}
+
+.psds-multiselect__required {
+  font-size  : var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-multiselect-required-color);
+}
+
+.psds-multiselect--xs .psds-multiselect__required {
+  font-size  : var(--font-size-xxs);
+  line-height: var(--line-height-xxs);
+}
+
+/* ------------------------------------------------------------- Icon slots */
+
+.psds-multiselect__glyph {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-multiselect-icon);
+  height         : var(--psds-multiselect-icon);
+  font-size      : var(--psds-multiselect-icon);
+}
+
+.psds-multiselect__glyph > svg,
+.psds-multiselect__glyph > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* Label and helper icons stand alone, so they take the muted icon colour. */
+.psds-multiselect__label .psds-multiselect__glyph,
+.psds-multiselect__alert .psds-multiselect__glyph {
+  color: var(--psds-multiselect-icon-color);
+}
+
+/* The leading icon carries a little extra inline padding, matching the
+ * "Search" frame in the Figma node. */
+.psds-multiselect__icon {
+  margin-inline-start: var(--psds-multiselect-icon-inset);
+}
+
+/* ---------------------------------------------------------------- Control */
+
+.psds-multiselect__control {
+  position   : relative;
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-multiselect-gap);
+
+  height        : var(--psds-multiselect-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--psds-multiselect-padding) var(--spacing-0);
+
+  background-color: var(--psds-multiselect-bg);
+  border          : var(--psds-multiselect-border-width) solid var(--psds-multiselect-border);
+  border-radius   : var(--psds-multiselect-radius);
+  box-shadow      : var(--psds-multiselect-shadow);
+  color           : var(--psds-multiselect-fg);
+  cursor          : text;
+
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+/* With no clear button there is no trailing square, so the input needs its own
+ * breathing room at the inline end. */
+.psds-multiselect__control:not(:has(> .psds-multiselect__clear)) {
+  padding-inline-end: var(--psds-multiselect-padding);
+}
+
+.psds-multiselect__control .psds-multiselect__glyph {
+  color: var(--psds-multiselect-icon-color);
+}
+
+/* Chips and the input share one row. It never grows the control: overflowing
+ * chips scroll sideways, with the scrollbar hidden as in Figma's clipped frame.
+ * Tabbing to a chip's remove button scrolls it into view. */
+.psds-multiselect__values {
+  flex       : 1 1 auto;
+  min-width  : 0;
+  align-self : stretch;
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-multiselect-chip-gap);
+  margin     : var(--spacing-0);
+  padding    : var(--spacing-0);
+  list-style : none;
+
+  overflow-x     : auto;
+  overflow-y     : hidden;
+  scrollbar-width: none;
+}
+
+.psds-multiselect__values::-webkit-scrollbar {
+  display: none;
+}
+
+/* The text input that filters the menu. Focus is drawn on the control. */
+.psds-multiselect__input {
+  flex     : 1 0 4ch;
+  min-width: 4ch;
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  outline   : none;
+
+  font-family   : inherit;
+  font-size     : var(--psds-multiselect-font-size);
+  line-height   : var(--psds-multiselect-line-height);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : inherit;
+}
+
+.psds-multiselect__input::placeholder {
+  color  : var(--psds-multiselect-placeholder);
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ Chips */
+/* The Figma "Chips" instance: primary surface, Text-X Small/Medium label. */
+
+.psds-multiselect__chip {
+  display    : inline-flex;
+  flex       : none;
+  align-items: center;
+  gap        : var(--spacing-4);
+
+  height        : var(--psds-multiselect-chip-height);
+  margin        : var(--spacing-0);
+  padding-block : var(--spacing-0);
+  padding-inline: calc(var(--spacing-8) - var(--border-1));
+
+  background-color: var(--psds-multiselect-chip-bg);
+  border          : var(--border-1) solid var(--psds-multiselect-chip-border);
+  border-radius   : var(--psds-multiselect-chip-radius);
+  color           : var(--psds-multiselect-chip-fg);
+
+  font-size  : var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  cursor     : default;
+}
+
+.psds-multiselect__chip-label {
+  overflow     : hidden;
+  text-overflow: ellipsis;
+}
+
+.psds-multiselect__chip-remove,
+.psds-multiselect__clear {
+  position       : relative;
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  color     : inherit;
+  appearance: none;
+  font      : inherit;
+  cursor    : pointer;
+}
+
+.psds-multiselect__chip-remove {
+  width        : var(--psds-multiselect-chip-icon);
+  height       : var(--psds-multiselect-chip-icon);
+  border-radius: var(--radius-2);
+}
+
+/* The Figma remove slot adds 4px before the glyph on top of the chip's 4px gap;
+ * the gap alone reads the same, so the slot padding is folded into it. */
+
+.psds-multiselect__chip-remove:empty,
+.psds-multiselect__clear:empty {
+  background-color     : currentColor;
+  -webkit-mask-image   : var(--psds-multiselect-close);
+  mask-image           : var(--psds-multiselect-close);
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+}
+
+.psds-multiselect__chip-remove:empty {
+  -webkit-mask-size: 100% 100%;
+  mask-size        : 100% 100%;
+}
+
+/* Widens the remove target without moving the glyph. */
+.psds-multiselect__chip-remove::after {
+  content  : "";
+  position : absolute;
+  inset    : calc(-1 * var(--spacing-4));
+}
+
+/* The clear square is as wide as the control is tall and sits flush to the
+ * inline end, like the Dropdown List chevron. */
+.psds-multiselect__clear {
+  align-self: stretch;
+  width     : var(--psds-multiselect-height);
+  color     : var(--psds-multiselect-icon-color);
+}
+
+.psds-multiselect__clear:empty {
+  -webkit-mask-size: var(--psds-multiselect-icon) var(--psds-multiselect-icon);
+  mask-size        : var(--psds-multiselect-icon) var(--psds-multiselect-icon);
+}
+
+.psds-multiselect__clear > svg,
+.psds-multiselect__clear > img {
+  display: block;
+  width  : var(--psds-multiselect-icon);
+  height : var(--psds-multiselect-icon);
+}
+
+/* The source node defines no states for these buttons; the focus ring is an
+ * accessibility addition, reusing Button's $shadow-focus-ring2 treatment. A
+ * masked empty button cannot show a box-shadow, so the ring is an outline. */
+.psds-multiselect__chip-remove:focus-visible,
+.psds-multiselect__clear:focus-visible {
+  outline       : var(--border-2) solid var(--primary);
+  outline-offset: var(--border-1);
+}
+
+.psds-multiselect__clear:focus-visible {
+  outline-offset: calc(-1 * var(--border-4));
+}
+
+/* ----------------------------------------------------------- Alert message */
+
+.psds-multiselect__alert {
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-4);
+  margin     : var(--spacing-0);
+
+  font-size  : var(--psds-multiselect-note-font-size);
+  line-height: var(--psds-multiselect-note-line-height);
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-multiselect-note-color);
+}
+
+/* ------------------------------------------------------------------- Wrap */
+/*
+ * Not a Figma variant. Chips wrap onto new lines and the control grows; the
+ * single-line height becomes a minimum and the inline padding is mirrored in the
+ * block direction so the first row sits where it does on one line.
+ */
+
+.psds-multiselect--wrap .psds-multiselect__control {
+  height       : auto;
+  min-height   : var(--psds-multiselect-height);
+  align-items  : stretch;
+}
+
+.psds-multiselect--wrap .psds-multiselect__values {
+  flex-wrap    : wrap;
+  overflow     : visible;
+  padding-block: calc((var(--psds-multiselect-height) - var(--psds-multiselect-chip-height)) / 2 - var(--psds-multiselect-border-width));
+}
+
+.psds-multiselect--wrap .psds-multiselect__icon {
+  align-self: flex-start;
+  height    : calc(var(--psds-multiselect-height) - 2 * var(--psds-multiselect-border-width));
+}
+
+.psds-multiselect--wrap .psds-multiselect__clear {
+  align-self: flex-start;
+  height    : calc(var(--psds-multiselect-height) - 2 * var(--psds-multiselect-border-width));
+}
+
+/* ------------------------------------------------------------------ States */
+/*
+ * Figma models State as a single axis. Filled is identical to Default here —
+ * the control always shows chips plus the input placeholder — so it has no
+ * modifier. Read Only and the four validation states are modifiers; Hover,
+ * Focus, Active and Disabled resolve from interaction.
+ */
+
+.psds-multiselect--readonly {
+  --psds-multiselect-bg        : var(--background-content-bg-color-alt2);
+  --psds-multiselect-icon-color: var(--icon-color-pressed);
+}
+
+.psds-multiselect--readonly .psds-multiselect__control {
+  cursor: default;
+}
+
+.psds-multiselect--info {
+  --psds-multiselect-border      : var(--buttons-info-border-color);
+  --psds-multiselect-border-hover: var(--buttons-info-border-color);
+  --psds-multiselect-accent      : var(--buttons-info-border-color);
+  --psds-multiselect-icon-color  : var(--icon-color-pressed);
+}
+
+.psds-multiselect--success {
+  --psds-multiselect-border      : var(--buttons-success-border-color);
+  --psds-multiselect-border-hover: var(--buttons-success-border-color);
+  --psds-multiselect-accent      : var(--buttons-success-border-color);
+  --psds-multiselect-icon-color  : var(--icon-color-pressed);
+}
+
+.psds-multiselect--warning {
+  --psds-multiselect-border      : var(--buttons-warning-border-color);
+  --psds-multiselect-border-hover: var(--buttons-warning-border-color);
+  --psds-multiselect-accent      : var(--buttons-warning-border-color);
+  --psds-multiselect-icon-color  : var(--icon-color-pressed);
+}
+
+.psds-multiselect--danger {
+  --psds-multiselect-border      : var(--buttons-danger-border-color);
+  --psds-multiselect-border-hover: var(--buttons-danger-border-color);
+  --psds-multiselect-accent      : var(--buttons-danger-border-color);
+  --psds-multiselect-icon-color  : var(--icon-color-pressed);
+}
+
+/* ------------------------------------------------------------------- Hover */
+/* Bound to the control, excluding its menu, so hovering an open menu does not
+ * restyle the field. */
+
+.psds-multiselect:has(.psds-multiselect__control:hover:not(:has(.psds-multiselect__menu:hover))),
+.psds-multiselect.is-hover {
+  --psds-multiselect-icon-color: var(--icon-color-hover);
+}
+
+.psds-multiselect__control:hover:not(:has(.psds-multiselect__menu:hover)),
+.psds-multiselect.is-hover .psds-multiselect__control {
+  border-color: var(--psds-multiselect-border-hover);
+}
+
+/* ---------------------------------------------------------- Focus / Active */
+/*
+ * The Figma Focus and Active variants are identical: a 2px border in
+ * `Buttons/Primary/primary-border-color`. Declared after Hover so it wins a
+ * simultaneous hover. :focus-within covers the input, the chip remove buttons
+ * and an open menu. The fixed height keeps the thicker border from resizing
+ * the control; the chips shift inward by 1px, as they do in Figma.
+ */
+
+.psds-multiselect:focus-within,
+.psds-multiselect.is-focus,
+.psds-multiselect.is-active {
+  --psds-multiselect-icon-color: var(--icon-color-pressed);
+}
+
+.psds-multiselect:focus-within .psds-multiselect__control,
+.psds-multiselect__control:active:not(:has(.psds-multiselect__menu:active)),
+.psds-multiselect.is-focus .psds-multiselect__control,
+.psds-multiselect.is-active .psds-multiselect__control {
+  border-color: var(--psds-multiselect-accent);
+  border-width: var(--border-2);
+}
+
+/* ---------------------------------------------------------------- Disabled */
+/*
+ * Declared last so it survives a simultaneous hover or focus. The chips fade to
+ * the disabled primary tokens and lose their remove buttons, the label, required
+ * mark and helper text fade too, and the shadow is dropped, as in Figma.
+ */
+
+.psds-multiselect:has(.psds-multiselect__input:disabled),
+.psds-multiselect.is-disabled {
+  --psds-multiselect-bg            : var(--background-content-bg-color-alt2);
+  --psds-multiselect-fg            : var(--foreground-content-text-color-disabled);
+  --psds-multiselect-placeholder   : var(--foreground-content-text-color-disabled);
+  --psds-multiselect-icon-color    : var(--icon-color-disabled);
+  --psds-multiselect-label-color   : var(--foreground-content-text-color-disabled);
+  --psds-multiselect-required-color: var(--buttons-danger-bg-color-disabled);
+  --psds-multiselect-note-color    : var(--foreground-content-text-color-disabled);
+  --psds-multiselect-chip-bg       : var(--buttons-primary-bg-color-disabled);
+  --psds-multiselect-chip-border   : var(--buttons-primary-border-color-disabled);
+  --psds-multiselect-chip-fg       : var(--buttons-primary-text-disabled);
+  --psds-multiselect-shadow        : none;
+}
+
+.psds-multiselect:has(.psds-multiselect__input:disabled) .psds-multiselect__control,
+.psds-multiselect.is-disabled .psds-multiselect__control {
+  border-color: var(--border);
+  border-width: var(--psds-multiselect-border-width);
+  cursor      : not-allowed;
+}
+
+.psds-multiselect:has(.psds-multiselect__input:disabled) :is(.psds-multiselect__chip-remove, .psds-multiselect__clear),
+.psds-multiselect.is-disabled :is(.psds-multiselect__chip-remove, .psds-multiselect__clear) {
+  display: none;
+}
+
+.psds-multiselect__input:disabled {
+  cursor: not-allowed;
+}
+
+.psds-multiselect.is-disabled {
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------- Menu */
+/*
+ * The flyout from the Figma "Context Menu" instance. Place it as the last child
+ * of the control: it is anchored 4px below the control's border box and matches
+ * its width. Toggle it with the `hidden` attribute; opening, filtering and
+ * keyboard navigation are the consumer's job.
+ */
+
+.psds-multiselect__menu {
+  position    : absolute;
+  z-index     : 1;
+  top         : calc(100% + var(--psds-multiselect-border-width) + var(--spacing-4));
+  inset-inline: calc(-1 * var(--psds-multiselect-border-width));
+
+  display       : flex;
+  flex-direction: column;
+  max-height    : 320px;
+  margin        : var(--spacing-0);
+  padding-block : var(--psds-multiselect-menu-padding);
+  padding-inline: var(--spacing-0);
+  list-style    : none;
+
+  background-color: var(--background-flyout-bg-color);
+  border          : var(--border-1) solid var(--border-light);
+  border-radius   : var(--radius-8);
+  box-shadow      : var(--psds-multiselect-menu-shadow);
+  overflow-y      : auto;
+  cursor          : default;
+}
+
+.psds-multiselect__menu[hidden] {
+  display: none;
+}
+
+/* Rows and role="group" wrappers keep their height when the menu scrolls. */
+.psds-multiselect__menu > * {
+  flex: none;
+}
+
+/* A group header. Its optional leading checkbox selects or clears the whole
+ * group; use .psds-checkbox at the size listed in multiselect.md. */
+.psds-multiselect__group {
+  position   : relative;
+  display    : flex;
+  flex       : none;
+  align-items: center;
+  gap        : var(--psds-multiselect-menu-gap);
+
+  min-height    : var(--psds-multiselect-group-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--psds-multiselect-menu-inline);
+
+  border-block-end: var(--border-1) solid var(--border-light);
+  background-color: var(--transparent);
+
+  font-size     : var(--psds-multiselect-group-font-size);
+  line-height   : var(--psds-multiselect-group-line-height);
+  font-weight   : var(--font-weight-medium);
+  color         : var(--foreground-content-text-color-alt2);
+  text-transform: uppercase;
+}
+
+.psds-multiselect__group .psds-multiselect__glyph {
+  color: var(--icon-color);
+}
+
+.psds-multiselect__option {
+  display    : flex;
+  flex       : none;
+  align-items: center;
+  gap        : var(--psds-multiselect-menu-gap);
+
+  min-height    : var(--psds-multiselect-option-height);
+  padding-block : var(--psds-multiselect-option-block);
+  padding-inline: var(--psds-multiselect-menu-inline);
+
+  background-color: var(--transparent);
+  font-size       : var(--psds-multiselect-font-size);
+  line-height     : var(--psds-multiselect-line-height);
+  font-weight     : var(--font-weight-normal);
+  color           : var(--foreground-content-text-color);
+  cursor          : pointer;
+
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.psds-multiselect__option:hover,
+.psds-multiselect__option.is-active {
+  background-color: var(--background-content-bg-color-hover);
+  color           : var(--foreground-content-text-color-hover);
+}
+
+.psds-multiselect__option[aria-selected="true"],
+.psds-multiselect__option.is-selected {
+  background-color: var(--background-content-bg-color-pressed);
+  color           : var(--foreground-content-text-color-pressed);
+}
+
+/* The keyboard-active option keeps a visible cue even when it is selected. */
+.psds-multiselect__option.is-active {
+  box-shadow: inset var(--border-2) 0 0 var(--primary);
+}
+
+.psds-multiselect__option[aria-disabled="true"] {
+  background-color: var(--transparent);
+  color           : var(--foreground-content-text-color-disabled);
+  cursor          : not-allowed;
+}
+
+/* --------------------------------------------------------- Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-multiselect__control,
+  .psds-multiselect__option {
+    transition: none;
+  }
+}
