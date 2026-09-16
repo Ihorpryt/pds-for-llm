@@ -1,0 +1,348 @@
+/* Portside Design System — Tooltip
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Tooltip (node 6678:184877)
+ * Every value below resolves through a token declared in tokens.css, except the
+ * component-level literals noted inline (font family, the $Shadow-md effect and the
+ * pointer geometry).
+ *
+ * Class API
+ *   .psds-tooltip                              the bubble (Small, no pointer, no shadow)
+ *   .psds-tooltip--sm | --lg                   Sizes  (Figma Small | Large; default --sm)
+ *   .psds-tooltip--arrow-top-start | --arrow-top | --arrow-top-end
+ *          | --arrow-bottom-start | --arrow-bottom | --arrow-bottom-end
+ *          | --arrow-left | --arrow-right      Pointer (Figma Top Left … Center Right;
+ *                                              default: None)
+ *   .psds-tooltip--shadow                      Shadow = True
+ *   .psds-tooltip__header                      icon + title + close, one row
+ *   .psds-tooltip__icon                        optional leading glyph (a .psds-icon)
+ *   .psds-tooltip__title
+ *   .psds-tooltip__description
+ *   .psds-tooltip__close                       optional dismiss button
+ *
+ *   .psds-tooltip-anchor                       wraps a trigger and its tooltip; shows the
+ *                                              tooltip on hover / focus and places it on
+ *                                              the side opposite its pointer
+ *   .is-open                                   on the anchor: force the tooltip open
+ *
+ * The pointer modifier names the edge the pointer sits on, not the side of the trigger
+ * the tooltip opens on: --arrow-top opens *below* the trigger.
+ */
+
+.psds-tooltip {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-tooltip-max-width   : 260px;
+  --psds-tooltip-padding     : var(--spacing-8);
+  --psds-tooltip-gap         : var(--spacing-8);
+  --psds-tooltip-header-gap  : var(--spacing-4);
+  --psds-tooltip-font-size   : var(--font-size-xs);
+  --psds-tooltip-line-height : var(--line-height-xs);
+  --psds-tooltip-icon-size   : var(--font-icon-12);
+  --psds-tooltip-close-size  : var(--font-icon-14);
+  --psds-tooltip-radius      : var(--control-radius-tooltip-default-radius);
+
+  /* Pointer geometry. The Figma polygon is a 16 × 9.6 (Small) / 18 × 11.49 (Large)
+   * rounded triangle; its base sits on the inner edge of the 1px border. The inset is
+   * measured from the padding box, so the pointer starts 23 / 31px from the outer edge,
+   * as in Figma. */
+  --psds-tooltip-arrow-w     : 16px;
+  --psds-tooltip-arrow-h     : 9.6px;
+  --psds-tooltip-arrow-inset : var(--spacing-22);
+  --psds-tooltip-arrow-mask  : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9.59963' preserveAspectRatio='none'%3E%3Cpath d='M6.38253 0.823656C7.18122 -0.274552 8.81877 -0.274552 9.61747 0.823657L16 9.59963H0L6.38253 0.823656Z'/%3E%3C/svg%3E");
+
+  /* Distance between the pointer tip and the trigger when inside .psds-tooltip-anchor. */
+  --psds-tooltip-offset      : calc(var(--psds-tooltip-arrow-h) + var(--spacing-4));
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-tooltip-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* tokens.css declares no shadow tokens; this is the Figma effect $Shadow-md, applied as a
+   * drop-shadow filter so it follows the pointer too. */
+  --psds-tooltip-shadow: drop-shadow(0 2px 2px #0000000f) drop-shadow(0 4px 3px #0000001a);
+
+  position  : relative;
+  box-sizing: border-box;
+  display   : flex;
+  flex-direction: column;
+  gap       : var(--psds-tooltip-gap);
+  width     : max-content;
+  max-width : var(--psds-tooltip-max-width);
+
+  padding         : calc(var(--psds-tooltip-padding) - var(--border-1));
+  background-color: var(--background-tooltip-bg-color);
+  border          : var(--border-1) solid var(--border-tooltip-border);
+  border-radius   : var(--psds-tooltip-radius);
+  color           : var(--foreground-tooltip-text-color);
+
+  font-family   : var(--psds-tooltip-font-family);
+  font-size     : var(--psds-tooltip-font-size);
+  line-height   : var(--psds-tooltip-line-height);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  text-align    : start;
+  white-space   : normal;
+  overflow-wrap : break-word;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-tooltip--sm {
+  --psds-tooltip-max-width   : 260px;
+  --psds-tooltip-padding     : var(--spacing-8);
+  --psds-tooltip-gap         : var(--spacing-8);
+  --psds-tooltip-header-gap  : var(--spacing-4);
+  --psds-tooltip-font-size   : var(--font-size-xs);
+  --psds-tooltip-line-height : var(--line-height-xs);
+  --psds-tooltip-icon-size   : var(--font-icon-12);
+  --psds-tooltip-radius      : var(--control-radius-tooltip-default-radius);
+  --psds-tooltip-arrow-w     : 16px;
+  --psds-tooltip-arrow-h     : 9.6px;
+  --psds-tooltip-arrow-inset : var(--spacing-22);
+}
+
+.psds-tooltip--lg {
+  --psds-tooltip-max-width   : 320px;
+  --psds-tooltip-padding     : var(--spacing-12);
+  --psds-tooltip-gap         : var(--spacing-12);
+  --psds-tooltip-header-gap  : var(--spacing-6);
+  --psds-tooltip-font-size   : var(--font-size-sm);
+  --psds-tooltip-line-height : var(--line-height-sm);
+  --psds-tooltip-icon-size   : var(--font-icon-14);
+  --psds-tooltip-radius      : var(--control-radius-tooltip-bigger-radius);
+  --psds-tooltip-arrow-w     : 18px;
+  --psds-tooltip-arrow-h     : 11.49px;
+  --psds-tooltip-arrow-inset : var(--spacing-30);
+  --psds-tooltip-arrow-mask  : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11.4864' preserveAspectRatio='none'%3E%3Cpath d='M7.35562 0.861579C8.15092 -0.287194 9.84908 -0.287193 10.6444 0.861581L18 11.4864H0L7.35562 0.861579Z'/%3E%3C/svg%3E");
+}
+
+/* ----------------------------------------------------------------- Shadow */
+
+.psds-tooltip--shadow {
+  filter: var(--psds-tooltip-shadow);
+}
+
+/* ---------------------------------------------------------------- Content */
+
+.psds-tooltip__header {
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-tooltip-header-gap);
+}
+
+.psds-tooltip__icon {
+  flex     : none;
+  font-size: var(--psds-tooltip-icon-size);
+}
+
+.psds-tooltip__title {
+  flex       : 1 1 0;
+  min-width  : 0;
+  margin     : var(--spacing-0);
+  font       : inherit;
+  font-weight: var(--font-weight-medium);
+}
+
+.psds-tooltip__description {
+  margin: var(--spacing-0);
+}
+
+.psds-tooltip__close {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  position       : relative;
+
+  width : var(--psds-tooltip-close-size);
+  height: var(--psds-tooltip-close-size);
+
+  padding      : var(--spacing-0);
+  border       : var(--border-0) solid var(--transparent);
+  border-radius: var(--radius-2);
+  background   : var(--transparent);
+  color        : inherit;
+
+  font-size : var(--psds-tooltip-close-size);
+  cursor    : pointer;
+  appearance: none;
+}
+
+/* Widens the hit area to 24px without moving the glyph. */
+.psds-tooltip__close::before {
+  content  : "";
+  position : absolute;
+  top      : 50%;
+  left     : 50%;
+  width    : var(--form-mouse-small);
+  height   : var(--form-mouse-small);
+  transform: translate(-50%, -50%);
+}
+
+/* The source node defines no states; the focus ring is an accessibility addition,
+ * reusing Button's $shadow-focus-ring2 treatment. */
+.psds-tooltip__close:focus-visible {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+/* ---------------------------------------------------------------- Pointer */
+/*
+ * One pseudo-element, masked with the Figma polygon and painted in the tooltip surface.
+ * Offsets are relative to the padding box, so a pointer whose height equals
+ * --psds-tooltip-arrow-h lands with its base on the inner edge of the border.
+ */
+
+.psds-tooltip[class*="psds-tooltip--arrow-"]::before {
+  content : "";
+  position: absolute;
+  width   : var(--psds-tooltip-arrow-w);
+  height  : var(--psds-tooltip-arrow-h);
+
+  background-color   : var(--background-tooltip-bg-color);
+  -webkit-mask-image : var(--psds-tooltip-arrow-mask);
+  mask-image         : var(--psds-tooltip-arrow-mask);
+  -webkit-mask-size  : 100% 100%;
+  mask-size          : 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat        : no-repeat;
+}
+
+.psds-tooltip--arrow-top-start::before,
+.psds-tooltip--arrow-top::before,
+.psds-tooltip--arrow-top-end::before {
+  top: calc(-1 * var(--psds-tooltip-arrow-h));
+}
+
+.psds-tooltip--arrow-bottom-start::before,
+.psds-tooltip--arrow-bottom::before,
+.psds-tooltip--arrow-bottom-end::before {
+  bottom: calc(-1 * var(--psds-tooltip-arrow-h));
+  rotate: 180deg;
+}
+
+.psds-tooltip--arrow-top-start::before,
+.psds-tooltip--arrow-bottom-start::before {
+  left: var(--psds-tooltip-arrow-inset);
+}
+
+.psds-tooltip--arrow-top::before,
+.psds-tooltip--arrow-bottom::before {
+  left     : 50%;
+  translate: -50% 0;
+}
+
+.psds-tooltip--arrow-top-end::before,
+.psds-tooltip--arrow-bottom-end::before {
+  right: var(--psds-tooltip-arrow-inset);
+}
+
+/* Side pointers: the w × h box is rotated about its centre, which sits h/2 outside
+ * the padding box, so its base lands on the border's inner edge. */
+.psds-tooltip--arrow-left::before,
+.psds-tooltip--arrow-right::before {
+  top      : 50%;
+  translate: 0 -50%;
+}
+
+.psds-tooltip--arrow-left::before {
+  left  : calc(-1 * (var(--psds-tooltip-arrow-h) + var(--psds-tooltip-arrow-w)) / 2);
+  rotate: -90deg;
+}
+
+.psds-tooltip--arrow-right::before {
+  right : calc(-1 * (var(--psds-tooltip-arrow-h) + var(--psds-tooltip-arrow-w)) / 2);
+  rotate: 90deg;
+}
+
+/* ----------------------------------------------------------------- Anchor */
+/*
+ * Not a Figma layer: a small positioning helper for the common case of a tooltip on a
+ * single trigger. The tooltip is shown while the anchor is hovered or holds focus, and
+ * placed so its pointer tip is --psds-tooltip-offset away from the trigger and aimed at
+ * the trigger's centre. It does not flip or shift to stay in the viewport — use a
+ * positioning library (e.g. Floating UI) for that and drop this helper.
+ */
+
+.psds-tooltip-anchor {
+  position: relative;
+  display : inline-flex;
+}
+
+.psds-tooltip-anchor > .psds-tooltip {
+  position  : absolute;
+  z-index   : 1000;
+  top       : calc(100% + var(--spacing-4));
+  left      : 50%;
+  translate : -50% 0;
+  visibility: hidden;
+  opacity   : 0;
+  transition: opacity 120ms ease, visibility 0s linear 120ms;
+}
+
+/* Keeps the tooltip open while the pointer crosses the gap from the trigger. */
+.psds-tooltip-anchor > .psds-tooltip::after {
+  content : "";
+  position: absolute;
+  inset   : calc(-1 * var(--psds-tooltip-offset));
+  z-index : -1;
+}
+
+.psds-tooltip-anchor:hover > .psds-tooltip,
+.psds-tooltip-anchor:focus-within > .psds-tooltip,
+.psds-tooltip-anchor.is-open > .psds-tooltip {
+  visibility: visible;
+  opacity   : 1;
+  transition: opacity 120ms ease, visibility 0s;
+}
+
+/* A dismissed tooltip (Escape) stays hidden until the anchor is left and re-entered. */
+.psds-tooltip-anchor.is-dismissed > .psds-tooltip {
+  visibility: hidden;
+  opacity   : 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-tooltip-anchor > .psds-tooltip,
+  .psds-tooltip-anchor:hover > .psds-tooltip,
+  .psds-tooltip-anchor:focus-within > .psds-tooltip,
+  .psds-tooltip-anchor.is-open > .psds-tooltip { transition: none; }
+}
+
+/* Pointer on top → opens below. Pointer on bottom → opens above. */
+.psds-tooltip-anchor > .psds-tooltip[class*="--arrow-top"] {
+  top   : calc(100% + var(--psds-tooltip-offset));
+  bottom: auto;
+}
+
+.psds-tooltip-anchor > .psds-tooltip[class*="--arrow-bottom"] {
+  top   : auto;
+  bottom: calc(100% + var(--psds-tooltip-offset));
+}
+
+/* -start / -end: align the pointer centre with the trigger centre. */
+.psds-tooltip-anchor > .psds-tooltip--arrow-top-start,
+.psds-tooltip-anchor > .psds-tooltip--arrow-bottom-start {
+  left     : calc(50% - var(--psds-tooltip-arrow-inset) - var(--border-1) - var(--psds-tooltip-arrow-w) / 2);
+  translate: none;
+}
+
+.psds-tooltip-anchor > .psds-tooltip--arrow-top-end,
+.psds-tooltip-anchor > .psds-tooltip--arrow-bottom-end {
+  left     : auto;
+  right    : calc(50% - var(--psds-tooltip-arrow-inset) - var(--border-1) - var(--psds-tooltip-arrow-w) / 2);
+  translate: none;
+}
+
+/* Pointer on the left → opens to the right, and vice versa. */
+.psds-tooltip-anchor > .psds-tooltip--arrow-left,
+.psds-tooltip-anchor > .psds-tooltip--arrow-right {
+  top      : 50%;
+  translate: 0 -50%;
+}
+
+.psds-tooltip-anchor > .psds-tooltip--arrow-left {
+  left: calc(100% + var(--psds-tooltip-offset));
+}
+
+.psds-tooltip-anchor > .psds-tooltip--arrow-right {
+  left : auto;
+  right: calc(100% + var(--psds-tooltip-offset));
+}
