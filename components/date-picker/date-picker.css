@@ -1,0 +1,779 @@
+/* Portside Design System — Date Picker
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Date Picker (node 7919:127784)
+ * Every value below resolves through a token declared in tokens.css, except the
+ * component-level literals noted inline (font family and shadow effects).
+ *
+ * The Figma node ships two shapes, Rounded and Line. Only Rounded is implemented.
+ *
+ * Class API
+ *   .psds-datepicker                             base (Rounded shape, Default state, --sm)
+ *   .psds-datepicker--xs | --sm | --md | --lg    Sizes
+ *   .psds-datepicker--filled                     a date has been entered
+ *   .psds-datepicker--readonly                   Read Only
+ *   .psds-datepicker--info | --success
+ *          | --warning | --danger                Validation
+ *
+ *   .psds-datepicker__label   .psds-datepicker__required   .psds-datepicker__glyph
+ *   .psds-datepicker__control .psds-datepicker__field      .psds-datepicker__affix
+ *   .psds-datepicker__toggle  .psds-datepicker__clear      .psds-datepicker__alert
+ *
+ *   .psds-datepicker__calendar   .psds-datepicker__header   .psds-datepicker__title
+ *   .psds-datepicker__nav        .psds-datepicker__prev     .psds-datepicker__next
+ *   .psds-datepicker__grid       .psds-datepicker__weekday  .psds-datepicker__day
+ *   .psds-datepicker__day--outside                         .psds-datepicker__footer
+ *
+ * States resolve from real interaction pseudo-classes on the wrapper. The
+ * .is-hover / .is-focus / .is-active / .is-disabled helpers force a state for
+ * documentation and visual-regression galleries; .is-selected does the same for a day.
+ */
+
+/* Figma "Icons/calendar" is the Font Awesome Regular calendar glyph (U+F133). The font
+ * ships in /icons; the URL resolves relative to this stylesheet.
+ *
+ * This repeats the Regular @font-face from foundations/icons.css so date-picker.css stays
+ * usable on its own. The family, weight and URL are identical, so a page that links both
+ * downloads the font once. Keep them in step. */
+@font-face {
+  font-family : "Font Awesome 7 Free";
+  src         : url("../../icons/fa-regular-400.woff2") format("woff2");
+  font-weight : 400;
+  font-style  : normal;
+  font-display: block;
+}
+
+.psds-datepicker {
+  /* --- Field size channel (set by the size modifiers; defaults are --sm) --- */
+  --psds-datepicker-height            : var(--form-mouse);
+  --psds-datepicker-font-size         : var(--font-size-sm);
+  --psds-datepicker-line-height       : var(--line-height-sm);
+  --psds-datepicker-padding           : var(--spacing-12);
+  --psds-datepicker-gap               : var(--spacing-8);
+  --psds-datepicker-icon              : var(--font-icon-16);
+  --psds-datepicker-label-font-size   : var(--font-size-xs);
+  --psds-datepicker-label-line-height : var(--line-height-xs);
+  --psds-datepicker-label-icon        : var(--font-icon-14);
+  --psds-datepicker-required-font-size: var(--font-size-xs);
+  --psds-datepicker-note-font-size    : var(--font-size-xs);
+  --psds-datepicker-note-line-height  : var(--line-height-xs);
+  --psds-datepicker-note-icon         : var(--font-icon-12);
+  --psds-datepicker-note-gap          : var(--spacing-2);
+
+  /* --- Calendar size channel --- */
+  --psds-datepicker-cal-radius            : var(--control-radius-flyout-default-radius);
+  --psds-datepicker-cal-header-pt         : var(--spacing-8);
+  --psds-datepicker-cal-header-pb         : var(--spacing-12);
+  --psds-datepicker-cal-header-px         : var(--spacing-8);
+  --psds-datepicker-cal-title-font-size   : var(--font-size-base);
+  --psds-datepicker-cal-title-line-height : var(--line-height-base);
+  --psds-datepicker-cal-title-align       : center;
+  --psds-datepicker-cal-nav-icon          : var(--font-icon-20);
+  --psds-datepicker-cal-nav-gap           : var(--spacing-8);
+  --psds-datepicker-cal-px                : var(--spacing-8);
+  --psds-datepicker-cal-pb                : var(--spacing-12);
+  --psds-datepicker-cal-cell              : var(--spacing-30);
+  --psds-datepicker-cal-weekday-font-size : var(--font-size-xs);
+  --psds-datepicker-cal-weekday-line-height: var(--line-height-xs);
+  --psds-datepicker-cal-day-font-size     : var(--font-size-sm);
+  --psds-datepicker-cal-day-line-height   : var(--line-height-sm);
+  --psds-datepicker-cal-footer-py         : var(--spacing-12);
+  --psds-datepicker-cal-footer-px         : var(--spacing-12);
+  --psds-datepicker-cal-footer-gap        : var(--spacing-12);
+
+  /* --- Colour channel (set by the state modifiers) --- */
+  --psds-datepicker-bg          : var(--background-content-bg-color);
+  --psds-datepicker-border      : var(--border);
+  --psds-datepicker-border-hover: var(--border-hover);
+  --psds-datepicker-border-width: var(--border-1);
+  --psds-datepicker-accent      : var(--buttons-primary-border-color);
+  --psds-datepicker-fg          : var(--foreground-content-text-color);
+  --psds-datepicker-placeholder : var(--foreground-placeholder-text-color);
+  --psds-datepicker-icon-color  : var(--icon-color);
+  --psds-datepicker-label-color : var(--foreground-content-text-color-alt1);
+  --psds-datepicker-required-color: var(--danger);
+  --psds-datepicker-note-color  : var(--foreground-content-text-color-alt1);
+
+  /* tokens.css declares no font-family or shadow tokens; these come from the Figma
+   * text style, the $Shadow-sm effect and the calendar flyout effect. */
+  --psds-datepicker-font-family : Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-datepicker-shadow      : 0 1px 2px 0 #0000000d;
+  --psds-datepicker-cal-shadow  : 0 4px 6px 2px #0000000d, 0 10px 15px -3px #0000001a;
+
+  /* Figma "Icons/Close", "Icons/Chevron up" and "Icons/Chevron down", exported from the
+   * source node and painted as masks so they follow the icon colour channel. */
+  --psds-datepicker-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.59375 3.59375L3.70312 3.51562L3.8125 3.45312L3.9375 3.42188L4.0625 3.40625L4.1875 3.42188L4.3125 3.45312L4.42188 3.51562L4.53125 3.59375L8 7.07812L11.5156 3.54688L11.625 3.48438L11.75 3.4375L11.875 3.40625H12L12.125 3.4375L12.2344 3.48438L12.3438 3.54688L12.4375 3.64062L12.5156 3.75L12.5625 3.875L12.5938 4V4.125L12.5625 4.25L12.5156 4.375L12.4375 4.48438L8.92188 8L12.4531 11.5156L12.5156 11.625L12.5625 11.75L12.5938 11.875V12L12.5625 12.125L12.5156 12.25L12.4531 12.3594L12.3594 12.4531L12.25 12.5156L12.125 12.5625L12 12.5938H11.875L11.75 12.5625L11.625 12.5156L11.5156 12.4531L8 8.92188L4.48438 12.4531L4.375 12.5156L4.25 12.5625L4.125 12.5938H4L3.875 12.5625L3.75 12.5156L3.64062 12.4531L3.54688 12.3594L3.48438 12.25L3.4375 12.125L3.40625 12V11.875L3.4375 11.75L3.48438 11.625L3.54688 11.5156L7.07812 8L3.54688 4.48438L3.48438 4.375L3.4375 4.25L3.40625 4.125V4L3.4375 3.875L3.48438 3.75L3.54688 3.64062L3.59375 3.59375Z'/%3E%3C/svg%3E");
+  --psds-datepicker-chevron-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M9.41406 6.95312L9.55078 6.85547L9.6875 6.77734L9.84375 6.73828L10 6.71875L10.1562 6.73828L10.3125 6.77734L10.4492 6.85547L10.5859 6.95312L15.5664 11.9336L15.6445 12.0703L15.7031 12.2266L15.7422 12.3828V12.5391L15.7031 12.6953L15.6445 12.8516L15.5664 12.9883L15.4492 13.1055L15.3125 13.1836L15.1562 13.2422L15 13.2812H14.8438L14.6875 13.2422L14.5312 13.1836L14.3945 13.1055L10 8.69141L5.60547 13.1055L5.46875 13.1836L5.3125 13.2422L5.15625 13.2812H5L4.84375 13.2422L4.6875 13.1836L4.55078 13.1055L4.43359 12.9883L4.35547 12.8516L4.29688 12.6953L4.25781 12.5391V12.3828L4.29688 12.2266L4.35547 12.0703L4.43359 11.9336L4.49219 11.875L9.41406 6.95312Z'/%3E%3C/svg%3E");
+  --psds-datepicker-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.49219 6.95312L4.62891 6.85547L4.76562 6.77734L4.92188 6.73828L5.07812 6.71875L5.23438 6.73828L5.39062 6.77734L5.52734 6.85547L5.66406 6.95312L10 11.3086L14.3945 6.89453L14.5312 6.81641L14.6875 6.75781L14.8438 6.71875H15L15.1562 6.75781L15.293 6.81641L15.4297 6.89453L15.5469 7.01172L15.6445 7.14844L15.7031 7.30469L15.7422 7.46094V7.61719L15.7031 7.77344L15.6445 7.92969L15.5469 8.06641L10.5273 13.1055L10.3906 13.1836L10.2344 13.2422L10.0781 13.2812H9.92188L9.76562 13.2422L9.60938 13.1836L9.47266 13.1055L4.45312 8.06641L4.35547 7.92969L4.29688 7.77344L4.25781 7.61719V7.46094L4.29688 7.30469L4.35547 7.14844L4.45312 7.01172L4.49219 6.95312Z'/%3E%3C/svg%3E");
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-4);
+
+  font-family   : var(--psds-datepicker-font-family);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.psds-datepicker *,
+.psds-datepicker *::before,
+.psds-datepicker *::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-datepicker--xs {
+  --psds-datepicker-height            : var(--form-mouse-small);
+  --psds-datepicker-font-size         : var(--font-size-xs);
+  --psds-datepicker-line-height       : var(--line-height-xs);
+  --psds-datepicker-padding           : var(--spacing-8);
+  --psds-datepicker-gap               : var(--spacing-6);
+  --psds-datepicker-icon              : var(--font-icon-12);
+  --psds-datepicker-label-font-size   : var(--font-size-xxs);
+  --psds-datepicker-label-line-height : var(--line-height-xxs);
+  --psds-datepicker-label-icon        : var(--font-icon-12);
+  --psds-datepicker-required-font-size: var(--font-size-xxs);
+  --psds-datepicker-note-font-size    : var(--font-size-xxs);
+  --psds-datepicker-note-line-height  : var(--line-height-xxs);
+  --psds-datepicker-note-icon         : var(--font-icon-10);
+  --psds-datepicker-note-gap          : var(--spacing-2);
+
+  --psds-datepicker-cal-radius            : var(--control-radius-flyout-small-radius);
+  --psds-datepicker-cal-header-pt         : var(--spacing-8);
+  --psds-datepicker-cal-header-pb         : var(--spacing-12);
+  --psds-datepicker-cal-header-px         : var(--spacing-8);
+  --psds-datepicker-cal-title-font-size   : var(--font-size-sm);
+  --psds-datepicker-cal-title-line-height : var(--line-height-sm);
+  --psds-datepicker-cal-title-align       : center;
+  --psds-datepicker-cal-nav-icon          : var(--font-icon-16);
+  --psds-datepicker-cal-nav-gap           : var(--spacing-8);
+  --psds-datepicker-cal-px                : var(--spacing-8);
+  --psds-datepicker-cal-pb                : var(--spacing-8);
+  --psds-datepicker-cal-cell              : var(--spacing-28);
+  --psds-datepicker-cal-weekday-font-size : var(--font-size-xxs);
+  --psds-datepicker-cal-weekday-line-height: var(--line-height-xxs);
+  --psds-datepicker-cal-day-font-size     : var(--font-size-xs);
+  --psds-datepicker-cal-day-line-height   : var(--line-height-xs);
+  --psds-datepicker-cal-footer-py         : var(--spacing-8);
+  --psds-datepicker-cal-footer-px         : var(--spacing-8);
+  --psds-datepicker-cal-footer-gap        : var(--spacing-8);
+}
+
+.psds-datepicker--sm {
+  --psds-datepicker-height            : var(--form-mouse);
+  --psds-datepicker-font-size         : var(--font-size-sm);
+  --psds-datepicker-line-height       : var(--line-height-sm);
+  --psds-datepicker-padding           : var(--spacing-12);
+  --psds-datepicker-gap               : var(--spacing-8);
+  --psds-datepicker-icon              : var(--font-icon-16);
+  --psds-datepicker-label-font-size   : var(--font-size-xs);
+  --psds-datepicker-label-line-height : var(--line-height-xs);
+  --psds-datepicker-label-icon        : var(--font-icon-14);
+  --psds-datepicker-required-font-size: var(--font-size-xs);
+  --psds-datepicker-note-font-size    : var(--font-size-xs);
+  --psds-datepicker-note-line-height  : var(--line-height-xs);
+  --psds-datepicker-note-icon         : var(--font-icon-12);
+  --psds-datepicker-note-gap          : var(--spacing-2);
+
+  --psds-datepicker-cal-radius            : var(--control-radius-flyout-default-radius);
+  --psds-datepicker-cal-header-pt         : var(--spacing-8);
+  --psds-datepicker-cal-header-pb         : var(--spacing-12);
+  --psds-datepicker-cal-header-px         : var(--spacing-8);
+  --psds-datepicker-cal-title-font-size   : var(--font-size-base);
+  --psds-datepicker-cal-title-line-height : var(--line-height-base);
+  --psds-datepicker-cal-title-align       : center;
+  --psds-datepicker-cal-nav-icon          : var(--font-icon-20);
+  --psds-datepicker-cal-nav-gap           : var(--spacing-8);
+  --psds-datepicker-cal-px                : var(--spacing-8);
+  --psds-datepicker-cal-pb                : var(--spacing-12);
+  --psds-datepicker-cal-cell              : var(--spacing-30);
+  --psds-datepicker-cal-weekday-font-size : var(--font-size-xs);
+  --psds-datepicker-cal-weekday-line-height: var(--line-height-xs);
+  --psds-datepicker-cal-day-font-size     : var(--font-size-sm);
+  --psds-datepicker-cal-day-line-height   : var(--line-height-sm);
+  --psds-datepicker-cal-footer-py         : var(--spacing-12);
+  --psds-datepicker-cal-footer-px         : var(--spacing-12);
+  --psds-datepicker-cal-footer-gap        : var(--spacing-12);
+}
+
+.psds-datepicker--md {
+  --psds-datepicker-height            : var(--form-bigger-small);
+  --psds-datepicker-font-size         : var(--font-size-sm);
+  --psds-datepicker-line-height       : var(--line-height-sm);
+  --psds-datepicker-padding           : var(--spacing-12);
+  --psds-datepicker-gap               : var(--spacing-8);
+  --psds-datepicker-icon              : var(--font-icon-18);
+  --psds-datepicker-label-font-size   : var(--font-size-sm);
+  --psds-datepicker-label-line-height : var(--line-height-sm);
+  --psds-datepicker-label-icon        : var(--font-icon-14);
+  --psds-datepicker-required-font-size: var(--font-size-xs);
+  --psds-datepicker-note-font-size    : var(--font-size-sm);
+  --psds-datepicker-note-line-height  : var(--line-height-sm);
+  --psds-datepicker-note-icon         : var(--font-icon-14);
+  --psds-datepicker-note-gap          : var(--spacing-4);
+
+  --psds-datepicker-cal-radius            : var(--control-radius-flyout-bigger-small-radius);
+  --psds-datepicker-cal-header-pt         : var(--spacing-10);
+  --psds-datepicker-cal-header-pb         : var(--spacing-10);
+  --psds-datepicker-cal-header-px         : var(--spacing-12);
+  --psds-datepicker-cal-title-font-size   : var(--font-size-base);
+  --psds-datepicker-cal-title-line-height : var(--line-height-base);
+  --psds-datepicker-cal-title-align       : center;
+  --psds-datepicker-cal-nav-icon          : var(--font-icon-22);
+  --psds-datepicker-cal-nav-gap           : var(--spacing-12);
+  --psds-datepicker-cal-px                : var(--spacing-12);
+  --psds-datepicker-cal-pb                : var(--spacing-12);
+  --psds-datepicker-cal-cell              : var(--spacing-34);
+  --psds-datepicker-cal-weekday-font-size : var(--font-size-xs);
+  --psds-datepicker-cal-weekday-line-height: var(--line-height-xs);
+  --psds-datepicker-cal-day-font-size     : var(--font-size-sm);
+  --psds-datepicker-cal-day-line-height   : var(--line-height-sm);
+  --psds-datepicker-cal-footer-py         : var(--spacing-12);
+  --psds-datepicker-cal-footer-px         : var(--spacing-16);
+  --psds-datepicker-cal-footer-gap        : var(--spacing-12);
+}
+
+.psds-datepicker--lg {
+  --psds-datepicker-height            : var(--form-bigger);
+  --psds-datepicker-font-size         : var(--font-size-base);
+  --psds-datepicker-line-height       : var(--line-height-base);
+  --psds-datepicker-padding           : var(--spacing-12);
+  --psds-datepicker-gap               : var(--spacing-8);
+  --psds-datepicker-icon              : var(--font-icon-18);
+  --psds-datepicker-label-font-size   : var(--font-size-sm);
+  --psds-datepicker-label-line-height : var(--line-height-sm);
+  --psds-datepicker-label-icon        : var(--font-icon-14);
+  --psds-datepicker-required-font-size: var(--font-size-xs);
+  --psds-datepicker-note-font-size    : var(--font-size-sm);
+  --psds-datepicker-note-line-height  : var(--line-height-sm);
+  --psds-datepicker-note-icon         : var(--font-icon-14);
+  --psds-datepicker-note-gap          : var(--spacing-4);
+
+  --psds-datepicker-cal-radius            : var(--control-radius-flyout-bigger-radius);
+  --psds-datepicker-cal-header-pt         : var(--spacing-10);
+  --psds-datepicker-cal-header-pb         : var(--spacing-10);
+  --psds-datepicker-cal-header-px         : var(--spacing-20);
+  --psds-datepicker-cal-title-font-size   : var(--font-size-lg);
+  --psds-datepicker-cal-title-line-height : var(--line-height-lg);
+  --psds-datepicker-cal-title-align       : start;
+  --psds-datepicker-cal-nav-icon          : var(--font-icon-22);
+  --psds-datepicker-cal-nav-gap           : var(--spacing-12);
+  --psds-datepicker-cal-px                : var(--spacing-12);
+  --psds-datepicker-cal-pb                : var(--spacing-12);
+  --psds-datepicker-cal-cell              : var(--spacing-36);
+  --psds-datepicker-cal-weekday-font-size : var(--font-size-xs);
+  --psds-datepicker-cal-weekday-line-height: var(--line-height-xs);
+  --psds-datepicker-cal-day-font-size     : var(--font-size-base);
+  --psds-datepicker-cal-day-line-height   : var(--line-height-base);
+  --psds-datepicker-cal-footer-py         : var(--spacing-16);
+  --psds-datepicker-cal-footer-px         : var(--spacing-16);
+  --psds-datepicker-cal-footer-gap        : var(--spacing-12);
+}
+
+/* ------------------------------------------------------------- Icon slots */
+/*
+ * One generic square, sized by whichever glyph token the surrounding row sets.
+ * Inside the control it also carries the gap to the field.
+ */
+
+.psds-datepicker__glyph {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-datepicker-glyph-size, var(--psds-datepicker-icon));
+  height         : var(--psds-datepicker-glyph-size, var(--psds-datepicker-icon));
+}
+
+.psds-datepicker__glyph > svg,
+.psds-datepicker__glyph > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+.psds-datepicker__control > .psds-datepicker__glyph {
+  color            : var(--psds-datepicker-icon-color);
+  margin-inline-end: var(--psds-datepicker-gap);
+}
+
+/* ------------------------------------------------------------------ Label */
+
+.psds-datepicker__label {
+  --psds-datepicker-glyph-size: var(--psds-datepicker-label-icon);
+
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-4);
+
+  font-size  : var(--psds-datepicker-label-font-size);
+  line-height: var(--psds-datepicker-label-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--psds-datepicker-label-color);
+}
+
+.psds-datepicker__label .psds-datepicker__glyph {
+  color: var(--icon-color);
+}
+
+.psds-datepicker__required {
+  font-size  : var(--psds-datepicker-required-font-size);
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-datepicker-required-color);
+}
+
+/* ---------------------------------------------------------------- Control */
+
+.psds-datepicker__control {
+  position   : relative;
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-0);
+
+  height        : var(--psds-datepicker-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--psds-datepicker-padding);
+
+  background-color: var(--psds-datepicker-bg);
+  border          : var(--psds-datepicker-border-width) solid var(--psds-datepicker-border);
+  border-radius   : var(--control-radius-input-default-radius);
+  box-shadow      : var(--psds-datepicker-shadow);
+
+  transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* Trailing affixes are squares as wide as the control is tall and sit flush to the
+ * inline end, so the control gives up its own trailing padding. */
+.psds-datepicker__control:has(.psds-datepicker__affix) {
+  padding-inline-end: var(--spacing-0);
+}
+
+.psds-datepicker__field {
+  flex     : 1 1 auto;
+  min-width: 0;
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  outline   : none;
+
+  font-family   : inherit;
+  font-size     : var(--psds-datepicker-font-size);
+  line-height   : var(--psds-datepicker-line-height);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--psds-datepicker-fg);
+
+  text-overflow: ellipsis;
+}
+
+.psds-datepicker__field::placeholder {
+  color  : var(--psds-datepicker-placeholder);
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ Affix */
+/*
+ * The Figma "Close" frame holds the calendar glyph and the "Chevron" frame holds the
+ * optional clear glyph: squares flush to the inline end.
+ */
+
+.psds-datepicker__affix {
+  flex           : none;
+  align-self     : stretch;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-datepicker-height);
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  border    : var(--border-0) solid var(--transparent);
+  background: var(--transparent);
+  appearance: none;
+  color     : var(--psds-datepicker-icon-color);
+
+  transition: color 120ms ease;
+}
+
+button.psds-datepicker__affix {
+  cursor: pointer;
+}
+
+.psds-datepicker__affix > svg,
+.psds-datepicker__affix > img {
+  display: block;
+  width  : var(--psds-datepicker-icon);
+  height : var(--psds-datepicker-icon);
+}
+
+/* The calendar toggle draws the Font Awesome glyph at 14px in a 16px box at every
+ * size, as the Figma instance does. Put an <svg> inside to override it. */
+.psds-datepicker__toggle:empty::before {
+  content    : "\f133";
+  display    : block;
+  width      : var(--font-icon-16);
+  font-family: "Font Awesome 7 Free";
+  font-size  : var(--font-icon-14);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--font-icon-16);
+  text-align : center;
+}
+
+.psds-datepicker__clear:empty {
+  background-color     : currentColor;
+  -webkit-mask-image   : var(--psds-datepicker-close);
+  mask-image           : var(--psds-datepicker-close);
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+  -webkit-mask-size    : var(--psds-datepicker-icon) var(--psds-datepicker-icon);
+  mask-size            : var(--psds-datepicker-icon) var(--psds-datepicker-icon);
+}
+
+/* ----------------------------------------------------------- Alert message */
+
+.psds-datepicker__alert {
+  --psds-datepicker-glyph-size: var(--psds-datepicker-note-icon);
+
+  display    : flex;
+  align-items: center;
+  gap        : var(--psds-datepicker-note-gap);
+  margin     : var(--spacing-0);
+
+  font-size  : var(--psds-datepicker-note-font-size);
+  line-height: var(--psds-datepicker-note-line-height);
+  font-weight: var(--font-weight-normal);
+  color      : var(--psds-datepicker-note-color);
+}
+
+.psds-datepicker__alert .psds-datepicker__glyph {
+  color: currentColor;
+}
+
+/* --------------------------------------------------------------- Calendar */
+/*
+ * The Figma "Calendar" flyout. It is a presentation layer: opening, closing, month
+ * navigation, selection and keyboard handling are the consumer's job. Toggle it with
+ * the `hidden` attribute.
+ */
+
+.psds-datepicker__calendar {
+  position          : absolute;
+  z-index           : 10;
+  top               : calc(100% + var(--psds-datepicker-border-width) + var(--spacing-4));
+  inset-inline-end  : calc(-1 * var(--psds-datepicker-border-width));
+
+  display       : flex;
+  flex-direction: column;
+  overflow      : hidden;
+
+  background-color: var(--background-flyout-bg-color);
+  border          : var(--border-1) solid var(--border-light);
+  border-radius   : var(--psds-datepicker-cal-radius);
+  box-shadow      : var(--psds-datepicker-cal-shadow);
+}
+
+.psds-datepicker__calendar[hidden] {
+  display: none;
+}
+
+.psds-datepicker__header {
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-8);
+
+  padding-block-start: var(--psds-datepicker-cal-header-pt);
+  padding-block-end  : var(--psds-datepicker-cal-header-pb);
+  padding-inline     : var(--psds-datepicker-cal-header-px);
+}
+
+.psds-datepicker__title {
+  flex      : 1 1 auto;
+  min-width : 0;
+  margin    : var(--spacing-0);
+
+  font-size  : var(--psds-datepicker-cal-title-font-size);
+  line-height: var(--psds-datepicker-cal-title-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--foreground-content-text-color);
+  text-align : var(--psds-datepicker-cal-title-align);
+}
+
+.psds-datepicker__nav {
+  display: flex;
+  flex   : none;
+  gap    : var(--psds-datepicker-cal-nav-gap);
+}
+
+.psds-datepicker__prev,
+.psds-datepicker__next {
+  display      : block;
+  width        : var(--psds-datepicker-cal-nav-icon);
+  height       : var(--psds-datepicker-cal-nav-icon);
+  margin       : var(--spacing-0);
+  padding      : var(--spacing-0);
+  border       : var(--border-0) solid var(--transparent);
+  border-radius: var(--radius-4);
+  background   : var(--transparent);
+  appearance   : none;
+  cursor       : pointer;
+  color        : var(--icon-color);
+}
+
+/* The glyph is masked on a pseudo-element so the button itself can still show focus. */
+.psds-datepicker__prev::before,
+.psds-datepicker__next::before {
+  content              : "";
+  display              : block;
+  width                : 100%;
+  height               : 100%;
+  background-color     : currentColor;
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
+  -webkit-mask-position: center;
+  mask-position        : center;
+  -webkit-mask-size    : 100% 100%;
+  mask-size            : 100% 100%;
+}
+
+.psds-datepicker__prev::before { -webkit-mask-image: var(--psds-datepicker-chevron-up);   mask-image: var(--psds-datepicker-chevron-up); }
+.psds-datepicker__next::before { -webkit-mask-image: var(--psds-datepicker-chevron-down); mask-image: var(--psds-datepicker-chevron-down); }
+
+.psds-datepicker__prev:hover,
+.psds-datepicker__next:hover {
+  color: var(--icon-color-hover);
+}
+
+.psds-datepicker__prev:focus-visible,
+.psds-datepicker__next:focus-visible {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+.psds-datepicker__grid {
+  border-collapse: collapse;
+  border-spacing : 0;
+  margin-inline  : var(--psds-datepicker-cal-px);
+  margin-block-end: var(--psds-datepicker-cal-pb);
+}
+
+.psds-datepicker__grid th,
+.psds-datepicker__grid td {
+  padding: var(--spacing-0);
+}
+
+.psds-datepicker__weekday {
+  width : var(--psds-datepicker-cal-cell);
+  height: var(--psds-datepicker-cal-cell);
+
+  font-size  : var(--psds-datepicker-cal-weekday-font-size);
+  line-height: var(--psds-datepicker-cal-weekday-line-height);
+  font-weight: var(--font-weight-medium);
+  color      : var(--foreground-content-text-color-alt2);
+  text-align : center;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------- Days */
+
+.psds-datepicker__day {
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-datepicker-cal-cell);
+  height         : var(--psds-datepicker-cal-cell);
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  appearance: none;
+  cursor    : pointer;
+
+  font-family: inherit;
+  font-size  : var(--psds-datepicker-cal-day-font-size);
+  line-height: var(--psds-datepicker-cal-day-line-height);
+  font-weight: var(--font-weight-normal);
+  color      : var(--foreground-content-text-color-alt1);
+
+  background-color: var(--transparent);
+  border          : var(--border-1) solid var(--transparent);
+  border-radius   : var(--radius-40);
+
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.psds-datepicker__day--outside {
+  color: var(--foreground-content-text-color-alt2);
+}
+
+/* Today — the Figma variant with a 1px primary border. */
+.psds-datepicker__day[aria-current="date"] {
+  color       : var(--foreground-content-text-color);
+  border-color: var(--buttons-primary-border-color);
+}
+
+/* Hover and Selected are not drawn in the source node; mapped onto existing tokens. */
+.psds-datepicker__day:hover:not(:disabled) {
+  background-color: var(--background-content-bg-color-hover);
+}
+
+.psds-datepicker__day[aria-selected="true"],
+.psds-datepicker__day.is-selected {
+  color           : var(--buttons-primary-text);
+  background-color: var(--buttons-primary-bg-color);
+  border-color    : var(--buttons-primary-border-color);
+}
+
+.psds-datepicker__day:disabled {
+  color           : var(--foreground-content-text-color-disabled);
+  background-color: var(--transparent);
+  cursor          : not-allowed;
+}
+
+.psds-datepicker__day:focus-visible {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+/* ----------------------------------------------------------------- Footer */
+
+.psds-datepicker__footer {
+  display        : flex;
+  align-items    : center;
+  justify-content: flex-end;
+  gap            : var(--psds-datepicker-cal-footer-gap);
+
+  padding-block : var(--psds-datepicker-cal-footer-py);
+  padding-inline: var(--psds-datepicker-cal-footer-px);
+
+  background-color: var(--background-content-bg-color-alt1);
+  border-top      : var(--border-1) solid var(--border-light);
+}
+
+/* ------------------------------------------------------------------ States */
+/*
+ * Figma models State as a single axis of eleven values, so Filled / Read Only /
+ * the four validation states are modifiers, while Hover / Focus / Active /
+ * Disabled resolve from interaction. Each modifier remaps the colour channel.
+ */
+
+.psds-datepicker--filled {
+  --psds-datepicker-icon-color: var(--icon-color-pressed);
+}
+
+.psds-datepicker--readonly,
+.psds-datepicker:has(.psds-datepicker__field:read-only) {
+  --psds-datepicker-bg        : var(--background-content-bg-color-alt2);
+  --psds-datepicker-icon-color: var(--icon-color-pressed);
+}
+
+.psds-datepicker--info {
+  --psds-datepicker-border      : var(--buttons-info-border-color);
+  --psds-datepicker-border-hover: var(--buttons-info-border-color);
+  --psds-datepicker-accent      : var(--buttons-info-border-color);
+  --psds-datepicker-icon-color  : var(--icon-color-pressed);
+  --psds-datepicker-note-color  : var(--info);
+}
+
+.psds-datepicker--success {
+  --psds-datepicker-border      : var(--buttons-success-border-color);
+  --psds-datepicker-border-hover: var(--buttons-success-border-color);
+  --psds-datepicker-accent      : var(--buttons-success-border-color);
+  --psds-datepicker-icon-color  : var(--icon-color-pressed);
+  --psds-datepicker-note-color  : var(--success);
+}
+
+.psds-datepicker--warning {
+  --psds-datepicker-border      : var(--buttons-warning-border-color);
+  --psds-datepicker-border-hover: var(--buttons-warning-border-color);
+  --psds-datepicker-accent      : var(--buttons-warning-border-color);
+  --psds-datepicker-icon-color  : var(--icon-color-pressed);
+  --psds-datepicker-note-color  : var(--warning);
+}
+
+.psds-datepicker--danger {
+  --psds-datepicker-border      : var(--buttons-danger-border-color);
+  --psds-datepicker-border-hover: var(--buttons-danger-border-color);
+  --psds-datepicker-accent      : var(--buttons-danger-border-color);
+  --psds-datepicker-icon-color  : var(--icon-color-pressed);
+  --psds-datepicker-note-color  : var(--danger);
+}
+
+/* ------------------------------------------------------------------- Hover */
+
+.psds-datepicker:hover,
+.psds-datepicker.is-hover {
+  --psds-datepicker-icon-color: var(--icon-color-hover);
+}
+
+.psds-datepicker:hover .psds-datepicker__control,
+.psds-datepicker.is-hover .psds-datepicker__control {
+  border-color: var(--psds-datepicker-border-hover);
+}
+
+/* ---------------------------------------------------------- Focus / Active */
+/*
+ * The Figma Focus and Active variants are identical: a 2px border in
+ * `Buttons/Primary/primary-border-color`. Bound to :focus-within because focus lands
+ * on the field, the toggle or a day inside the calendar.
+ */
+
+.psds-datepicker:focus-within,
+.psds-datepicker:active,
+.psds-datepicker.is-focus,
+.psds-datepicker.is-active {
+  --psds-datepicker-icon-color: var(--icon-color-pressed);
+}
+
+.psds-datepicker:focus-within .psds-datepicker__control,
+.psds-datepicker:active .psds-datepicker__control,
+.psds-datepicker.is-focus .psds-datepicker__control,
+.psds-datepicker.is-active .psds-datepicker__control {
+  border-color: var(--psds-datepicker-accent);
+  border-width: var(--border-2);
+}
+
+/* ---------------------------------------------------------------- Disabled */
+/* Declared last so it survives a simultaneous hover or focus. */
+
+.psds-datepicker:has(.psds-datepicker__field:disabled),
+.psds-datepicker.is-disabled {
+  --psds-datepicker-bg            : var(--background-content-bg-color-alt2);
+  --psds-datepicker-fg            : var(--foreground-content-text-color-disabled);
+  --psds-datepicker-placeholder   : var(--foreground-content-text-color-disabled);
+  --psds-datepicker-icon-color    : var(--icon-color-disabled);
+  --psds-datepicker-label-color   : var(--foreground-content-text-color-disabled);
+  --psds-datepicker-required-color: var(--buttons-danger-bg-color-disabled);
+  --psds-datepicker-note-color    : var(--foreground-content-text-color-disabled);
+}
+
+/* The Figma Disabled variant is the one state that drops $Shadow-sm. */
+.psds-datepicker:has(.psds-datepicker__field:disabled) .psds-datepicker__control,
+.psds-datepicker.is-disabled .psds-datepicker__control {
+  border-color: var(--border);
+  border-width: var(--psds-datepicker-border-width);
+  box-shadow  : none;
+}
+
+.psds-datepicker__field:disabled,
+.psds-datepicker__affix:disabled {
+  cursor: not-allowed;
+}
+
+.psds-datepicker.is-disabled {
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------- Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-datepicker__control,
+  .psds-datepicker__affix,
+  .psds-datepicker__day {
+    transition: none;
+  }
+}

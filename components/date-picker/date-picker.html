@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Date Picker — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../button/button.css">
+<link rel="stylesheet" href="date-picker.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--spacing-24); }
+  .calendars { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--spacing-24); }
+  .calendars figure { margin: 0; }
+  .calendars figcaption { margin-bottom: var(--spacing-8); }
+  /* Static calendars sit in the flow of the page instead of floating under a control. */
+  .calendars .psds-datepicker__calendar { position: static; }
+  .interactive { min-height: 380px; }
+  table.matrix { border-collapse: collapse; width: 100%; }
+  .matrix th, .matrix td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  .matrix th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  .matrix tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .matrix td { min-width: 200px; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+</style>
+</head>
+<body>
+
+<h1>Date Picker</h1>
+<p class="sub">4 sizes &times; 11 states plus the calendar flyout, Rounded shape only. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Anatomy</h2>
+<div class="panel">
+  <div class="grid">
+    <div class="psds-datepicker psds-datepicker--sm psds-datepicker--filled">
+      <label class="psds-datepicker__label" for="a1">
+        Due date
+        <span class="psds-datepicker__required" aria-hidden="true">*</span>
+      </label>
+      <div class="psds-datepicker__control">
+        <input class="psds-datepicker__field" id="a1" type="text" value="2026/03/14" placeholder="Choose date" aria-describedby="a1-help" required>
+        <button class="psds-datepicker__affix psds-datepicker__clear" type="button" aria-label="Clear date"></button>
+        <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose date" aria-haspopup="dialog" aria-expanded="false"></button>
+      </div>
+      <p class="psds-datepicker__alert" id="a1-help">Format: YYYY/MM/DD</p>
+    </div>
+  </div>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="grid" id="sizes"></div>
+</div>
+
+<h2>States</h2>
+<p class="sub">Rendered with the forced-state helpers <code>.is-hover</code>, <code>.is-focus</code>, <code>.is-active</code>, <code>.is-disabled</code> and the content / validation modifiers.</p>
+<div class="panel">
+  <table class="matrix">
+    <thead><tr><th>State</th><th>Extra small</th><th>Small</th><th>Medium</th><th>Large</th></tr></thead>
+    <tbody id="states"></tbody>
+  </table>
+</div>
+
+<h2>Calendar</h2>
+<p class="sub">April 2024 with the 15th as today, as in the Figma node. The 18th uses <code>.is-selected</code>, which the source does not draw.</p>
+<div class="panel">
+  <div class="calendars" id="calendars"></div>
+</div>
+
+<h2>Interactive</h2>
+<p class="sub">Open with the calendar button. Arrow keys move by day and week, <kbd>Page Up</kbd> / <kbd>Page Down</kbd> by month, <kbd>Home</kbd> / <kbd>End</kbd> to the start and end of the week, <kbd>Enter</kbd> selects, <kbd>Escape</kbd> closes.</p>
+<div class="panel interactive">
+  <div class="grid">
+    <div class="psds-datepicker psds-datepicker--sm" data-interactive>
+      <label class="psds-datepicker__label" for="i1">Start date</label>
+      <div class="psds-datepicker__control">
+        <input class="psds-datepicker__field" id="i1" type="text" placeholder="Choose date" autocomplete="off">
+        <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose start date" aria-haspopup="dialog" aria-expanded="false"></button>
+      </div>
+    </div>
+    <div class="psds-datepicker psds-datepicker--sm psds-datepicker--danger" data-interactive>
+      <label class="psds-datepicker__label" for="i2">Due date<span class="psds-datepicker__required" aria-hidden="true">*</span></label>
+      <div class="psds-datepicker__control">
+        <input class="psds-datepicker__field" id="i2" type="text" placeholder="Choose date" autocomplete="off" required aria-invalid="true" aria-describedby="i2-help">
+        <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose due date" aria-haspopup="dialog" aria-expanded="false"></button>
+      </div>
+      <p class="psds-datepicker__alert" id="i2-help">Choose a due date.</p>
+    </div>
+    <div class="psds-datepicker psds-datepicker--sm">
+      <label class="psds-datepicker__label" for="i3">Read only</label>
+      <div class="psds-datepicker__control">
+        <input class="psds-datepicker__field" id="i3" type="text" value="2026/03/14" readonly>
+        <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose date" disabled></button>
+      </div>
+    </div>
+    <div class="psds-datepicker psds-datepicker--sm">
+      <label class="psds-datepicker__label" for="i4">Disabled</label>
+      <div class="psds-datepicker__control">
+        <input class="psds-datepicker__field" id="i4" type="text" placeholder="Choose date" disabled>
+        <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose date" disabled></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SIZES = [['xs', 'Extra small — 24px'], ['sm', 'Small — 32px'], ['md', 'Medium — 36px'], ['lg', 'Large — 40px']];
+  const BUTTON_SIZE = { xs: 'xs', sm: 'sm', md: 'md', lg: 'lg' };
+  const WEEKDAYS = [['SU', 'Sunday'], ['MO', 'Monday'], ['TU', 'Tuesday'], ['WE', 'Wednesday'], ['TH', 'Thursday'], ['FR', 'Friday'], ['SA', 'Saturday']];
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  const STATES = [
+    ['', '', 'Default', ''],
+    ['', 'is-hover', 'Hover', ''],
+    ['', 'is-focus', 'Focus', ''],
+    ['', 'is-active', 'Active', ''],
+    ['psds-datepicker--filled', '', 'Filled', ''],
+    ['psds-datepicker--readonly', '', 'Read Only', ''],
+    ['', 'is-disabled', 'Disabled', ''],
+    ['psds-datepicker--info', '', 'Info', 'Helping Text'],
+    ['psds-datepicker--success', '', 'Success', 'Helping Text'],
+    ['psds-datepicker--warning', '', 'Warning', 'Helping Text'],
+    ['psds-datepicker--danger', '', 'Error', 'Helping Text'],
+  ];
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const format = (d) => `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}`;
+  const sameDay = (a, b) => !!a && !!b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  const el = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+
+  let uid = 0;
+
+  /* ---------------------------------------------------------------- Field */
+
+  function datepicker(size, modifier, stateClass, note, label) {
+    const id = 'gen-' + (++uid);
+    const root = el('div', ['psds-datepicker', 'psds-datepicker--' + size, modifier, stateClass].filter(Boolean).join(' '));
+
+    if (label) {
+      const l = el('label', 'psds-datepicker__label', label);
+      l.htmlFor = id;
+      root.append(l);
+    }
+
+    const control = el('div', 'psds-datepicker__control');
+    const field = el('input', 'psds-datepicker__field');
+    field.type = 'text';
+    field.id = id;
+    const hasValue = modifier && modifier !== '';
+    if (hasValue) { field.value = '2026/03/14'; } else { field.placeholder = 'Choose date'; }
+    const toggle = el('button', 'psds-datepicker__affix psds-datepicker__toggle');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-label', 'Choose date');
+    control.append(field, toggle);
+    root.append(control);
+
+    if (note) root.append(el('p', 'psds-datepicker__alert', note));
+    return root;
+  }
+
+  const sizes = document.getElementById('sizes');
+  for (const [size, label] of SIZES) sizes.append(datepicker(size, '', '', '', label));
+
+  const states = document.getElementById('states');
+  for (const [modifier, stateClass, label, note] of STATES) {
+    const tr = el('tr');
+    const th = el('th', '', label);
+    th.scope = 'row';
+    tr.append(th);
+    for (const [size] of SIZES) {
+      const td = el('td');
+      td.append(datepicker(size, modifier, stateClass, note, ''));
+      tr.append(td);
+    }
+    states.append(tr);
+  }
+
+  /* ------------------------------------------------------------- Calendar */
+
+  /* Builds a calendar panel for `view` (any date in the month to show). */
+  function calendar(size, view, { today, selected, focus, labelledBy } = {}) {
+    const year = view.getFullYear();
+    const month = view.getMonth();
+
+    const panel = el('div', 'psds-datepicker__calendar');
+    panel.setAttribute('role', 'dialog');
+    if (labelledBy) panel.setAttribute('aria-labelledby', labelledBy);
+
+    const header = el('div', 'psds-datepicker__header');
+    const title = el('h3', 'psds-datepicker__title', `${MONTHS[month]} ${year}`);
+    title.id = 'cal-title-' + (++uid);
+    title.setAttribute('aria-live', 'polite');
+    const nav = el('div', 'psds-datepicker__nav');
+    const prev = el('button', 'psds-datepicker__prev');
+    prev.type = 'button';
+    prev.setAttribute('aria-label', 'Previous month');
+    prev.dataset.step = '-1';
+    const next = el('button', 'psds-datepicker__next');
+    next.type = 'button';
+    next.setAttribute('aria-label', 'Next month');
+    next.dataset.step = '1';
+    nav.append(prev, next);
+    header.append(title, nav);
+
+    const grid = el('table', 'psds-datepicker__grid');
+    grid.setAttribute('role', 'grid');
+    grid.setAttribute('aria-labelledby', title.id);
+    const thead = el('thead');
+    const headRow = el('tr');
+    for (const [abbr, full] of WEEKDAYS) {
+      const th = el('th', 'psds-datepicker__weekday', abbr);
+      th.scope = 'col';
+      th.abbr = full;
+      headRow.append(th);
+    }
+    thead.append(headRow);
+
+    const tbody = el('tbody');
+    const first = new Date(year, month, 1);
+    const cursor = new Date(year, month, 1 - first.getDay());
+    const last = new Date(year, month + 1, 0);
+    const end = new Date(year, month + 1, 6 - last.getDay());
+    const focusDate = focus || selected || (today && today.getMonth() === month && today.getFullYear() === year ? today : first);
+
+    let row;
+    while (cursor <= end) {
+      if (cursor.getDay() === 0) { row = el('tr'); tbody.append(row); }
+      const td = el('td');
+      td.setAttribute('role', 'gridcell');
+      const day = el('button', 'psds-datepicker__day', String(cursor.getDate()));
+      day.type = 'button';
+      day.dataset.date = cursor.toISOString();
+      day.setAttribute('aria-label', cursor.toDateString());
+      day.tabIndex = sameDay(cursor, focusDate) ? 0 : -1;
+      if (cursor.getMonth() !== month) day.classList.add('psds-datepicker__day--outside');
+      if (sameDay(cursor, today)) day.setAttribute('aria-current', 'date');
+      day.setAttribute('aria-selected', String(sameDay(cursor, selected)));
+      td.append(day);
+      row.append(td);
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    grid.append(thead, tbody);
+
+    const footer = el('div', 'psds-datepicker__footer');
+    const todayBtn = el('button', `psds-btn psds-btn--${BUTTON_SIZE[size]} psds-btn--primary`, 'Today');
+    todayBtn.type = 'button';
+    todayBtn.dataset.today = '';
+    footer.append(todayBtn);
+
+    panel.append(header, grid, footer);
+    return panel;
+  }
+
+  const calendars = document.getElementById('calendars');
+  for (const [size, label] of SIZES) {
+    const figure = el('figure', 'psds-datepicker psds-datepicker--' + size);
+    figure.append(el('figcaption', '', label.replace(/ —.*/, '')));
+    const panel = calendar(size, new Date(2024, 3, 1), { today: new Date(2024, 3, 15) });
+    panel.querySelector('[data-date="' + new Date(2024, 3, 18).toISOString() + '"]').classList.add('is-selected');
+    figure.append(panel);
+    calendars.append(figure);
+  }
+
+  /* ---------------------------------------------------------- Interactive */
+  /* The calendar is presentational in CSS; this wiring is the consumer's job. */
+
+  for (const root of document.querySelectorAll('[data-interactive]')) {
+    const size = (root.className.match(/psds-datepicker--(xs|sm|md|lg)/) || [, 'sm'])[1];
+    const control = root.querySelector('.psds-datepicker__control');
+    const field = root.querySelector('.psds-datepicker__field');
+    const toggle = root.querySelector('.psds-datepicker__toggle');
+    let selected = null;
+    let view = new Date();
+    let panel = null;
+
+    const parse = (value) => {
+      const m = /^(\d{4})\/(\d{2})\/(\d{2})$/.exec(value.trim());
+      if (!m) return null;
+      const d = new Date(+m[1], +m[2] - 1, +m[3]);
+      return d.getMonth() === +m[2] - 1 ? d : null;
+    };
+
+    const render = (focus) => {
+      const next = calendar(size, view, { today: new Date(), selected, focus });
+      next.setAttribute('aria-label', toggle.getAttribute('aria-label'));
+      if (panel) panel.replaceWith(next); else control.append(next);
+      panel = next;
+      panel.addEventListener('click', onPanelClick);
+      panel.addEventListener('keydown', onPanelKey);
+      panel.querySelector('.psds-datepicker__day[tabindex="0"]').focus();
+    };
+
+    const open = () => {
+      selected = parse(field.value);
+      view = selected ? new Date(selected) : new Date();
+      toggle.setAttribute('aria-expanded', 'true');
+      render();
+    };
+
+    const close = (returnFocus) => {
+      if (!panel) return;
+      panel.remove();
+      panel = null;
+      toggle.setAttribute('aria-expanded', 'false');
+      if (returnFocus) toggle.focus();
+    };
+
+    const choose = (date) => {
+      selected = date;
+      field.value = format(date);
+      root.classList.add('psds-datepicker--filled');
+      close(false);
+      field.focus();
+    };
+
+    const move = (from, days, months) => {
+      const d = new Date(from.getFullYear(), from.getMonth() + months, from.getDate() + days);
+      view = d;
+      render(d);
+    };
+
+    function onPanelClick(event) {
+      const day = event.target.closest('.psds-datepicker__day');
+      if (day) return choose(new Date(day.dataset.date));
+      const step = event.target.closest('[data-step]');
+      if (step) {
+        view = new Date(view.getFullYear(), view.getMonth() + Number(step.dataset.step), 1);
+        const focusedStep = step.dataset.step === '-1' ? '.psds-datepicker__prev' : '.psds-datepicker__next';
+        render();
+        panel.querySelector(focusedStep).focus();
+        return;
+      }
+      if (event.target.closest('[data-today]')) choose(new Date());
+    }
+
+    function onPanelKey(event) {
+      if (event.key === 'Escape') { event.preventDefault(); return close(true); }
+      const day = event.target.closest('.psds-datepicker__day');
+      if (!day) return;
+      const from = new Date(day.dataset.date);
+      const keys = {
+        ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [-7, 0], ArrowDown: [7, 0],
+        PageUp: [0, -1], PageDown: [0, 1],
+        Home: [-from.getDay(), 0], End: [6 - from.getDay(), 0],
+      };
+      if (!(event.key in keys)) return;
+      event.preventDefault();
+      move(from, ...keys[event.key]);
+    }
+
+    toggle.addEventListener('click', () => (panel ? close(true) : open()));
+    document.addEventListener('mousedown', (event) => { if (panel && !root.contains(event.target)) close(false); });
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>
