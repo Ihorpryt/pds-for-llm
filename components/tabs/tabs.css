@@ -1,0 +1,377 @@
+/* Portside Design System — Tabs (horizontal)
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Tab (node 5140:240641),
+ * built from "_Atom / Tabs" (node 5140:240678), Type = Horizontal, Line Position = Bottom.
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-tabs                          the bar: bottom rule, optional scroll buttons, the list
+ *   .psds-tabs--sm | --lg               Sizes (Figma Small / Large)
+ *   .psds-tabs--glass                   Glass Tabs — pills for coloured backgrounds (Figma "Glass Tab")
+ *   .psds-tabs__list                    role="tablist"; scrolls horizontally when it overflows
+ *   .psds-tabs__tab                     <button role="tab">
+ *   .psds-tabs__icon                    optional leading glyph (Figma "Icons/Menu" slot)
+ *   .psds-tabs__label                   the label text
+ *   .psds-tabs__affix                   optional trailing glyph (Figma "chevron-down" / "Icons/Close")
+ *   .psds-tabs__scroll                  optional left / right scroll button (Figma "scroll")
+ *
+ * A count goes in the Figma "Badge" slot as a .psds-badge — see tabs.md.
+ *
+ * Selection resolves from [aria-selected="true"]; disabled from :disabled or
+ * [aria-disabled="true"]. The .is-selected / .is-hover / .is-active / .is-focus /
+ * .is-disabled helpers force a state for documentation and visual-regression galleries.
+ */
+
+.psds-tabs {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-tabs-height     : var(--spacing-48);
+  --psds-tabs-gap        : var(--spacing-16);
+  --psds-tabs-padding    : var(--spacing-8);
+  --psds-tabs-font-size  : var(--font-size-sm);
+  --psds-tabs-line-height: var(--line-height-sm);
+  --psds-tabs-scroll     : var(--spacing-28);
+  --psds-tabs-scroll-icon: var(--font-icon-14);
+
+  /* Fixed across sizes in Figma. */
+  --psds-tabs-inner-gap: var(--spacing-8);
+  --psds-tabs-icon     : var(--font-icon-20);
+  --psds-tabs-affix    : var(--font-icon-18);
+  --psds-tabs-line     : var(--border-2);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-tabs-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing   : border-box;
+  display      : flex;
+  align-items  : stretch;
+  min-width    : 0;
+  margin       : var(--spacing-0);
+  padding      : var(--spacing-0);
+  border-bottom: var(--border-1) solid var(--border-light);
+
+  font-family: var(--psds-tabs-font-family);
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-tabs--sm {
+  --psds-tabs-height     : var(--spacing-48);
+  --psds-tabs-gap        : var(--spacing-16);
+  --psds-tabs-padding    : var(--spacing-8);
+  --psds-tabs-font-size  : var(--font-size-sm);
+  --psds-tabs-line-height: var(--line-height-sm);
+  --psds-tabs-scroll     : var(--spacing-28);
+  --psds-tabs-scroll-icon: var(--font-icon-14);
+}
+
+.psds-tabs--lg {
+  --psds-tabs-height     : var(--spacing-56);
+  --psds-tabs-gap        : var(--spacing-20);
+  --psds-tabs-padding    : var(--spacing-12);
+  --psds-tabs-font-size  : var(--font-size-base);
+  --psds-tabs-line-height: var(--line-height-base);
+  --psds-tabs-scroll     : var(--spacing-32);
+  --psds-tabs-scroll-icon: var(--font-icon-16);
+}
+
+/* ------------------------------------------------------------------- List */
+
+.psds-tabs__list {
+  display    : flex;
+  flex       : 1 1 auto;
+  align-items: stretch;
+  gap        : var(--psds-tabs-gap);
+  min-width  : 0;
+
+  /* The tab's underline overlaps the bar's 1px rule rather than sitting above it. */
+  margin-bottom: calc(var(--border-1) * -1);
+
+  overflow-x     : auto;
+  overflow-y     : hidden;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.psds-tabs__list::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-tabs__list { scroll-behavior: auto; }
+}
+
+/* ---------------------------------------------------------- Colour channels */
+/*
+ * Unselected tabs are muted and turn primary on hover, press and focus. Selected
+ * tabs keep the body text colour and a primary underline, and do not react to
+ * hover, press or focus — Figma draws those variants identical to Default.
+ */
+
+.psds-tabs__tab {
+  --psds-tabs-fg        : var(--foreground-content-text-color-alt2);
+  --psds-tabs-fg-hover  : var(--primary);
+  --psds-tabs-fg-disabled: var(--foreground-content-text-color-disabled);
+
+  --psds-tabs-icon-color        : var(--icon-color);
+  --psds-tabs-icon-color-hover  : var(--primary);
+  --psds-tabs-icon-color-disabled: var(--icon-color-disabled);
+
+  --psds-tabs-line-color         : var(--transparent);
+  --psds-tabs-line-color-disabled: var(--transparent);
+}
+
+.psds-tabs__tab[aria-selected="true"],
+.psds-tabs__tab.is-selected {
+  --psds-tabs-fg        : var(--foreground-content-text-color);
+  --psds-tabs-fg-hover  : var(--foreground-content-text-color);
+  --psds-tabs-fg-disabled: var(--buttons-primary-bg-color-disabled);
+
+  --psds-tabs-icon-color        : var(--primary);
+  --psds-tabs-icon-color-hover  : var(--primary);
+  --psds-tabs-icon-color-disabled: var(--buttons-primary-bg-color-disabled);
+
+  --psds-tabs-line-color         : var(--primary);
+  --psds-tabs-line-color-disabled: var(--buttons-primary-bg-color-disabled);
+}
+
+/* -------------------------------------------------------------------- Tab */
+
+.psds-tabs__tab {
+  box-sizing     : border-box;
+  position       : relative;
+  flex           : none;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  gap            : var(--psds-tabs-inner-gap);
+  height         : var(--psds-tabs-height);
+  margin         : var(--spacing-0);
+  padding        : var(--spacing-0) var(--psds-tabs-padding);
+
+  /* Transparent in both directions so the label stays vertically centred. */
+  border       : var(--border-0);
+  border-top   : var(--psds-tabs-line) solid var(--transparent);
+  border-bottom: var(--psds-tabs-line) solid var(--psds-tabs-line-color);
+  border-radius: var(--radius-0);
+  background   : var(--transparent);
+  appearance   : none;
+
+  font-family   : inherit;
+  font-size     : var(--psds-tabs-font-size);
+  line-height   : var(--psds-tabs-line-height);
+  font-weight   : var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-normal);
+  white-space   : nowrap;
+  color         : var(--psds-tabs-fg);
+
+  cursor    : pointer;
+  transition: color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-tabs__tab { transition: none; }
+}
+
+.psds-tabs__label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.psds-tabs__icon,
+.psds-tabs__affix {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  color          : var(--psds-tabs-icon-color);
+  transition     : color 120ms ease;
+}
+
+.psds-tabs__icon {
+  width    : var(--psds-tabs-icon);
+  height   : var(--psds-tabs-icon);
+  font-size: var(--font-icon-16);
+}
+
+.psds-tabs__affix {
+  width    : var(--psds-tabs-affix);
+  height   : var(--psds-tabs-affix);
+  font-size: var(--font-icon-14);
+}
+
+.psds-tabs__icon > svg,
+.psds-tabs__icon > img,
+.psds-tabs__affix > svg,
+.psds-tabs__affix > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-tabs__icon,
+  .psds-tabs__affix { transition: none; }
+}
+
+/* A close affix is its own click target inside the tab. */
+.psds-tabs__affix--close {
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------- Hover / Active */
+
+.psds-tabs__tab:not(:disabled, [aria-disabled="true"]):hover,
+.psds-tabs__tab:not(:disabled, [aria-disabled="true"]):active,
+.psds-tabs__tab.is-hover,
+.psds-tabs__tab.is-active {
+  color: var(--psds-tabs-fg-hover);
+}
+
+.psds-tabs__tab:not(:disabled, [aria-disabled="true"]):hover :is(.psds-tabs__icon, .psds-tabs__affix),
+.psds-tabs__tab:not(:disabled, [aria-disabled="true"]):active :is(.psds-tabs__icon, .psds-tabs__affix),
+.psds-tabs__tab.is-hover :is(.psds-tabs__icon, .psds-tabs__affix),
+.psds-tabs__tab.is-active :is(.psds-tabs__icon, .psds-tabs__affix) {
+  color: var(--psds-tabs-icon-color-hover);
+}
+
+/* --------------------------------------------------------------- Disabled */
+
+.psds-tabs__tab:disabled,
+.psds-tabs__tab[aria-disabled="true"],
+.psds-tabs__tab.is-disabled {
+  color              : var(--psds-tabs-fg-disabled);
+  border-bottom-color: var(--psds-tabs-line-color-disabled);
+  cursor             : not-allowed;
+}
+
+.psds-tabs__tab:is(:disabled, [aria-disabled="true"], .is-disabled) :is(.psds-tabs__icon, .psds-tabs__affix) {
+  color: var(--psds-tabs-icon-color-disabled);
+}
+
+/* Figma fades the badge slot to 50% on a disabled tab. */
+.psds-tabs__tab:is(:disabled, [aria-disabled="true"], .is-disabled) .psds-badge {
+  opacity: 0.5;
+}
+
+.psds-tabs__tab.is-disabled {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ Focus */
+/*
+ * Figma's Focus variant only recolours an unselected label, which is not a visible
+ * indicator on a selected tab. The system focus ring is added, drawn inset so the
+ * list's horizontal overflow clip cannot cut it off. Declared last so it survives
+ * a simultaneous hover.
+ */
+
+.psds-tabs__tab:focus-visible,
+.psds-tabs__tab.is-focus {
+  outline      : none;
+  color        : var(--psds-tabs-fg-hover);
+  border-radius: var(--radius-4) var(--radius-4) var(--radius-0) var(--radius-0);
+  box-shadow   : inset 0 0 0 var(--border-2) var(--primary);
+}
+
+.psds-tabs__tab:focus-visible :is(.psds-tabs__icon, .psds-tabs__affix),
+.psds-tabs__tab.is-focus :is(.psds-tabs__icon, .psds-tabs__affix) {
+  color: var(--psds-tabs-icon-color-hover);
+}
+
+/* ------------------------------------------------------------ Scroll buttons */
+/* Figma "Left scroll" / "Right scroll": a flat, full-height chevron button. */
+
+.psds-tabs__scroll {
+  box-sizing     : border-box;
+  flex           : none;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-tabs-scroll);
+  margin         : var(--spacing-0);
+  padding        : var(--spacing-0);
+
+  border       : var(--border-0);
+  border-radius: var(--radius-full);
+  background   : var(--transparent);
+  appearance   : none;
+
+  font-size: var(--psds-tabs-scroll-icon);
+  color    : var(--icon-color);
+  cursor   : pointer;
+  transition: color 120ms ease;
+}
+
+.psds-tabs__scroll:hover:not(:disabled)  { color: var(--icon-color-hover); }
+.psds-tabs__scroll:active:not(:disabled) { color: var(--icon-color-pressed); }
+
+.psds-tabs__scroll:disabled {
+  color : var(--icon-color-disabled);
+  cursor: default;
+}
+
+.psds-tabs__scroll:focus-visible {
+  outline   : none;
+  box-shadow: inset 0 0 0 var(--border-2) var(--primary);
+}
+
+.psds-tabs__scroll[hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-tabs__scroll { transition: none; }
+}
+
+/* ================================================================== Glass */
+/*
+ * Figma "Glass Tab" (node 52466:112915), built from "_Atom / Glass Tabs": compact
+ * translucent pills for a coloured or contrast background such as the app's
+ * secondary navigation bar. One size; the size modifiers do not apply.
+ *
+ * Figma defines only Selected on / off. Hover (full-strength text), focus (a
+ * white inset ring) and disabled (half opacity) are additions — see tabs.md.
+ */
+
+.psds-tabs--glass {
+  --psds-tabs-height     : var(--spacing-24);
+  --psds-tabs-gap        : var(--spacing-8);
+  --psds-tabs-padding    : var(--spacing-6);
+  --psds-tabs-font-size  : var(--font-size-xs);
+  --psds-tabs-line-height: var(--line-height-xs);
+
+  border-bottom: var(--border-0);
+}
+
+.psds-tabs--glass .psds-tabs__list {
+  align-items  : center;
+  margin-bottom: var(--spacing-0);
+}
+
+.psds-tabs--glass .psds-tabs__tab {
+  --psds-tabs-fg        : var(--foreground-glass-text-color);
+  --psds-tabs-fg-hover  : var(--primary-text-color);
+  --psds-tabs-fg-disabled: var(--foreground-glass-text-color);
+  --psds-tabs-glass-bg  : var(--transparent);
+
+  border       : var(--border-0);
+  border-radius: var(--control-radius-btn-default-radius);
+  background   : var(--psds-tabs-glass-bg);
+  transition   : color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.psds-tabs--glass .psds-tabs__tab:is([aria-selected="true"], .is-selected) {
+  --psds-tabs-fg        : var(--primary-text-color);
+  --psds-tabs-fg-hover  : var(--primary-text-color);
+  --psds-tabs-fg-disabled: var(--primary-text-color);
+  --psds-tabs-glass-bg  : var(--background-glass-bg-color-alt1);
+}
+
+.psds-tabs--glass .psds-tabs__tab:is(:disabled, [aria-disabled="true"], .is-disabled) {
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-tabs--glass .psds-tabs__tab { transition: none; }
+}
+
+.psds-tabs--glass .psds-tabs__tab:focus-visible,
+.psds-tabs--glass .psds-tabs__tab.is-focus {
+  border-radius: var(--control-radius-btn-default-radius);
+  box-shadow   : inset 0 0 0 var(--border-2) var(--primary-text-color);
+}

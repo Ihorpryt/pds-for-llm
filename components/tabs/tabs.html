@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabs — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../foundations/icons.css">
+<link rel="stylesheet" href="../badge/badge.css">
+<link rel="stylesheet" href="tabs.css">
+<link rel="stylesheet" href="../button/button.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-24); }
+  .row + .row { margin-top: var(--spacing-20); }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-12); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .panel-body { padding-top: var(--spacing-16); color: var(--foreground-content-text-color-alt2); }
+  .narrow { max-width: 360px; }
+  /* Demo stand-in for the app's secondary navigation bar; not a component token. */
+  .glass-bar { display: flex; align-items: center; padding: var(--spacing-8) var(--spacing-12); border-radius: var(--radius-8); background: linear-gradient(90deg, var(--light-blue-600), var(--light-blue-700)); }
+  .glass-bar + .glass-bar { margin-top: var(--spacing-12); }
+</style>
+</head>
+<body>
+
+<h1>Tabs</h1>
+<p class="sub">Horizontal only &mdash; 2 sizes &times; selected on/off &times; 5 states, with optional icon, badge, chevron and close slots, scroll buttons, and a Glass variant. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="stack" id="sizes" style="align-items: stretch"></div>
+</div>
+
+<h2>Selected &times; State</h2>
+<p class="sub">Rendered with the forced-state helpers <code>.is-selected</code>, <code>.is-hover</code>, <code>.is-active</code>, <code>.is-focus</code>, <code>.is-disabled</code>.</p>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Size</th><th>Selected</th><th>Default</th><th>Hover</th><th>Active</th><th>Focus</th><th>Disabled</th></tr>
+    </thead>
+    <tbody id="matrix"></tbody>
+  </table>
+</div>
+
+<h2>Slots</h2>
+<p class="sub">Leading icon, a <code>.psds-badge</code> count, a dropdown chevron and a close affix &mdash; each optional.</p>
+<div class="panel">
+  <div class="stack" id="slots" style="align-items: stretch"></div>
+</div>
+
+<h2>Glass</h2>
+<p class="sub"><code>.psds-tabs--glass</code> &mdash; translucent pills for a coloured background such as the secondary navigation bar. States, top to bottom: live, then forced hover, focus and disabled.</p>
+<div class="panel">
+  <div class="glass-bar">
+    <div class="psds-tabs psds-tabs--glass" id="glass-demo">
+      <div class="psds-tabs__list" role="tablist" aria-label="Operations">
+        <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Ops Board</span></button>
+        <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Trip Search</span></button>
+        <button class="psds-tabs__tab" role="tab" aria-selected="true"><span class="psds-tabs__label">Flight Leg Search</span></button>
+        <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Feasibility Search</span></button>
+        <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Cases</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="glass-bar" id="glass-states"></div>
+</div>
+
+<h2>Interactive</h2>
+<p class="sub">A working tab list with panels. Arrow keys, <kbd>Home</kbd> and <kbd>End</kbd> move between tabs; the scroll buttons appear because the bar is narrower than its tabs.</p>
+<div class="panel">
+  <div class="psds-tabs psds-tabs--sm narrow" id="demo">
+    <button class="psds-tabs__scroll" type="button" tabindex="-1" aria-hidden="true" data-dir="-1"><span class="psds-icon">&#xf053;</span></button>
+    <div class="psds-tabs__list" role="tablist" aria-label="Vessel call">
+      <button class="psds-tabs__tab" role="tab" id="t-overview" aria-controls="p-overview" aria-selected="true"><span class="psds-tabs__label">Overview</span></button>
+      <button class="psds-tabs__tab" role="tab" id="t-schedule" aria-controls="p-schedule" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Schedule</span></button>
+      <button class="psds-tabs__tab" role="tab" id="t-cargo" aria-controls="p-cargo" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Cargo</span><span class="psds-badge psds-badge--sm psds-badge--primary psds-badge--pill">12</span></button>
+      <button class="psds-tabs__tab" role="tab" id="t-crew" aria-controls="p-crew" aria-selected="false" tabindex="-1" aria-disabled="true"><span class="psds-tabs__label">Crew</span></button>
+      <button class="psds-tabs__tab" role="tab" id="t-docs" aria-controls="p-docs" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">Documents</span></button>
+      <button class="psds-tabs__tab" role="tab" id="t-history" aria-controls="p-history" aria-selected="false" tabindex="-1"><span class="psds-tabs__label">History</span></button>
+    </div>
+    <button class="psds-tabs__scroll" type="button" tabindex="-1" aria-hidden="true" data-dir="1"><span class="psds-icon">&#xf054;</span></button>
+  </div>
+  <div class="panel-body" role="tabpanel" id="p-overview" aria-labelledby="t-overview">Overview panel.</div>
+  <div class="panel-body" role="tabpanel" id="p-schedule" aria-labelledby="t-schedule" hidden>Schedule panel.</div>
+  <div class="panel-body" role="tabpanel" id="p-cargo" aria-labelledby="t-cargo" hidden>Cargo panel.</div>
+  <div class="panel-body" role="tabpanel" id="p-crew" aria-labelledby="t-crew" hidden>Crew panel.</div>
+  <div class="panel-body" role="tabpanel" id="p-docs" aria-labelledby="t-docs" hidden>Documents panel.</div>
+  <div class="panel-body" role="tabpanel" id="p-history" aria-labelledby="t-history" hidden>History panel.</div>
+</div>
+
+<script>
+  const SIZES = [['sm', 'Small'], ['lg', 'Large']];
+  const STATES = ['', 'is-hover', 'is-active', 'is-focus', 'is-disabled'];
+  const BADGE = { sm: 'psds-badge--sm', lg: 'psds-badge--lg' };
+
+  const bar = (size, label) => {
+    const b = document.createElement('div');
+    b.className = `psds-tabs psds-tabs--${size}`;
+    const list = document.createElement('div');
+    list.className = 'psds-tabs__list';
+    list.setAttribute('role', 'tablist');
+    list.setAttribute('aria-label', label);
+    b.append(list);
+    return [b, list];
+  };
+
+  const tab = (text, { size = 'sm', selected = false, classes = [], icon, badge, affix } = {}) => {
+    const t = document.createElement('button');
+    t.type = 'button';
+    t.className = ['psds-tabs__tab', ...classes].join(' ');
+    t.setAttribute('role', 'tab');
+    t.setAttribute('aria-selected', String(selected));
+    t.tabIndex = selected ? 0 : -1;
+    if (classes.includes('is-disabled')) t.setAttribute('aria-disabled', 'true');
+    let html = '';
+    if (icon) html += `<span class="psds-tabs__icon" aria-hidden="true"><span class="psds-icon">${icon}</span></span>`;
+    html += `<span class="psds-tabs__label">${text}</span>`;
+    if (badge) html += `<span class="psds-badge ${BADGE[size]} psds-badge--primary psds-badge--pill">${badge}</span>`;
+    if (affix === 'chevron') html += '<span class="psds-tabs__affix" aria-hidden="true"><span class="psds-icon">&#xf078;</span></span>';
+    if (affix === 'close') html += '<span class="psds-tabs__affix psds-tabs__affix--close" aria-hidden="true"><span class="psds-icon">&#xf00d;</span></span>';
+    t.innerHTML = html;
+    return t;
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const [size, figma] of SIZES) {
+    const [b, list] = bar(size, `${figma} example`);
+    ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4', 'Tab 5'].forEach((text, i) => list.append(tab(text, { size, selected: i === 1 })));
+    const code = document.createElement('code');
+    code.textContent = `--${size} (${figma}) — ${size === 'sm' ? '48' : '56'}px`;
+    sizes.append(code, b);
+  }
+
+  const matrix = document.getElementById('matrix');
+  for (const [size] of SIZES) {
+    for (const selected of [false, true]) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<th scope="row">${selected ? '' : `<code>--${size}</code>`}</th><th scope="row">${selected ? 'ON' : 'OFF'}</th>`;
+      for (const state of STATES) {
+        const td = document.createElement('td');
+        const [b, list] = bar(size, 'State example');
+        b.style.borderBottomColor = 'transparent';
+        const classes = [state, selected ? 'is-selected' : ''].filter(Boolean);
+        list.append(tab('Tab', { size, selected, classes, icon: '&#xf0c9;' }));
+        td.append(b);
+        tr.append(td);
+      }
+      matrix.append(tr);
+    }
+  }
+
+  const slots = document.getElementById('slots');
+  for (const [size, figma] of SIZES) {
+    const [b, list] = bar(size, `${figma} slots`);
+    list.append(
+      tab('Icon', { size, selected: true, icon: '&#xf0c9;' }),
+      tab('Badge', { size, badge: '99+' }),
+      tab('Dropdown', { size, affix: 'chevron' }),
+      tab('Closable', { size, affix: 'close' }),
+      tab('Disabled', { size, badge: '3', icon: '&#xf0c9;', classes: ['is-disabled'] }),
+    );
+    slots.append(b);
+  }
+
+  // Working tab list: roving tabindex, arrow keys, scroll buttons.
+  const demo = document.getElementById('demo');
+  const list = demo.querySelector('[role="tablist"]');
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  const enabled = () => tabs.filter((t) => t.getAttribute('aria-disabled') !== 'true');
+  const select = (t) => {
+    for (const x of tabs) {
+      const on = x === t;
+      x.setAttribute('aria-selected', String(on));
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    }
+    t.focus();
+    t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  };
+  list.addEventListener('click', (e) => {
+    const t = e.target.closest('[role="tab"]');
+    if (t && t.getAttribute('aria-disabled') !== 'true') select(t);
+  });
+  list.addEventListener('keydown', (e) => {
+    const on = enabled();
+    const i = on.indexOf(document.activeElement);
+    if (i < 0) return;
+    const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: on.length - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    select(on[(next + on.length) % on.length]);
+  });
+  const [prev, nextBtn] = demo.querySelectorAll('.psds-tabs__scroll');
+  const syncScroll = () => {
+    const overflow = list.scrollWidth > list.clientWidth + 1;
+    prev.hidden = nextBtn.hidden = !overflow;
+    prev.disabled = list.scrollLeft <= 0;
+    nextBtn.disabled = list.scrollLeft + list.clientWidth >= list.scrollWidth - 1;
+  };
+  for (const btn of [prev, nextBtn]) {
+    btn.addEventListener('click', () => list.scrollBy({ left: Number(btn.dataset.dir) * list.clientWidth * 0.8 }));
+  }
+  list.addEventListener('scroll', syncScroll, { passive: true });
+  new ResizeObserver(syncScroll).observe(list);
+  syncScroll();
+
+  // Glass: forced states, and click / arrow-key selection on the live bar.
+  const glassStates = document.getElementById('glass-states');
+  const [gb, gl] = bar('glass', 'Glass states');
+  gl.append(
+    tab('Default'),
+    tab('Selected', { selected: true }),
+    tab('Hover', { classes: ['is-hover'] }),
+    tab('Focus', { classes: ['is-focus'] }),
+    tab('Selected focus', { selected: true, classes: ['is-focus'] }),
+    tab('Disabled', { classes: ['is-disabled'] }),
+  );
+  glassStates.append(gb);
+  const glassList = document.querySelector('#glass-demo [role="tablist"]');
+  const glassTabs = [...glassList.querySelectorAll('[role="tab"]')];
+  const glassSelect = (t) => {
+    for (const x of glassTabs) { x.setAttribute('aria-selected', String(x === t)); x.tabIndex = x === t ? 0 : -1; }
+    t.focus();
+  };
+  glassList.addEventListener('click', (e) => { const t = e.target.closest('[role="tab"]'); if (t) glassSelect(t); });
+  glassList.addEventListener('keydown', (e) => {
+    const i = glassTabs.indexOf(document.activeElement);
+    const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: glassTabs.length - 1 }[e.key];
+    if (i < 0 || n === undefined) return;
+    e.preventDefault();
+    glassSelect(glassTabs[(n + glassTabs.length) % glassTabs.length]);
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>
