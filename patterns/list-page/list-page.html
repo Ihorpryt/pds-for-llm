@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flight Leg Search — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../foundations/icons.css">
+<link rel="stylesheet" href="../../components/button/button.css">
+<link rel="stylesheet" href="../../components/icon-button/icon-button.css">
+<link rel="stylesheet" href="../../components/text-box/text-box.css">
+<link rel="stylesheet" href="../../components/dropdown-list/dropdown-list.css">
+<link rel="stylesheet" href="../../components/segmented-controls/segmented-controls.css">
+<link rel="stylesheet" href="../../components/checkbox/checkbox.css">
+<link rel="stylesheet" href="../../components/badge/badge.css">
+<link rel="stylesheet" href="../../components/accordion/accordion.css">
+<link rel="stylesheet" href="../../components/table/table.css">
+<link rel="stylesheet" href="list-page.css">
+<style>
+  /* Page chrome only. */
+  body { margin: 0; }
+  .psds-list-page { height: 100vh; }
+  .theme-toggle { position: fixed; right: var(--spacing-12); bottom: var(--spacing-12); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<div class="psds-list-page">
+
+  <aside class="psds-filter-panel" id="filters" aria-label="Filters">
+    <div class="psds-filter-panel__body">
+      <div class="psds-textbox psds-textbox--sm">
+        <label class="sr-only" for="filter-search">Search filters</label>
+        <div class="psds-textbox__control">
+          <input class="psds-textbox__field" id="filter-search" type="search" placeholder="Search filters...">
+          <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--md">&#xf002;</span></span>
+        </div>
+      </div>
+
+      <div class="psds-segmented psds-segmented--sm psds-segmented--block" role="radiogroup" aria-label="Match">
+        <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="match" value="all" checked>Match All</label>
+        <label class="psds-segmented__item"><input class="psds-segmented__input" type="radio" name="match" value="any">Match Any</label>
+      </div>
+
+      <div class="psds-dropdown psds-dropdown--sm">
+        <label class="sr-only" for="preset">Search preset</label>
+        <div class="psds-dropdown__control">
+          <select class="psds-dropdown__field" id="preset">
+            <option value="" selected>Search preset</option>
+            <option>Today's departures</option>
+            <option>Active international legs</option>
+          </select>
+          <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="psds-accordion-group" id="filter-sections"></div>
+    </div>
+
+    <div class="psds-filter-panel__footer">
+      <button class="psds-btn psds-btn--sm psds-btn--primary" type="button">
+        <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf002;</span></span>Search
+      </button>
+      <div class="psds-filter-panel__row">
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button">Save</button>
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button" id="reset" disabled>Reset</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="psds-list-page__main">
+    <div class="psds-table-view">
+      <div class="psds-table-toolbar">
+        <div class="psds-table-toolbar__group">
+          <button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary psds-icon-btn--flat" type="button"
+                  id="panel-toggle" aria-controls="filters" aria-expanded="true" aria-label="Hide filters">
+            <span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf0db;</span></span>
+          </button>
+          <button class="psds-btn psds-btn--xs psds-btn--secondary psds-btn--outlined psds-btn--pill" type="button">Columns</button>
+        </div>
+        <div class="psds-table-toolbar__group">
+          <span class="psds-table-toolbar__count" id="count" aria-live="polite">11 flight legs</span>
+          <div class="psds-textbox psds-textbox--xs" style="width: 230px">
+            <label class="sr-only" for="table-search">Search flight legs</label>
+            <div class="psds-textbox__control">
+              <input class="psds-textbox__field" id="table-search" type="search" placeholder="Search...">
+              <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--xs">&#xf002;</span></span>
+            </div>
+          </div>
+          <button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Download">
+            <span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf019;</span></span>
+          </button>
+          <button class="psds-btn psds-btn--xs psds-btn--primary" type="button">
+            <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon">&#x2b;</span></span>Create
+          </button>
+        </div>
+      </div>
+
+      <div class="psds-table-scroll">
+        <table class="psds-table psds-table--interactive">
+          <caption class="sr-only">Flight legs</caption>
+          <colgroup>
+            <col style="width: 150px"><col style="width: 170px"><col style="width: 170px"><col style="width: 170px">
+            <col style="width: 170px"><col style="width: 170px"><col style="width: 250px"><col style="min-width: 180px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">Route</th><th scope="col">Aircraft</th><th scope="col">Trip Stage</th><th scope="col">Leg Status</th>
+              <th scope="col">Departure Local</th><th scope="col">Departure UTC</th><th scope="col">Crew</th><th scope="col">Estimated Flight Time</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<button class="psds-btn psds-btn--xs psds-btn--secondary theme-toggle" id="theme-toggle" type="button">Toggle dark theme</button>
+
+<script>
+  // Filter sections — Figma "Containers Section".
+  const SECTIONS = [
+    ['Trip', ['Trip Number', 'Trip Stage', 'Trip Type']],
+    ['Leg Details', ['Leg Number', 'Leg Status', 'Leg Purpose', 'Leg Distance', 'Leg Logged', 'Locked', 'Inactive']],
+    ['Route & Airports', ['Departure Airport', 'Arrival Airport', 'Runway Length', 'International', 'International Status', 'Regulatory Set']],
+    ['Aircraft', ['Aircraft', 'Aircraft Category']],
+    ['Trip & Status', ['Account Type', 'Accounts', 'Cost Center / Business Unit', 'Create Date']],
+  ];
+  const sections = document.getElementById('filter-sections');
+  for (const [title, items] of SECTIONS) {
+    const d = document.createElement('details');
+    d.className = 'psds-accordion';
+    d.open = true;
+    d.innerHTML = `<summary class="psds-accordion__header"><span class="psds-accordion__title">${title}</span></summary>
+      <div class="psds-accordion__body">${items.map((i) => `
+        <label class="psds-checkbox psds-checkbox--sm">
+          <input class="psds-checkbox__input" type="checkbox" name="filter" value="${i}">
+          <span class="psds-checkbox__text"><span class="psds-checkbox__label">${i}</span></span>
+        </label>`).join('')}</div>`;
+    sections.append(d);
+  }
+
+  // Rows — Figma "Flight Legs Container".
+  const STATUS = { Active: 'info', Arrived: 'success', 'In Review': 'warning' };
+  const LEGS = [
+    ['CYUL → CYYZ', 'Active', 'Emily Carter, Michael Thompson'],
+    ['CYUL → RJAA', 'Active', 'Ava Martinez, Benjamin Garcia'],
+    ['EGGP → CYUL', 'Arrived', 'Mia Rodriguez, Alexander Lee'],
+    ['OMDB → EGGP', 'Arrived', 'Sophia Williams, Daniel Brown'],
+    ['CYUL → CYYZ', 'In Review', 'Olivia Davis, James Wilson'],
+    ['CYUL → CYYZ', 'Active', 'Isabella Hernandez, William King'],
+    ['OMDB → EGGP', 'Arrived', 'Charlotte Wright, Noah Scott'],
+    ['CYUL → RJAA', 'Active', 'Evelyn Baker, Mason Nelson'],
+    ['OMDB → EGGP', 'Arrived', 'Amelia Young, Lucas Hall'],
+    ['OMDB → EGGP', 'Arrived', 'Harper Allen, Elijah Adams'],
+    ['OMDB → EGGP', 'Arrived', 'Amelia Young, Lucas Hall'],
+  ];
+  const tbody = document.getElementById('rows');
+  const count = document.getElementById('count');
+  const render = (q = '') => {
+    const rows = LEGS.filter((l) => l.join(' ').toLowerCase().includes(q.toLowerCase()));
+    tbody.innerHTML = rows.length
+      ? rows.map(([route, status, crew]) => `<tr>
+          <td><a class="psds-table__link" href="#">${route}</a></td>
+          <td>N34T0</td><td>Booked</td>
+          <td><span class="psds-badge psds-badge--lg psds-badge--${STATUS[status]} psds-badge--pill">${status}</span></td>
+          <td>2025-10-02 14:30</td><td>2025-10-02 18:30</td><td>${crew}</td><td>0.83</td>
+        </tr>`).join('')
+      : '<tr><td class="psds-table__empty" colspan="8">No flight legs match your search.</td></tr>';
+    count.textContent = `${rows.length} flight leg${rows.length === 1 ? '' : 's'}`;
+  };
+  document.getElementById('table-search').addEventListener('input', (e) => render(e.target.value));
+  render();
+
+  // Reset is enabled once any filter is ticked.
+  const reset = document.getElementById('reset');
+  sections.addEventListener('change', () => { reset.disabled = !sections.querySelector(':checked'); });
+  reset.addEventListener('click', () => {
+    for (const c of sections.querySelectorAll(':checked')) c.checked = false;
+    reset.disabled = true;
+  });
+
+  // Filter search narrows the checkbox list.
+  document.getElementById('filter-search').addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    for (const d of sections.children) {
+      let any = false;
+      for (const l of d.querySelectorAll('.psds-checkbox')) {
+        const hit = l.textContent.toLowerCase().includes(q);
+        l.style.display = hit ? '' : 'none';
+        any ||= hit;
+      }
+      d.hidden = !any;
+      if (q) d.open = true;
+    }
+  });
+
+  // Panel toggle.
+  const toggle = document.getElementById('panel-toggle');
+  const panel = document.getElementById('filters');
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Hide filters' : 'Show filters');
+    panel.hidden = !open;
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

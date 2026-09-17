@@ -1,0 +1,100 @@
+/* Portside Design System — List page pattern
+ * Source: Figma "Avianis WEB V2" › Operations -> Flight Leg Search (node 2643:9982).
+ * A filter panel beside a results table, filling whatever container it is placed in.
+ * App navigation is not part of this pattern. Every value below resolves through a
+ * token declared in tokens.css, except the panel width, which is a layout size.
+ *
+ * Class API
+ *   .psds-list-page              row: filter panel + results; give it a height
+ *   .psds-list-page__main        the results column; holds a .psds-table-view
+ *
+ *   .psds-filter-panel           250px left panel: controls, accordion sections, footer
+ *   .psds-filter-panel__body     scrolling stack of controls and sections
+ *   .psds-filter-panel__footer   pinned action area: Search, then Save / Reset
+ *   .psds-filter-panel__row      a row of equal-width buttons
+ */
+
+.psds-list-page {
+  --psds-list-page-font-family : Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Layout width, not a token — like the modal widths in patterns/modal. */
+  --psds-list-page-panel-width : 250px;
+
+  box-sizing : border-box;
+  display    : flex;
+  min-width  : 0;
+  min-height : 0;
+  overflow   : hidden;
+  background : var(--background-content-bg-color);
+  font-family: var(--psds-list-page-font-family);
+}
+
+.psds-list-page__main {
+  display       : flex;
+  flex          : 1 1 auto;
+  flex-direction: column;
+  min-width     : 0;
+  min-height    : 0;
+}
+
+.psds-list-page__main > .psds-table-view {
+  flex: 1 1 auto;
+}
+
+/* ----------------------------------------------------------- Filter panel */
+
+.psds-filter-panel {
+  box-sizing    : border-box;
+  display       : flex;
+  flex          : none;
+  flex-direction: column;
+  width         : var(--psds-list-page-panel-width);
+  min-height    : 0;
+  border-right  : var(--border-1) solid var(--border-light);
+  background    : var(--background-content-bg-color-alt2);
+}
+
+.psds-filter-panel[hidden] { display: none; }
+
+.psds-filter-panel__body {
+  display       : flex;
+  flex          : 1 1 auto;
+  flex-direction: column;
+  gap           : var(--spacing-10);
+  min-height    : 0;
+  padding       : var(--spacing-8) var(--spacing-12);
+  overflow-y    : auto;
+  scrollbar-width: thin;
+}
+
+/* Children keep their height while the body scrolls. Use .psds-segmented--block
+ * for a full-width segmented control. */
+.psds-filter-panel__body > * {
+  flex: none;
+}
+
+.psds-filter-panel__body > :is(.psds-textbox, .psds-dropdown) {
+  width: 100%;
+}
+
+.psds-filter-panel__footer {
+  display       : flex;
+  flex          : none;
+  flex-direction: column;
+  gap           : var(--spacing-8);
+  padding       : var(--spacing-12);
+  border-top    : var(--border-1) solid var(--border-light);
+  background    : var(--background-content-bg-color);
+}
+
+.psds-filter-panel__footer > .psds-btn {
+  width: 100%;
+}
+
+.psds-filter-panel__row {
+  display: flex;
+  gap    : var(--spacing-8);
+}
+
+.psds-filter-panel__row > .psds-btn {
+  flex: 1 1 0;
+}
