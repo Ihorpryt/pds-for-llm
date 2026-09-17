@@ -1,0 +1,116 @@
+/* Portside Design System — Accordion
+ * Source: Figma "Avianis WEB V2" › Operations -> Flight Leg Search (node 2643:9982),
+ * the filter sidebar sections (node 4547:42259) — TRIP, LEG DETAILS, ROUTE & AIRPORTS…
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-accordion-group        optional wrapper; draws the rule above the first section
+ *   .psds-accordion              a native <details> section
+ *   .psds-accordion__header      the <summary>: small uppercase title + chevron
+ *   .psds-accordion__title       the title text
+ *   .psds-accordion__body        the content shown when open (a 10px-gap stack)
+ *
+ * Open / closed is the <details> element's own [open] state. .is-hover / .is-focus
+ * force a state for documentation and visual-regression galleries.
+ */
+
+.psds-accordion {
+  --psds-accordion-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-accordion-gap        : var(--spacing-10);
+  --psds-accordion-chevron    : var(--font-icon-16);
+
+  /* Figma "Icons/Chevron down", exported from the source node and carried as a mask
+   * so it follows the header colour. */
+  --psds-accordion-chevron-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.59375 5.5625L3.70312 5.48438L3.8125 5.42188L3.9375 5.39062L4.0625 5.375L4.1875 5.39062L4.3125 5.42188L4.42188 5.48438L4.53125 5.5625L8 9.04688L11.5156 5.51562L11.625 5.45312L11.75 5.40625L11.875 5.375H12L12.125 5.40625L12.2344 5.45312L12.3438 5.51562L12.4375 5.60938L12.5156 5.71875L12.5625 5.84375L12.5938 5.96875V6.09375L12.5625 6.21875L12.5156 6.34375L12.4375 6.45312L8.42188 10.4844L8.3125 10.5469L8.1875 10.5938L8.0625 10.625H7.9375L7.8125 10.5938L7.6875 10.5469L7.57812 10.4844L3.5625 6.45312L3.48438 6.34375L3.4375 6.21875L3.40625 6.09375V5.96875L3.4375 5.84375L3.48438 5.71875L3.5625 5.60938L3.59375 5.5625Z'/%3E%3C/svg%3E");
+
+  box-sizing   : border-box;
+  display      : block;
+  margin       : var(--spacing-0);
+  padding      : var(--spacing-12) var(--spacing-0);
+  border-bottom: var(--border-1) solid var(--border-light);
+  font-family  : var(--psds-accordion-font-family);
+}
+
+.psds-accordion[hidden] { display: none; }
+
+.psds-accordion-group {
+  border-top: var(--border-1) solid var(--border-light);
+}
+
+/* ----------------------------------------------------------------- Header */
+
+.psds-accordion__header {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--spacing-8);
+  border-radius  : var(--radius-2);
+  list-style     : none;
+  cursor         : pointer;
+  color          : var(--foreground-content-text-color-alt2);
+  transition     : color 120ms ease;
+}
+
+.psds-accordion__header::-webkit-details-marker { display: none; }
+.psds-accordion__header::marker { content: ""; }
+
+.psds-accordion__title {
+  min-width     : 0;
+  font-size     : var(--font-size-xxs);
+  line-height   : var(--line-height-xxs);
+  font-weight   : var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-normal);
+  text-transform: uppercase;
+  color         : currentColor;
+}
+
+/* The chevron points down when open and right when closed. */
+.psds-accordion__header::after {
+  content         : "";
+  flex            : none;
+  width           : var(--psds-accordion-chevron);
+  height          : var(--psds-accordion-chevron);
+  background-color: var(--icon-color);
+  -webkit-mask    : var(--psds-accordion-chevron-image) center / contain no-repeat;
+  mask            : var(--psds-accordion-chevron-image) center / contain no-repeat;
+  transform       : rotate(-90deg);
+  transition      : transform 120ms ease, background-color 120ms ease;
+}
+
+.psds-accordion[open] > .psds-accordion__header::after {
+  transform: none;
+}
+
+/* Hover and focus are not in Figma: the title darkens to the body text colour. */
+.psds-accordion__header:hover,
+.psds-accordion.is-hover > .psds-accordion__header {
+  color: var(--foreground-content-text-color);
+}
+
+.psds-accordion__header:hover::after,
+.psds-accordion.is-hover > .psds-accordion__header::after {
+  background-color: var(--icon-color-hover);
+}
+
+.psds-accordion__header:focus-visible,
+.psds-accordion.is-focus > .psds-accordion__header {
+  outline   : none;
+  color     : var(--foreground-content-text-color);
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-accordion__header,
+  .psds-accordion__header::after { transition: none; }
+}
+
+/* ------------------------------------------------------------------- Body */
+
+.psds-accordion__body {
+  display       : flex;
+  flex-direction: column;
+  align-items   : flex-start;
+  gap           : var(--psds-accordion-gap);
+  margin-top    : var(--psds-accordion-gap);
+}
