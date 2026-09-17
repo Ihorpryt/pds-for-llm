@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chip — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../foundations/icons.css">
+<link rel="stylesheet" href="chip.css">
+<link rel="stylesheet" href="../button/button.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-24); }
+  .row + .row { margin-top: var(--spacing-20); }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-12); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  td { white-space: nowrap; }
+  .wrap { display: flex; flex-wrap: wrap; gap: var(--spacing-8); }
+</style>
+</head>
+<body>
+
+<h1>Chip</h1>
+<p class="sub">4 sizes &times; 6 types &times; 3 modes &times; 2 shapes &times; 5 states, with optional avatar, icon and remove button. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel"><div class="stack" id="sizes"></div></div>
+
+<h2>Type &times; Mode</h2>
+<div class="panel">
+  <table>
+    <thead><tr><th>Type</th><th>Filled</th><th>Outlined</th><th>Flat</th><th>Filled pill</th><th>Outlined pill</th></tr></thead>
+    <tbody id="types"></tbody>
+  </table>
+</div>
+
+<h2>Mode &times; State</h2>
+<p class="sub">Primary, rendered with the forced-state helpers <code>.is-hover</code>, <code>.is-active</code>, <code>.is-focus</code>, <code>.is-disabled</code>. Hover, active and focus fill every mode; disabled Outlined and Flat stay transparent.</p>
+<div class="panel">
+  <table>
+    <thead><tr><th>Mode</th><th>Enabled</th><th>Hover</th><th>Active</th><th>Focus</th><th>Disabled</th></tr></thead>
+    <tbody id="states"></tbody>
+  </table>
+</div>
+
+<h2>Slots</h2>
+<div class="panel"><div class="stack" id="slots"></div></div>
+
+<h2>Interactive</h2>
+<p class="sub">Clickable chips are <code>&lt;button&gt;</code>s. Removable chips are <code>&lt;span&gt;</code>s with their own remove button &mdash; tab to one and press <kbd>Enter</kbd>, or click the &times;.</p>
+<div class="panel">
+  <div class="stack">
+    <div class="wrap" role="group" aria-label="Quick filters">
+      <button class="psds-chip psds-chip--sm psds-chip--secondary psds-chip--outlined" type="button"><span class="psds-chip__icon" aria-hidden="true"><span class="psds-icon">&#xf072;</span></span><span class="psds-chip__label">Departures today</span></button>
+      <button class="psds-chip psds-chip--sm psds-chip--secondary psds-chip--outlined" type="button"><span class="psds-chip__label">Charter</span></button>
+      <button class="psds-chip psds-chip--sm psds-chip--secondary psds-chip--outlined" type="button" disabled><span class="psds-chip__label">International</span></button>
+    </div>
+    <ul class="wrap" id="removable" aria-label="Applied filters" style="list-style: none; margin: 0; padding: 0"></ul>
+    <button class="psds-btn psds-btn--xs psds-btn--secondary psds-btn--outlined" type="button" id="reset">Reset filters</button>
+  </div>
+</div>
+
+<script>
+  const SIZES = [['xs', 'Extra Small'], ['sm', 'Small'], ['md', 'Medium'], ['lg', 'Large']];
+  const TYPES = ['primary', 'secondary', 'info', 'success', 'warning', 'danger'];
+  const MODES = [['', 'Filled'], ['outlined', 'Outlined'], ['flat', 'Flat']];
+  const STATES = ['', 'is-hover', 'is-active', 'is-focus', 'is-disabled'];
+  const AVATAR = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#f59e0b"/><text x="16" y="21" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">EC</text></svg>');
+
+  const chip = (text, { size = 'sm', type = 'primary', mode = '', pill = false, state = '', avatar = false, icon = '', remove = false } = {}) => {
+    const c = document.createElement('span');
+    c.className = ['psds-chip', `psds-chip--${size}`, `psds-chip--${type}`, mode && `psds-chip--${mode}`, pill && 'psds-chip--pill', state].filter(Boolean).join(' ');
+    let html = '';
+    if (avatar) html += `<img class="psds-chip__avatar" src="${AVATAR}" alt="">`;
+    if (icon) html += `<span class="psds-chip__icon" aria-hidden="true"><span class="psds-icon">${icon}</span></span>`;
+    html += `<span class="psds-chip__label">${text}</span>`;
+    if (remove) html += `<button class="psds-chip__remove" type="button" aria-label="Remove ${text}" tabindex="-1"><span class="psds-icon" aria-hidden="true">&#xf00d;</span></button>`;
+    c.innerHTML = html;
+    return c;
+  };
+
+  const row = (el, cells) => {
+    const tr = document.createElement('tr');
+    for (const [i, cell] of cells.entries()) {
+      const td = document.createElement(i === 0 ? 'th' : 'td');
+      if (i === 0) td.scope = 'row';
+      typeof cell === 'string' ? (td.innerHTML = cell) : td.append(cell);
+      tr.append(td);
+    }
+    el.append(tr);
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const [size, figma] of SIZES) {
+    const r = document.createElement('div');
+    r.className = 'row';
+    r.append(
+      chip('Assist Chip', { size }),
+      chip('Assist Chip', { size, icon: '&#xf2c2;' }),
+      chip('Assist Chip', { size, remove: true }),
+      chip('Emily Carter', { size, avatar: true, remove: true }),
+      chip('Emily Carter', { size, avatar: true, pill: true }),
+    );
+    const code = document.createElement('code');
+    code.textContent = `--${size} (${figma})`;
+    r.prepend(code);
+    sizes.append(r);
+  }
+
+  const types = document.getElementById('types');
+  for (const type of TYPES) {
+    row(types, [type, chip('Assist Chip', { type }), chip('Assist Chip', { type, mode: 'outlined' }), chip('Assist Chip', { type, mode: 'flat' }), chip('Assist Chip', { type, pill: true }), chip('Assist Chip', { type, mode: 'outlined', pill: true })]);
+  }
+
+  const states = document.getElementById('states');
+  for (const [mode, label] of MODES) {
+    row(states, [label, ...STATES.map((state) => chip('Assist Chip', { mode, state, icon: '&#xf2c2;', remove: true }))]);
+  }
+
+  const slots = document.getElementById('slots');
+  for (const [mode] of MODES) {
+    const r = document.createElement('div');
+    r.className = 'row';
+    r.append(
+      chip('Avatar', { type: 'secondary', mode, avatar: true }),
+      chip('Icon', { type: 'secondary', mode, icon: '&#xf2c2;' }),
+      chip('Removable', { type: 'secondary', mode, remove: true }),
+      chip('Everything', { type: 'secondary', mode, avatar: true, icon: '&#xf2c2;', remove: true }),
+      chip('Disabled', { type: 'secondary', mode, avatar: true, remove: true, state: 'is-disabled' }),
+    );
+    slots.append(r);
+  }
+
+  // Removable chips: the remove button is the focus target; focus moves on after removal.
+  const FILTERS = ['CYUL → CYYZ', 'Status: Active', 'Crew: Emily Carter', 'Aircraft: N34T0'];
+  const list = document.getElementById('removable');
+  const render = () => {
+    list.replaceChildren(...FILTERS.map((f) => {
+      const li = document.createElement('li');
+      const c = chip(f, { type: 'primary', mode: 'outlined', remove: true });
+      c.querySelector('.psds-chip__remove').tabIndex = 0;
+      li.append(c);
+      return li;
+    }));
+  };
+  list.addEventListener('click', (e) => {
+    const btn = e.target.closest('.psds-chip__remove');
+    if (!btn) return;
+    const items = [...list.children];
+    const i = items.indexOf(btn.closest('li'));
+    items[i].remove();
+    const next = list.children[i] || list.children[i - 1];
+    (next ? next.querySelector('.psds-chip__remove') : document.getElementById('reset')).focus();
+  });
+  document.getElementById('reset').addEventListener('click', render);
+  render();
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

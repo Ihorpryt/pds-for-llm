@@ -1,0 +1,438 @@
+/* Portside Design System — Chip
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Chips (node 4755:125901)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-chip                                   base (Filled mode, Rounded shape)
+ *   .psds-chip--xs | --sm | --md | --lg          Sizes (Figma Extra Small / Small / Medium / Large)
+ *   .psds-chip--primary | --secondary | --info
+ *          | --success | --warning | --danger    Type (required)
+ *   .psds-chip--outlined | --flat                Mode  (default: Filled)
+ *   .psds-chip--pill                             Shape = Full Rounded (default: Rounded)
+ *
+ *   .psds-chip__avatar                           optional leading image, flush to the start edge
+ *   .psds-chip__icon                             optional leading glyph
+ *   .psds-chip__label                            the label text
+ *   .psds-chip__remove                           optional trailing close <button>
+ *
+ * The root is a <span> for a static chip, or a <button> / <a> for a clickable one.
+ * Hover and press only paint on a clickable root, or on a static root while its remove
+ * button is hovered. The .is-hover / .is-active / .is-focus / .is-disabled helpers force
+ * a state for documentation and visual-regression galleries.
+ */
+
+.psds-chip {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-chip-height     : var(--form-mouse-small);
+  --psds-chip-radius     : var(--control-radius-chip-default-radius);
+  --psds-chip-padding    : var(--spacing-8);
+  --psds-chip-gap        : var(--spacing-4);
+  --psds-chip-icon       : var(--font-icon-14);
+  --psds-chip-font-size  : var(--font-size-xs);
+  --psds-chip-line-height: var(--line-height-xs);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-chip-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing     : border-box;
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  gap            : var(--psds-chip-gap);
+  max-width      : 100%;
+  height         : var(--psds-chip-height);
+  margin         : var(--spacing-0);
+  padding-block  : var(--spacing-0);
+  padding-inline : var(--psds-chip-padding);
+  overflow       : hidden;
+  vertical-align : middle;
+
+  border       : var(--border-1) solid var(--psds-chip-border);
+  border-radius: var(--psds-chip-radius);
+  background   : var(--psds-chip-bg);
+  appearance   : none;
+
+  font-family   : var(--psds-chip-font-family);
+  font-size     : var(--psds-chip-font-size);
+  line-height   : var(--psds-chip-line-height);
+  font-weight   : var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-normal);
+  white-space   : nowrap;
+  text-decoration: none;
+  color         : var(--psds-chip-fg);
+
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+:is(button, a).psds-chip { cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-chip { transition: none; }
+}
+
+/* ------------------------------------------------------------------ Sizes */
+
+.psds-chip--xs {
+  --psds-chip-height     : var(--spacing-20);
+  --psds-chip-radius     : var(--control-radius-chip-small-radius);
+  --psds-chip-padding    : var(--spacing-8);
+  --psds-chip-gap        : var(--spacing-4);
+  --psds-chip-icon       : var(--font-icon-12);
+  --psds-chip-font-size  : var(--font-size-xs);
+  --psds-chip-line-height: var(--line-height-xs);
+}
+
+.psds-chip--sm {
+  --psds-chip-height     : var(--form-mouse-small);
+  --psds-chip-radius     : var(--control-radius-chip-default-radius);
+  --psds-chip-padding    : var(--spacing-8);
+  --psds-chip-gap        : var(--spacing-4);
+  --psds-chip-icon       : var(--font-icon-14);
+  --psds-chip-font-size  : var(--font-size-xs);
+  --psds-chip-line-height: var(--line-height-xs);
+}
+
+.psds-chip--md {
+  --psds-chip-height     : var(--spacing-28);
+  --psds-chip-radius     : var(--control-radius-chip-bigger-small-radius);
+  --psds-chip-padding    : var(--spacing-8);
+  --psds-chip-gap        : var(--spacing-6);
+  --psds-chip-icon       : var(--font-icon-16);
+  --psds-chip-font-size  : var(--font-size-sm);
+  --psds-chip-line-height: var(--line-height-sm);
+}
+
+.psds-chip--lg {
+  --psds-chip-height     : var(--form-mouse);
+  --psds-chip-radius     : var(--control-radius-chip-bigger-radius);
+  --psds-chip-padding    : var(--spacing-12);
+  --psds-chip-gap        : var(--spacing-8);
+  --psds-chip-icon       : var(--font-icon-16);
+  --psds-chip-font-size  : var(--font-size-sm);
+  --psds-chip-line-height: var(--line-height-sm);
+}
+
+/* ------------------------------------------------------------------ Shape */
+/* Full Rounded changes only the radius — the padding is the same as Rounded. */
+
+.psds-chip--pill {
+  --psds-chip-radius: var(--radius-full);
+}
+
+/* ------------------------------------------------------------------- Type */
+/*
+ * The chip reuses the button tokens, mapped onto four channels:
+ *   --psds-chip-bg-*      surface, Filled mode and every hover / press / focus
+ *   --psds-chip-border-*  border colour
+ *   --psds-chip-fg-*      label colour on a filled surface
+ *   --psds-chip-accent-*  label colour on a transparent surface (Outlined / Flat)
+ */
+
+.psds-chip--primary {
+  --psds-chip-bg            : var(--buttons-primary-bg-color);
+  --psds-chip-bg-hover      : var(--buttons-primary-bg-color-hover);
+  --psds-chip-bg-pressed    : var(--buttons-primary-bg-color-pressed);
+  --psds-chip-bg-focus      : var(--buttons-primary-bg-color-focus);
+  --psds-chip-bg-disabled   : var(--buttons-primary-bg-color-disabled);
+
+  --psds-chip-border        : var(--buttons-primary-border-color);
+  --psds-chip-border-hover  : var(--buttons-primary-border-color-hover);
+  --psds-chip-border-pressed: var(--buttons-primary-border-color-pressed);
+  --psds-chip-border-focus  : var(--buttons-primary-border-color-focus);
+  --psds-chip-border-disabled: var(--buttons-primary-border-color-disabled);
+
+  --psds-chip-fg            : var(--buttons-primary-text);
+  --psds-chip-fg-hover      : var(--buttons-primary-text-hover);
+  --psds-chip-fg-pressed    : var(--buttons-primary-text-pressed);
+  --psds-chip-fg-focus      : var(--buttons-primary-text-focus);
+  --psds-chip-fg-disabled   : var(--buttons-primary-text-disabled);
+
+  --psds-chip-accent        : var(--buttons-primary-bg-color);
+  --psds-chip-accent-disabled: var(--buttons-primary-bg-color-disabled);
+}
+
+.psds-chip--secondary {
+  --psds-chip-bg            : var(--buttons-secondary-bg-color);
+  --psds-chip-bg-hover      : var(--buttons-secondary-bg-color-hover);
+  --psds-chip-bg-pressed    : var(--buttons-secondary-bg-color-pressed);
+  --psds-chip-bg-focus      : var(--buttons-secondary-bg-color-focus);
+  --psds-chip-bg-disabled   : var(--buttons-secondary-bg-color-disabled);
+
+  --psds-chip-border        : var(--buttons-secondary-border-color);
+  --psds-chip-border-hover  : var(--buttons-secondary-border-color-hover);
+  --psds-chip-border-pressed: var(--buttons-secondary-border-color-pressed);
+  --psds-chip-border-focus  : var(--buttons-secondary-border-color-focus);
+  --psds-chip-border-disabled: var(--buttons-secondary-border-color-disabled);
+
+  --psds-chip-fg            : var(--buttons-secondary-text-color);
+  --psds-chip-fg-hover      : var(--buttons-secondary-text-color-hover);
+  --psds-chip-fg-pressed    : var(--buttons-secondary-text-color-pressed);
+  --psds-chip-fg-focus      : var(--buttons-secondary-text-color-focus);
+  --psds-chip-fg-disabled   : var(--buttons-secondary-text-color-disabled);
+
+  --psds-chip-accent        : var(--buttons-secondary-text-color);
+  --psds-chip-accent-disabled: var(--buttons-secondary-text-color-disabled);
+}
+
+.psds-chip--info {
+  --psds-chip-bg            : var(--buttons-info-bg-color);
+  --psds-chip-bg-hover      : var(--buttons-info-bg-color-hover);
+  --psds-chip-bg-pressed    : var(--buttons-info-bg-color-pressed);
+  --psds-chip-bg-focus      : var(--buttons-info-bg-color-focus);
+  --psds-chip-bg-disabled   : var(--buttons-info-bg-color-disabled);
+
+  --psds-chip-border        : var(--buttons-info-border-color);
+  --psds-chip-border-hover  : var(--buttons-info-border-color-hover);
+  --psds-chip-border-pressed: var(--buttons-info-border-color-pressed);
+  --psds-chip-border-focus  : var(--buttons-info-border-color-focus);
+  --psds-chip-border-disabled: var(--buttons-info-border-color-disabled);
+
+  --psds-chip-fg            : var(--buttons-info-text);
+  --psds-chip-fg-hover      : var(--buttons-info-text-hover);
+  --psds-chip-fg-pressed    : var(--buttons-info-text-pressed);
+  --psds-chip-fg-focus      : var(--buttons-info-text-focus);
+  --psds-chip-fg-disabled   : var(--buttons-info-text-disabled);
+
+  --psds-chip-accent        : var(--buttons-info-bg-color);
+  --psds-chip-accent-disabled: var(--buttons-info-bg-color-disabled);
+}
+
+.psds-chip--success {
+  --psds-chip-bg            : var(--buttons-success-bg-color);
+  --psds-chip-bg-hover      : var(--buttons-success-bg-color-hover);
+  --psds-chip-bg-pressed    : var(--buttons-success-bg-color-pressed);
+  --psds-chip-bg-focus      : var(--buttons-success-bg-color-focus);
+  --psds-chip-bg-disabled   : var(--buttons-success-bg-color-disabled);
+
+  --psds-chip-border        : var(--buttons-success-border-color);
+  --psds-chip-border-hover  : var(--buttons-success-border-color-hover);
+  --psds-chip-border-pressed: var(--buttons-success-border-color-pressed);
+  --psds-chip-border-focus  : var(--buttons-success-border-color-focus);
+  --psds-chip-border-disabled: var(--buttons-success-border-color-disabled);
+
+  --psds-chip-fg            : var(--buttons-success-text);
+  --psds-chip-fg-hover      : var(--buttons-success-text-hover);
+  --psds-chip-fg-pressed    : var(--buttons-success-text-pressed);
+  --psds-chip-fg-focus      : var(--buttons-success-text-focus);
+  --psds-chip-fg-disabled   : var(--buttons-success-text-disabled);
+
+  --psds-chip-accent        : var(--buttons-success-bg-color);
+  --psds-chip-accent-disabled: var(--buttons-success-bg-color-disabled);
+}
+
+.psds-chip--warning {
+  --psds-chip-bg            : var(--buttons-warning-bg-color);
+  --psds-chip-bg-hover      : var(--buttons-warning-bg-color-hover);
+  --psds-chip-bg-pressed    : var(--buttons-warning-bg-color-pressed);
+  --psds-chip-bg-focus      : var(--buttons-warning-bg-color-focus);
+  --psds-chip-bg-disabled   : var(--buttons-warning-bg-color-disabled);
+
+  --psds-chip-border        : var(--buttons-warning-border-color);
+  --psds-chip-border-hover  : var(--buttons-warning-border-color-hover);
+  --psds-chip-border-pressed: var(--buttons-warning-border-color-pressed);
+  --psds-chip-border-focus  : var(--buttons-warning-border-color-focus);
+  --psds-chip-border-disabled: var(--buttons-warning-border-color-disabled);
+
+  --psds-chip-fg            : var(--buttons-warning-text);
+  --psds-chip-fg-hover      : var(--buttons-warning-text-hover);
+  --psds-chip-fg-pressed    : var(--buttons-warning-text-pressed);
+  --psds-chip-fg-focus      : var(--buttons-warning-text-focus);
+  --psds-chip-fg-disabled   : var(--buttons-warning-text-disabled);
+
+  --psds-chip-accent        : var(--buttons-warning-bg-color);
+  --psds-chip-accent-disabled: var(--buttons-warning-bg-color-disabled);
+}
+
+.psds-chip--danger {
+  --psds-chip-bg            : var(--buttons-danger-bg-color);
+  --psds-chip-bg-hover      : var(--buttons-danger-bg-color-hover);
+  --psds-chip-bg-pressed    : var(--buttons-danger-bg-color-pressed);
+  --psds-chip-bg-focus      : var(--buttons-danger-bg-color-focus);
+  --psds-chip-bg-disabled   : var(--buttons-danger-bg-color-disabled);
+
+  --psds-chip-border        : var(--buttons-danger-border-color);
+  --psds-chip-border-hover  : var(--buttons-danger-border-color-hover);
+  --psds-chip-border-pressed: var(--buttons-danger-border-color-pressed);
+  --psds-chip-border-focus  : var(--buttons-danger-border-color-focus);
+  --psds-chip-border-disabled: var(--buttons-danger-border-color-disabled);
+
+  --psds-chip-fg            : var(--buttons-danger-text);
+  --psds-chip-fg-hover      : var(--buttons-danger-text-hover);
+  --psds-chip-fg-pressed    : var(--buttons-danger-text-pressed);
+  --psds-chip-fg-focus      : var(--buttons-danger-text-focus);
+  --psds-chip-fg-disabled   : var(--buttons-danger-text-disabled);
+
+  --psds-chip-accent        : var(--buttons-danger-bg-color);
+  --psds-chip-accent-disabled: var(--buttons-danger-bg-color-disabled);
+}
+
+/* --------------------------------------------------------- Mode — enabled */
+
+.psds-chip--outlined {
+  background: var(--transparent);
+  color     : var(--psds-chip-accent);
+}
+
+.psds-chip--flat {
+  border-color: var(--transparent);
+  background  : var(--transparent);
+  color       : var(--psds-chip-accent);
+}
+
+/* ------------------------------------------------------------------ Slots */
+
+.psds-chip__label {
+  min-width    : 0;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+}
+
+.psds-chip__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-chip-icon);
+  height         : var(--psds-chip-icon);
+  font-size      : var(--psds-chip-icon);
+  color          : currentColor;
+}
+
+.psds-chip__icon > svg,
+.psds-chip__icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* The avatar fills the inner height and sits flush against the start edge. */
+.psds-chip:has(> .psds-chip__avatar) {
+  padding-inline-start: var(--spacing-0);
+}
+
+.psds-chip__avatar {
+  flex        : none;
+  display     : block;
+  width       : calc(var(--psds-chip-height) - var(--border-1) * 2);
+  height      : calc(var(--psds-chip-height) - var(--border-1) * 2);
+  margin-inline-end: calc(var(--psds-chip-padding) - var(--psds-chip-gap));
+  border-radius: var(--radius-6);
+  object-fit  : cover;
+}
+
+.psds-chip--pill .psds-chip__avatar {
+  border-radius: var(--radius-full);
+}
+
+/* The remove button is a bare glyph target; it inherits the chip's label colour. */
+.psds-chip__remove {
+  box-sizing     : border-box;
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-chip-icon);
+  height         : var(--psds-chip-icon);
+  margin         : var(--spacing-0);
+  padding        : var(--spacing-0);
+
+  border       : var(--border-0);
+  border-radius: var(--radius-2);
+  background   : var(--transparent);
+  appearance   : none;
+
+  font-family: inherit;
+  font-size  : var(--psds-chip-icon);
+  line-height: 1;
+  color      : inherit;
+  cursor     : pointer;
+}
+
+.psds-chip__remove:focus-visible {
+  outline: none;
+}
+
+/* ---------------------------------------------------------- Hover / Active */
+/*
+ * Every mode collapses onto the filled treatment on hover and press, as the Figma
+ * variants do. A static chip only reacts while its remove button is hovered.
+ */
+
+:is(button, a).psds-chip:hover:not(:disabled, [aria-disabled="true"], .is-disabled),
+.psds-chip:has(> .psds-chip__remove:hover:not(:disabled)),
+.psds-chip.is-hover {
+  border-color: var(--psds-chip-border-hover);
+  background  : var(--psds-chip-bg-hover);
+  color       : var(--psds-chip-fg-hover);
+}
+
+:is(button, a).psds-chip:active:not(:disabled, [aria-disabled="true"], .is-disabled),
+.psds-chip:has(> .psds-chip__remove:active:not(:disabled)),
+.psds-chip.is-active {
+  border-color: var(--psds-chip-border-pressed);
+  background  : var(--psds-chip-bg-pressed);
+  color       : var(--psds-chip-fg-pressed);
+}
+
+/* ------------------------------------------------------------------ Focus */
+/* Unlike the button, an Outlined chip also fills while focused. */
+
+.psds-chip:focus-visible,
+.psds-chip:has(> .psds-chip__remove:focus-visible),
+.psds-chip.is-focus {
+  border-color: var(--psds-chip-border-focus);
+  background  : var(--psds-chip-bg-focus);
+  color       : var(--psds-chip-fg-focus);
+}
+
+/* --------------------------------------------------------------- Disabled */
+
+.psds-chip:disabled,
+.psds-chip[aria-disabled="true"],
+.psds-chip:has(> .psds-chip__remove:disabled),
+.psds-chip.is-disabled {
+  border-color: var(--psds-chip-border-disabled);
+  background  : var(--psds-chip-bg-disabled);
+  color       : var(--psds-chip-fg-disabled);
+  cursor      : not-allowed;
+}
+
+/* Outlined and Flat stay transparent when disabled; only Outlined keeps a border. */
+.psds-chip--outlined:is(:disabled, [aria-disabled="true"], :has(> .psds-chip__remove:disabled), .is-disabled) {
+  background: var(--transparent);
+  color     : var(--psds-chip-accent-disabled);
+}
+
+.psds-chip--flat:is(:disabled, [aria-disabled="true"], :has(> .psds-chip__remove:disabled), .is-disabled) {
+  border-color: var(--transparent);
+  background  : var(--transparent);
+  color       : var(--psds-chip-accent-disabled);
+}
+
+.psds-chip:is(:disabled, [aria-disabled="true"], :has(> .psds-chip__remove:disabled), .is-disabled) .psds-chip__avatar {
+  opacity: 0.5;
+}
+
+.psds-chip:is(:disabled, [aria-disabled="true"], :has(> .psds-chip__remove:disabled), .is-disabled) .psds-chip__remove {
+  cursor: not-allowed;
+}
+
+.psds-chip.is-disabled {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2: a 2px ring in the content background colour
+ * separating the chip from a 4px ring in `primary`. Declared last so the ring
+ * survives a simultaneous hover.
+ */
+
+.psds-chip:focus-visible,
+.psds-chip:has(> .psds-chip__remove:focus-visible),
+.psds-chip.is-focus {
+  outline   : none;
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
