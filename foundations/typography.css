@@ -1,6 +1,4 @@
-:root {
-  --font-family-main: "Inter", sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 .text-xx-small {
   font-size: 10px;

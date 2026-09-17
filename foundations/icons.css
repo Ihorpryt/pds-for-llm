@@ -1,0 +1,114 @@
+/* Portside Design System — Icons
+ * Font Awesome 7 Free 7.3.1, self-hosted from /icons.
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-icon                                 Solid icon (the default treatment)
+ *   .psds-icon--regular                        Outline cut, where the icon has one
+ *   .psds-icon--xs | --sm | --md | --lg | --xl Sizes (default: 1em, follows the text)
+ *   .psds-icon--muted | --disabled             Standalone icon colours
+ *   .psds-icon--primary | --info | --success
+ *          | --warning | --danger              Semantic colours
+ *   .psds-icon--spin                           Continuous rotation, for busy states
+ *
+ * The glyph goes in the markup as its Unicode escape — there is no name-to-codepoint
+ * map. Look the value up on fontawesome.com/icons.
+ *
+ *   <span class="psds-icon" aria-hidden="true">&#xf002;</span>   <!-- magnifying-glass -->
+ *
+ * .psds-icon paints with currentColor, so an icon inside a button, badge or link follows
+ * its label through every state. Add a colour modifier only for an icon that stands alone.
+ */
+
+/* Both weights share one family, as Font Awesome ships them: 400 is Regular, 900 is
+ * Solid. The URLs resolve relative to this stylesheet. font-display: block keeps the box
+ * empty until the font arrives rather than flashing a fallback character. */
+@font-face {
+  font-family : "Font Awesome 7 Free";
+  src         : url("../icons/fa-regular-400.woff2") format("woff2");
+  font-weight : 400;
+  font-style  : normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family : "Font Awesome 7 Free";
+  src         : url("../icons/fa-solid-900.woff2") format("woff2");
+  font-weight : 900;
+  font-style  : normal;
+  font-display: block;
+}
+
+.psds-icon {
+  /* --- Size channel (set by the size modifiers; the default follows the text) --- */
+  --psds-icon-size: 1em;
+
+  box-sizing             : border-box;
+  display                : inline-flex;
+  flex                   : none;
+  align-items            : center;
+  justify-content        : center;
+  width                  : var(--psds-icon-size);
+  height                 : var(--psds-icon-size);
+  font-family            : "Font Awesome 7 Free";
+  font-size              : var(--psds-icon-size);
+  font-style             : normal;
+  font-weight            : 900;
+  line-height            : 1;
+  color                  : currentColor;
+  -webkit-font-smoothing : antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* The glyphs are private-use characters; keep them out of copied text. */
+  user-select            : none;
+}
+
+/* Only 169 of the Free icons have an outline cut. On any other glyph this draws a
+ * missing-glyph box, so check before reaching for it. */
+.psds-icon--regular { font-weight: 400; }
+
+/* An <svg> or <img> may stand in for a glyph at the same size — this is what a custom
+ * icon uses when Font Awesome has nothing suitable. */
+.psds-icon > svg,
+.psds-icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* --- Sizes ---------------------------------------------------------------------- */
+
+.psds-icon--xs { --psds-icon-size: var(--font-icon-12); }
+.psds-icon--sm { --psds-icon-size: var(--font-icon-14); }
+.psds-icon--md { --psds-icon-size: var(--font-icon-16); }
+.psds-icon--lg { --psds-icon-size: var(--font-icon-20); }
+.psds-icon--xl { --psds-icon-size: var(--font-icon-24); }
+
+/* --- Colours -------------------------------------------------------------------- */
+
+/* For an icon that stands alone and has no label colour to inherit. Inside a button,
+ * badge or link, leave the base currentColor in place instead. */
+.psds-icon--muted    { color: var(--icon-color); }
+.psds-icon--disabled { color: var(--icon-color-disabled); }
+.psds-icon--primary  { color: var(--primary); }
+.psds-icon--info     { color: var(--info); }
+.psds-icon--success  { color: var(--success); }
+.psds-icon--warning  { color: var(--warning); }
+.psds-icon--danger   { color: var(--danger); }
+
+/* A hovered row or list item raises its muted icons. */
+.psds-icon--muted:hover,
+:hover > .psds-icon--muted  { color: var(--icon-color-hover); }
+:active > .psds-icon--muted { color: var(--icon-color-pressed); }
+
+/* --- Busy state ----------------------------------------------------------------- */
+
+.psds-icon--spin { animation: psds-icon-spin 1s linear infinite; }
+
+@keyframes psds-icon-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-icon--spin { animation: none; }
+}

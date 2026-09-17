@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typography — Portside Design System</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="typography.css">
+<style>
+  /* Page chrome only — not part of the foundation. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  td.spec { color: var(--foreground-content-text-color-alt2); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .theme-btn { font: inherit; padding: var(--spacing-6) var(--spacing-12); border-radius: var(--control-radius-btn-default-radius); border: var(--border-1) solid var(--buttons-secondary-border-color); background: var(--buttons-secondary-bg-color); color: var(--buttons-secondary-text-color); cursor: pointer; }
+  .sample { color: var(--foreground-content-text-color-hover); overflow-wrap: anywhere; }
+  td.sample-cell { width: 45%; }
+  .field { max-width: 320px; }
+  .field .label { display: block; color: var(--foreground-content-text-color-alt2); font-weight: var(--font-weight-medium); margin-bottom: var(--spacing-4); }
+  .field .value { display: block; padding: var(--spacing-6) var(--spacing-12); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-btn-default-radius); }
+  .field .help { display: block; color: var(--foreground-content-text-color-alt2); margin-top: var(--spacing-4); }
+  .card-title { color: var(--foreground-content-text-color-hover); font-weight: var(--font-weight-semibold); }
+  .card-sub { color: var(--foreground-content-text-color-alt2); margin-top: var(--spacing-2); }
+</style>
+</head>
+<body>
+
+<h1>Typography</h1>
+<p class="sub">Inter, loaded by <code>typography.css</code>. Sizes resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="theme-btn" id="theme-toggle" type="button">Toggle theme</button>
+</div>
+
+<h2>Scale</h2>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th scope="col">Class</th><th scope="col">Size / line height</th><th scope="col">Tokens</th><th scope="col">Sample</th></tr>
+    </thead>
+    <tbody id="scale"></tbody>
+  </table>
+</div>
+
+<h2>Weights</h2>
+<p class="sub">Product UI stays within normal, medium and semibold.</p>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Sample</th></tr>
+    </thead>
+    <tbody id="weights"></tbody>
+  </table>
+</div>
+
+<h2>In context</h2>
+<p class="sub">The three sizes that carry almost all product UI: <code>.text-x-small</code>, <code>.text-small</code>, <code>.text-base</code>.</p>
+<div class="panel">
+  <p class="text-base card-title" style="margin: 0 0 var(--spacing-16)">Edit Task</p>
+  <div class="field">
+    <span class="label text-x-small">Assigned User</span>
+    <span class="value text-small">Dana Whitfield</span>
+    <span class="help text-x-small">Leave empty to assign on save.</span>
+  </div>
+  <div style="margin-top: var(--spacing-24)">
+    <div class="card-title text-small">Invoice_2026_04.pdf</div>
+    <div class="card-sub text-x-small">PDF · 248 KB · uploaded 12 Apr</div>
+  </div>
+</div>
+
+<script>
+  const SCALE = [
+    ['text-xx-small', '10 / 14', 'xxs'],
+    ['text-x-small',  '12 / 16', 'xs'],
+    ['text-small',    '14 / 20', 'sm'],
+    ['text-base',     '16 / 24', 'base'],
+    ['text-large',    '18 / 28', 'lg'],
+    ['text-xl',       '20 / 28', 'xl'],
+    ['text-2xl',      '24 / 32', '2xl'],
+    ['text-3xl',      '30 / 40', '3xl'],
+    ['text-4xl',      '36 / 44', '4xl'],
+    ['text-5xl',      '48 / 58', '5xl'],
+    ['text-6xl',      '60 / 72', '6xl'],
+    ['text-7xl',      '72 / 88', '7xl'],
+    ['text-8xl',      '96 / 112', '8xl'],
+    ['text-9xl',      '128 / 160', '9xl'],
+  ];
+
+  const DISPLAY = new Set(['5xl', '6xl', '7xl', '8xl', '9xl']);
+
+  const WEIGHTS = [
+    ['--font-weight-normal', 400],
+    ['--font-weight-medium', 500],
+    ['--font-weight-semibold', 600],
+    ['--font-weight-bold', 700],
+  ];
+
+  const cell = (text, className) => {
+    const td = document.createElement('td');
+    if (className) td.className = className;
+    td.textContent = text;
+    return td;
+  };
+
+  const scale = document.getElementById('scale');
+  for (const [cls, metrics, token] of SCALE) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    const code = document.createElement('code');
+    code.textContent = '.' + cls;
+    th.append(code);
+    tr.append(th, cell(metrics, 'spec'), cell('--font-size-' + token, 'spec'));
+
+    const sampleCell = document.createElement('td');
+    sampleCell.className = 'sample-cell';
+    const sample = document.createElement('span');
+    sample.className = cls + ' sample';
+    // Display sizes are too wide for a word; show the letterforms instead.
+    sample.textContent = DISPLAY.has(token) ? 'Aa' : 'Portside';
+    sampleCell.append(sample);
+    tr.append(sampleCell);
+    scale.append(tr);
+  }
+
+  const weights = document.getElementById('weights');
+  for (const [token, value] of WEIGHTS) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    const code = document.createElement('code');
+    code.textContent = token;
+    th.append(code);
+    tr.append(th, cell(String(value), 'spec'));
+
+    const sampleCell = document.createElement('td');
+    const sample = document.createElement('span');
+    sample.className = 'text-base sample';
+    sample.style.fontWeight = 'var(' + token + ')';
+    sample.textContent = 'The quick brown fox jumps over the lazy dog';
+    sampleCell.append(sample);
+    tr.append(sampleCell);
+    weights.append(tr);
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+
+</body>
+</html>
