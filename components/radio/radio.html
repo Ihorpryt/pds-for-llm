@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radio Button — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="radio.css">
+<link rel="stylesheet" href="../button/button.css">
+<style>
+  /* Page chrome only — not part of the component. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  h2 { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .panel { background: var(--background-content-bg-color); border: var(--border-1) solid var(--border-light); border-radius: var(--control-radius-card-default-radius); padding: var(--spacing-24); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-24); }
+  .row + .row { margin-top: var(--spacing-20); }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-12); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: var(--spacing-10) var(--spacing-12); text-align: left; border-bottom: var(--border-1) solid var(--border-light); vertical-align: middle; }
+  th { font-weight: var(--font-weight-semibold); color: var(--foreground-content-text-color-alt2); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: var(--letter-spacing-wider); }
+  tbody th { text-transform: none; font-size: var(--font-size-sm); color: var(--foreground-content-text-color-hover); letter-spacing: var(--letter-spacing-normal); white-space: nowrap; }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- Figma "Icons/Circle info", exported from the source node and referenced by <use>. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="icon-circle-info" viewBox="0 0 14 14"><path fill="currentColor" d="M6.42578 7L6.43945 6.89062L6.4668 6.78125L6.52148 6.68555L6.58984 6.58984L6.68555 6.52148L6.78125 6.4668L6.89062 6.43945L7 6.42578L7.10938 6.43945L7.21875 6.4668L7.31445 6.52148L7.41016 6.58984L7.47852 6.68555L7.5332 6.78125L7.56055 6.89062L7.57422 7V9.35156L7.54688 9.46094L7.5332 9.51562L7.47852 9.61133L7.41016 9.70703L7.31445 9.77539L7.21875 9.83008L7.10938 9.85742L7 9.87109L6.89062 9.85742L6.78125 9.83008L6.68555 9.77539L6.58984 9.70703L6.52148 9.61133L6.4668 9.51562L6.43945 9.40625L6.42578 9.29688V7ZM6.42578 4.70312L6.43945 4.59375L6.4668 4.48438L6.52148 4.38867L6.58984 4.29297L6.68555 4.22461L6.78125 4.16992L6.89062 4.14258L7 4.12891L7.10938 4.14258L7.21875 4.16992L7.31445 4.22461L7.41016 4.29297L7.47852 4.38867L7.5332 4.48438L7.56055 4.59375L7.57422 4.70312L7.56055 4.8125L7.5332 4.92188L7.47852 5.01758L7.41016 5.11328L7.31445 5.18164L7.21875 5.23633L7.10938 5.26367L7 5.27734L6.89062 5.26367L6.78125 5.23633L6.68555 5.18164L6.58984 5.11328L6.52148 5.01758L6.4668 4.92188L6.43945 4.8125L6.42578 4.75781V4.70312ZM12.168 7L12.1543 6.74023L12.1406 6.4668L12.1133 6.20703L12.0586 5.96094L12.0039 5.71484L11.9355 5.46875L11.8535 5.22266L11.7578 4.99023L11.6621 4.75781L11.5391 4.53906L11.416 4.32031L11.2793 4.11523L11.1426 3.91016L10.9922 3.71875L10.8281 3.52734L10.6504 3.34961L10.4727 3.17188L10.2812 3.00781L10.0898 2.85742L9.88477 2.7207L9.67969 2.58398L9.46094 2.46094L9.24219 2.33789L9.00977 2.24219L8.77734 2.14648L8.53125 2.06445L8.28516 1.99609L8.03906 1.94141L7.79297 1.88672L7.5332 1.85938L7.25977 1.83203H7H6.74023L6.4668 1.85938L6.20703 1.88672L5.96094 1.94141L5.71484 1.99609L5.46875 2.06445L5.22266 2.14648L4.99023 2.24219L4.75781 2.33789L4.53906 2.46094L4.32031 2.58398L4.11523 2.7207L3.91016 2.85742L3.71875 3.00781L3.52734 3.17188L3.34961 3.34961L3.17188 3.52734L3.00781 3.71875L2.85742 3.91016L2.7207 4.11523L2.58398 4.32031L2.46094 4.53906L2.33789 4.75781L2.24219 4.99023L2.14648 5.22266L2.06445 5.46875L1.99609 5.71484L1.94141 5.96094L1.88672 6.20703L1.85938 6.4668L1.8457 6.74023L1.83203 7L1.8457 7.25977L1.85938 7.5332L1.88672 7.79297L1.94141 8.03906L1.99609 8.28516L2.06445 8.53125L2.14648 8.77734L2.24219 9.00977L2.33789 9.24219L2.46094 9.46094L2.58398 9.67969L2.7207 9.88477L2.85742 10.0898L3.00781 10.2812L3.17188 10.4727L3.34961 10.6504L3.52734 10.8281L3.71875 10.9922L3.91016 11.1426L4.11523 11.2793L4.32031 11.416L4.53906 11.5391L4.75781 11.6621L4.99023 11.7578L5.22266 11.8535L5.46875 11.9355L5.71484 12.0039L5.96094 12.0586L6.20703 12.1133L6.4668 12.1406L6.74023 12.168H7H7.25977L7.5332 12.1406L7.79297 12.1133L8.03906 12.0586L8.28516 12.0039L8.53125 11.9355L8.77734 11.8535L9.00977 11.7578L9.24219 11.6621L9.46094 11.5391L9.67969 11.416L9.88477 11.2793L10.0898 11.1426L10.2812 10.9922L10.4727 10.8281L10.6504 10.6504L10.8281 10.4727L10.9922 10.2812L11.1426 10.0898L11.2793 9.88477L11.416 9.67969L11.5391 9.46094L11.6621 9.24219L11.7578 9.00977L11.8535 8.77734L11.9355 8.53125L12.0039 8.28516L12.0586 8.03906L12.1133 7.79297L12.1406 7.5332L12.1543 7.25977L12.168 7ZM0.683594 7L0.697266 6.67188L0.710938 6.35742L0.751953 6.04297L0.806641 5.72852L0.888672 5.42773L0.970703 5.12695L1.06641 4.82617L1.17578 4.53906L1.3125 4.26562L1.44922 3.99219L1.59961 3.71875L1.76367 3.47266L1.94141 3.22656L2.13281 2.98047L2.32422 2.74805L2.5293 2.5293L2.74805 2.32422L2.98047 2.11914L3.22656 1.94141L3.47266 1.76367L3.71875 1.59961L3.99219 1.44922L4.26562 1.3125L4.53906 1.17578L4.82617 1.06641L5.12695 0.970703L5.42773 0.888672L5.72852 0.806641L6.04297 0.751953L6.35742 0.710938L6.67188 0.697266L7 0.683594L7.32812 0.697266L7.64258 0.710938L7.95703 0.751953L8.27148 0.806641L8.57227 0.888672L8.87305 0.970703L9.17383 1.06641L9.46094 1.17578L9.73438 1.3125L10.0078 1.44922L10.2812 1.59961L10.5273 1.76367L10.7734 1.94141L11.0195 2.11914L11.252 2.32422L11.4707 2.5293L11.6758 2.74805L11.8672 2.98047L12.0586 3.22656L12.2363 3.47266L12.4004 3.71875L12.5508 3.99219L12.6875 4.26562L12.8242 4.53906L12.9336 4.82617L13.0293 5.12695L13.1113 5.42773L13.1934 5.72852L13.248 6.04297L13.2891 6.35742L13.3027 6.67188L13.3164 7L13.3027 7.32812L13.2891 7.64258L13.248 7.95703L13.1934 8.27148L13.1113 8.57227L13.0293 8.87305L12.9336 9.17383L12.8242 9.46094L12.6875 9.73438L12.5508 10.0078L12.4004 10.2812L12.2363 10.5273L12.0586 10.7734L11.8672 11.0195L11.6758 11.252L11.4707 11.4707L11.252 11.6758L11.0195 11.8809L10.7734 12.0586L10.5273 12.2363L10.2812 12.4004L10.0078 12.5508L9.73438 12.6875L9.46094 12.8242L9.17383 12.9336L8.87305 13.0293L8.57227 13.1113L8.27148 13.1934L7.95703 13.248L7.64258 13.2891L7.32812 13.3027L7 13.3164L6.67188 13.3027L6.35742 13.2891L6.04297 13.248L5.72852 13.1934L5.42773 13.1113L5.12695 13.0293L4.82617 12.9336L4.53906 12.8242L4.26562 12.6875L3.99219 12.5508L3.71875 12.4004L3.47266 12.2363L3.22656 12.0586L2.98047 11.8672L2.74805 11.6758L2.5293 11.4707L2.32422 11.252L2.13281 11.0195L1.94141 10.7734L1.76367 10.5273L1.59961 10.2812L1.44922 10.0078L1.3125 9.73438L1.17578 9.46094L1.06641 9.17383L0.970703 8.87305L0.888672 8.57227L0.806641 8.27148L0.751953 7.95703L0.710938 7.64258L0.697266 7.32812L0.683594 7Z"/></symbol>
+</svg>
+
+<h1>Radio Button</h1>
+<p class="sub">4 sizes &times; 2 checked states &times; 5 states &times; 2 text positions. All values resolve through <code>tokens.css</code>.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2>Sizes</h2>
+<div class="panel">
+  <div class="row" id="sizes"></div>
+  <div class="row">
+    <code>--xs&nbsp;12px</code><code>--sm&nbsp;16px</code><code>--md&nbsp;20px</code><code>--lg&nbsp;24px</code>
+  </div>
+</div>
+
+<h2>Text position</h2>
+<div class="panel">
+  <div class="row">
+    <label class="psds-radio psds-radio--sm">
+      <input class="psds-radio__input" type="radio" name="pos" checked>
+      <span class="psds-radio__text"><span class="psds-radio__label">Right (default)</span></span>
+    </label>
+    <label class="psds-radio psds-radio--sm psds-radio--label-start">
+      <input class="psds-radio__input" type="radio" name="pos">
+      <span class="psds-radio__text"><span class="psds-radio__label">Left</span></span>
+    </label>
+  </div>
+</div>
+
+<h2>Checked &times; State</h2>
+<p class="sub">Rendered with the forced-state helpers <code>.is-hover</code>, <code>.is-active</code>, <code>.is-focus</code>, <code>.is-disabled</code>, at every size.</p>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>Size</th><th>Checked</th><th>Default</th><th>Hover</th><th>Active</th><th>Focus</th><th>Disabled</th></tr>
+    </thead>
+    <tbody id="matrix"></tbody>
+  </table>
+</div>
+
+<h2>Trailing icon</h2>
+<p class="sub">The optional glyph of the Figma <em>Text</em> group, sized by the <code>--psds-radio-icon</code> channel.</p>
+<div class="panel">
+  <div class="row" id="icons"></div>
+</div>
+
+<h2>Interactive</h2>
+<p class="sub">A real radio group — arrow keys move the selection; tab in to see the focus ring.</p>
+<div class="panel">
+  <fieldset class="stack" style="border: 0; margin: 0; padding: 0">
+    <legend style="padding: 0; margin-bottom: var(--spacing-12); font-weight: var(--font-weight-semibold)">Berth assignment</legend>
+    <label class="psds-radio psds-radio--sm">
+      <input class="psds-radio__input" type="radio" name="berth" value="auto" checked>
+      <span class="psds-radio__text"><span class="psds-radio__label">Automatic</span></span>
+    </label>
+    <label class="psds-radio psds-radio--sm">
+      <input class="psds-radio__input" type="radio" name="berth" value="manual">
+      <span class="psds-radio__text"><span class="psds-radio__label">Manual</span></span>
+    </label>
+    <label class="psds-radio psds-radio--sm">
+      <input class="psds-radio__input" type="radio" name="berth" value="priority" disabled>
+      <span class="psds-radio__text"><span class="psds-radio__label">Priority (unavailable)</span></span>
+    </label>
+  </fieldset>
+</div>
+
+<script>
+  const SIZES = ['xs', 'sm', 'md', 'lg'];
+  const STATES = ['', 'is-hover', 'is-active', 'is-focus', 'is-disabled'];
+  let n = 0;
+  const radio = ({ size = 'sm', checked = false, state = '', icon = false, name = `r${n++}` } = {}) => {
+    const label = document.createElement('label');
+    label.className = ['psds-radio', `psds-radio--${size}`, state].filter(Boolean).join(' ');
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = name;
+    input.className = 'psds-radio__input';
+    input.checked = checked;
+    input.disabled = state === 'is-disabled';
+    const text = document.createElement('span');
+    text.className = 'psds-radio__text';
+    const span = document.createElement('span');
+    span.className = 'psds-radio__label';
+    span.textContent = 'Label';
+    text.append(span);
+    if (icon) {
+      const i = document.createElement('span');
+      i.className = 'psds-radio__icon';
+      i.setAttribute('aria-hidden', 'true');
+      i.innerHTML = '<svg><use href="#icon-circle-info"/></svg>';
+      text.append(i);
+    }
+    label.append(input, text);
+    return label;
+  };
+
+  const sizes = document.getElementById('sizes');
+  for (const size of SIZES) {
+    sizes.append(radio({ size, name: `size-${size}` }), radio({ size, checked: true, name: `size-${size}` }));
+  }
+
+  const icons = document.getElementById('icons');
+  for (const size of SIZES) icons.append(radio({ size, checked: size !== 'lg', icon: true, state: size === 'lg' ? 'is-disabled' : '' }));
+
+  const matrix = document.getElementById('matrix');
+  for (const size of SIZES) {
+    for (const checked of [false, true]) {
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.scope = 'row';
+      th.innerHTML = checked ? '' : `<code>--${size}</code>`;
+      const th2 = document.createElement('th');
+      th2.scope = 'row';
+      th2.textContent = checked ? 'ON' : 'OFF';
+      tr.append(th, th2);
+      for (const state of STATES) {
+        const td = document.createElement('td');
+        td.append(radio({ size, checked, state }));
+        tr.append(td);
+      }
+      matrix.append(tr);
+    }
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* Portside Design System — Radio Button
+ * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Radio Button (node 6724:1859)
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-radio                             base (Size = Small, Text Position = Right)
+ *   .psds-radio--xs | --sm | --md | --lg    Sizes
+ *   .psds-radio--label-start                Text Position = Left
+ *
+ *   .psds-radio__input                      the native <input type="radio">, styled directly
+ *   .psds-radio__text                       label + optional trailing icon
+ *   .psds-radio__label                      the label text
+ *   .psds-radio__icon                       optional trailing glyph (Figma "Icons/Circle info")
+ *
+ * Checked (ON / OFF) is the input's own :checked state, not a modifier. States resolve
+ * from real interaction pseudo-classes; the .is-hover / .is-active / .is-focus /
+ * .is-disabled helpers force a state for documentation and visual-regression galleries.
+ */
+
+.psds-radio {
+  /* --- Size channel (set by the size modifiers) --- */
+  --psds-radio-size       : var(--spacing-16);
+  --psds-radio-ring       : var(--border-5);
+  --psds-radio-font-size  : var(--font-size-sm);
+  --psds-radio-line-height: var(--line-height-sm);
+  --psds-radio-icon       : var(--font-icon-14);
+  --psds-radio-gap        : var(--spacing-8);
+  --psds-radio-text-gap   : var(--spacing-4);
+
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-radio-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing : border-box;
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-radio-gap);
+
+  margin : var(--spacing-0);
+  padding: var(--spacing-0);
+
+  font-family: var(--psds-radio-font-family);
+  cursor     : pointer;
+}
+
+/* ------------------------------------------------------------------ Sizes */
+/* The checked ring is a border whose width leaves a 4 / 6 / 8 / 10px centre dot. */
+
+.psds-radio--xs {
+  --psds-radio-size       : var(--spacing-12);
+  --psds-radio-ring       : var(--border-4);
+  --psds-radio-font-size  : var(--font-size-xs);
+  --psds-radio-line-height: var(--line-height-xs);
+  --psds-radio-icon       : var(--font-icon-12);
+  --psds-radio-gap        : var(--spacing-8);
+  --psds-radio-text-gap   : var(--spacing-4);
+}
+
+.psds-radio--sm {
+  --psds-radio-size       : var(--spacing-16);
+  --psds-radio-ring       : var(--border-5);
+  --psds-radio-font-size  : var(--font-size-sm);
+  --psds-radio-line-height: var(--line-height-sm);
+  --psds-radio-icon       : var(--font-icon-14);
+  --psds-radio-gap        : var(--spacing-8);
+  --psds-radio-text-gap   : var(--spacing-4);
+}
+
+.psds-radio--md {
+  --psds-radio-size       : var(--spacing-20);
+  --psds-radio-ring       : var(--border-6);
+  --psds-radio-font-size  : var(--font-size-base);
+  --psds-radio-line-height: var(--line-height-base);
+  --psds-radio-icon       : var(--font-icon-16);
+  --psds-radio-gap        : var(--spacing-12);
+  --psds-radio-text-gap   : var(--spacing-6);
+}
+
+.psds-radio--lg {
+  --psds-radio-size       : var(--spacing-24);
+  --psds-radio-ring       : var(--border-7);
+  --psds-radio-font-size  : var(--font-size-base);
+  --psds-radio-line-height: var(--line-height-base);
+  --psds-radio-icon       : var(--font-icon-18);
+  --psds-radio-gap        : var(--spacing-12);
+  --psds-radio-text-gap   : var(--spacing-6);
+}
+
+/* ---------------------------------------------------------- Text position */
+/* Figma "Text Position = Left" keeps the same gap and only swaps the order. */
+
+.psds-radio--label-start {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------- Colour channels */
+/*
+ * OFF is a content surface inside a 1px border. Figma leaves Hover and Active
+ * identical to Default here, so those channels point at the same tokens.
+ */
+
+.psds-radio__input {
+  --psds-radio-bg         : var(--background-content-bg-color);
+  --psds-radio-bg-disabled: var(--background-content-bg-color-disabled);
+
+  --psds-radio-border-width: var(--border-1);
+
+  --psds-radio-border         : var(--border);
+  --psds-radio-border-hover   : var(--border);
+  --psds-radio-border-pressed : var(--border);
+  --psds-radio-border-focus   : var(--border);
+  --psds-radio-border-disabled: var(--border-light);
+}
+
+/*
+ * ON widens the border into a ring in the primary button colour; the surface
+ * left in the middle is the dot, so the dot always matches the page surface.
+ */
+
+.psds-radio__input:checked {
+  --psds-radio-border-width: var(--psds-radio-ring);
+
+  --psds-radio-border         : var(--buttons-primary-bg-color);
+  --psds-radio-border-hover   : var(--buttons-primary-bg-color-hover);
+  --psds-radio-border-pressed : var(--buttons-primary-bg-color-pressed);
+  --psds-radio-border-focus   : var(--buttons-primary-bg-color-focus);
+  --psds-radio-border-disabled: var(--buttons-primary-bg-color-disabled);
+}
+
+/* ----------------------------------------------------------------- Circle */
+
+.psds-radio__input {
+  box-sizing: border-box;
+  flex      : none;
+  width     : var(--psds-radio-size);
+  height    : var(--psds-radio-size);
+
+  margin    : var(--spacing-0);
+  padding   : var(--spacing-0);
+  appearance: none;
+
+  border       : var(--psds-radio-border-width) solid var(--psds-radio-border);
+  border-radius: var(--radius-full);
+  background   : var(--psds-radio-bg);
+
+  cursor    : pointer;
+  transition: border-color 120ms ease, border-width 120ms ease, box-shadow 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-radio__input { transition: none; }
+}
+
+/* ------------------------------------------------------------------- Text */
+
+.psds-radio__text {
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--psds-radio-text-gap);
+  min-width  : 0;
+}
+
+.psds-radio__label {
+  font-size     : var(--psds-radio-font-size);
+  line-height   : var(--psds-radio-line-height);
+  font-weight   : var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--foreground-content-text-color);
+  transition    : color 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-radio__label { transition: none; }
+}
+
+/* The optional trailing glyph of the Figma "Text" group. */
+.psds-radio__icon {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--psds-radio-icon);
+  height         : var(--psds-radio-icon);
+  color          : var(--icon-color);
+}
+
+.psds-radio__icon > svg,
+.psds-radio__icon > img {
+  display: block;
+  width  : 100%;
+  height : 100%;
+}
+
+/* ------------------------------------------------------------------ Hover */
+/* The whole control is the hover target, as the Figma variant is the whole frame. */
+
+.psds-radio:hover .psds-radio__input:not(:disabled),
+.psds-radio.is-hover .psds-radio__input {
+  border-color: var(--psds-radio-border-hover);
+}
+
+/* ----------------------------------------------------------------- Active */
+
+.psds-radio:active .psds-radio__input:not(:disabled),
+.psds-radio.is-active .psds-radio__input {
+  border-color: var(--psds-radio-border-pressed);
+}
+
+/* --------------------------------------------------------------- Disabled */
+
+.psds-radio__input:disabled,
+.psds-radio.is-disabled .psds-radio__input {
+  border-color: var(--psds-radio-border-disabled);
+  background  : var(--psds-radio-bg-disabled);
+  cursor      : not-allowed;
+}
+
+.psds-radio:has(.psds-radio__input:disabled),
+.psds-radio.is-disabled {
+  cursor: not-allowed;
+}
+
+.psds-radio__input:disabled ~ .psds-radio__text .psds-radio__label,
+.psds-radio.is-disabled .psds-radio__label {
+  color: var(--foreground-content-text-color-disabled);
+}
+
+.psds-radio__input:disabled ~ .psds-radio__text .psds-radio__icon,
+.psds-radio.is-disabled .psds-radio__icon {
+  color: var(--icon-color-disabled);
+}
+
+.psds-radio.is-disabled {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- Focus ring */
+/*
+ * Figma effect $shadow-focus-ring2: a 2px ring in the content background colour
+ * separating the control from a 4px ring in `primary`. Declared last so the ring
+ * and focus border survive a simultaneous hover.
+ */
+
+.psds-radio__input:focus-visible,
+.psds-radio.is-focus .psds-radio__input {
+  outline     : none;
+  border-color: var(--psds-radio-border-focus);
+  box-shadow  : 0 0 0 var(--border-2) var(--background-content-bg-color),
+                0 0 0 var(--border-4) var(--primary);
+}
