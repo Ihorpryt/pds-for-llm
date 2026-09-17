@@ -1,0 +1,172 @@
+/* Portside Design System — Table
+ * Source: Figma "Avianis WEB V2" › Operations -> Flight Leg Search (node 2643:9982),
+ * the results area (node 2643:9586): toolbar, header row and striped body rows.
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-table-view                 optional frame: toolbar on top, scrolling table below
+ *   .psds-table-toolbar              the 42px bar above the table
+ *   .psds-table-toolbar__group       a left- or right-hand cluster of controls
+ *   .psds-table-toolbar__count       the muted result count ("11 flight legs")
+ *   .psds-table-scroll               scroll container; keeps the header row in view
+ *
+ *   .psds-table                      a native <table>
+ *   .psds-table--interactive         rows highlight on hover (not in Figma)
+ *   .psds-table__link                the primary-coloured link in a cell (e.g. Route)
+ *   .psds-table__empty               a single full-width cell for "no results"
+ *
+ * Set column widths with <col style="width: …"> in a <colgroup>; leave the last column
+ * without a width so it takes the remaining space, as in Figma.
+ */
+
+/* ------------------------------------------------------------------- View */
+
+.psds-table-view {
+  --psds-table-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  display       : flex;
+  flex-direction: column;
+  min-width     : 0;
+  min-height    : 0;
+  background    : var(--background-content-bg-color);
+  font-family   : var(--psds-table-font-family);
+}
+
+/* ---------------------------------------------------------------- Toolbar */
+/* Figma: 42px tall, 12px side padding, 8px between controls, a light bottom rule. */
+
+.psds-table-toolbar {
+  box-sizing     : border-box;
+  display        : flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--spacing-8);
+  min-height     : calc(var(--spacing-40) + var(--spacing-2));
+  padding        : var(--spacing-8) var(--spacing-12);
+  border-bottom  : var(--border-1) solid var(--border-light);
+  background     : var(--background-content-bg-color);
+}
+
+.psds-table-toolbar__group {
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-8);
+  min-width  : 0;
+}
+
+.psds-table-toolbar__count {
+  font-size     : var(--font-size-xs);
+  line-height   : var(--line-height-xs);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--foreground-content-text-color-alt2);
+  white-space   : nowrap;
+}
+
+/* ------------------------------------------------------------ Scroll area */
+
+.psds-table-scroll {
+  flex      : 1 1 auto;
+  min-height: 0;
+  overflow  : auto;
+  background: var(--background-content-bg-color);
+}
+
+/* ------------------------------------------------------------------ Table */
+
+.psds-table {
+  --psds-table-row-height : var(--form-mouse);
+  --psds-table-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  width          : 100%;
+  table-layout   : fixed;
+  border-collapse: separate;
+  border-spacing : 0;
+  font-family    : var(--psds-table-font-family);
+  background     : var(--background-content-bg-color);
+}
+
+.psds-table th,
+.psds-table td {
+  box-sizing    : border-box;
+  height        : var(--psds-table-row-height);
+  padding-block : var(--spacing-0);
+  padding-inline: var(--spacing-8);
+  border-right  : var(--border-1) solid var(--border-light);
+  border-bottom : var(--border-1) solid var(--border-light);
+  text-align    : start;
+  vertical-align: middle;
+  letter-spacing: var(--letter-spacing-normal);
+  white-space   : nowrap;
+  overflow      : hidden;
+  text-overflow : ellipsis;
+}
+
+/* Header: muted 12px text on the alt surface, pinned while the body scrolls. */
+.psds-table thead th {
+  position   : sticky;
+  top        : 0;
+  z-index    : 1;
+  background : var(--background-content-bg-color-alt2);
+  font-size  : var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  font-weight: var(--font-weight-normal);
+  color      : var(--foreground-content-text-color-alt2);
+}
+
+/* Body: 14px text, every second row striped. */
+.psds-table tbody td,
+.psds-table tbody th {
+  font-size  : var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  font-weight: var(--font-weight-normal);
+  color      : var(--foreground-content-text-color);
+  background : var(--background-content-bg-color);
+}
+
+.psds-table tbody tr:nth-child(even) > :is(td, th) {
+  background: var(--background-content-bg-color-alt1);
+}
+
+/* A badge in a cell keeps its own 24px height inside the 32px row. */
+.psds-table .psds-badge {
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------------- Link */
+
+.psds-table__link {
+  font-weight    : var(--font-weight-medium);
+  color          : var(--buttons-primary-bg-color);
+  text-decoration: none;
+  border-radius  : var(--radius-2);
+}
+
+.psds-table__link:hover {
+  color                : var(--buttons-primary-bg-color-pressed);
+  text-decoration      : underline;
+  text-underline-offset: var(--spacing-2);
+}
+
+.psds-table__link:focus-visible {
+  outline       : var(--border-2) solid var(--primary);
+  outline-offset: calc(var(--border-1) * -1);
+}
+
+/* ------------------------------------------------------------ Interactive */
+/* Not in Figma: a hover tint for tables whose rows open a record. */
+
+.psds-table--interactive tbody tr:hover > :is(td, th) {
+  background: var(--background-content-bg-color-hover);
+}
+
+/* ------------------------------------------------------------------ Empty */
+
+.psds-table td.psds-table__empty {
+  height     : calc(var(--psds-table-row-height) * 4);
+  text-align : center;
+  white-space: normal;
+  color      : var(--foreground-content-text-color-alt2);
+  background : var(--background-content-bg-color);
+}
