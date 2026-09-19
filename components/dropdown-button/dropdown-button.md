@@ -50,7 +50,7 @@ handled by `:hover`, `:active`, `:focus-visible` and `[disabled]`.
 | `--md` | `--form-bigger-small` 36 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-10` | `--spacing-6` | `--font-icon-16` | `--control-radius-btn-default-radius` |
 | `--lg` | `--form-bigger` 40 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-10` | `--spacing-8` | `--font-icon-16` | `--control-radius-btn-bigger-radius` |
 
-Label weight is `--font-weight-semibold` and tracking `--letter-spacing-normal` at every
+Label weight is `--font-weight-medium` and tracking `--letter-spacing-normal` at every
 size.
 
 **The size ramp is not Button's.** Inline padding barely moves across it (8 / 10 / 10 / 10

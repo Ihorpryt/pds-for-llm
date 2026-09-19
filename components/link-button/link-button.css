@@ -51,7 +51,7 @@
   font-family   : var(--psds-link-btn-font-family);
   font-size     : var(--psds-link-btn-font-size);
   line-height   : var(--psds-link-btn-line-height);
-  font-weight   : var(--font-weight-semibold);
+  font-weight   : var(--font-weight-medium);
   letter-spacing: var(--letter-spacing-normal);
   white-space   : nowrap;
 

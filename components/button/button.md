@@ -38,7 +38,7 @@ documentation and visual-regression galleries — real interaction is handled by
 | `--md` | `--form-bigger-small` 36 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-14` | `--spacing-16` | `--spacing-10` | `--control-radius-btn-default-radius` |
 | `--lg` | `--form-bigger` 40 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-16` | `--spacing-18` | `--spacing-10` | `--control-radius-btn-bigger-radius` |
 
-Label weight is `--font-weight-semibold` and tracking `--letter-spacing-normal` at every
+Label weight is `--font-weight-medium` and tracking `--letter-spacing-normal` at every
 size. `--pill` swaps the radius for `--radius-full` and adds 2px of inline padding per
 side, matching the Figma *Full Rounded* variants.
 

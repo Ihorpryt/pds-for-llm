@@ -38,7 +38,7 @@ visual-regression galleries — real interaction is handled by `:hover`, `:activ
 | `--md` | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-6` | `--font-icon-18` | `--spacing-3` |
 | `--lg` | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-6` | `--font-icon-20` | `--spacing-4` |
 
-Label weight is `--font-weight-semibold` and tracking `--letter-spacing-normal` at every
+Label weight is `--font-weight-medium` and tracking `--letter-spacing-normal` at every
 size. `--md` and `--lg` share a type ramp and differ only in icon size, exactly as the
 Figma variants do — so the two sizes are interchangeable for label-only link buttons.
 
