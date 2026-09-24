@@ -10,7 +10,6 @@
  *   .psds-chip--outlined | --flat                Mode  (default: Filled)
  *   .psds-chip--pill                             Shape = Full Rounded (default: Rounded)
  *
- *   .psds-chip__avatar                           optional leading image, flush to the start edge
  *   .psds-chip__icon                             optional leading glyph
  *   .psds-chip__label                            the label text
  *   .psds-chip__remove                           optional trailing close <button>
@@ -319,25 +318,6 @@
   height : 100%;
 }
 
-/* The avatar fills the inner height and sits flush against the start edge. */
-.psds-chip:has(> .psds-chip__avatar) {
-  padding-inline-start: var(--spacing-0);
-}
-
-.psds-chip__avatar {
-  flex        : none;
-  display     : block;
-  width       : calc(var(--psds-chip-height) - var(--border-1) * 2);
-  height      : calc(var(--psds-chip-height) - var(--border-1) * 2);
-  margin-inline-end: calc(var(--psds-chip-padding) - var(--psds-chip-gap));
-  border-radius: var(--radius-6);
-  object-fit  : cover;
-}
-
-.psds-chip--pill .psds-chip__avatar {
-  border-radius: var(--radius-full);
-}
-
 /* The remove button is a bare glyph target; it inherits the chip's label colour. */
 .psds-chip__remove {
   box-sizing     : border-box;
@@ -421,10 +401,6 @@
   border-color: var(--transparent);
   background  : var(--transparent);
   color       : var(--psds-chip-accent-disabled);
-}
-
-.psds-chip:is(:disabled, [aria-disabled="true"], :has(> .psds-chip__remove:disabled), .is-disabled) .psds-chip__avatar {
-  opacity: 0.5;
 }
 
 .psds-chip:is(:disabled, [aria-disabled="true"], :has(> .psds-chip__remove:disabled), .is-disabled) .psds-chip__remove {

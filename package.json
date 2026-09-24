@@ -1,0 +1,22 @@
+{
+  "name": "portside-pds",
+  "version": "0.1.0-beta.1",
+  "description": "Portside Design System — tokens, components and behaviour for prototypes",
+  "files": [
+    "dist/psds.js",
+    "dist/psds.css",
+    "dist/icons"
+  ],
+  "main": "dist/psds.js",
+  "style": "dist/psds.css",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:skill": "node scripts/build.mjs && node scripts/build-skill.mjs",
+    "prepublishOnly": "node scripts/build.mjs"
+  },
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ihorpryt/pds-for-llm.git"
+  }
+}

@@ -40,7 +40,7 @@
 <body>
 
 <h1>Chip</h1>
-<p class="sub">4 sizes &times; 6 types &times; 3 modes &times; 2 shapes &times; 5 states, with optional avatar, icon and remove button. All values resolve through <code>tokens.css</code>.</p>
+<p class="sub">4 sizes &times; 6 types &times; 3 modes &times; 2 shapes &times; 5 states, with optional icon and remove button. All values resolve through <code>tokens.css</code>.</p>
 
 <div class="toolbar">
   <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
@@ -88,13 +88,11 @@
   const TYPES = ['primary', 'secondary', 'info', 'success', 'warning', 'danger'];
   const MODES = [['', 'Filled'], ['outlined', 'Outlined'], ['flat', 'Flat']];
   const STATES = ['', 'is-hover', 'is-active', 'is-focus', 'is-disabled'];
-  const AVATAR = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#f59e0b"/><text x="16" y="21" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">EC</text></svg>');
 
-  const chip = (text, { size = 'sm', type = 'primary', mode = '', pill = false, state = '', avatar = false, icon = '', remove = false } = {}) => {
+  const chip = (text, { size = 'sm', type = 'primary', mode = '', pill = false, state = '', icon = '', remove = false } = {}) => {
     const c = document.createElement('span');
     c.className = ['psds-chip', `psds-chip--${size}`, `psds-chip--${type}`, mode && `psds-chip--${mode}`, pill && 'psds-chip--pill', state].filter(Boolean).join(' ');
     let html = '';
-    if (avatar) html += `<img class="psds-chip__avatar" src="${AVATAR}" alt="">`;
     if (icon) html += `<span class="psds-chip__icon" aria-hidden="true"><span class="psds-icon">${icon}</span></span>`;
     html += `<span class="psds-chip__label">${text}</span>`;
     if (remove) html += `<button class="psds-chip__remove" type="button" aria-label="Remove ${text}" tabindex="-1"><span class="psds-icon" aria-hidden="true">&#xf00d;</span></button>`;
@@ -121,8 +119,7 @@
       chip('Assist Chip', { size }),
       chip('Assist Chip', { size, icon: '&#xf2c2;' }),
       chip('Assist Chip', { size, remove: true }),
-      chip('Emily Carter', { size, avatar: true, remove: true }),
-      chip('Emily Carter', { size, avatar: true, pill: true }),
+      chip('Emily Carter', { size, pill: true, remove: true }),
     );
     const code = document.createElement('code');
     code.textContent = `--${size} (${figma})`;
@@ -145,11 +142,10 @@
     const r = document.createElement('div');
     r.className = 'row';
     r.append(
-      chip('Avatar', { type: 'secondary', mode, avatar: true }),
       chip('Icon', { type: 'secondary', mode, icon: '&#xf2c2;' }),
       chip('Removable', { type: 'secondary', mode, remove: true }),
-      chip('Everything', { type: 'secondary', mode, avatar: true, icon: '&#xf2c2;', remove: true }),
-      chip('Disabled', { type: 'secondary', mode, avatar: true, remove: true, state: 'is-disabled' }),
+      chip('Everything', { type: 'secondary', mode, icon: '&#xf2c2;', remove: true }),
+      chip('Disabled', { type: 'secondary', mode, remove: true, state: 'is-disabled' }),
     );
     slots.append(r);
   }

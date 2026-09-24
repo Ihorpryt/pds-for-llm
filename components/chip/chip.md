@@ -57,7 +57,6 @@ dark themes need no component-level overrides.
 | Element | Class | Notes |
 | --- | --- | --- |
 | Root | `.psds-chip` | `<span>` when static, `<button>` or `<a>` when clickable |
-| Avatar | `.psds-chip__avatar` | optional `<img>`, first child, flush against the start edge |
 | Icon | `.psds-chip__icon` | optional glyph before the label (Figma *Left Icon*) |
 | Label | `.psds-chip__label` | truncates with an ellipsis when the chip is too narrow |
 | Remove | `.psds-chip__remove` | optional `<button>` after the label (Figma *Right Icon*, `Icons/Close`) |
@@ -105,7 +104,7 @@ Outlined or Flat.
 | Disabled | `-disabled` fill | transparent, `-border-color-disabled`, label `-bg-color-disabled` | transparent, no border, label `-bg-color-disabled` |
 
 The Figma *Active* state maps to the `-pressed` token suffix. Every mode turns into a
-filled chip on hover, press and focus, as in Figma. A disabled chip's avatar fades to 50%.
+filled chip on hover, press and focus, as in Figma.
 
 Two things differ from the button, following Figma:
 
@@ -139,7 +138,6 @@ box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
 
 ```html
 <span class="psds-chip psds-chip--sm psds-chip--secondary psds-chip--pill">
-  <img class="psds-chip__avatar" src="emily.jpg" alt="">
   <span class="psds-chip__icon" aria-hidden="true"><span class="psds-icon">&#xf2c2;</span></span>
   <span class="psds-chip__label">Emily Carter</span>
   <button class="psds-chip__remove" type="button" aria-label="Remove Emily Carter">
@@ -148,10 +146,6 @@ box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
 </span>
 ```
 
-- **Avatar:** fills the chip's inner height (20 / 22 / 26 / 30px) and sits flush against the
-  start edge. The chip drops its start padding, so the label is still one padding away
-  from the avatar. The avatar has a 6px radius, or a circle on `--pill`. Use `alt=""` when
-  the label already names the person.
 - **Icon:** a square box in the size's icon token. Use a Font Awesome glyph
   (see [`foundations/icons.md`](../../foundations/icons.md)), or an `<svg>` / `<img>`. It
   uses the label colour.
@@ -204,8 +198,8 @@ State suffixes are `-hover`, `-pressed`, `-focus` and `-disabled`. The size chan
 
 ## Notes
 
-- **Avatar size.** In Figma the avatar box is 20 / 22 / 28 / 32px, but the chip frame clips
-  it, so only the inner height shows. Here it is sized to the inner height directly.
+- **No avatar slot.** The Figma chip has an optional leading avatar. It is left out here on
+  purpose; use an icon or plain label instead.
 - The multiselect component still draws its own chips (`.psds-multiselect__chip`). They
   look like a Filled Primary chip but are a separate implementation.
 - `tokens.css` has no `--chip-*` colour tokens. The Figma file uses the **button** tokens

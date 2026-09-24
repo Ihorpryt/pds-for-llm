@@ -91,10 +91,11 @@ then consume. Nothing is hard-coded; retheming happens entirely in `tokens.css`.
 State suffixes are `-hover`, `-pressed`, `-focus` and `-disabled`.
 
 `--buttons-{type}-accent` is the type colour painted straight onto a surface. In light it
-equals the fill; in dark it is the lighter semantic colour (`--primary`, `--success`, …), so
-Outlined and Flat labels stay readable while the filled surface is dark enough for a white
-label. Inputs, chips, links and table links use the same token for validation borders and
-text.
+equals the fill; in dark it is the lighter semantic colour (`--primary`, `--success`,
+`--warning`), so Outlined and Flat labels stay readable while the filled surface is dark
+enough for a white label. Dark Danger uses `--red-500` and dark Info reuses the fill
+(`--buttons-info-bg-color`) — both chosen for colour over contrast. Inputs, chips, links and
+table links use the same token for validation borders and text.
 
 Two deliberate exceptions, both taken from the Figma bindings:
 
