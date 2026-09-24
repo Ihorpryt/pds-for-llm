@@ -156,11 +156,12 @@ diverges in five places. All five are reproduced as authored rather than normali
 3. **Disabled keeps `$Shadow-sm`.** In Text Box, Disabled is the one state that drops it.
 4. **The icon colour never shifts.** Every state binds `Icon/icon-color`; Text Box moves the
    icon to hover, pressed and disabled variants.
-5. **The helper row has no gap.** Figma authors `spacing-0` between the message and its
-   glyph, against `--spacing-4` in Text Box, so the glyph sits flush against the text.
+5. **The helper row gap is overridden.** Figma authors `spacing-0` between the message and
+   its glyph, which left the glyph flush against the text. The CSS uses `--spacing-4` to
+   match Text Box and Dropdown List.
 
-Items 2, 4 and 5 read as gaps in the source rather than decisions — worth confirming with
-design before this ships, since 5 in particular is visible.
+Items 2 and 4 read as gaps in the source rather than decisions — worth confirming with
+design before this ships.
 
 ## Accessibility
 

@@ -24,6 +24,29 @@ body {
 The fallbacks matter: if the webfont has not arrived — or has failed — the text lands on
 the platform UI font rather than Times.
 
+## Font smoothing
+
+Smooth the type on the same rule that sets the family:
+
+```css
+body {
+  font-family            : Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing : antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+```
+
+Inter at product UI sizes renders heavy under macOS's default subpixel antialiasing — it
+is what makes a 14px `--font-weight-normal` label read closer to medium, and it flattens
+the difference between the [weights](#weights) the scale depends on.
+
+Both properties belong together: `-webkit-font-smoothing` covers Chrome, Edge and Safari,
+`-moz-osx-font-smoothing` covers Firefox. Neither does anything on Windows or Linux, so
+this is a macOS correction rather than a cross-platform change.
+
+Set it once on `body`, not per component — [`icons.css`](icons.css) is the one exception,
+applying the same pair to the icon font so glyphs match the text they sit beside.
+
 ## Loading Inter
 
 `typography.css` loads Inter from Google Fonts itself, so linking the stylesheet is

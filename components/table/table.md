@@ -105,6 +105,15 @@ The Figma toolbar is built from existing components, all at their smallest size:
 Figma's toggle glyph is the Font Awesome Pro `sidebar` icon, which the free set doesn't
 include. `table-columns` is the closest free icon.
 
+## Pagination
+
+A regular table doesn't paginate. It scrolls in `.psds-table-scroll`, with the header
+row pinned.
+
+The exception is a table inside a [modal](../../patterns/modal/modal.md). A modal's height
+is limited, so page it with a [pagination](../pagination/pagination.md) bar under the
+table, `--spacing-16` below it.
+
 ## Accessibility
 
 - Use real table markup: `<th scope="col">` for column headers and a `<caption>` that

@@ -297,7 +297,8 @@
 
   display    : flex;
   align-items: center;
-  gap        : var(--spacing-0);
+  /* Figma authors spacing-0 here; 4px matches Text Box and Dropdown List. */
+  gap        : var(--spacing-4);
   margin     : var(--spacing-0);
 
   font-size  : var(--psds-textarea-note-font-size);

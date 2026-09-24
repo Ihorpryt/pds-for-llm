@@ -166,6 +166,12 @@
   height : 100%;
 }
 
+/* A <use> clone inherits from the referencing <svg>, not the sprite, so the
+ * fill has to be set here for the glyph to follow the colour channel. */
+.psds-dropdown__glyph > svg {
+  fill: currentColor;
+}
+
 /* The leading icon sits in a slot that carries a little extra inline padding,
  * matching the "Search" frame in the Figma node. */
 .psds-dropdown__icon {

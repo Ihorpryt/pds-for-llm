@@ -28,17 +28,21 @@
 .psds-alert {
   /* --- Size channel (set by the size modifiers) --- */
   --psds-alert-padding    : var(--spacing-12);
+  --psds-alert-padding-end: var(--spacing-16);
   --psds-alert-gap        : var(--spacing-12);
   --psds-alert-text-gap   : var(--spacing-4);
   --psds-alert-font-size  : var(--font-size-sm);
   --psds-alert-line-height: var(--line-height-sm);
   --psds-alert-icon-size  : var(--font-icon-16);
+  --psds-alert-icon-slot  : var(--line-height-sm);
   --psds-alert-close-slot : var(--spacing-12);
   --psds-alert-radius     : var(--control-radius-message-default-radius);
 
   /* --- Mode channel: Subtle is the base treatment --- */
   --psds-alert-bg          : var(--psds-alert-subtle-bg);
-  --psds-alert-border      : var(--psds-alert-subtle-border);
+  /* Subtle draws no stroke; the 1px is still reserved so every mode is the
+   * same height. --shadow restores the type border (see the Shadow block). */
+  --psds-alert-border      : var(--transparent);
   --psds-alert-fg          : var(--psds-alert-subtle-fg);
   --psds-alert-icon-color  : var(--psds-alert-subtle-icon);
   --psds-alert-close-color : var(--psds-alert-subtle-close);
@@ -54,7 +58,10 @@
   /* Figma draws the stroke *inside* the frame, so the content sits exactly
    * --psds-alert-padding from the outer edge in every mode. The border is
    * always present here, so the padding gives that pixel back. */
-  padding: calc(var(--psds-alert-padding) - var(--border-1));
+  padding: calc(var(--psds-alert-padding) - var(--border-1))
+           calc(var(--psds-alert-padding-end) - var(--border-1))
+           calc(var(--psds-alert-padding) - var(--border-1))
+           calc(var(--psds-alert-padding) - var(--border-1));
 
   font-family   : var(--psds-alert-font-family);
   font-size     : var(--psds-alert-font-size);
@@ -71,22 +78,26 @@
 
 .psds-alert--sm {
   --psds-alert-padding    : var(--spacing-12);
+  --psds-alert-padding-end: var(--spacing-16);
   --psds-alert-gap        : var(--spacing-12);
   --psds-alert-text-gap   : var(--spacing-4);
   --psds-alert-font-size  : var(--font-size-sm);
   --psds-alert-line-height: var(--line-height-sm);
   --psds-alert-icon-size  : var(--font-icon-16);
+  --psds-alert-icon-slot  : var(--line-height-sm);
   --psds-alert-close-slot : var(--spacing-12);
   --psds-alert-radius     : var(--control-radius-message-default-radius);
 }
 
 .psds-alert--lg {
   --psds-alert-padding    : var(--spacing-16);
+  --psds-alert-padding-end: var(--spacing-18);
   --psds-alert-gap        : var(--spacing-12);
   --psds-alert-text-gap   : var(--spacing-6);
   --psds-alert-font-size  : var(--font-size-base);
   --psds-alert-line-height: var(--line-height-base);
   --psds-alert-icon-size  : var(--font-icon-18);
+  --psds-alert-icon-slot  : var(--spacing-22);
   --psds-alert-close-slot : var(--spacing-16);
   --psds-alert-radius     : var(--control-radius-message-bigger-radius);
 }
@@ -232,6 +243,13 @@
               0 var(--spacing-4) var(--spacing-6) var(--spacing-2) #0000000d;
 }
 
+/* The source node's Subtle variants are borderless with Shadow OFF and carry
+ * the type border with Shadow ON, so the floating card reads against whatever
+ * sits behind it. Outline and Ascent already own their border. */
+.psds-alert--shadow:not(.psds-alert--outline):not(.psds-alert--ascent) {
+  --psds-alert-border: var(--psds-alert-subtle-border);
+}
+
 /* ------------------------------------------------------------------- Body */
 
 .psds-alert__body {
@@ -254,7 +272,7 @@
   justify-content: center;
 
   width : var(--psds-alert-icon-size);
-  height: var(--psds-alert-line-height);
+  height: var(--psds-alert-icon-slot);
   color : var(--psds-alert-icon-color);
 }
 
@@ -354,10 +372,15 @@
  */
 
 .psds-alert__actions {
+  box-sizing : border-box;
   display    : flex;
   flex-wrap  : wrap;
   align-items: center;
   gap        : var(--spacing-12);
+
+  /* Figma indents the row by a flat 26px at both sizes so the buttons clear
+   * the icon column. tokens.css has no --spacing-26; see alert-message.md. */
+  padding-left: calc(var(--spacing-24) + var(--spacing-2));
 }
 
 .psds-alert--actions-end .psds-alert__actions {

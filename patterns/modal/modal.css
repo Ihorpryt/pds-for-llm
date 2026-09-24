@@ -1,3 +1,40 @@
+/* Portside Design System — Modal
+ * Source: Figma "Avianis WEB V2" › Add Service (Fuelerlinx) (node 7288:86458),
+ * a `.md` form dialog whose zones carry the pattern's surface model.
+ * Every value below resolves through a token declared in tokens.css, except
+ * the widths and the two shadows — see the notes at the foot of this file.
+ *
+ * Class API
+ *   .sm | .md | .lg | .xl        Width (unprefixed; see the note below)
+ *   .psds-modal__header          Header zone — sits on the shell fill
+ *   .psds-modal__body            Content zone — the only zone that scrolls
+ *   .psds-modal__footer          Footer zone — actions
+ *   .psds-modal__divider         Inset rule between sections inside the body
+ *
+ * Surfaces
+ *
+ * The dialog is three tiers, not one flat fill. Light mode hides this — the
+ * shell and the body are both white there and only the footer is tinted — so a
+ * modal painted in a single colour looks correct in light and wrong in dark.
+ *
+ *   Zone            Token                                 Dark       Light
+ *   shell + header  --background-flyout-bg-color           #171717    #ffffff
+ *   body            --background-content-bg-color          #26282c    #ffffff
+ *   footer          --background-content-bg-color-alt1     #1f2124    #eeeff2
+ *
+ * The header has no fill of its own: it shows the shell through, and the
+ * boundary between it and the body is the header's bottom border. That border
+ * is --border, the stronger line; --border-light is for the inset dividers
+ * *inside* the body. The footer has no top border at all — its own fill is the
+ * separation.
+ *
+ * This file paints the surfaces, the edges that define them, the corner radius
+ * and the elevation. Zone padding, typography and control sizing are not
+ * implemented here; follow the layout guidance in modal.md.
+ */
+
+/* ------------------------------------------------------------------ Widths */
+
 .sm {
   width: 360px;
 }
@@ -13,3 +50,71 @@
 .xl {
   width: 970px;
 }
+
+/* ------------------------------------------------------------------- Shell */
+
+dialog.sm,
+dialog.md,
+dialog.lg,
+dialog.xl {
+  padding      : var(--spacing-0);
+  border       : none;
+  border-radius: var(--control-radius-modal-default-radius);
+  background   : var(--background-flyout-bg-color);
+  color        : var(--foreground-content-text-color);
+
+  /* Figma $Shadow-lg. tokens.css declares no elevation tokens. */
+  box-shadow: 0 10px 15px -3px #0000001a,
+              0 4px 6px 2px #0000000d;
+
+  /* Clips the footer fill to the bottom corners. */
+  overflow: hidden;
+}
+
+dialog.lg,
+dialog.xl {
+  border-radius: var(--control-radius-modal-bigger-radius);
+}
+
+dialog::backdrop {
+  background: var(--background-overlay-bg-color);
+}
+
+/* ------------------------------------------------------------------- Zones */
+
+/* modal.md gives the header and footer fixed heights (56px / 62px) on top of
+ * 16px and 8px padding. Those only add up on a border-box, so the zones set it
+ * here rather than leaving each consumer to discover a 78px footer. */
+.psds-modal__header,
+.psds-modal__body,
+.psds-modal__footer {
+  box-sizing: border-box;
+}
+
+.psds-modal__header {
+  /* No fill: the shell shows through. The border is the boundary. */
+  border-block-end: var(--border-1) solid var(--border);
+}
+
+.psds-modal__body {
+  background: var(--background-content-bg-color);
+  overflow-y: auto;
+}
+
+.psds-modal__footer {
+  background: var(--background-content-bg-color-alt1);
+}
+
+/* Dividers inside the body are the lighter line, inset from both edges. */
+.psds-modal__divider {
+  border-block-start: var(--border-1) solid var(--border-light);
+}
+
+/* Notes
+ * - The width classes are unprefixed and will collide with other stylesheets.
+ *   They are left as they are so existing markup keeps working; renaming them
+ *   to .psds-modal--sm is a breaking change that needs its own pass.
+ * - Widths are literal pixel values. tokens.css has no modal width tokens.
+ * - The shadow is literal. Figma declares $Shadow-lg and $Shadow-sm as effect
+ *   variables, but tokens.css has no --shadow-* tokens to bind them to.
+ */

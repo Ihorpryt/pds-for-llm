@@ -8,7 +8,9 @@ component-level overrides.
 
 **Figma source:** UI Kit — Tailwind 3 Theme (Portside Edition) › `Alert Message`
 ([node `647:3190`](https://www.figma.com/design/2JfMgeZuQOt4atDR58pLs9/UI-Kit---Tailwind-3-Theme--Portside-Edition-?node-id=647-3190))
-— 240 variants: 2 sizes × 3 modes × 5 types × 2 button positions × 2 shadows.
+— 120 variants: 2 sizes × 3 modes × 5 types × 2 button positions × 2 shadows. The
+icon, close control, title, description and button row are boolean properties on top of
+that matrix, not variants.
 
 ```html
 <link rel="stylesheet" href="tokens.css">
@@ -59,15 +61,24 @@ Cascade order in the stylesheet is **Size → Type → Mode → Shadow**.
 
 | Size | Height (one line) | Font | Line height | Padding | Gap | Title↔description | Icon | Close slot | Radius |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `--sm` | 44 | `--font-size-sm` 14 | `--line-height-sm` 20 | `--spacing-12` | `--spacing-12` | `--spacing-4` | `--font-icon-16` | `--spacing-12` | `--control-radius-message-default-radius` 6 |
-| `--lg` | 56 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-16` | `--spacing-12` | `--spacing-6` | `--font-icon-18` | `--spacing-16` | `--control-radius-message-bigger-radius` 8 |
+| `--sm` | 44 | `--font-size-sm` 14 | `--line-height-sm` 20 | `--spacing-12` / `--spacing-16` | `--spacing-12` | `--spacing-4` | `--font-icon-16` | `--spacing-12` | `--control-radius-message-default-radius` 6 |
+| `--lg` | 56 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-16` / `--spacing-18` | `--spacing-12` | `--spacing-6` | `--font-icon-18` | `--spacing-16` | `--control-radius-message-bigger-radius` 8 |
 
-The gap is the same 12px at both sizes — only the padding, type scale and radius change.
+The padding column is *block and inline-start / inline-end*: the right step is one stop
+larger than the other three, so the close glyph — which overhangs its slot, see below —
+keeps a full padding step of clear space. The gap is the same 12px at both sizes; only
+the padding, type scale and radius change.
 
 Figma draws the stroke *inside* the frame, so the content sits exactly one padding step
 from the outer edge in every mode and the overall height is 44 / 56 including the border.
-The border is always declared here, so the padding gives that pixel back:
-`padding: calc(var(--psds-alert-padding) - var(--border-1))`.
+The 1px is declared on every alert — `var(--transparent)` where the mode draws no stroke —
+so the height never shifts between modes, and the padding gives that pixel back:
+`padding: calc(var(--psds-alert-padding) - var(--border-1)) …`.
+
+The icon slot is one line tall at `--sm` (20px) but **22px** at `--lg`, two below the
+24px line box. That is what the source node authors, so it is reproduced as-is; the glyph
+lands a pixel above the optical centre of the first line. The close slot keeps the full
+line height at both sizes.
 
 ### The close slot
 
@@ -82,19 +93,28 @@ moving the glyph.
 
 | Mode | Surface | Border | Text & icon | Figma suffix |
 | --- | --- | --- | --- | --- |
-| Subtle | tinted | type colour | type colour | *(none)* |
+| Subtle | tinted | none (`--transparent`) | type colour | *(none)* |
 | `--ascent` | solid type colour | type colour | inverted | `-alt2` |
 | `--outline` | `--transparent` | type colour | type colour | `-alt1` |
+
+Subtle is **borderless**: the tint alone separates it from the page. The 1px is still
+reserved as a transparent border so all three modes are the same height. The one exception
+is `--shadow`, which restores the type border on Subtle — see below.
 
 The close mark is the one channel that does **not** follow the text: in Subtle and Outline
 it stays `--icon-color` (neutral grey) and only Ascent flips it to the inverted colour.
 
 ## Actions
 
-The button row sits one gap below the body, and `--actions-end` moves it to the right —
-Figma's *Bottom Right*. Use [`Button`](../button/button.md) at `--sm` inside a `--sm`
-alert and at `--lg` inside a `--lg` alert, which is what the source node's
-*Message Button* atom does. Buttons are spaced `--spacing-12` apart.
+The button row sits one gap below the body and is indented 26px from the content edge, so
+the buttons start under the text column rather than under the icon. The indent is a flat
+26px at both sizes in the source node — it is not derived from the icon size — and
+`--actions-end` stretches the row to full width and pushes it right, Figma's
+*Bottom Right*, keeping the same 26px on the left.
+
+Use [`Button`](../button/button.md) at `--sm` inside a `--sm` alert and at `--lg` inside a
+`--lg` alert, which is what the source node's *Message Button* atom does (a 32px primary +
+secondary pair at `--sm`, 40px at `--lg`). Buttons are spaced `--spacing-12` apart.
 
 ```html
 <div class="psds-alert psds-alert--sm psds-alert--warning psds-alert--actions-end">
@@ -109,7 +129,9 @@ alert and at `--lg` inside a `--lg` alert, which is what the source node's
 ## Shadow
 
 `--shadow` applies the Figma `$Shadow-lg` effect, for alerts that float above content
-rather than sitting in the flow:
+rather than sitting in the flow. It also **restores the type border on Subtle** — a
+floating card needs an edge against whatever it covers. Outline and Ascent already own
+their border and are unaffected.
 
 ```css
 box-shadow: 0 var(--spacing-10) var(--spacing-15) calc(-1 * var(--spacing-3)) #0000001a,
@@ -177,7 +199,16 @@ custom mark only when none fits.
   values on this component not sourced from it. Promote them when a shadow scale is added.
 - `tokens.css` declares no font-family token either; the Inter stack from the Figma text
   style is held in `--psds-alert-font-family`, matching Button.
-- The description is hidden in all 240 source variants, so its weight could not be read
-  from a binding. It is set to `--font-weight-normal` to keep the title dominant; its size
-  and line height are measured from the source layout and match the title.
+- The description is hidden by default in the source variants, so its weight is read from
+  the property default rather than a live binding: `--font-weight-normal`, keeping the
+  title dominant. Size and line height match the title.
+- Danger is the one type whose Subtle description is authored a shade lighter than its
+  title (`--message-danger-color-alt1` vs `--message-danger-color`). The component keeps
+  both lines on `--psds-alert-fg`; split the channel if that shade turns out to be
+  deliberate rather than an authoring artefact.
+- `tokens.css` has no `--spacing-26`, so the action-row indent is written as
+  `calc(var(--spacing-24) + var(--spacing-2))`. Replace it when the token lands.
+- In the source node, the *Small / Outline / Default* variant alone parks the description
+  outside the text column as a full-width sibling of the icon row. Every other variant
+  keeps it inside the column, which is what this component does.
 - `alert-message.html` is a live gallery of the full matrix, including a dark-theme toggle.

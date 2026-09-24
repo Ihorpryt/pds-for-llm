@@ -10,20 +10,24 @@ from the components in [`components/`](../../components) on a surface sized by
 — a `.md` (500px) form modal. The structure, section, field and item measurements below
 are taken from it.
 
+**Surfaces:** Avianis WEB V2 › `Add Service (Fuelerlinx)`
+([node `7288:86458`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=7288-86458))
+— the same `.md` dialog in dark mode, where the three zone fills are visible.
+
 ```html
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="patterns/modal/modal.css">
 
 <dialog class="md" aria-labelledby="modal-title">
-  <h2 id="modal-title">Title</h2>
-  …
+  <div class="psds-modal__header"><h2 id="modal-title">Title</h2>…</div>
+  <div class="psds-modal__body">…</div>
+  <div class="psds-modal__footer">…</div>
 </dialog>
 ```
 
 ## Widths
 
-`modal.css` currently defines only the dialog width. Pick the smallest size that fits the
-content without horizontal scrolling.
+Pick the smallest size that fits the content without horizontal scrolling.
 
 | Class | Width | Use for |
 | --- | --- | --- |
@@ -35,10 +39,29 @@ content without horizontal scrolling.
 Height is not fixed; let the content define it and scroll the body when it exceeds the
 viewport.
 
+## Surfaces
+
+The dialog is three tiers, not one flat fill. Light mode hides this — the shell and the
+body are both white there and only the footer is tinted — so a modal painted in a single
+colour looks correct in light and wrong in dark. `modal.css` paints all three.
+
+| Zone | Token | Dark | Light |
+| --- | --- | --- | --- |
+| Shell + header | `--background-flyout-bg-color` | `#171717` | `#ffffff` |
+| Content | `--background-content-bg-color` | `#26282c` | `#ffffff` |
+| Footer | `--background-content-bg-color-alt1` | `#1f2124` | `#eeeff2` |
+
+The header has no fill of its own: it shows the shell through, and the boundary between it
+and the body is the header's bottom border. The footer has no top border at all — its own
+fill is the separation.
+
+Elevation is Figma `$Shadow-lg`:
+`0 10px 15px -3px #0000001a, 0 4px 6px 2px #0000000d`. It is a literal in `modal.css`
+because `tokens.css` declares no `--shadow-*` tokens.
+
 ## Related tokens
 
-These tokens exist in [`tokens.css`](../../tokens.css) for the parts of the modal that
-`modal.css` does not yet style:
+`modal.css` binds these:
 
 | Token | Value | Use for |
 | --- | --- | --- |
@@ -55,7 +78,8 @@ These rules apply at every width, `.sm` through `.xl`.
 | Content padding | 16px on all sides, regardless of modal size | `--spacing-16` |
 | Stacked inputs | 12px vertical gap between fields | `--spacing-12` |
 | Title | Base / Semibold, 16px / 24px | `--font-size-base`, `--line-height-base`, `--font-weight-semibold` |
-| Dividers | 1px line between header, body and footer | `--border-light` |
+| Header divider | 1px line under the header, full width | `--border` |
+| Section dividers | 1px line between sections, inset 16px | `--border-light` |
 | Controls | Small size | `--sm` |
 
 - **Padding:** do not scale padding up for `.lg` or `.xl`; wider modals get more room for
@@ -64,8 +88,10 @@ These rules apply at every width, `.sm` through `.xl`.
   text together), not between the label and its control.
 - **Title:** a single line of Base / Semibold text in the header. Do not use a larger
   heading size in larger modals.
-- **Dividers:** use `border: 1px solid var(--border-light)` (or `border-block-*`) so the
-  line follows the light and dark themes.
+- **Dividers:** the header divider is the stronger `--border`; the dividers *inside* the
+  body are `--border-light`. The footer has no divider — its fill separates it. Note that
+  `--border` and `--border-light` resolve to the same `#3a404b` in dark mode, so the
+  distinction is only visible in light.
 - **Controls:** use the `--sm` modifier on buttons, icon buttons, text boxes, text areas,
   dropdowns, checkboxes and toggles inside a modal. Each component's own `--sm` size
   table defines the resulting dimensions. The one exception is the action buttons inside
@@ -77,9 +103,21 @@ A modal has three zones. The header and footer stay fixed; only the content scro
 
 | Zone | Height | Contents |
 | --- | --- | --- |
-| Header | 56px — 16px padding around a 24px title line | Title on the left; a plain 20px close icon on the right, 16px from the edge |
+| Header | 56px | Title on the left; a plain 20px close icon on the right, 16px from the edge |
 | Content | Grows with content, scrolls past the viewport | One or more [sections](#sections) |
-| Footer | 62px | Actions aligned right: `--secondary` Cancel, then `--primary` confirm |
+| Footer | 64px | Actions aligned right: `--secondary` Cancel, then `--primary` confirm |
+
+Neither height is declared. Both derive from 16px padding, so set the padding and let the
+zone size itself — declaring a height *and* the padding is what produces a 78px footer.
+
+| Zone | Derivation |
+| --- | --- |
+| Header | 16 + 24 title line + 15 + 1px divider = 56 |
+| Footer | 16 + 32 `--sm` button + 16 = 64 |
+
+The header's trailing padding is `--spacing-15` so the 1px divider lands the zone back on
+the grid — the border compensation [`layout.md`](../../foundations/layout.md) sanctions the
+odd spacing tokens for. Everything else uses `--spacing-16`.
 
 The header divider runs the full width of the modal.
 
@@ -151,6 +189,8 @@ Lists of linked records or attached files use item cards.
 
 - **Actions:** use [`button`](../../components/button/button.md) at the `--sm` size. One `--primary` action; the rest
   `--secondary`. Use `--danger` for the confirming action of a destructive dialog.
+- **Action icons:** every footer action carries a leading icon. See
+  [footer action icons](#footer-action-icons).
 - **Close:** a plain 20px close icon in the header, per the [structure](#structure). It
   still needs to be a focusable `<button>` with `aria-label="Close"`.
 - **Fields:** use [`text-box`](../../components/text-box/text-box.md),
@@ -158,8 +198,51 @@ Lists of linked records or attached files use item cards.
   [`dropdown-list`](../../components/dropdown-list/dropdown-list.md),
   [`checkbox`](../../components/checkbox/checkbox.md) and
   [`toggle-switch`](../../components/toggle-switch/toggle-switch.md).
+- **Tables:** a [`table`](../../components/table/table.md) inside a modal pages with
+  [`pagination`](../../components/pagination/pagination.md) instead of scrolling, because
+  the modal's height is limited. Put the pager under the table, `--spacing-16` below it,
+  inside the content zone.
 - **Inline feedback:** use [`alert-message`](../../components/alert-message/alert-message.md) inside the
   body, not a second modal.
+
+### Footer action icons
+
+**Figma reference:** Avianis WEB V2 › `Change Aircraft (Per Leg)`
+([node `5171:38444`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=5171-38444)).
+
+Every button in the footer takes a leading icon — all of them or none of them, never a
+mix. The glyph sits before the label and is separated from it by the `--sm` button's own
+`--spacing-6` gap.
+
+| Action | Glyph | Code point |
+| --- | --- | --- |
+| Cancel, and any other dismissing action | `circle-xmark` | `&#xf057;` |
+| The confirming action (`--primary`) | `circle-check` | `&#xf058;` |
+| The confirming action of a destructive dialog (`--danger`) | the verb's own glyph, e.g. `trash-can` | — |
+
+- **Cut:** Regular, not Solid — `.psds-icon .psds-icon--regular`. The outline weight is
+  what the Figma node uses, and it keeps a 14px glyph from crowding the label.
+- **Size:** none. `.psds-icon` defaults to `1em`, which is the 14px the `--sm` button's
+  `--font-size-sm` already sets — the same 14px box as Figma.
+- **Colour:** none. `.psds-icon` paints with `currentColor`, so the glyph follows the
+  label through every state and every button type. Do not bind an icon colour; in
+  particular a `--secondary` button's icon is its label colour, not `--icon-color`.
+
+```html
+<div class="psds-modal__footer">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" type="button">
+    <span class="psds-icon psds-icon--regular" aria-hidden="true">&#xf057;</span>
+    Cancel
+  </button>
+  <button class="psds-btn psds-btn--sm psds-btn--primary" type="submit">
+    <span class="psds-icon psds-icon--regular" aria-hidden="true">&#xf058;</span>
+    Save
+  </button>
+</div>
+```
+
+The icon is decorative — it repeats the label — so it is always `aria-hidden="true"` and
+the label always stays. An icon never replaces the text of a footer action.
 
 ## Accessibility
 
@@ -176,10 +259,26 @@ Lists of linked records or attached files use item cards.
   stylesheets. Components use a `psds-` prefix (`.psds-btn--md`); these should be renamed
   to match, e.g. `.psds-modal--sm`.
 - Widths are literal pixel values, not tokens. `tokens.css` has no modal width tokens.
-- Surface, header, body, footer, padding, shadow and backdrop are not styled in
-  `modal.css` yet; follow the layout guidance and tokens above when adding them.
+- `modal.css` paints the surfaces, the edges that define them, the radius, the elevation
+  and the backdrop. Zone padding, typography and control sizing are not implemented
+  there; follow the layout guidance above.
+- The elevation is a literal. Figma declares `$Shadow-lg` and `$Shadow-sm` as effect
+  variables, but `tokens.css` has no `--shadow-*` tokens to bind them to — `text-box` and
+  `dropdown-list` hardcode `$Shadow-sm` for the same reason.
+- `--border` and `--border-light` both resolve to `--cool-gray-600` (`#3a404b`) in dark
+  mode, so the header divider and the section dividers are indistinguishable there.
 - There is no `modal.html` gallery yet.
+- The [footer action icons](#footer-action-icons) rule is taken from `Change Aircraft
+  (Per Leg)` ([node `5171:38444`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=5171-38444)).
+  The two other surfaces this page cites — `Add Service (Fuelerlinx)` and `Edit Task` —
+  still show bare footer actions and predate the rule; they need updating in Figma.
+- In `5171:38444` the Cancel label and its icon are both an unbound `#29313d` rather than
+  `Buttons/Secondary/secondary-text-color` (`#2a2a2a`). The icon there is the label's
+  colour, which is what `currentColor` reproduces; the loose hex is a Figma-side fix.
 - The 18px line height of the section description and item subtitle (Figma *Text-X
   Small/Normal*) has no token; `--line-height-xs` is 16px.
-- The footer's background, top divider and internal padding were not confirmed from the
-  Figma reference.
+- The footer is 64px here against 62px in Figma. 62 does not derive from any on-grid
+  padding — 8px around a 32px `--sm` button gives 48, and reaching 62 needs 15px, which
+  [`layout.md`](../../foundations/layout.md) reserves for border compensation. 64 is
+  16px padding on both sides, on the grid, and scales if the footer ever carries an
+  `--md` control. The 2px is deliberate and needs a designer's sign-off.

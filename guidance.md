@@ -8,12 +8,15 @@ Use Font Awesome icons where an appropriate icon is available; use custom icons 
 Font Awesome cannot meet the need. See [`foundations/icons.md`](foundations/icons.md) for
 the glyph set and the `.psds-icon` class.
 
+Set the font stack and `-webkit-font-smoothing: antialiased` once on `body`. See
+[`foundations/typography.md`](foundations/typography.md) for the rule and the reasoning.
+
 ## Foundations
 
 | Foundation | Covers |
 | --- | --- |
 | [`foundations/layout.md`](foundations/layout.md) | Spacing: the 4px grid for paddings, margins and gaps, and the 2px grid for tight cases |
-| [`foundations/typography.md`](foundations/typography.md) | Type: the Inter family, how it is loaded, the size scale (`.text-small` and friends) and weights |
+| [`foundations/typography.md`](foundations/typography.md) | Type: the Inter family, how it is loaded, font smoothing, the size scale (`.text-small` and friends) and weights |
 | [`foundations/icons.md`](foundations/icons.md) | Icons: the self-hosted Font Awesome set, the `.psds-icon` box, sizes and colours |
 | [`tokens.css`](tokens.css) | All design tokens: colours, `--spacing-*`, `--radius-*`, borders |
 

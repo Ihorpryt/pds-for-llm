@@ -1,0 +1,166 @@
+/* Portside Design System — Pagination
+ * Source: Figma "Avianis WEB V2" › Add Attachment (node 5193:53571), the pager under the
+ * table (node I5184:34976;27873:39138;5192:39399).
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-pagination                 the bar: pager on the left, summary on the right
+ *   .psds-pagination__pages          the pager: Previous, page numbers, Next
+ *   .psds-pagination__step           Previous / Next (a label plus a chevron)
+ *   .psds-pagination__page           a page number; aria-current="page" marks the current one
+ *   .psds-pagination__gap            the "…" between page ranges (not interactive)
+ *   .psds-pagination__summary        muted "1 of 7 pages (70 items)"
+ *
+ * Previous / Next and page numbers can be <a href> or <button>. Disable a <button> with
+ * `disabled`; disable a link by removing its href and adding aria-disabled="true".
+ * The .is-hover / .is-focus helpers force a state for documentation galleries.
+ */
+
+.psds-pagination {
+  /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
+  --psds-pagination-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  display        : flex;
+  flex-wrap      : wrap;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--spacing-8);
+  font-family    : var(--psds-pagination-font-family);
+}
+
+.psds-pagination__pages {
+  display    : flex;
+  align-items: center;
+  margin     : 0;
+  padding    : 0;
+  list-style : none;
+}
+
+/* ------------------------------------------------ Shared control reset */
+
+.psds-pagination__step,
+.psds-pagination__page {
+  box-sizing     : border-box;
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  height         : var(--form-mouse);
+  margin         : 0;
+  border         : var(--border-1) solid var(--transparent);
+  background     : var(--transparent);
+  color          : var(--foreground-content-text-color-alt1);
+
+  font-family    : inherit;
+  font-size      : var(--font-size-sm);
+  line-height    : var(--line-height-sm);
+  font-weight    : var(--font-weight-medium);
+  letter-spacing : var(--letter-spacing-normal);
+  white-space    : nowrap;
+  text-decoration: none;
+
+  cursor    : pointer;
+  appearance: none;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psds-pagination__step,
+  .psds-pagination__page { transition: none; }
+}
+
+/* ------------------------------------------------------ Previous / Next */
+/* Figma: an --sm flat button — 32px tall, 10px side padding, 6px to the 14px chevron. */
+
+.psds-pagination__step {
+  gap          : var(--spacing-6);
+  padding      : var(--spacing-0) var(--spacing-10);
+  border-radius: var(--control-radius-btn-default-radius);
+}
+
+.psds-pagination__step .psds-icon {
+  font-size: var(--font-size-xs);
+}
+
+/* ---------------------------------------------------------- Page number */
+/* Figma: 32px square, 4px radius. The current page is filled with the primary colour. */
+
+.psds-pagination__page {
+  min-width    : var(--form-mouse);
+  padding      : var(--spacing-0) var(--spacing-4);
+  border-radius: var(--radius-4);
+  font-variant-numeric: tabular-nums;
+}
+
+.psds-pagination__page[aria-current="page"] {
+  background-color: var(--buttons-primary-bg-color);
+  border-color    : var(--buttons-primary-border-color);
+  color           : var(--buttons-primary-text);
+  cursor          : default;
+}
+
+.psds-pagination__gap {
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  min-width      : var(--form-mouse);
+  height         : var(--form-mouse);
+  font-size      : var(--font-size-sm);
+  line-height    : var(--line-height-sm);
+  font-weight    : var(--font-weight-medium);
+  color          : var(--foreground-content-text-color-alt1);
+  user-select    : none;
+}
+
+/* ---------------------------------------------------------------- Hover */
+/* Not in Figma, which shows resting states only. */
+
+.psds-pagination__step:hover:not(:disabled):not([aria-disabled="true"]),
+.psds-pagination__page:hover:not([aria-current="page"]),
+.psds-pagination__step.is-hover,
+.psds-pagination__page.is-hover:not([aria-current="page"]) {
+  background-color: var(--background-content-bg-color-hover);
+}
+
+.psds-pagination__page[aria-current="page"]:hover,
+.psds-pagination__page[aria-current="page"].is-hover {
+  background-color: var(--buttons-primary-bg-color-hover);
+  border-color    : var(--buttons-primary-border-color-hover);
+}
+
+/* ------------------------------------------------------------- Disabled */
+/* Figma: the disabled Previous label is secondary-text-color-disabled. */
+
+.psds-pagination__step:disabled,
+.psds-pagination__step[aria-disabled="true"] {
+  background-color: var(--transparent);
+  color           : var(--buttons-secondary-text-color-disabled);
+  cursor          : not-allowed;
+}
+
+.psds-pagination__step[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------- Focus ring */
+/* Figma effect $shadow-focus-ring2, the same ring as .psds-btn. */
+
+.psds-pagination__step:focus-visible,
+.psds-pagination__page:focus-visible,
+.psds-pagination__step.is-focus,
+.psds-pagination__page.is-focus {
+  outline   : var(--border-2) solid var(--transparent);
+  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
+              0 0 0 var(--border-4) var(--primary);
+}
+
+/* -------------------------------------------------------------- Summary */
+
+.psds-pagination__summary {
+  margin        : 0;
+  font-size     : var(--font-size-sm);
+  line-height   : var(--line-height-sm);
+  font-weight   : var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color         : var(--foreground-content-text-color-alt3);
+  white-space   : nowrap;
+}
