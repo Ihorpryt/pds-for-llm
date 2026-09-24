@@ -42,7 +42,7 @@
   --psds-textarea-bg          : var(--background-content-bg-color);
   --psds-textarea-border      : var(--border);
   --psds-textarea-border-width: var(--border-1);
-  --psds-textarea-accent      : var(--buttons-primary-border-color);
+  --psds-textarea-accent      : var(--buttons-primary-accent);
   --psds-textarea-fg          : var(--foreground-content-text-color);
   --psds-textarea-placeholder : var(--foreground-placeholder-text-color);
   --psds-textarea-icon-color  : var(--icon-color);
@@ -337,26 +337,26 @@
 }
 
 .psds-textarea--info {
-  --psds-textarea-border: var(--buttons-info-border-color);
-  --psds-textarea-accent: var(--buttons-info-border-color);
+  --psds-textarea-border: var(--buttons-info-accent);
+  --psds-textarea-accent: var(--buttons-info-accent);
   --psds-textarea-note-color: var(--info);
 }
 
 .psds-textarea--success {
-  --psds-textarea-border: var(--buttons-success-border-color);
-  --psds-textarea-accent: var(--buttons-success-border-color);
+  --psds-textarea-border: var(--buttons-success-accent);
+  --psds-textarea-accent: var(--buttons-success-accent);
   --psds-textarea-note-color: var(--success);
 }
 
 .psds-textarea--warning {
-  --psds-textarea-border: var(--buttons-warning-border-color);
-  --psds-textarea-accent: var(--buttons-warning-border-color);
+  --psds-textarea-border: var(--buttons-warning-accent);
+  --psds-textarea-accent: var(--buttons-warning-accent);
   --psds-textarea-note-color: var(--warning);
 }
 
 .psds-textarea--danger {
-  --psds-textarea-border: var(--buttons-danger-border-color);
-  --psds-textarea-accent: var(--buttons-danger-border-color);
+  --psds-textarea-border: var(--buttons-danger-accent);
+  --psds-textarea-accent: var(--buttons-danger-accent);
   --psds-textarea-note-color: var(--danger);
 }
 

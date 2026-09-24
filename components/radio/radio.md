@@ -105,9 +105,9 @@ The Figma *Active* state maps to the `-pressed` token suffix.
 
 **OFF has no hover or active treatment.** The Figma Hover and Active variants for OFF are
 pixel-identical to Default, so those channels point at the same tokens rather than
-inventing a difference. In the light theme ON is also unchanged on hover, because
-`--buttons-primary-bg-color-hover` and `--buttons-primary-bg-color` both resolve to
-`--light-blue-600`; the dark theme does separate them.
+inventing a difference. ON darkens on hover in both themes:
+`--buttons-primary-bg-color-hover` resolves to `--light-blue-700`, darker than the
+rest colour (`--light-blue-600` light, `--light-blue-500` dark).
 
 ### Focus ring
 

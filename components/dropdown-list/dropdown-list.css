@@ -42,7 +42,7 @@
   --psds-dropdown-border          : var(--border);
   --psds-dropdown-border-hover    : var(--border-hover);
   --psds-dropdown-border-width    : var(--border-1);
-  --psds-dropdown-accent          : var(--buttons-primary-border-color);
+  --psds-dropdown-accent          : var(--buttons-primary-accent);
   --psds-dropdown-fg              : var(--foreground-placeholder-text-color);
   --psds-dropdown-icon-color      : var(--icon-color);
 
@@ -299,33 +299,33 @@
 }
 
 .psds-dropdown--info {
-  --psds-dropdown-border      : var(--buttons-info-border-color);
-  --psds-dropdown-border-hover: var(--buttons-info-border-color);
-  --psds-dropdown-accent      : var(--buttons-info-border-color);
+  --psds-dropdown-border      : var(--buttons-info-accent);
+  --psds-dropdown-border-hover: var(--buttons-info-accent);
+  --psds-dropdown-accent      : var(--buttons-info-accent);
   --psds-dropdown-fg          : var(--foreground-content-text-color);
   --psds-dropdown-icon-color  : var(--icon-color-pressed);
 }
 
 .psds-dropdown--success {
-  --psds-dropdown-border      : var(--buttons-success-border-color);
-  --psds-dropdown-border-hover: var(--buttons-success-border-color);
-  --psds-dropdown-accent      : var(--buttons-success-border-color);
+  --psds-dropdown-border      : var(--buttons-success-accent);
+  --psds-dropdown-border-hover: var(--buttons-success-accent);
+  --psds-dropdown-accent      : var(--buttons-success-accent);
   --psds-dropdown-fg          : var(--foreground-content-text-color);
   --psds-dropdown-icon-color  : var(--icon-color-pressed);
 }
 
 .psds-dropdown--warning {
-  --psds-dropdown-border      : var(--buttons-warning-border-color);
-  --psds-dropdown-border-hover: var(--buttons-warning-border-color);
-  --psds-dropdown-accent      : var(--buttons-warning-border-color);
+  --psds-dropdown-border      : var(--buttons-warning-accent);
+  --psds-dropdown-border-hover: var(--buttons-warning-accent);
+  --psds-dropdown-accent      : var(--buttons-warning-accent);
   --psds-dropdown-fg          : var(--foreground-content-text-color);
   --psds-dropdown-icon-color  : var(--icon-color-pressed);
 }
 
 .psds-dropdown--danger {
-  --psds-dropdown-border      : var(--buttons-danger-border-color);
-  --psds-dropdown-border-hover: var(--buttons-danger-border-color);
-  --psds-dropdown-accent      : var(--buttons-danger-border-color);
+  --psds-dropdown-border      : var(--buttons-danger-accent);
+  --psds-dropdown-border-hover: var(--buttons-danger-accent);
+  --psds-dropdown-accent      : var(--buttons-danger-accent);
   --psds-dropdown-fg          : var(--foreground-content-text-color);
   --psds-dropdown-icon-color  : var(--icon-color-pressed);
 }

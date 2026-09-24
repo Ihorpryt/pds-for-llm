@@ -149,7 +149,9 @@
   --psds-dropdown-btn-fg-focus    : var(--buttons-primary-text-focus);
   --psds-dropdown-btn-fg-disabled : var(--buttons-primary-text-disabled);
 
-  --psds-dropdown-btn-accent          : var(--buttons-primary-bg-color);
+  --psds-dropdown-btn-accent          : var(--buttons-primary-accent);
+
+  --psds-dropdown-btn-outline          : var(--buttons-primary-accent);
   --psds-dropdown-btn-accent-disabled : var(--buttons-primary-bg-color-disabled);
 }
 
@@ -173,7 +175,9 @@
   --psds-dropdown-btn-fg-focus    : var(--buttons-secondary-text-color-focus);
   --psds-dropdown-btn-fg-disabled : var(--buttons-secondary-text-color-disabled);
 
-  --psds-dropdown-btn-accent          : var(--buttons-secondary-text-color);
+  --psds-dropdown-btn-accent          : var(--buttons-secondary-accent);
+
+  --psds-dropdown-btn-outline          : var(--buttons-secondary-border-color);
   --psds-dropdown-btn-accent-disabled : var(--buttons-secondary-text-color-disabled);
 }
 
@@ -196,7 +200,9 @@
   --psds-dropdown-btn-fg-focus    : var(--buttons-info-text-focus);
   --psds-dropdown-btn-fg-disabled : var(--buttons-info-text-disabled);
 
-  --psds-dropdown-btn-accent          : var(--buttons-info-bg-color);
+  --psds-dropdown-btn-accent          : var(--buttons-info-accent);
+
+  --psds-dropdown-btn-outline          : var(--buttons-info-accent);
   --psds-dropdown-btn-accent-disabled : var(--buttons-info-bg-color-disabled);
 }
 
@@ -219,7 +225,9 @@
   --psds-dropdown-btn-fg-focus    : var(--buttons-success-text-focus);
   --psds-dropdown-btn-fg-disabled : var(--buttons-success-text-disabled);
 
-  --psds-dropdown-btn-accent          : var(--buttons-success-bg-color);
+  --psds-dropdown-btn-accent          : var(--buttons-success-accent);
+
+  --psds-dropdown-btn-outline          : var(--buttons-success-accent);
   --psds-dropdown-btn-accent-disabled : var(--buttons-success-bg-color-disabled);
 }
 
@@ -242,7 +250,9 @@
   --psds-dropdown-btn-fg-focus    : var(--buttons-warning-text-focus);
   --psds-dropdown-btn-fg-disabled : var(--buttons-warning-text-disabled);
 
-  --psds-dropdown-btn-accent          : var(--buttons-warning-bg-color);
+  --psds-dropdown-btn-accent          : var(--buttons-warning-accent);
+
+  --psds-dropdown-btn-outline          : var(--buttons-warning-accent);
   --psds-dropdown-btn-accent-disabled : var(--buttons-warning-bg-color-disabled);
 }
 
@@ -265,7 +275,9 @@
   --psds-dropdown-btn-fg-focus    : var(--buttons-danger-text-focus);
   --psds-dropdown-btn-fg-disabled : var(--buttons-danger-text-disabled);
 
-  --psds-dropdown-btn-accent          : var(--buttons-danger-bg-color);
+  --psds-dropdown-btn-accent          : var(--buttons-danger-accent);
+
+  --psds-dropdown-btn-outline          : var(--buttons-danger-accent);
   --psds-dropdown-btn-accent-disabled : var(--buttons-danger-bg-color-disabled);
 }
 
@@ -284,7 +296,7 @@
 
 .psds-dropdown-btn--outlined {
   background-color: var(--transparent);
-  border-color    : var(--psds-dropdown-btn-border);
+  border-color    : var(--psds-dropdown-btn-outline);
   color           : var(--psds-dropdown-btn-accent);
 }
 
@@ -343,6 +355,14 @@
 .psds-dropdown-btn--outlined.is-disabled {
   background-color: var(--transparent);
   border-color    : var(--psds-dropdown-btn-border-disabled);
+  color           : var(--psds-dropdown-btn-accent-disabled);
+}
+
+/* Flat stays transparent while disabled, so it never turns into a filled box. */
+.psds-dropdown-btn--flat:disabled,
+.psds-dropdown-btn--flat.is-disabled {
+  background-color: var(--transparent);
+  border-color    : var(--transparent);
   color           : var(--psds-dropdown-btn-accent-disabled);
 }
 

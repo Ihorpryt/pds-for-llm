@@ -213,7 +213,7 @@
 /* Full Rounded. Declared last so it wins over every radius set above. */
 
 .psds-badge--pill {
-  --psds-badge-radius: var(--radius-24);
+  --psds-badge-radius: var(--radius-20);
 }
 
 /* A Full Rounded Letter badge is a circle: its width collapses to its height. */

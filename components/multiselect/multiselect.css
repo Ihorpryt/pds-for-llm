@@ -59,7 +59,7 @@
   --psds-multiselect-border          : var(--border);
   --psds-multiselect-border-hover    : var(--border-hover);
   --psds-multiselect-border-width    : var(--border-1);
-  --psds-multiselect-accent          : var(--buttons-primary-border-color);
+  --psds-multiselect-accent          : var(--buttons-primary-accent);
   --psds-multiselect-fg              : var(--foreground-content-text-color);
   --psds-multiselect-placeholder     : var(--foreground-placeholder-text-color);
   --psds-multiselect-icon-color      : var(--icon-color);
@@ -516,30 +516,30 @@
 }
 
 .psds-multiselect--info {
-  --psds-multiselect-border      : var(--buttons-info-border-color);
-  --psds-multiselect-border-hover: var(--buttons-info-border-color);
-  --psds-multiselect-accent      : var(--buttons-info-border-color);
+  --psds-multiselect-border      : var(--buttons-info-accent);
+  --psds-multiselect-border-hover: var(--buttons-info-accent);
+  --psds-multiselect-accent      : var(--buttons-info-accent);
   --psds-multiselect-icon-color  : var(--icon-color-pressed);
 }
 
 .psds-multiselect--success {
-  --psds-multiselect-border      : var(--buttons-success-border-color);
-  --psds-multiselect-border-hover: var(--buttons-success-border-color);
-  --psds-multiselect-accent      : var(--buttons-success-border-color);
+  --psds-multiselect-border      : var(--buttons-success-accent);
+  --psds-multiselect-border-hover: var(--buttons-success-accent);
+  --psds-multiselect-accent      : var(--buttons-success-accent);
   --psds-multiselect-icon-color  : var(--icon-color-pressed);
 }
 
 .psds-multiselect--warning {
-  --psds-multiselect-border      : var(--buttons-warning-border-color);
-  --psds-multiselect-border-hover: var(--buttons-warning-border-color);
-  --psds-multiselect-accent      : var(--buttons-warning-border-color);
+  --psds-multiselect-border      : var(--buttons-warning-accent);
+  --psds-multiselect-border-hover: var(--buttons-warning-accent);
+  --psds-multiselect-accent      : var(--buttons-warning-accent);
   --psds-multiselect-icon-color  : var(--icon-color-pressed);
 }
 
 .psds-multiselect--danger {
-  --psds-multiselect-border      : var(--buttons-danger-border-color);
-  --psds-multiselect-border-hover: var(--buttons-danger-border-color);
-  --psds-multiselect-accent      : var(--buttons-danger-border-color);
+  --psds-multiselect-border      : var(--buttons-danger-accent);
+  --psds-multiselect-border-hover: var(--buttons-danger-accent);
+  --psds-multiselect-accent      : var(--buttons-danger-accent);
   --psds-multiselect-icon-color  : var(--icon-color-pressed);
 }
 

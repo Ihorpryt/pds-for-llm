@@ -176,7 +176,9 @@ or a nearby control if none are left). Otherwise keyboard focus is lost.
 | `--psds-chip-bg[-state]` | `--buttons-<type>-bg-color[-state]` |
 | `--psds-chip-border[-state]` | `--buttons-<type>-border-color[-state]` |
 | `--psds-chip-fg[-state]` | `--buttons-<type>-text[-state]` (Secondary: `-text-color[-state]`) |
-| `--psds-chip-accent[-disabled]` | `--buttons-<type>-bg-color[-disabled]` (Secondary: `-text-color[-disabled]`) |
+| `--psds-chip-accent` | `--buttons-<type>-accent` |
+| `--psds-chip-accent-disabled` | `--buttons-<type>-bg-color-disabled` (Secondary: `-text-color-disabled`) |
+| `--psds-chip-outline` | `--buttons-<type>-accent` (Secondary: `-border-color`) |
 
 State suffixes are `-hover`, `-pressed`, `-focus` and `-disabled`. The size channel
 (`--psds-chip-height`, `-radius`, `-padding`, `-gap`, `-icon`, `-font-size`,

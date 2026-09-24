@@ -98,9 +98,9 @@ The Figma *Active* state maps to the `-pressed` token suffix.
 **Unchecked has no hover or active treatment.** The Figma Hover and Active variants for
 Unchecked are pixel-identical to Default, so those channels point at the same tokens rather
 than inventing a difference; `--border-hover` and `--border-pressed` exist in `tokens.css`
-if a future revision wants one. In the light theme the same is true of Checked on hover,
-because `--buttons-primary-bg-color-hover` and `--buttons-primary-bg-color` both resolve to
-`--light-blue-600`; the dark theme does separate them.
+if a future revision wants one. Checked darkens on hover in both themes:
+`--buttons-primary-bg-color-hover` resolves to `--light-blue-700`, darker than the
+rest colour (`--light-blue-600` light, `--light-blue-500` dark).
 
 ### Focus ring
 

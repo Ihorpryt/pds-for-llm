@@ -44,7 +44,7 @@
   --psds-textbox-border      : var(--border);
   --psds-textbox-border-hover: var(--border-hover);
   --psds-textbox-border-width: var(--border-1);
-  --psds-textbox-accent      : var(--buttons-primary-border-color);
+  --psds-textbox-accent      : var(--buttons-primary-accent);
   --psds-textbox-fg          : var(--foreground-content-text-color);
   --psds-textbox-placeholder : var(--foreground-placeholder-text-color);
   --psds-textbox-icon-color  : var(--icon-color);
@@ -355,33 +355,33 @@ a.psds-textbox__affix {
 }
 
 .psds-textbox--info {
-  --psds-textbox-border      : var(--buttons-info-border-color);
-  --psds-textbox-border-hover: var(--buttons-info-border-color);
-  --psds-textbox-accent      : var(--buttons-info-border-color);
+  --psds-textbox-border      : var(--buttons-info-accent);
+  --psds-textbox-border-hover: var(--buttons-info-accent);
+  --psds-textbox-accent      : var(--buttons-info-accent);
   --psds-textbox-icon-color  : var(--icon-color-pressed);
   --psds-textbox-note-color  : var(--info);
 }
 
 .psds-textbox--success {
-  --psds-textbox-border      : var(--buttons-success-border-color);
-  --psds-textbox-border-hover: var(--buttons-success-border-color);
-  --psds-textbox-accent      : var(--buttons-success-border-color);
+  --psds-textbox-border      : var(--buttons-success-accent);
+  --psds-textbox-border-hover: var(--buttons-success-accent);
+  --psds-textbox-accent      : var(--buttons-success-accent);
   --psds-textbox-icon-color  : var(--icon-color-pressed);
   --psds-textbox-note-color  : var(--success);
 }
 
 .psds-textbox--warning {
-  --psds-textbox-border      : var(--buttons-warning-border-color);
-  --psds-textbox-border-hover: var(--buttons-warning-border-color);
-  --psds-textbox-accent      : var(--buttons-warning-border-color);
+  --psds-textbox-border      : var(--buttons-warning-accent);
+  --psds-textbox-border-hover: var(--buttons-warning-accent);
+  --psds-textbox-accent      : var(--buttons-warning-accent);
   --psds-textbox-icon-color  : var(--icon-color-pressed);
   --psds-textbox-note-color  : var(--warning);
 }
 
 .psds-textbox--danger {
-  --psds-textbox-border      : var(--buttons-danger-border-color);
-  --psds-textbox-border-hover: var(--buttons-danger-border-color);
-  --psds-textbox-accent      : var(--buttons-danger-border-color);
+  --psds-textbox-border      : var(--buttons-danger-accent);
+  --psds-textbox-border-hover: var(--buttons-danger-accent);
+  --psds-textbox-accent      : var(--buttons-danger-accent);
   --psds-textbox-icon-color  : var(--icon-color-pressed);
   --psds-textbox-note-color  : var(--danger);
 }

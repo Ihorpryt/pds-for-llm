@@ -135,7 +135,9 @@
   --psds-btn-fg-focus    : var(--buttons-primary-text-focus);
   --psds-btn-fg-disabled : var(--buttons-primary-text-disabled);
 
-  --psds-btn-accent          : var(--buttons-primary-bg-color);
+  --psds-btn-accent          : var(--buttons-primary-accent);
+
+  --psds-btn-outline          : var(--buttons-primary-accent);
   --psds-btn-accent-disabled : var(--buttons-primary-bg-color-disabled);
 }
 
@@ -159,7 +161,9 @@
   --psds-btn-fg-focus    : var(--buttons-secondary-text-color-focus);
   --psds-btn-fg-disabled : var(--buttons-secondary-text-color-disabled);
 
-  --psds-btn-accent          : var(--buttons-secondary-text-color);
+  --psds-btn-accent          : var(--buttons-secondary-accent);
+
+  --psds-btn-outline          : var(--buttons-secondary-border-color);
   --psds-btn-accent-disabled : var(--buttons-secondary-text-color-disabled);
 }
 
@@ -182,7 +186,9 @@
   --psds-btn-fg-focus    : var(--buttons-info-text-focus);
   --psds-btn-fg-disabled : var(--buttons-info-text-disabled);
 
-  --psds-btn-accent          : var(--buttons-info-bg-color);
+  --psds-btn-accent          : var(--buttons-info-accent);
+
+  --psds-btn-outline          : var(--buttons-info-accent);
   --psds-btn-accent-disabled : var(--buttons-info-bg-color-disabled);
 }
 
@@ -205,7 +211,9 @@
   --psds-btn-fg-focus    : var(--buttons-success-text-focus);
   --psds-btn-fg-disabled : var(--buttons-success-text-disabled);
 
-  --psds-btn-accent          : var(--buttons-success-bg-color);
+  --psds-btn-accent          : var(--buttons-success-accent);
+
+  --psds-btn-outline          : var(--buttons-success-accent);
   --psds-btn-accent-disabled : var(--buttons-success-bg-color-disabled);
 }
 
@@ -228,7 +236,9 @@
   --psds-btn-fg-focus    : var(--buttons-warning-text-focus);
   --psds-btn-fg-disabled : var(--buttons-warning-text-disabled);
 
-  --psds-btn-accent          : var(--buttons-warning-bg-color);
+  --psds-btn-accent          : var(--buttons-warning-accent);
+
+  --psds-btn-outline          : var(--buttons-warning-accent);
   --psds-btn-accent-disabled : var(--buttons-warning-bg-color-disabled);
 }
 
@@ -251,7 +261,9 @@
   --psds-btn-fg-focus    : var(--buttons-danger-text-focus);
   --psds-btn-fg-disabled : var(--buttons-danger-text-disabled);
 
-  --psds-btn-accent          : var(--buttons-danger-bg-color);
+  --psds-btn-accent          : var(--buttons-danger-accent);
+
+  --psds-btn-outline          : var(--buttons-danger-accent);
   --psds-btn-accent-disabled : var(--buttons-danger-bg-color-disabled);
 }
 
@@ -270,7 +282,7 @@
 
 .psds-btn--outlined {
   background-color: var(--transparent);
-  border-color    : var(--psds-btn-border);
+  border-color    : var(--psds-btn-outline);
   color           : var(--psds-btn-accent);
 }
 
@@ -329,6 +341,14 @@
 .psds-btn--outlined.is-disabled {
   background-color: var(--transparent);
   border-color    : var(--psds-btn-border-disabled);
+  color           : var(--psds-btn-accent-disabled);
+}
+
+/* Flat stays transparent while disabled, so it never turns into a filled box. */
+.psds-btn--flat:disabled,
+.psds-btn--flat.is-disabled {
+  background-color: var(--transparent);
+  border-color    : var(--transparent);
   color           : var(--psds-btn-accent-disabled);
 }
 

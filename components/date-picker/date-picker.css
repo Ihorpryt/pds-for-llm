@@ -84,7 +84,7 @@
   --psds-datepicker-border      : var(--border);
   --psds-datepicker-border-hover: var(--border-hover);
   --psds-datepicker-border-width: var(--border-1);
-  --psds-datepicker-accent      : var(--buttons-primary-border-color);
+  --psds-datepicker-accent      : var(--buttons-primary-accent);
   --psds-datepicker-fg          : var(--foreground-content-text-color);
   --psds-datepicker-placeholder : var(--foreground-placeholder-text-color);
   --psds-datepicker-icon-color  : var(--icon-color);
@@ -672,33 +672,33 @@ button.psds-datepicker__affix {
 }
 
 .psds-datepicker--info {
-  --psds-datepicker-border      : var(--buttons-info-border-color);
-  --psds-datepicker-border-hover: var(--buttons-info-border-color);
-  --psds-datepicker-accent      : var(--buttons-info-border-color);
+  --psds-datepicker-border      : var(--buttons-info-accent);
+  --psds-datepicker-border-hover: var(--buttons-info-accent);
+  --psds-datepicker-accent      : var(--buttons-info-accent);
   --psds-datepicker-icon-color  : var(--icon-color-pressed);
   --psds-datepicker-note-color  : var(--info);
 }
 
 .psds-datepicker--success {
-  --psds-datepicker-border      : var(--buttons-success-border-color);
-  --psds-datepicker-border-hover: var(--buttons-success-border-color);
-  --psds-datepicker-accent      : var(--buttons-success-border-color);
+  --psds-datepicker-border      : var(--buttons-success-accent);
+  --psds-datepicker-border-hover: var(--buttons-success-accent);
+  --psds-datepicker-accent      : var(--buttons-success-accent);
   --psds-datepicker-icon-color  : var(--icon-color-pressed);
   --psds-datepicker-note-color  : var(--success);
 }
 
 .psds-datepicker--warning {
-  --psds-datepicker-border      : var(--buttons-warning-border-color);
-  --psds-datepicker-border-hover: var(--buttons-warning-border-color);
-  --psds-datepicker-accent      : var(--buttons-warning-border-color);
+  --psds-datepicker-border      : var(--buttons-warning-accent);
+  --psds-datepicker-border-hover: var(--buttons-warning-accent);
+  --psds-datepicker-accent      : var(--buttons-warning-accent);
   --psds-datepicker-icon-color  : var(--icon-color-pressed);
   --psds-datepicker-note-color  : var(--warning);
 }
 
 .psds-datepicker--danger {
-  --psds-datepicker-border      : var(--buttons-danger-border-color);
-  --psds-datepicker-border-hover: var(--buttons-danger-border-color);
-  --psds-datepicker-accent      : var(--buttons-danger-border-color);
+  --psds-datepicker-border      : var(--buttons-danger-accent);
+  --psds-datepicker-border-hover: var(--buttons-danger-accent);
+  --psds-datepicker-accent      : var(--buttons-danger-accent);
   --psds-datepicker-icon-color  : var(--icon-color-pressed);
   --psds-datepicker-note-color  : var(--danger);
 }

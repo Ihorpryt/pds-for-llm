@@ -138,7 +138,7 @@
 
 .psds-table__link {
   font-weight    : var(--font-weight-medium);
-  color          : var(--buttons-primary-bg-color);
+  color          : var(--buttons-primary-accent);
   text-decoration: none;
   border-radius  : var(--radius-2);
 }

@@ -69,14 +69,14 @@ the Figma *Full Rounded* variants have exactly the same padding and width as *Ro
 
 ## States
 
-Filled is the base treatment. **Outlined and Flat only differ at rest** — on hover and
+Filled is the base treatment. **Outlined and Flat differ at rest and when disabled** — on hover and
 active every mode collapses onto the filled treatment, as the Figma variants do.
 
 | Mode | Enabled | Hover | Active | Focus | Disabled |
 | --- | --- | --- | --- | --- | --- |
 | Filled | filled | filled `-hover` | filled `-pressed` | filled `-focus` + ring | filled `-disabled` |
 | Outlined | transparent + border | filled `-hover` | filled `-pressed` | transparent + `-focus` border + ring | transparent + `-disabled` border |
-| Flat | transparent, no border | filled `-hover` | filled `-pressed` | filled `-focus` + ring | filled `-disabled` |
+| Flat | transparent, no border | filled `-hover` | filled `-pressed` | filled `-focus` + ring | transparent, no border, `-disabled` accent label |
 
 The Figma *Active* state maps to the `-pressed` token suffix.
 
@@ -109,7 +109,9 @@ The type modifiers consume the **same** `--buttons-*` tokens as
 | `--psds-dropdown-btn-bg[-state]` | `--buttons-{type}-bg-color[-state]` | Filled surface |
 | `--psds-dropdown-btn-border[-state]` | `--buttons-{type}-border-color[-state]` | All modes |
 | `--psds-dropdown-btn-fg[-state]` | `--buttons-{type}-text[-state]` | Label on a filled surface |
-| `--psds-dropdown-btn-accent[-state]` | `--buttons-{type}-bg-color[-state]` | Label on a transparent surface |
+| `--psds-dropdown-btn-accent` | `--buttons-{type}-accent` | Label on a transparent surface (Outlined / Flat) |
+| `--psds-dropdown-btn-accent-disabled` | `--buttons-{type}-bg-color-disabled` | Disabled Outlined / Flat label |
+| `--psds-dropdown-btn-outline` | `--buttons-{type}-accent` (Secondary: `-border-color`) | Outlined border at rest |
 
 State suffixes are `-hover`, `-pressed`, `-focus` and `-disabled`.
 

@@ -56,14 +56,14 @@ is centred inside it. Icons are bound per size rather than scaled from a font si
 
 ## States
 
-Filled is the base treatment. **Outlined and Flat only differ at rest** — on hover and
+Filled is the base treatment. **Outlined and Flat differ at rest and when disabled** — on hover and
 active every mode collapses onto the filled treatment, as the Figma variants do.
 
 | Mode | Enabled | Hover | Active | Focus | Disabled |
 | --- | --- | --- | --- | --- | --- |
 | Filled | filled | filled `-hover` | filled `-pressed` | filled `-focus` + ring | filled `-disabled` |
 | Outlined | transparent + border | filled `-hover` | filled `-pressed` | transparent + `-focus` border + ring | transparent + `-disabled` border |
-| Flat | transparent, no border | filled `-hover` | filled `-pressed` | filled `-focus` + ring | filled `-disabled` |
+| Flat | transparent, no border | filled `-hover` | filled `-pressed` | filled `-focus` + ring | transparent, no border, `-disabled` accent label |
 
 The Figma *Active* state maps to the `-pressed` token suffix.
 
@@ -90,7 +90,9 @@ The type modifiers consume the **same** `--buttons-*` tokens as
 | `--psds-icon-btn-bg[-state]` | `--buttons-{type}-bg-color[-state]` | Filled surface |
 | `--psds-icon-btn-border[-state]` | `--buttons-{type}-border-color[-state]` | All modes |
 | `--psds-icon-btn-fg[-state]` | `--buttons-{type}-text[-state]` | Glyph on a filled surface |
-| `--psds-icon-btn-accent[-state]` | `--buttons-{type}-bg-color[-state]` | Glyph on a transparent surface |
+| `--psds-icon-btn-accent` | `--buttons-{type}-accent` | Glyph on a transparent surface (Outlined / Flat) |
+| `--psds-icon-btn-accent-disabled` | `--buttons-{type}-bg-color-disabled` | Disabled Outlined / Flat glyph |
+| `--psds-icon-btn-outline` | `--buttons-{type}-accent` (Secondary: `-border-color`) | Outlined border at rest |
 
 State suffixes are `-hover`, `-pressed`, `-focus` and `-disabled`.
 
@@ -107,7 +109,7 @@ Two deliberate exceptions, both taken from the Figma bindings:
 The glyph goes in `.psds-icon-btn__icon`, which is sized from
 `--psds-icon-btn-icon-size`. Use `currentColor` in the icon so it follows the colour
 channel through every state — that is how the Figma variants recolour the glyph between
-Filled (`-text`) and Outlined/Flat (`-bg-color`).
+Filled (`-text`) and Outlined/Flat (`-accent`).
 
 ```html
 <button class="psds-icon-btn psds-icon-btn--sm psds-icon-btn--secondary psds-icon-btn--circle"

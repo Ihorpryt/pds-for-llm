@@ -73,7 +73,7 @@ The source node does not use one radius per shape — it varies by type and cont
 | Rounded, Ascent / Subtle | `--radius-8` | `--radius-4` |
 | Rounded, Outline | `--radius-4` | `--radius-4` |
 | Rounded, `--dot` | `--radius-4` | `--radius-4` |
-| `--pill` | `--radius-24` (20px) | `--radius-24` |
+| `--pill` | `--radius-20` (20px) | `--radius-20` |
 
 This is reproduced faithfully. Everything routes through the single
 `--psds-badge-radius` custom property, so a consumer who wants one radius everywhere can

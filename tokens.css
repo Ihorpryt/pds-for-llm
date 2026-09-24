@@ -24,7 +24,7 @@
   --light-blue-400           : #38bdf8;
   --light-blue-50            : #f0f9ff;
   --light-blue-500           : #5c98d5;
-  --light-blue-600           : #407cb9;
+  --light-blue-600           : #3a75b0;
   --light-blue-700           : #0369a1;
   --light-blue-800           : #075985;
   --light-blue-900           : #0c4a6e;
@@ -67,7 +67,7 @@
   --orange-600               : #ea580c;
   --orange-700               : #c2410c;
   --orange-800               : #9a3412;
-  --orange-900               : #5a451a;
+  --orange-900               : #7c2d12;
   --red-100                  : #fee2e2;
   --red-200                  : #fecaca;
   --red-300                  : #fca5a5;
@@ -204,8 +204,8 @@
   --buttons-primary-bg-color               : var(--primary);
   --buttons-primary-bg-color-disabled      : var(--light-blue-300);
   --buttons-primary-bg-color-focus         : var(--buttons-primary-bg-color-hover);
-  --buttons-primary-bg-color-hover         : var(--light-blue-600);
-  --buttons-primary-bg-color-pressed       : var(--light-blue-700);
+  --buttons-primary-bg-color-hover         : var(--light-blue-700);
+  --buttons-primary-bg-color-pressed       : var(--light-blue-800);
   --buttons-primary-border-color           : var(--primary);
   --buttons-primary-border-color-disabled  : var(--buttons-primary-bg-color-disabled);
   --buttons-primary-border-color-focus     : var(--buttons-primary-border-color-hover);
@@ -246,7 +246,7 @@
   --buttons-success-text-focus             : var(--buttons-success-text);
   --buttons-success-text-hover             : var(--buttons-success-text);
   --buttons-success-text-pressed           : var(--buttons-success-text);
-  --buttons-warning-bg-color               : var(--warning);
+  --buttons-warning-bg-color               : var(--orange-700);
   --buttons-warning-bg-color-disabled      : var(--orange-300);
   --buttons-warning-bg-color-focus         : var(--buttons-warning-bg-color-hover);
   --buttons-warning-bg-color-hover         : var(--orange-800);
@@ -261,6 +261,15 @@
   --buttons-warning-text-focus             : var(--buttons-warning-text);
   --buttons-warning-text-hover             : var(--buttons-warning-text);
   --buttons-warning-text-pressed           : var(--buttons-warning-text);
+
+  /* Button accents: the type colour painted straight onto a surface —
+     outlined/flat labels, validation borders and helper text, link text */
+  --buttons-danger-accent                  : var(--buttons-danger-bg-color);
+  --buttons-info-accent                    : var(--buttons-info-bg-color);
+  --buttons-primary-accent                 : var(--buttons-primary-bg-color);
+  --buttons-secondary-accent               : var(--buttons-secondary-text-color);
+  --buttons-success-accent                 : var(--buttons-success-bg-color);
+  --buttons-warning-accent                 : var(--buttons-warning-bg-color);
 
   /* Messages */
   --message-danger-close-icon-color-alt2 : var(--cool-gray-white);
@@ -483,9 +492,10 @@
   --radius-12                                  : 12px;
   --radius-16                                  : 16px;
   --radius-2                                   : 2px;
-  --radius-20                                  : 18px;
-  --radius-24                                  : 20px;
-  --radius-28                                  : 24px;
+  --radius-18                                  : 18px;
+  --radius-20                                  : 20px;
+  --radius-24                                  : 24px;
+  --radius-28                                  : 28px;
   --radius-32                                  : 32px;
   --radius-36                                  : 36px;
   --radius-4                                   : 4px;
@@ -613,11 +623,13 @@
   --buttons-danger-bg-color-pressed        : var(--red-600);
   --buttons-danger-text                    : var(--primary-text-color);
   --buttons-danger-text-pressed            : var(--cool-gray-white);
-  --buttons-info-bg-color                  : var(--light-blue-500);
-  --buttons-info-bg-color-disabled         : var(--light-blue-800);
-  --buttons-info-bg-color-hover            : var(--light-blue-600);
-  --buttons-info-bg-color-pressed          : var(--light-blue-400);
-  --buttons-info-text                      : var(--cool-gray-black);
+  --buttons-info-bg-color                  : var(--cyan-700);
+  --buttons-info-bg-color-disabled         : var(--cyan-900);
+  --buttons-info-bg-color-hover            : var(--cyan-800);
+  --buttons-info-bg-color-pressed          : var(--cyan-900);
+  --buttons-info-text                      : var(--primary-text-color);
+  --buttons-primary-bg-color               : var(--light-blue-600);
+  --buttons-primary-border-color           : var(--buttons-primary-bg-color);
   --buttons-primary-bg-color-disabled      : var(--light-blue-900);
   --buttons-primary-border-color-focus     : var(--buttons-primary-bg-color-focus);
   --buttons-primary-text                   : var(--primary-text-color);
@@ -633,19 +645,26 @@
   --buttons-secondary-text-color-focus     : var(--buttons-secondary-text-color-hover);
   --buttons-secondary-text-color-hover     : var(--cool-gray-white);
   --buttons-secondary-text-color-pressed   : var(--cool-gray-white);
-  --buttons-success-bg-color               : var(--green-500);
-  --buttons-success-bg-color-disabled      : var(--green-700);
-  --buttons-success-bg-color-hover         : var(--green-600);
-  --buttons-success-bg-color-pressed       : var(--green-400);
+  --buttons-success-bg-color               : var(--green-700);
+  --buttons-success-bg-color-disabled      : var(--green-900);
+  --buttons-success-bg-color-hover         : var(--green-800);
+  --buttons-success-bg-color-pressed       : var(--green-900);
   --buttons-success-border-color           : var(--buttons-success-bg-color);
   --buttons-success-text                   : var(--primary-text-color);
-  --buttons-warning-bg-color               : var(--orange-600);
-  --buttons-warning-bg-color-disabled      : var(--orange-800);
-  --buttons-warning-bg-color-hover         : var(--orange-700);
-  --buttons-warning-bg-color-pressed       : var(--buttons-warning-bg-color-hover);
+  --buttons-warning-bg-color               : var(--orange-700);
+  --buttons-warning-bg-color-disabled      : var(--orange-900);
+  --buttons-warning-bg-color-hover         : var(--orange-800);
+  --buttons-warning-bg-color-pressed       : var(--orange-900);
   --buttons-warning-text                   : var(--primary-text-color);
   --buttons-warning-text-hover             : var(--cool-gray-white);
 
+  /* Button accents: lighter than the fills so they read on dark surfaces */
+  --buttons-danger-accent : var(--danger);
+  --buttons-info-accent   : var(--info);
+  --buttons-primary-accent: var(--primary);
+  --buttons-success-accent: var(--success);
+  --buttons-warning-accent: var(--warning);
+  
   /* Messages */
   --message-danger-close-icon-color-alt2 : var(--cool-gray-800);
   --message-danger-bg-color              : var(--red-900);
@@ -802,11 +821,13 @@
     --buttons-danger-bg-color-pressed        : var(--red-600);
     --buttons-danger-text                    : var(--primary-text-color);
     --buttons-danger-text-pressed            : var(--cool-gray-white);
-    --buttons-info-bg-color                  : var(--light-blue-500);
-    --buttons-info-bg-color-disabled         : var(--light-blue-800);
-    --buttons-info-bg-color-hover            : var(--light-blue-600);
-    --buttons-info-bg-color-pressed          : var(--light-blue-400);
-    --buttons-info-text                      : var(--cool-gray-black);
+    --buttons-info-bg-color                  : var(--cyan-700);
+    --buttons-info-bg-color-disabled         : var(--cyan-900);
+    --buttons-info-bg-color-hover            : var(--cyan-800);
+    --buttons-info-bg-color-pressed          : var(--cyan-900);
+    --buttons-info-text                      : var(--primary-text-color);
+    --buttons-primary-bg-color               : var(--light-blue-600);
+    --buttons-primary-border-color           : var(--buttons-primary-bg-color);
     --buttons-primary-bg-color-disabled      : var(--light-blue-900);
     --buttons-primary-border-color-focus     : var(--buttons-primary-bg-color-focus);
     --buttons-primary-text                   : var(--primary-text-color);
@@ -822,19 +843,26 @@
     --buttons-secondary-text-color-focus     : var(--buttons-secondary-text-color-hover);
     --buttons-secondary-text-color-hover     : var(--cool-gray-white);
     --buttons-secondary-text-color-pressed   : var(--cool-gray-white);
-    --buttons-success-bg-color               : var(--green-500);
-    --buttons-success-bg-color-disabled      : var(--green-700);
-    --buttons-success-bg-color-hover         : var(--green-600);
-    --buttons-success-bg-color-pressed       : var(--green-400);
+    --buttons-success-bg-color               : var(--green-700);
+    --buttons-success-bg-color-disabled      : var(--green-900);
+    --buttons-success-bg-color-hover         : var(--green-800);
+    --buttons-success-bg-color-pressed       : var(--green-900);
     --buttons-success-border-color           : var(--buttons-success-bg-color);
     --buttons-success-text                   : var(--primary-text-color);
-    --buttons-warning-bg-color               : var(--orange-600);
-    --buttons-warning-bg-color-disabled      : var(--orange-800);
-    --buttons-warning-bg-color-hover         : var(--orange-700);
-    --buttons-warning-bg-color-pressed       : var(--buttons-warning-bg-color-hover);
+    --buttons-warning-bg-color               : var(--orange-700);
+    --buttons-warning-bg-color-disabled      : var(--orange-900);
+    --buttons-warning-bg-color-hover         : var(--orange-800);
+    --buttons-warning-bg-color-pressed       : var(--orange-900);
     --buttons-warning-text                   : var(--primary-text-color);
     --buttons-warning-text-hover             : var(--cool-gray-white);
 
+    /* Button accents: lighter than the fills so they read on dark surfaces */
+    --buttons-danger-accent : var(--danger);
+    --buttons-info-accent   : var(--info);
+    --buttons-primary-accent: var(--primary);
+    --buttons-success-accent: var(--success);
+    --buttons-warning-accent: var(--warning);
+    
     /* Messages */
     --message-danger-close-icon-color-alt2 : var(--cool-gray-800);
     --message-danger-bg-color              : var(--red-900);

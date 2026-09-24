@@ -24,7 +24,7 @@
   --psds-link-btn-icon-pad   : var(--spacing-3);
 
   /* --- Colour channel --- */
-  --psds-link-btn-fg          : var(--buttons-primary-bg-color);
+  --psds-link-btn-fg          : var(--buttons-primary-accent);
   --psds-link-btn-fg-hover    : var(--buttons-primary-bg-color-hover);
   --psds-link-btn-fg-pressed  : var(--buttons-primary-bg-color-pressed);
   --psds-link-btn-fg-focus    : var(--buttons-primary-bg-color-hover);

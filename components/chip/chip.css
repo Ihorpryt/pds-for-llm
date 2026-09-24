@@ -148,7 +148,9 @@
   --psds-chip-fg-focus      : var(--buttons-primary-text-focus);
   --psds-chip-fg-disabled   : var(--buttons-primary-text-disabled);
 
-  --psds-chip-accent        : var(--buttons-primary-bg-color);
+  --psds-chip-accent        : var(--buttons-primary-accent);
+
+  --psds-chip-outline        : var(--buttons-primary-accent);
   --psds-chip-accent-disabled: var(--buttons-primary-bg-color-disabled);
 }
 
@@ -171,7 +173,9 @@
   --psds-chip-fg-focus      : var(--buttons-secondary-text-color-focus);
   --psds-chip-fg-disabled   : var(--buttons-secondary-text-color-disabled);
 
-  --psds-chip-accent        : var(--buttons-secondary-text-color);
+  --psds-chip-accent        : var(--buttons-secondary-accent);
+
+  --psds-chip-outline        : var(--buttons-secondary-border-color);
   --psds-chip-accent-disabled: var(--buttons-secondary-text-color-disabled);
 }
 
@@ -194,7 +198,9 @@
   --psds-chip-fg-focus      : var(--buttons-info-text-focus);
   --psds-chip-fg-disabled   : var(--buttons-info-text-disabled);
 
-  --psds-chip-accent        : var(--buttons-info-bg-color);
+  --psds-chip-accent        : var(--buttons-info-accent);
+
+  --psds-chip-outline        : var(--buttons-info-accent);
   --psds-chip-accent-disabled: var(--buttons-info-bg-color-disabled);
 }
 
@@ -217,7 +223,9 @@
   --psds-chip-fg-focus      : var(--buttons-success-text-focus);
   --psds-chip-fg-disabled   : var(--buttons-success-text-disabled);
 
-  --psds-chip-accent        : var(--buttons-success-bg-color);
+  --psds-chip-accent        : var(--buttons-success-accent);
+
+  --psds-chip-outline        : var(--buttons-success-accent);
   --psds-chip-accent-disabled: var(--buttons-success-bg-color-disabled);
 }
 
@@ -240,7 +248,9 @@
   --psds-chip-fg-focus      : var(--buttons-warning-text-focus);
   --psds-chip-fg-disabled   : var(--buttons-warning-text-disabled);
 
-  --psds-chip-accent        : var(--buttons-warning-bg-color);
+  --psds-chip-accent        : var(--buttons-warning-accent);
+
+  --psds-chip-outline        : var(--buttons-warning-accent);
   --psds-chip-accent-disabled: var(--buttons-warning-bg-color-disabled);
 }
 
@@ -263,15 +273,18 @@
   --psds-chip-fg-focus      : var(--buttons-danger-text-focus);
   --psds-chip-fg-disabled   : var(--buttons-danger-text-disabled);
 
-  --psds-chip-accent        : var(--buttons-danger-bg-color);
+  --psds-chip-accent        : var(--buttons-danger-accent);
+
+  --psds-chip-outline        : var(--buttons-danger-accent);
   --psds-chip-accent-disabled: var(--buttons-danger-bg-color-disabled);
 }
 
 /* --------------------------------------------------------- Mode — enabled */
 
 .psds-chip--outlined {
-  background: var(--transparent);
-  color     : var(--psds-chip-accent);
+  background  : var(--transparent);
+  border-color: var(--psds-chip-outline);
+  color       : var(--psds-chip-accent);
 }
 
 .psds-chip--flat {
