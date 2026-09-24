@@ -112,6 +112,7 @@ it with the `hidden` attribute.
 | Group header | min-height `--spacing-30` (`--xs` / `--sm`) or `--form-mouse` (`--md` / `--lg`), `--spacing-12` inline padding, `--foreground-content-text-color-alt2`, medium weight, hairline underneath |
 | Option | min-height `--form-mouse` at every size, `--spacing-4` / `--spacing-12` padding, `--foreground-content-text-color` |
 | Option hover | `--background-content-bg-color-hover` + `-hover` text |
+| Option keyboard focus | Hover fill + 2px inset `--primary` ring, via `:focus-visible` or `.is-focus`; a focused selected option keeps its pressed fill |
 | Option selected | `--background-content-bg-color-pressed` + `-pressed` text, via `[aria-selected="true"]` or `.is-selected` |
 
 Option typography follows the control's font size; the group header follows the helper

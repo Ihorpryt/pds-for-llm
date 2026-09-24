@@ -6,9 +6,12 @@
  *
  * Class API
  *   .sm | .md | .lg | .xl        Width (unprefixed; see the note below)
- *   .psds-modal__header          Header zone — sits on the shell fill
- *   .psds-modal__body            Content zone — the only zone that scrolls
- *   .psds-modal__footer          Footer zone — actions
+ *   .psds-modal__header          Header zone — title left, close button right
+ *   .psds-modal__title           Dialog title (an <h2> in the header is styled the same)
+ *   .psds-modal__close           Plain 20px close button in the header
+ *   .psds-modal__body            Content zone — stacked fields, the only zone that scrolls
+ *   .psds-modal__row             Two independent fields side by side, sharing the width
+ *   .psds-modal__footer          Footer zone — actions aligned right
  *   .psds-modal__divider         Inset rule between sections inside the body
  *
  * Surfaces
@@ -29,8 +32,9 @@
  * separation.
  *
  * This file paints the surfaces, the edges that define them, the corner radius
- * and the elevation. Zone padding, typography and control sizing are not
- * implemented here; follow the layout guidance in modal.md.
+ * and the elevation, and lays out the zones: padding, the title, the close
+ * button, stacked fields and two-column rows. Control sizing (--sm) and section
+ * content follow the guidance in modal.md.
  */
 
 /* ------------------------------------------------------------------ Widths */
@@ -82,26 +86,90 @@ dialog::backdrop {
 
 /* ------------------------------------------------------------------- Zones */
 
-/* modal.md gives the header and footer fixed heights (56px / 62px) on top of
- * 16px and 8px padding. Those only add up on a border-box, so the zones set it
- * here rather than leaving each consumer to discover a 78px footer. */
+/* The header and footer heights (56px / 64px) come from padding, which only adds
+ * up on a border-box, so the zones set it here. */
 .psds-modal__header,
 .psds-modal__body,
 .psds-modal__footer {
   box-sizing: border-box;
 }
 
+/* Header: 16 + 24 title line + 15 + 1px divider = 56px. The trailing 15px puts the
+ * divider back on the grid (layout.md, border compensation). */
 .psds-modal__header {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--spacing-16);
+  padding        : var(--spacing-16) var(--spacing-16) var(--spacing-15);
+
   /* No fill: the shell shows through. The border is the boundary. */
   border-block-end: var(--border-1) solid var(--border);
 }
 
+/* One line of Base / Semibold at every modal width. :where() keeps a bare heading
+ * as easy to override as the class. */
+.psds-modal__title,
+:where(.psds-modal__header) > :is(h1, h2, h3) {
+  margin     : var(--spacing-0);
+  font-size  : var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-semibold);
+  color      : var(--foreground-content-text-color);
+}
+
+/* A plain 20px glyph, not an icon button: no fill or border at rest. It is still a
+ * real <button aria-label="Close"> so it takes focus. */
+.psds-modal__close {
+  display        : inline-flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  padding        : var(--spacing-0);
+  border         : none;
+  border-radius  : var(--radius-4);
+  background     : none;
+  color          : var(--icon-color);
+  font-size      : var(--font-icon-20);
+  line-height    : 1;
+  cursor         : pointer;
+}
+
+.psds-modal__close:hover {
+  color: var(--icon-color-hover);
+}
+
+.psds-modal__close:focus-visible {
+  outline   : var(--border-2) solid var(--transparent);
+  box-shadow: 0 0 0 var(--border-2) var(--primary);
+}
+
+/* Content: 16px on every side at every width; 12px between stacked fields. */
 .psds-modal__body {
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-12);
+  padding       : var(--spacing-16);
+
   background: var(--background-content-bg-color);
   overflow-y: auto;
 }
 
+/* Two independent fields (Start date / Due date) share the width equally. */
+.psds-modal__row {
+  display              : grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap                  : var(--spacing-16);
+}
+
+/* Footer: 16 + 32 --sm button + 16 = 64px. Cancel first, the confirming action last. */
 .psds-modal__footer {
+  display        : flex;
+  align-items    : center;
+  justify-content: flex-end;
+  gap            : var(--spacing-8);
+  padding        : var(--spacing-16);
+
   background: var(--background-content-bg-color-alt1);
 }
 

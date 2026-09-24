@@ -19,11 +19,33 @@ are taken from it.
 <link rel="stylesheet" href="patterns/modal/modal.css">
 
 <dialog class="md" aria-labelledby="modal-title">
-  <div class="psds-modal__header"><h2 id="modal-title">Title</h2>…</div>
-  <div class="psds-modal__body">…</div>
-  <div class="psds-modal__footer">…</div>
+  <div class="psds-modal__header">
+    <h2 class="psds-modal__title" id="modal-title">Title</h2>
+    <button class="psds-modal__close" type="button" aria-label="Close">
+      <span class="psds-icon" aria-hidden="true">&#xf00d;</span>
+    </button>
+  </div>
+  <div class="psds-modal__body">
+    <div class="psds-modal__row">…two fields side by side…</div>
+    …stacked fields…
+  </div>
+  <div class="psds-modal__footer">…Cancel, then the confirming action…</div>
 </dialog>
 ```
+
+`modal.css` lays out the zones, so the header, content and footer need no page styles:
+
+| Class | Does |
+| --- | --- |
+| `.psds-modal__header` | Title left, close button right; 16px padding, 15px below, full-width divider |
+| `.psds-modal__title` | Base / Semibold title. An `<h1>`–`<h3>` directly in the header gets the same style |
+| `.psds-modal__close` | Plain 20px close glyph, a real focusable button |
+| `.psds-modal__body` | 16px padding, fields stacked 12px apart, scrolls when tall |
+| `.psds-modal__row` | Two independent fields sharing the width, 16px apart |
+| `.psds-modal__footer` | 16px padding, actions right-aligned 8px apart |
+
+In a prototype that loads `psds.js`, put `data-psds-close` on the close and Cancel buttons
+and `data-psds-open="dialog-id"` on the button that opens the dialog.
 
 ## Widths
 
@@ -144,7 +166,7 @@ Group related content into sections rather than one long list of fields.
 | Label | X-Small / Medium, 12px / 16px | `--font-size-xs`, `--line-height-xs`, `--font-weight-medium` |
 | Label → control | 4px | `--spacing-4` |
 | Labelled field height | 52px (16 label + 4 gap + 32 `--sm` control) | — |
-| Two-column row | 16px between the columns, which share the width equally | `--spacing-16` |
+| Two-column row | 16px between the columns, which share the width equally (`.psds-modal__row`) | `--spacing-16` |
 | Compound row | 8px between controls in one row | `--spacing-8` |
 | Rows | 12px vertical gap | `--spacing-12` |
 
@@ -191,8 +213,8 @@ Lists of linked records or attached files use item cards.
   `--secondary`. Use `--danger` for the confirming action of a destructive dialog.
 - **Action icons:** every footer action carries a leading icon. See
   [footer action icons](#footer-action-icons).
-- **Close:** a plain 20px close icon in the header, per the [structure](#structure). It
-  still needs to be a focusable `<button>` with `aria-label="Close"`.
+- **Close:** a plain 20px close icon in the header, per the [structure](#structure):
+  `<button class="psds-modal__close" aria-label="Close">`.
 - **Fields:** use [`text-box`](../../components/text-box/text-box.md),
   [`text-area`](../../components/text-area/text-area.md),
   [`dropdown-list`](../../components/dropdown-list/dropdown-list.md),

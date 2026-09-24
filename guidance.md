@@ -120,7 +120,8 @@ Helpers:
 
 - `PSDS.setFieldState(fieldRoot, 'danger', 'Enter a route.')` shows a validation message on
   a text box, text area, dropdown, date picker or multiselect; `PSDS.setFieldState(fieldRoot, null)`
-  clears it. The form decides the rules; this only draws the result.
+  clears it. A helper hint already in the field's markup is shown again when the error
+  clears. The form decides the rules; this only draws the result.
 - `PSDS.setTheme('light' | 'dark' | null)`.
 
 **Your page script owns:** data, filtering, sorting, saving, and anything `psds.js` does
@@ -162,7 +163,7 @@ Engineers fill these in as they confirm them.
 | Pattern | Use for | Root |
 | --- | --- | --- |
 | [List page](patterns/list-page/list-page.md) | Filter panel beside a results table | `.psds-list-page` |
-| [Modal](patterns/modal/modal.md) | Dialogs and forms over the page | `<dialog class="md">` (`.sm`, `.md`, `.lg`, `.xl`) |
+| [Modal](patterns/modal/modal.md) | Dialogs and forms over the page | `<dialog class="md">` (`.sm`, `.md`, `.lg`, `.xl`) with `.psds-modal__header`, `__title`, `__close`, `__body`, `__row`, `__footer` |
 
 ## Foundations
 
@@ -184,9 +185,5 @@ them whenever the prototype changes.
 
 Work around these in the prototype and mention them in the handoff notes when they matter:
 
-- **Modal layout:** `modal.css` paints the dialog's surfaces only. Zone padding, the title
-  style and field spacing come from [`modal.md`](patterns/modal/modal.md); the starter's
-  page styles implement them, so copy those.
 - **Modal widths** use unprefixed classes (`.sm`, `.md`, `.lg`, `.xl`). Don't use those
   class names for anything else on the page.
-- **Dropdown options** have no keyboard-focus style yet.
