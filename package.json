@@ -17,6 +17,6 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ihorpryt/pds-for-llm.git"
+    "url": "git+https://github.com/Ihorpryt/pds-for-llm.git"
   }
 }
