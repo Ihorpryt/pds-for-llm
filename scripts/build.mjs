@@ -80,7 +80,8 @@ const body = SOURCES.map((rel) => `/* ${rel} */\n` + strip(read(rel))).join('\n'
 const core = minify(body) + UTILITIES;
 const banner = `/*! Portside Design System ${pkg.version} */`;
 
-fs.rmSync(DIST, { recursive: true, force: true });
+// Replace only this script's outputs, so a built skill ZIP survives `npm publish`.
+for (const out of ['psds.css', 'psds.js', 'icons']) fs.rmSync(path.join(DIST, out), { recursive: true, force: true });
 fs.mkdirSync(path.join(DIST, 'icons'), { recursive: true });
 
 // dist/psds.css — for pages that can link stylesheets and fonts normally.
