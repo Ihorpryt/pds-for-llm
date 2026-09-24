@@ -246,11 +246,11 @@
   --buttons-success-text-focus             : var(--buttons-success-text);
   --buttons-success-text-hover             : var(--buttons-success-text);
   --buttons-success-text-pressed           : var(--buttons-success-text);
-  --buttons-warning-bg-color               : var(--orange-700);
+  --buttons-warning-bg-color               : var(--orange-500);
   --buttons-warning-bg-color-disabled      : var(--orange-300);
   --buttons-warning-bg-color-focus         : var(--buttons-warning-bg-color-hover);
-  --buttons-warning-bg-color-hover         : var(--orange-800);
-  --buttons-warning-bg-color-pressed       : var(--orange-900);
+  --buttons-warning-bg-color-hover         : var(--orange-600);
+  --buttons-warning-bg-color-pressed       : var(--orange-700);
   --buttons-warning-border-color           : var(--buttons-warning-bg-color);
   --buttons-warning-border-color-disabled  : var(--buttons-warning-bg-color-disabled);
   --buttons-warning-border-color-focus     : var(--buttons-warning-bg-color-focus);
@@ -653,16 +653,16 @@
   --buttons-success-bg-color-pressed       : var(--green-900);
   --buttons-success-border-color           : var(--buttons-success-bg-color);
   --buttons-success-text                   : var(--primary-text-color);
-  --buttons-warning-bg-color               : var(--orange-700);
+  --buttons-warning-bg-color               : var(--orange-500);
   --buttons-warning-bg-color-disabled      : var(--orange-900);
-  --buttons-warning-bg-color-hover         : var(--orange-800);
-  --buttons-warning-bg-color-pressed       : var(--orange-900);
+  --buttons-warning-bg-color-hover         : var(--orange-600);
+  --buttons-warning-bg-color-pressed       : var(--orange-700);
   --buttons-warning-text                   : var(--primary-text-color);
   --buttons-warning-text-hover             : var(--cool-gray-white);
 
   /* Button accents: lighter than the fills so they read on dark surfaces */
-  --buttons-danger-accent : var(--danger);
-  --buttons-info-accent   : var(--info);
+  --buttons-danger-accent : var(--red-500);
+  --buttons-info-accent   : var(--buttons-info-bg-color);
   --buttons-primary-accent: var(--primary);
   --buttons-primary-accent-hover  : var(--light-blue-300);
   --buttons-primary-accent-pressed: var(--light-blue-200);
@@ -853,16 +853,16 @@
     --buttons-success-bg-color-pressed       : var(--green-900);
     --buttons-success-border-color           : var(--buttons-success-bg-color);
     --buttons-success-text                   : var(--primary-text-color);
-    --buttons-warning-bg-color               : var(--orange-700);
+    --buttons-warning-bg-color               : var(--orange-500);
     --buttons-warning-bg-color-disabled      : var(--orange-900);
-    --buttons-warning-bg-color-hover         : var(--orange-800);
-    --buttons-warning-bg-color-pressed       : var(--orange-900);
+    --buttons-warning-bg-color-hover         : var(--orange-600);
+    --buttons-warning-bg-color-pressed       : var(--orange-700);
     --buttons-warning-text                   : var(--primary-text-color);
     --buttons-warning-text-hover             : var(--cool-gray-white);
 
     /* Button accents: lighter than the fills so they read on dark surfaces */
-    --buttons-danger-accent : var(--danger);
-    --buttons-info-accent   : var(--info);
+    --buttons-danger-accent : var(--red-500);
+    --buttons-info-accent   : var(--buttons-info-bg-color);
     --buttons-primary-accent: var(--primary);
     --buttons-primary-accent-hover  : var(--light-blue-300);
     --buttons-primary-accent-pressed: var(--light-blue-200);
