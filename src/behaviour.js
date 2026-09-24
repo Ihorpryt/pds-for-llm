@@ -477,6 +477,10 @@
      * .psds-dropdown, .psds-datepicker, .psds-multiselect).
      * state: 'info' | 'success' | 'warning' | 'danger' | null (clears it).
      * The form decides the rules; this only draws the result.
+     *
+     * A helper message already in the markup (a hint such as "Used for sign-in") is
+     * borrowed for the message and restored on clear; a message element this function
+     * had to create is removed on clear.
      */
     setFieldState: function (root, state, message) {
       var base = FIELDS.filter(function (b) { return root.classList.contains(b); })[0];
@@ -489,17 +493,39 @@
         else input.removeAttribute('aria-invalid');
       }
       var alert = root.querySelector('.' + base + '__alert');
+
       if (state && message) {
         if (!alert) {
           alert = el('p', base + '__alert');
+          alert.setAttribute('data-psds-created', '');
           root.append(alert);
+        } else if (!alert.hasAttribute('data-psds-created') && !alert.hasAttribute('data-psds-hint')) {
+          alert.setAttribute('data-psds-hint', alert.textContent);
+          if (alert.hidden) alert.setAttribute('data-psds-hint-hidden', '');
         }
         if (!alert.id) alert.id = 'psds-alert-' + (++dpUid);
         alert.textContent = message;
-        if (input) input.setAttribute('aria-describedby', alert.id);
+        alert.hidden = false;
+        if (input && !(input.getAttribute('aria-describedby') || '').split(' ').includes(alert.id)) {
+          input.setAttribute('aria-describedby', ((input.getAttribute('aria-describedby') || '') + ' ' + alert.id).trim());
+          input.setAttribute('data-psds-describedby', alert.id);
+        }
       } else if (alert && !state) {
-        alert.remove();
-        if (input) input.removeAttribute('aria-describedby');
+        if (alert.hasAttribute('data-psds-created')) {
+          alert.remove();
+        } else if (alert.hasAttribute('data-psds-hint')) {
+          alert.textContent = alert.getAttribute('data-psds-hint');
+          alert.hidden = alert.hasAttribute('data-psds-hint-hidden');
+          alert.removeAttribute('data-psds-hint');
+          alert.removeAttribute('data-psds-hint-hidden');
+        }
+        var added = input && input.getAttribute('data-psds-describedby');
+        if (added) {
+          var ids = (input.getAttribute('aria-describedby') || '').split(' ').filter(function (id) { return id && id !== added; });
+          if (ids.length) input.setAttribute('aria-describedby', ids.join(' '));
+          else input.removeAttribute('aria-describedby');
+          input.removeAttribute('data-psds-describedby');
+        }
       }
     },
   };
