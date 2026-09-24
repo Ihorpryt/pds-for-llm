@@ -121,7 +121,6 @@ Figma has no hover or focus states; these are additions. When the root is an `<a
   solid `user` glyph.
 - **Badge size.** At `--xs`, Figma is inconsistent: the code says 20px and the layer says
   18px. 18px is used at every size.
-- The [chip](../chip/chip.md) avatar slot and this component are separate. A chip still
-  takes a plain `<img class="psds-chip__avatar">`.
+- The [chip](../chip/chip.md) has no avatar slot.
 - `avatar.html` shows every size × mode, the shapes, the badge and status, the name block
   and a clickable group, with a dark-theme toggle.
