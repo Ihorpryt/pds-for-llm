@@ -1,7 +1,7 @@
 <!--
 HANDOFF NOTES
 Feature:        Browse flight legs and create a new one
-Design system:  portside-pds 0.1.0-beta.1
+Design system:  portside-pds 0.1.0-beta.2
 Last updated:   2026-09-25
 
 WHAT IT DOES
@@ -30,8 +30,6 @@ COMPONENTS USED
 
 PROPOSED ADDITIONS
 - proto-toast: fixed bottom-right placement for a success alert. The system has no toast placement.
-- proto-modal-close: the plain 20px close button modal.md describes; modal.css doesn't style it.
-- proto-form-row: two equal columns with a 16px gap, per modal.md "Two-column row".
 
 OPEN QUESTIONS
 - None (starter example).
@@ -57,41 +55,6 @@ OPEN QUESTIONS
     -moz-osx-font-smoothing: grayscale;
   }
   .psds-list-page { height: 100vh; }
-
-  /* Modal zones — patterns/modal/modal.md layout guidance (modal.css paints surfaces only). */
-  .psds-modal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-16) var(--spacing-16) var(--spacing-15);
-  }
-  .psds-modal__header h2 {
-    margin: 0;
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-base);
-    font-weight: var(--font-weight-semibold);
-  }
-  .proto-modal-close {
-    display: inline-flex;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: inherit;
-    cursor: pointer;
-  }
-  .psds-modal__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-12);
-    padding: var(--spacing-16);
-  }
-  .psds-modal__footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-8);
-    padding: var(--spacing-16);
-  }
-  .proto-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-16); }
 
   /* Prototype-only elements (proto-): not in the design system; listed in the handoff notes. */
   .proto-toast { position: fixed; right: var(--spacing-16); bottom: var(--spacing-16); width: 360px; }
@@ -179,14 +142,14 @@ OPEN QUESTIONS
 <dialog class="md" id="create-dialog" aria-labelledby="create-title">
   <form id="create-form" method="dialog" novalidate>
     <div class="psds-modal__header">
-      <h2 id="create-title">Create flight leg</h2>
-      <button class="proto-modal-close" type="button" aria-label="Close" data-psds-close>
-        <span class="psds-icon psds-icon--lg" aria-hidden="true">&#xf00d;</span>
+      <h2 class="psds-modal__title" id="create-title">Create flight leg</h2>
+      <button class="psds-modal__close" type="button" aria-label="Close" data-psds-close>
+        <span class="psds-icon" aria-hidden="true">&#xf00d;</span>
       </button>
     </div>
 
     <div class="psds-modal__body">
-      <div class="proto-form-row">
+      <div class="psds-modal__row">
         <div class="psds-textbox psds-textbox--sm" id="route-field">
           <label class="psds-textbox__label" for="route">Route<span class="psds-textbox__required" aria-hidden="true">*</span></label>
           <div class="psds-textbox__control">
@@ -209,7 +172,7 @@ OPEN QUESTIONS
         </div>
       </div>
 
-      <div class="proto-form-row">
+      <div class="psds-modal__row">
         <div class="psds-datepicker psds-datepicker--sm" id="departure-field">
           <label class="psds-datepicker__label" for="departure">Departure date<span class="psds-datepicker__required" aria-hidden="true">*</span></label>
           <div class="psds-datepicker__control">
