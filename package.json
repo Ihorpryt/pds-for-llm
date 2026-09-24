@@ -1,0 +1,12 @@
+{
+  "name": "portside-pds",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Portside Design System — tokens, components and behaviour for prototypes",
+  "files": ["dist"],
+  "main": "dist/psds.js",
+  "style": "dist/psds.css",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

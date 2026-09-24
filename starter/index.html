@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flight Legs — Portside prototype</title>
+<!-- The whole design system: styles, icon fonts, Inter and component behaviour. -->
+<script src="../dist/psds.js"></script>
+<style>
+  /* Page setup — foundations/typography.md: set the font stack once on body. */
+  body {
+    margin: 0;
+    background: var(--background-content-bg-color);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .psds-list-page { height: 100vh; }
+
+  /* Modal zones — patterns/modal/modal.md layout guidance (modal.css paints surfaces only). */
+  .psds-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-16) var(--spacing-16) var(--spacing-15);
+  }
+  .psds-modal__header h2 {
+    margin: 0;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    font-weight: var(--font-weight-semibold);
+  }
+  .psds-modal__close {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .psds-modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+    padding: var(--spacing-16);
+  }
+  .psds-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-8);
+    padding: var(--spacing-16);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-16); }
+
+  /* Prototype-only chrome. */
+  .toast { position: fixed; right: var(--spacing-16); bottom: var(--spacing-16); width: 360px; }
+</style>
+</head>
+<body>
+
+<div class="psds-list-page">
+
+  <aside class="psds-filter-panel" id="filters" aria-label="Filters">
+    <div class="psds-filter-panel__body">
+      <div class="psds-textbox psds-textbox--sm">
+        <label class="sr-only" for="filter-search">Search filters</label>
+        <div class="psds-textbox__control">
+          <input class="psds-textbox__field" id="filter-search" type="search" placeholder="Search filters...">
+          <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--md">&#xf002;</span></span>
+        </div>
+      </div>
+
+      <div class="psds-accordion-group" id="filter-sections"></div>
+    </div>
+
+    <div class="psds-filter-panel__footer">
+      <button class="psds-btn psds-btn--sm psds-btn--primary" type="button">
+        <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf002;</span></span>Search
+      </button>
+      <div class="psds-filter-panel__row">
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button">Save</button>
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button" id="reset" disabled>Reset</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="psds-list-page__main">
+    <div class="psds-table-view">
+      <div class="psds-tabs psds-tabs--sm">
+        <div class="psds-tabs__list" role="tablist" aria-label="Leg status">
+          <button class="psds-tabs__tab" role="tab" aria-selected="true" data-status=""><span class="psds-tabs__label">All</span></button>
+          <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1" data-status="Active"><span class="psds-tabs__label">Active</span></button>
+          <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1" data-status="Arrived"><span class="psds-tabs__label">Arrived</span></button>
+          <button class="psds-tabs__tab" role="tab" aria-selected="false" tabindex="-1" data-status="In Review"><span class="psds-tabs__label">In Review</span></button>
+        </div>
+      </div>
+
+      <div class="psds-table-toolbar">
+        <div class="psds-table-toolbar__group">
+          <button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary psds-icon-btn--flat" type="button"
+                  id="panel-toggle" aria-controls="filters" aria-expanded="true" aria-label="Hide filters">
+            <span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf0db;</span></span>
+          </button>
+        </div>
+        <div class="psds-table-toolbar__group">
+          <span class="psds-table-toolbar__count" id="count" aria-live="polite"></span>
+          <div class="psds-textbox psds-textbox--xs" style="width: 230px">
+            <label class="sr-only" for="table-search">Search flight legs</label>
+            <div class="psds-textbox__control">
+              <input class="psds-textbox__field" id="table-search" type="search" placeholder="Search...">
+              <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--xs">&#xf002;</span></span>
+            </div>
+          </div>
+          <button class="psds-btn psds-btn--xs psds-btn--primary" type="button" data-psds-open="create-dialog">
+            <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon">&#x2b;</span></span>Create
+          </button>
+        </div>
+      </div>
+
+      <div class="psds-table-scroll">
+        <table class="psds-table psds-table--interactive">
+          <caption class="sr-only">Flight legs</caption>
+          <thead>
+            <tr>
+              <th scope="col">Route</th><th scope="col">Aircraft</th><th scope="col">Leg Status</th>
+              <th scope="col">Departure</th><th scope="col">Crew</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<!-- Create dialog: opened by data-psds-open, closed by data-psds-close. -->
+<dialog class="md" id="create-dialog" aria-labelledby="create-title">
+  <form id="create-form" method="dialog" novalidate>
+    <div class="psds-modal__header">
+      <h2 id="create-title">Create flight leg</h2>
+      <button class="psds-modal__close" type="button" aria-label="Close" data-psds-close>
+        <span class="psds-icon psds-icon--lg" aria-hidden="true">&#xf00d;</span>
+      </button>
+    </div>
+
+    <div class="psds-modal__body">
+      <div class="form-row">
+        <div class="psds-textbox psds-textbox--sm" id="route-field">
+          <label class="psds-textbox__label" for="route">Route<span class="psds-textbox__required" aria-hidden="true">*</span></label>
+          <div class="psds-textbox__control">
+            <input class="psds-textbox__field" id="route" type="text" placeholder="e.g. CYUL → CYYZ" required>
+          </div>
+        </div>
+
+        <div class="psds-dropdown psds-dropdown--sm" id="aircraft-field">
+          <span class="psds-dropdown__label">Aircraft</span>
+          <div class="psds-dropdown__control">
+            <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="aircraft-menu">Select aircraft</button>
+            <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+            <div class="psds-dropdown__menu" id="aircraft-menu" role="listbox" hidden>
+              <div class="psds-dropdown__option" role="option">N34T0</div>
+              <div class="psds-dropdown__option" role="option">C-GXPT</div>
+              <div class="psds-dropdown__option" role="option">G-LUXE</div>
+              <div class="psds-dropdown__option" role="option" aria-disabled="true">N900EX (in maintenance)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="psds-datepicker psds-datepicker--sm" id="departure-field">
+          <label class="psds-datepicker__label" for="departure">Departure date<span class="psds-datepicker__required" aria-hidden="true">*</span></label>
+          <div class="psds-datepicker__control">
+            <input class="psds-datepicker__field" id="departure" type="text" placeholder="Choose date" autocomplete="off" required>
+            <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose departure date" aria-haspopup="dialog" aria-expanded="false"></button>
+          </div>
+        </div>
+
+        <div class="psds-datepicker psds-datepicker--sm">
+          <label class="psds-datepicker__label" for="arrival">Arrival date</label>
+          <div class="psds-datepicker__control">
+            <input class="psds-datepicker__field" id="arrival" type="text" placeholder="Choose date" autocomplete="off">
+            <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose arrival date" aria-haspopup="dialog" aria-expanded="false"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="psds-textarea psds-textarea--sm">
+        <label class="psds-textarea__label" for="notes">Notes</label>
+        <div class="psds-textarea__control">
+          <textarea class="psds-textarea__field" id="notes" rows="3" placeholder="Anything the crew should know..."></textarea>
+        </div>
+      </div>
+
+      <label class="psds-toggle psds-toggle--sm">
+        <input class="psds-toggle__input" type="checkbox" id="international">
+        <span class="psds-toggle__text"><span class="psds-toggle__label">International leg</span></span>
+      </label>
+    </div>
+
+    <div class="psds-modal__footer">
+      <button class="psds-btn psds-btn--sm psds-btn--secondary" type="button" data-psds-close>
+        <span class="psds-icon psds-icon--regular" aria-hidden="true">&#xf057;</span>
+        Cancel
+      </button>
+      <button class="psds-btn psds-btn--sm psds-btn--primary" type="submit">
+        <span class="psds-icon psds-icon--regular" aria-hidden="true">&#xf058;</span>
+        Save
+      </button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* Prototype logic: sample data, filtering and the create form.
+     Component behaviour (tabs, dropdown, date picker, dialog) comes from psds.js. */
+
+  const SECTIONS = [
+    ['Leg Details', ['Leg Status', 'Leg Purpose', 'Locked']],
+    ['Route & Airports', ['Departure Airport', 'Arrival Airport', 'International']],
+    ['Aircraft', ['Aircraft', 'Aircraft Category']],
+  ];
+  const STATUS = { Active: 'info', Arrived: 'success', 'In Review': 'warning' };
+  const LEGS = [
+    { route: 'CYUL → CYYZ', aircraft: 'N34T0', status: 'Active', departure: '2025/10/02', crew: 'Emily Carter, Michael Thompson' },
+    { route: 'CYUL → RJAA', aircraft: 'C-GXPT', status: 'Active', departure: '2025/10/03', crew: 'Ava Martinez, Benjamin Garcia' },
+    { route: 'EGGP → CYUL', aircraft: 'G-LUXE', status: 'Arrived', departure: '2025/09/28', crew: 'Mia Rodriguez, Alexander Lee' },
+    { route: 'OMDB → EGGP', aircraft: 'N34T0', status: 'Arrived', departure: '2025/09/27', crew: 'Sophia Williams, Daniel Brown' },
+    { route: 'CYUL → CYYZ', aircraft: 'C-GXPT', status: 'In Review', departure: '2025/10/05', crew: 'Olivia Davis, James Wilson' },
+  ];
+
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  // Filter sections.
+  const sections = document.getElementById('filter-sections');
+  for (const [title, items] of SECTIONS) {
+    const d = document.createElement('details');
+    d.className = 'psds-accordion';
+    d.open = true;
+    d.innerHTML = `<summary class="psds-accordion__header"><span class="psds-accordion__title">${title}</span></summary>
+      <div class="psds-accordion__body">${items.map((i) => `
+        <label class="psds-checkbox psds-checkbox--sm">
+          <input class="psds-checkbox__input" type="checkbox" value="${i}">
+          <span class="psds-checkbox__text"><span class="psds-checkbox__label">${i}</span></span>
+        </label>`).join('')}</div>`;
+    sections.append(d);
+  }
+  const reset = document.getElementById('reset');
+  sections.addEventListener('change', () => { reset.disabled = !sections.querySelector(':checked'); });
+  reset.addEventListener('click', () => {
+    sections.querySelectorAll(':checked').forEach((c) => { c.checked = false; });
+    reset.disabled = true;
+  });
+
+  // Table: search box + status tabs.
+  let query = '';
+  let status = '';
+  const tbody = document.getElementById('rows');
+  const count = document.getElementById('count');
+  function render() {
+    const rows = LEGS.filter((l) => (!status || l.status === status) &&
+      Object.values(l).join(' ').toLowerCase().includes(query.toLowerCase()));
+    tbody.innerHTML = rows.length
+      ? rows.map((l) => `<tr>
+          <td><a class="psds-table__link" href="#">${esc(l.route)}</a></td>
+          <td>${esc(l.aircraft)}</td>
+          <td><span class="psds-badge psds-badge--lg psds-badge--${STATUS[l.status]} psds-badge--pill">${esc(l.status)}</span></td>
+          <td>${esc(l.departure)}</td>
+          <td>${esc(l.crew)}</td>
+        </tr>`).join('')
+      : '<tr><td class="psds-table__empty" colspan="5">No flight legs match your search.</td></tr>';
+    count.textContent = `${rows.length} flight leg${rows.length === 1 ? '' : 's'}`;
+  }
+  document.getElementById('table-search').addEventListener('input', (e) => { query = e.target.value; render(); });
+  document.querySelector('[aria-label="Leg status"]').addEventListener('psds:change', (e) => {
+    status = e.target.dataset.status;
+    render();
+  });
+  render();
+
+  // Filter panel toggle.
+  const panelToggle = document.getElementById('panel-toggle');
+  panelToggle.addEventListener('click', () => {
+    const open = panelToggle.getAttribute('aria-expanded') !== 'true';
+    panelToggle.setAttribute('aria-expanded', String(open));
+    panelToggle.setAttribute('aria-label', open ? 'Hide filters' : 'Show filters');
+    document.getElementById('filters').hidden = !open;
+  });
+
+  // Create form: the form owns its rules; PSDS.setFieldState only draws the result.
+  const form = document.getElementById('create-form');
+  const dialog = document.getElementById('create-dialog');
+  const RULES = [
+    ['route-field', 'route', 'Enter a route.'],
+    ['departure-field', 'departure', 'Choose a departure date.'],
+  ];
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let firstInvalid = null;
+    for (const [fieldId, inputId, message] of RULES) {
+      const input = document.getElementById(inputId);
+      const ok = input.value.trim() !== '';
+      PSDS.setFieldState(document.getElementById(fieldId), ok ? null : 'danger', ok ? '' : message);
+      if (!ok && !firstInvalid) firstInvalid = input;
+    }
+    if (firstInvalid) { firstInvalid.focus(); return; }
+
+    const aircraft = document.querySelector('#aircraft-field .psds-dropdown__field').dataset.value || '—';
+    LEGS.unshift({
+      route: document.getElementById('route').value.trim(),
+      aircraft,
+      status: 'In Review',
+      departure: document.getElementById('departure').value,
+      crew: '—',
+    });
+    render();
+    dialog.close();
+    resetForm();
+    showToast('Flight leg created.');
+  });
+
+  // form.reset() clears native inputs; the dropdown and date pickers also carry a filled state.
+  function resetForm() {
+    form.reset();
+    const aircraftField = document.querySelector('#aircraft-field .psds-dropdown__field');
+    aircraftField.textContent = 'Select aircraft';
+    delete aircraftField.dataset.value;
+    document.getElementById('aircraft-field').classList.remove('psds-dropdown--filled');
+    form.querySelectorAll('.psds-dropdown__option').forEach((o) => { o.classList.remove('is-selected'); o.removeAttribute('aria-selected'); });
+    form.querySelectorAll('.psds-datepicker').forEach((d) => d.classList.remove('psds-datepicker--filled'));
+  }
+  // Clear an error as soon as the field is fixed.
+  form.addEventListener('input', (e) => {
+    const root = e.target.closest('.psds-textbox, .psds-datepicker');
+    if (root && e.target.value.trim()) PSDS.setFieldState(root, null);
+  });
+
+  function showToast(text) {
+    const toast = document.getElementById('toast');
+    toast.innerHTML = `<div class="psds-alert psds-alert--sm psds-alert--success psds-alert--shadow" role="status">
+      <div class="psds-alert__body">
+        <span class="psds-alert__icon" aria-hidden="true"><span class="psds-icon">&#xf058;</span></span>
+        <div class="psds-alert__content"><p class="psds-alert__title">${esc(text)}</p></div>
+        <button class="psds-alert__close" type="button" aria-label="Dismiss"><span class="psds-icon" aria-hidden="true">&#xf00d;</span></button>
+      </div>
+    </div>`;
+  }
+</script>
+</body>
+</html>
