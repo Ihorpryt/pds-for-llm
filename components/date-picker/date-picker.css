@@ -549,7 +549,7 @@ button.psds-datepicker__affix {
 
 .psds-datepicker__prev:focus-visible,
 .psds-datepicker__next:focus-visible {
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
               0 0 0 var(--border-4) var(--primary);
 }
@@ -634,7 +634,7 @@ button.psds-datepicker__affix {
 }
 
 .psds-datepicker__day:focus-visible {
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
               0 0 0 var(--border-4) var(--primary);
 }
@@ -775,5 +775,16 @@ button.psds-datepicker__affix {
   .psds-datepicker__affix,
   .psds-datepicker__day {
     transition: none;
+  }
+}
+
+/* ------------------------------------------------------- Forced colours */
+/* Windows High Contrast repaints borders in one system colour, so the focus
+ * border change disappears. Draw an outline in the system highlight instead. */
+
+@media (forced-colors: active) {
+  .psds-datepicker:focus-within .psds-datepicker__control {
+    outline       : var(--border-2) solid Highlight;
+    outline-offset: var(--border-1);
   }
 }

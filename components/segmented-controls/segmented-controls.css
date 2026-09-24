@@ -176,7 +176,7 @@
 .psds-segmented__item:focus-visible,
 .psds-segmented__item.is-focus {
   z-index   : 1;
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
               0 0 0 var(--border-4) var(--primary);
 }

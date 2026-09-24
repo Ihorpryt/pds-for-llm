@@ -264,7 +264,7 @@
 
 .psds-tabs__tab:focus-visible,
 .psds-tabs__tab.is-focus {
-  outline      : none;
+  outline      : var(--border-2) solid var(--transparent);
   color        : var(--psds-tabs-fg-hover);
   border-radius: var(--radius-4) var(--radius-4) var(--radius-0) var(--radius-0);
   box-shadow   : inset 0 0 0 var(--border-2) var(--primary);
@@ -308,7 +308,7 @@
 }
 
 .psds-tabs__scroll:focus-visible {
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   box-shadow: inset 0 0 0 var(--border-2) var(--primary);
 }
 

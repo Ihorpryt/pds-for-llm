@@ -144,7 +144,7 @@
 }
 
 .psds-table__link:hover {
-  color                : var(--buttons-primary-bg-color-pressed);
+  color                : var(--buttons-primary-accent-hover);
   text-decoration      : underline;
   text-underline-offset: var(--spacing-2);
 }

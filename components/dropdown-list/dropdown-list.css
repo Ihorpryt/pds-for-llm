@@ -480,3 +480,14 @@
     transition: none;
   }
 }
+
+/* ------------------------------------------------------- Forced colours */
+/* Windows High Contrast repaints borders in one system colour, so the focus
+ * border change disappears. Draw an outline in the system highlight instead. */
+
+@media (forced-colors: active) {
+  .psds-dropdown:focus-within .psds-dropdown__control {
+    outline       : var(--border-2) solid Highlight;
+    outline-offset: var(--border-1);
+  }
+}

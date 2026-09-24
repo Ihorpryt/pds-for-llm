@@ -242,7 +242,7 @@
 
 .psds-radio__input:focus-visible,
 .psds-radio.is-focus .psds-radio__input {
-  outline     : none;
+  outline     : var(--border-2) solid var(--transparent);
   border-color: var(--psds-radio-border-focus);
   box-shadow  : 0 0 0 var(--border-2) var(--background-content-bg-color),
                 0 0 0 var(--border-4) var(--primary);

@@ -267,6 +267,8 @@
   --buttons-danger-accent                  : var(--buttons-danger-bg-color);
   --buttons-info-accent                    : var(--buttons-info-bg-color);
   --buttons-primary-accent                 : var(--buttons-primary-bg-color);
+  --buttons-primary-accent-hover           : var(--buttons-primary-bg-color-hover);
+  --buttons-primary-accent-pressed         : var(--buttons-primary-bg-color-pressed);
   --buttons-secondary-accent               : var(--buttons-secondary-text-color);
   --buttons-success-accent                 : var(--buttons-success-bg-color);
   --buttons-warning-accent                 : var(--buttons-warning-bg-color);
@@ -662,6 +664,8 @@
   --buttons-danger-accent : var(--danger);
   --buttons-info-accent   : var(--info);
   --buttons-primary-accent: var(--primary);
+  --buttons-primary-accent-hover  : var(--light-blue-300);
+  --buttons-primary-accent-pressed: var(--light-blue-200);
   --buttons-success-accent: var(--success);
   --buttons-warning-accent: var(--warning);
   
@@ -860,6 +864,8 @@
     --buttons-danger-accent : var(--danger);
     --buttons-info-accent   : var(--info);
     --buttons-primary-accent: var(--primary);
+    --buttons-primary-accent-hover  : var(--light-blue-300);
+    --buttons-primary-accent-pressed: var(--light-blue-200);
     --buttons-success-accent: var(--success);
     --buttons-warning-accent: var(--warning);
     

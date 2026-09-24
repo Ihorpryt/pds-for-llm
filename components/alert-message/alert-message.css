@@ -342,7 +342,7 @@
 /* The source node defines no states; the focus ring is an accessibility
  * addition, reusing Button's $shadow-focus-ring2 treatment. */
 .psds-alert__close:focus-visible {
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
               0 0 0 var(--border-4) var(--primary);
 }

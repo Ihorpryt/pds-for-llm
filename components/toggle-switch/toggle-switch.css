@@ -378,7 +378,7 @@
 .psds-toggle:active .psds-toggle__input:not(:disabled),
 .psds-toggle.is-focus .psds-toggle__input,
 .psds-toggle.is-active .psds-toggle__input {
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
               0 0 0 var(--border-4) var(--primary);
 }

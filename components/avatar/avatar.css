@@ -303,7 +303,7 @@
 }
 
 :is(a, button).psds-avatar:focus-visible {
-  outline: none;
+  outline: var(--border-2) solid var(--transparent);
 }
 
 :is(a, button).psds-avatar:focus-visible .psds-avatar__figure {

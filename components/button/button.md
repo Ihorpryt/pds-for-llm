@@ -68,6 +68,12 @@ box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
 It is declared last so the ring survives a simultaneous hover, and it is bound to
 `:focus-visible`, so pointer clicks do not raise it.
 
+Forced-colours modes (Windows High Contrast) drop `box-shadow`, so the rule also sets
+`outline: var(--border-2) solid var(--transparent)`. It is invisible normally and repainted
+in the system highlight colour when colours are forced. Every component's focus rule does
+the same; text fields, whose focus is a border change, add a `forced-colors` outline on the
+control instead.
+
 ## Token map
 
 Each type modifier maps the shared button tokens onto four channels, which the mode rules

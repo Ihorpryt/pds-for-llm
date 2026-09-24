@@ -94,7 +94,7 @@
 
 .psds-accordion__header:focus-visible,
 .psds-accordion.is-focus > .psds-accordion__header {
-  outline   : none;
+  outline   : var(--border-2) solid var(--transparent);
   color     : var(--foreground-content-text-color);
   box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
               0 0 0 var(--border-4) var(--primary);

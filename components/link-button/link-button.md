@@ -54,9 +54,9 @@ it matches [`Button`](../button/button.md). Always state the size explicitly.
 | State | Label | Rule | Surface |
 | --- | --- | --- | --- |
 | Enabled | `--buttons-primary-bg-color` | none | transparent |
-| Hover | `--buttons-primary-bg-color-hover` | `--buttons-primary-border-color-hover` | transparent |
-| Active | `--buttons-primary-bg-color-pressed` | `--buttons-primary-border-color-pressed` | transparent |
-| Focus | `--buttons-primary-bg-color-hover` | `--buttons-primary-border-color-hover` | `--background-content-bg-color` |
+| Hover | `--buttons-primary-accent-hover` | `--buttons-primary-accent-hover` | transparent |
+| Active | `--buttons-primary-accent-pressed` | `--buttons-primary-accent-pressed` | transparent |
+| Focus | `--buttons-primary-accent-hover` | `--buttons-primary-accent-hover` | `--background-content-bg-color` |
 | Disabled | `--background-content-bg-color-alt5` | none | transparent |
 
 The Figma *Active* state maps to the `-pressed` token suffix. Focus reuses the hover
@@ -72,7 +72,7 @@ the element's `border-bottom`:
 ```css
 border      : var(--border-1) solid var(--transparent);
 /* …and on hover / active / focus: */
-border-bottom-color: var(--buttons-primary-border-color-hover);
+border-bottom-color: var(--buttons-primary-accent-hover);
 ```
 
 The border is declared on all four sides at every state so the box never reflows when the
