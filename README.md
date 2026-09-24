@@ -29,6 +29,25 @@ Writes `dist/`:
 Sources: [`scripts/build.mjs`](scripts/build.mjs) bundles the CSS in load order;
 [`src/behaviour.js`](src/behaviour.js) holds the shared behaviour.
 
+## Claude skill
+
+```bash
+npm run build:skill
+```
+
+Writes `dist/portside-prototypes.zip`, the "Portside Prototypes" skill for Claude. It is
+generated from [`skill/SKILL.md`](skill/SKILL.md) (the workflow), [`guidance.md`](guidance.md)
+(the rules), the handoff template, the starter, every component and pattern doc and example,
+and a list of every class the system styles. It points at the published `psds.js` for the
+version in `package.json`.
+
+## Releasing
+
+1. Bump `version` in `package.json` (`0.1.0-beta.1`, `0.1.0`, …).
+2. `npm publish` (add `--tag beta` for a pre-release). This rebuilds `dist/` first.
+3. `npm run build:skill` and upload the new ZIP. Existing prototypes keep the version they
+   were built with.
+
 ## Repository layout
 
 | Path | Contents |

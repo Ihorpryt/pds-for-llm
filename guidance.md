@@ -22,9 +22,12 @@ and the behaviour of interactive components.
 <script src="https://cdn.jsdelivr.net/npm/portside-pds@VERSION/dist/psds.js"></script>
 ```
 
-Until the package is published, build it locally with `npm run build` and use
-`dist/psds.js`. Use one pinned version per prototype, so a later release cannot change a
+Keep that exact version for the life of a prototype, so a later release cannot change a
 prototype that has already been reviewed.
+<!-- repo-only -->
+Inside this repository, run `npm run build` and use `dist/psds.js` instead. `VERSION` is
+filled in when the skill package is built.
+<!-- /repo-only -->
 
 The component docs show `<link rel="stylesheet" href="tokens.css">` and similar lines.
 Those are for working inside this repository. **In a prototype, the script replaces all of
@@ -78,7 +81,9 @@ Then set up the page once:
 7. **Icons.** Use Font Awesome through `<span class="psds-icon" aria-hidden="true">&#xf002;</span>`,
    written as an HTML entity. [`icons.md`](foundations/icons.md) lists common code points;
    use custom icons only when Font Awesome cannot meet the need. Where a component doc
-   shows an inline `<svg>` in an icon slot, a `.psds-icon` glyph works there too.
+   shows an inline `<svg>` in an icon slot, a `.psds-icon` glyph works there too. Some
+   `.html` examples use `<svg><use href="#…">` sprites defined inside that example page;
+   don't copy those, because the sprite won't exist in your prototype.
 8. **Light and dark.** Both themes work automatically through tokens. Don't hard-code a
    theme. `PSDS.setTheme('dark')` switches it for checking.
 9. **States.** Show what happens when there is no data (`.psds-table__empty`), when
