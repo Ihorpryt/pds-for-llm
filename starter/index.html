@@ -1,3 +1,41 @@
+<!--
+HANDOFF NOTES
+Feature:        Browse flight legs and create a new one
+Design system:  portside-pds 0.1.0
+Last updated:   2026-09-25
+
+WHAT IT DOES
+- Tabs filter the table by leg status; the search box filters by any column.
+- Create opens a form in a modal; Save adds the leg to the top of the list as "In Review"
+  and shows a success message.
+- The filter panel's checkboxes, Search and Save are visual only; Reset clears the checkboxes.
+
+STATES SHOWN
+- Empty: search for "zzz".
+- Validation error: press Save with the form empty.
+- Success: save a valid form.
+
+VALIDATION
+- Route: required - "Enter a route."
+- Departure date: required - "Choose a departure date."
+
+MOCKED
+- All data is sample data in the LEGS array; nothing is saved after a reload.
+- Filter checkboxes and saved searches do nothing.
+
+COMPONENTS USED
+- List page pattern; Tabs --sm; Table (interactive) with toolbar; Badge --lg pill.
+- Modal .md with Text box, Dropdown list, Date picker, Text area and Toggle, all --sm.
+- Alert message --sm success as a toast.
+
+PROPOSED ADDITIONS
+- proto-toast: fixed bottom-right placement for a success alert. The system has no toast placement.
+- proto-modal-close: the plain 20px close button modal.md describes; modal.css doesn't style it.
+- proto-form-row: two equal columns with a 16px gap, per modal.md "Two-column row".
+
+OPEN QUESTIONS
+- None (starter example).
+-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -33,7 +71,7 @@
     line-height: var(--line-height-base);
     font-weight: var(--font-weight-semibold);
   }
-  .psds-modal__close {
+  .proto-modal-close {
     display: inline-flex;
     padding: 0;
     border: 0;
@@ -53,10 +91,10 @@
     gap: var(--spacing-8);
     padding: var(--spacing-16);
   }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-16); }
+  .proto-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-16); }
 
-  /* Prototype-only chrome. */
-  .toast { position: fixed; right: var(--spacing-16); bottom: var(--spacing-16); width: 360px; }
+  /* Prototype-only elements (proto-): not in the design system; listed in the handoff notes. */
+  .proto-toast { position: fixed; right: var(--spacing-16); bottom: var(--spacing-16); width: 360px; }
 </style>
 </head>
 <body>
@@ -142,13 +180,13 @@
   <form id="create-form" method="dialog" novalidate>
     <div class="psds-modal__header">
       <h2 id="create-title">Create flight leg</h2>
-      <button class="psds-modal__close" type="button" aria-label="Close" data-psds-close>
+      <button class="proto-modal-close" type="button" aria-label="Close" data-psds-close>
         <span class="psds-icon psds-icon--lg" aria-hidden="true">&#xf00d;</span>
       </button>
     </div>
 
     <div class="psds-modal__body">
-      <div class="form-row">
+      <div class="proto-form-row">
         <div class="psds-textbox psds-textbox--sm" id="route-field">
           <label class="psds-textbox__label" for="route">Route<span class="psds-textbox__required" aria-hidden="true">*</span></label>
           <div class="psds-textbox__control">
@@ -171,7 +209,7 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="proto-form-row">
         <div class="psds-datepicker psds-datepicker--sm" id="departure-field">
           <label class="psds-datepicker__label" for="departure">Departure date<span class="psds-datepicker__required" aria-hidden="true">*</span></label>
           <div class="psds-datepicker__control">
@@ -215,7 +253,7 @@
   </form>
 </dialog>
 
-<div class="toast" id="toast"></div>
+<div class="proto-toast" id="toast"></div>
 
 <script>
   /* Prototype logic: sample data, filtering and the create form.
