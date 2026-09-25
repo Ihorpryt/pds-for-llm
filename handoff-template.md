@@ -1,13 +1,15 @@
 # Handoff notes template
 
-Put this at the very top of every prototype file, above `<!doctype html>`, and fill in each
-section. Delete a section's placeholder line only when it genuinely has nothing to say; write
-"None" rather than leaving it empty.
+Put this directly after `<!doctype html>`, and fill in each section. The doctype must stay
+the very first line: tools such as Claude Desktop treat a file that starts with anything
+else as a fragment and render it without standards mode. Delete a section's placeholder line
+only when it genuinely has nothing to say; write "None" rather than leaving it empty.
 
 Write for the engineer who will build the feature: what it should do, not how the prototype
 does it.
 
 ```html
+<!doctype html>
 <!--
 HANDOFF NOTES
 Feature:        <one line: what this screen lets the user do>
@@ -40,6 +42,7 @@ OPEN QUESTIONS
 ## Example
 
 ```html
+<!doctype html>
 <!--
 HANDOFF NOTES
 Feature:        Browse flight legs and create a new one

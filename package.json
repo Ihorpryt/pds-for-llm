@@ -1,6 +1,6 @@
 {
   "name": "portside-pds",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.4",
   "description": "Portside Design System — tokens, components and behaviour for prototypes",
   "files": [
     "dist/psds.js",

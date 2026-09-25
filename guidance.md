@@ -39,7 +39,7 @@ Then set up the page once:
 <style>
   body {
     margin: 0;
-    background: var(--background-content-bg-color);
+    background: var(--background-content-bg-color-alt2);
     color: var(--foreground-content-text-color);
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size: var(--font-size-sm);
@@ -86,13 +86,17 @@ Then set up the page once:
    don't copy those, because the sprite won't exist in your prototype.
 8. **Light and dark.** Both themes work automatically through tokens. Don't hard-code a
    theme. `PSDS.setTheme('dark')` switches it for checking.
-9. **States.** Show what happens when there is no data (`.psds-table__empty`), when
+9. **On/off options.** A standalone behaviour whose effect needs explaining gets a setting
+   row with a toggle; related properties of the record are checkboxes under a section
+   label; an option that only applies when another is on is nested after it and hidden
+   until it's on. See [modal options](patterns/modal/modal.md#options-toggle-checkbox-or-nested).
+10. **States.** Show what happens when there is no data (`.psds-table__empty`), when
    something fails (an alert or a field error), while waiting (the `spinner` glyph), and
    after success (a success alert).
-10. **Accessibility basics.** Every field has a label (use `.sr-only` to hide one visually);
+11. **Accessibility basics.** Every field has a label (use `.sr-only` to hide one visually);
     actions are `<button>`s; links are `<a>`; dialogs have `aria-labelledby`; decorative
     icons are `aria-hidden="true"`.
-11. **Sample data.** Use realistic aviation data (routes, tail numbers, crew names), and
+12. **Sample data.** Use realistic aviation data (routes, tail numbers, crew names), and
     keep it in one array at the top of the page script so it is easy to find and replace.
 
 ## Behaviour
@@ -163,7 +167,7 @@ Engineers fill these in as they confirm them.
 | Pattern | Use for | Root |
 | --- | --- | --- |
 | [List page](patterns/list-page/list-page.md) | Filter panel beside a results table | `.psds-list-page` |
-| [Modal](patterns/modal/modal.md) | Dialogs and forms over the page | `<dialog class="md">` (`.sm`, `.md`, `.lg`, `.xl`) with `.psds-modal__header`, `__title`, `__close`, `__body`, `__row`, `__footer` |
+| [Modal](patterns/modal/modal.md) | Dialogs and forms over the page | `<dialog class="md">` (`.sm`, `.md`, `.lg`, `.xl`) with `.psds-modal__header`, `__title`, `__close`, `__body`, `__section`, `__section-label`, `__row`, `__setting`, `__nested`, `__footer` |
 
 ## Foundations
 
@@ -176,8 +180,9 @@ Engineers fill these in as they confirm them.
 
 ## Handoff notes
 
-Every prototype starts with handoff notes: an HTML comment at the very top of the file,
-filled in from [`handoff-template.md`](handoff-template.md). When an AI tool builds the
+Every prototype starts with handoff notes: an HTML comment directly after `<!doctype html>`
+(which must stay the first line of the file), filled in from
+[`handoff-template.md`](handoff-template.md). When an AI tool builds the
 prototype, it also repeats the notes in its reply. Keep them short and specific; update
 them whenever the prototype changes.
 

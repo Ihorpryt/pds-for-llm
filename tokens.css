@@ -243,6 +243,10 @@
   --buttons-success-border-color-pressed   : var(--buttons-success-bg-color-pressed);
   --buttons-success-text                   : var(--cool-gray-white);
   --buttons-success-text-disabled          : var(--buttons-success-text);
+
+  /* Toggle switch ON track (Figma Toggle Switch: green-500). */
+  --toggle-on-bg-color                     : var(--green-500);
+  --toggle-on-bg-color-disabled            : var(--green-300);
   --buttons-success-text-focus             : var(--buttons-success-text);
   --buttons-success-text-hover             : var(--buttons-success-text);
   --buttons-success-text-pressed           : var(--buttons-success-text);
@@ -587,6 +591,7 @@
   --background-diagram-palette-hover-background: var(--cool-gray-400);
   --background-flyout-bg-color                 : var(--cool-gray-800);
   --background-glass-bg-color                  : #0e1420e5;
+  --background-overlay-bg-color                : #000000b3;
   --background-table-bg-color-hover            : var(--cool-gray-600);
   --background-table-bg-color-pressed          : var(--cool-gray-500);
   --background-tooltip-bg-color                : var(--cool-gray-50);
@@ -653,6 +658,8 @@
   --buttons-success-bg-color-pressed       : var(--green-900);
   --buttons-success-border-color           : var(--buttons-success-bg-color);
   --buttons-success-text                   : var(--primary-text-color);
+  --toggle-on-bg-color                     : var(--green-500);
+  --toggle-on-bg-color-disabled            : var(--green-900);
   --buttons-warning-bg-color               : var(--orange-500);
   --buttons-warning-bg-color-disabled      : var(--orange-900);
   --buttons-warning-bg-color-hover         : var(--orange-600);
@@ -787,6 +794,7 @@
     --background-diagram-palette-hover-background: var(--cool-gray-400);
     --background-flyout-bg-color                 : var(--cool-gray-800);
     --background-glass-bg-color                  : #0e1420e5;
+    --background-overlay-bg-color                : #000000b3;
     --background-table-bg-color-hover            : var(--cool-gray-600);
     --background-table-bg-color-pressed          : var(--cool-gray-500);
     --background-tooltip-bg-color                : var(--cool-gray-50);
@@ -853,6 +861,8 @@
     --buttons-success-bg-color-pressed       : var(--green-900);
     --buttons-success-border-color           : var(--buttons-success-bg-color);
     --buttons-success-text                   : var(--primary-text-color);
+    --toggle-on-bg-color                     : var(--green-500);
+    --toggle-on-bg-color-disabled            : var(--green-900);
     --buttons-warning-bg-color               : var(--orange-500);
     --buttons-warning-bg-color-disabled      : var(--orange-900);
     --buttons-warning-bg-color-hover         : var(--orange-600);

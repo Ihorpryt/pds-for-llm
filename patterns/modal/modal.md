@@ -87,7 +87,7 @@ because `tokens.css` declares no `--shadow-*` tokens.
 
 | Token | Value | Use for |
 | --- | --- | --- |
-| `--background-overlay-bg-color` | `#6b7280bf` | Backdrop behind the dialog (`dialog::backdrop`) |
+| `--background-overlay-bg-color` | `#6b7280bf` light, `#000000b3` dark | Backdrop behind the dialog (`dialog::backdrop`); dims the page in both themes |
 | `--control-radius-modal-default-radius` | `--radius-8` | Dialog corner radius |
 | `--control-radius-modal-bigger-radius` | `--radius-12` | Corner radius for `.lg` / `.xl` dialogs |
 
@@ -147,17 +147,28 @@ The header divider runs the full width of the modal.
 
 Group related content into sections rather than one long list of fields.
 
-| Element | Rule | Token |
-| --- | --- | --- |
-| Section padding | 16px on all sides | `--spacing-16` |
-| Section divider | 1px line between sections, inset 16px from both modal edges | `--border-light` |
-| Section title | Small / Semibold, 14px / 20px | `--font-size-sm`, `--line-height-sm`, `--font-weight-semibold` |
-| Section description | X-Small / Normal, 12px / 18px, secondary text colour | `--font-size-xs`, `--font-weight-normal`, `--foreground-content-text-color-alt2` |
-| Title → description | 4px | `--spacing-4` |
-| Section header → controls | 16px | `--spacing-16` |
+**Figma reference:** Avianis WEB V2 › `Add Leg (Filled)`
+([node `5171:41484`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=5171-41484)).
 
-- The first section needs no title when it holds the modal's primary fields.
+```html
+<div class="psds-modal__body">
+  <div class="psds-modal__section">…primary fields, no label…</div>
+  <div class="psds-modal__section">
+    <p class="psds-modal__section-label">Commercial</p>
+    …
+  </div>
+</div>
+```
+
+| Element | Class | Rule | Token |
+| --- | --- | --- | --- |
+| Section | `.psds-modal__section` | Items 12px apart; sections 16px apart | `--spacing-12`, `--spacing-16` |
+| Section divider | *(automatic)* | Every section after the first opens with a 1px line and 16px of padding; inset by the body padding | `--border-light`, `--spacing-16` |
+| Section label | `.psds-modal__section-label` | X-Small / Medium, 12px / 18px, uppercase, secondary text colour | `--font-size-xs`, `--font-weight-medium`, `--foreground-content-text-color-alt2` |
+
+- The first section needs no label when it holds the modal's primary fields.
 - Section dividers are inset; only the header divider is full width.
+- `.psds-modal__divider` is still available for a one-off rule inside a section.
 
 ## Fields
 
@@ -178,14 +189,70 @@ Group related content into sections rather than one long list of fields.
 - **Inline action buttons** in a row of labelled fields align to the bottom of the row, so
   the button lines up with the controls rather than the labels.
 
+## Options: toggle, checkbox or nested
+
+Pick the control for an on/off option by what it is, not by how it looks:
+
+| The option is… | Use | Example |
+| --- | --- | --- |
+| A standalone behaviour whose effect needs explaining | [Setting row](#setting-rows) with a toggle | *Arrival FBO notification — Notify the arrival FBO when the aircraft departs* |
+| A property of the record, alongside related ones | [Checkboxes](../../components/checkbox/checkbox.md) under a section label, short labels, no descriptions | *COMMERCIAL: Empty leg* |
+| Only meaningful when another option is on | [Nested](#nested-options) directly after that option | *Publish to marketplaces* under *Empty leg* |
+
+Don't turn every option into a setting row with a description: a column of toggles with
+one-line explanations reads as a settings page, not a form. Don't nest by indenting a
+row by hand; use `.psds-modal__nested`.
+
 ## Setting rows
 
-A setting that is switched on or off is a row, not a labelled field:
+A standalone setting that is switched on or off is a row, not a labelled field.
 
-- Section title and description on the left, filling the remaining width.
-- An `--sm` [toggle](../../components/toggle-switch/toggle-switch.md) on the right, 8px
-  (`--spacing-8`) from the text and centred vertically against the text block.
-- Controls that the toggle reveals sit below the row, 16px (`--spacing-16`) under it.
+```html
+<div class="psds-modal__setting">
+  <div>
+    <p class="psds-modal__setting-title" id="notify-title">Arrival FBO notification</p>
+    <p class="psds-modal__setting-description" id="notify-desc">Notify the arrival FBO when the aircraft departs.</p>
+  </div>
+  <label class="psds-toggle psds-toggle--sm">
+    <input class="psds-toggle__input" type="checkbox" checked
+           aria-labelledby="notify-title" aria-describedby="notify-desc">
+  </label>
+</div>
+```
+
+| Element | Class | Rule |
+| --- | --- | --- |
+| Row | `.psds-modal__setting` | Text block fills the width; toggle 8px after it, centred against the text |
+| Title | `.psds-modal__setting-title` | Small / Semibold, 14px / 20px, text colour |
+| Description | `.psds-modal__setting-description` | X-Small / Normal, 12px / 18px, secondary text colour, 4px under the title |
+| Toggle | [`.psds-toggle --sm`](../../components/toggle-switch/toggle-switch.md) | No visible label of its own; name it with `aria-labelledby` / `aria-describedby` |
+
+Controls that the toggle reveals go in a `.psds-modal__nested` group straight after the row.
+
+## Nested options
+
+Options that only apply when another option is on sit directly after it, indented behind a
+guide line. The group holds the dependent checkboxes *and* their fields.
+
+```html
+<label class="psds-checkbox psds-checkbox--sm">
+  <input class="psds-checkbox__input" type="checkbox">
+  <span class="psds-checkbox__text"><span class="psds-checkbox__label">Empty leg</span></span>
+</label>
+<div class="psds-modal__nested">
+  <label class="psds-checkbox psds-checkbox--sm">…Publish to marketplaces…</label>
+  <div class="psds-textbox psds-textbox--sm">…Target price…</div>
+</div>
+```
+
+| Rule | Token |
+| --- | --- |
+| 16px indent behind a 1px guide line on the leading edge | `--spacing-16`, `--border-light` |
+| Items 12px apart | `--spacing-12` |
+| Hidden while the checkbox, toggle or setting row just before it is off | — |
+
+Hiding needs no script: the group must be the **next sibling** of the controlling
+`.psds-checkbox`, `.psds-toggle` or `.psds-modal__setting`.
 
 ## Item cards
 

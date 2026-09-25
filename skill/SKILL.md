@@ -33,13 +33,15 @@ adds the workflow.
      `.html` examples; they depend on files in the design-system repository.
    - Page styles go in one `<style>` block; sample data in one array at the top of the
      page script.
-6. **Write the handoff notes** at the very top of the file, using
-   [`handoff-template.md`](handoff-template.md), and repeat them at the end of your reply.
+6. **Write the handoff notes** as a comment directly after `<!doctype html>` (which must
+   stay the first line), using [`handoff-template.md`](handoff-template.md), and repeat
+   them at the end of your reply.
 7. **Check before you finish:**
    - every `psds-` class is in `classes.txt`;
    - empty, error and success states exist where the screen has them;
    - every field has a label, and icon-only buttons have an `aria-label`;
    - nothing is hard-coded to one theme (no hex colours in page styles);
+   - the file starts with `<!doctype html>`;
    - the handoff notes match what the prototype does.
 
 ## Changing an existing prototype

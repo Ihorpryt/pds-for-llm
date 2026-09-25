@@ -42,7 +42,7 @@
 </svg>
 
 <h1>Toggle Switch</h1>
-<p class="sub">4 sizes &times; 2 active states &times; 5 states &times; 2 captions &times; 2 text positions. All values resolve through <code>tokens.css</code>.</p>
+<p class="sub">4 sizes &times; 2 active states &times; 5 states &times; 2 text positions. All values resolve through <code>tokens.css</code>.</p>
 
 <div class="toolbar">
   <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
@@ -70,51 +70,6 @@
   </div>
   <div class="row">
     <code>--xs&nbsp;40&times;20</code><code>--sm&nbsp;44&times;24</code><code>--md&nbsp;52&times;28</code><code>--lg&nbsp;60&times;32</code>
-  </div>
-</div>
-
-<h2>Caption inside the track</h2>
-<p class="sub">The Figma <em>Label&nbsp;=&nbsp;Yes</em> variant. The track sizes to the caption and the thumb swaps sides.</p>
-<div class="panel">
-  <div class="row">
-    <label class="psds-toggle psds-toggle--xs psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox">
-      <span class="sr-only">Extra small, off</span>
-    </label>
-    <label class="psds-toggle psds-toggle--xs psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox" checked>
-      <span class="sr-only">Extra small, on</span>
-    </label>
-    <label class="psds-toggle psds-toggle--sm psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox">
-      <span class="sr-only">Small, off</span>
-    </label>
-    <label class="psds-toggle psds-toggle--sm psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox" checked>
-      <span class="sr-only">Small, on</span>
-    </label>
-    <label class="psds-toggle psds-toggle--md psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox">
-      <span class="sr-only">Medium, off</span>
-    </label>
-    <label class="psds-toggle psds-toggle--md psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox" checked>
-      <span class="sr-only">Medium, on</span>
-    </label>
-    <label class="psds-toggle psds-toggle--lg psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox">
-      <span class="sr-only">Large, off</span>
-    </label>
-    <label class="psds-toggle psds-toggle--lg psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox" checked>
-      <span class="sr-only">Large, on</span>
-    </label>
-  </div>
-  <div class="row">
-    <label class="psds-toggle psds-toggle--sm psds-toggle--state-text">
-      <input class="psds-toggle__input" type="checkbox" checked>
-      <span class="psds-toggle__text"><span class="psds-toggle__label">With a label beside it</span></span>
-    </label>
   </div>
 </div>
 
@@ -182,21 +137,6 @@
   </div>
 </div>
 
-<h2>Localised captions</h2>
-<p class="sub">The caption strings are the tokens <code>--psds-toggle-text-off</code> and <code>--psds-toggle-text-on</code>.</p>
-<div class="panel">
-  <div class="row">
-    <label class="psds-toggle psds-toggle--sm psds-toggle--state-text" style="--psds-toggle-text-off:'AUS'; --psds-toggle-text-on:'AN'">
-      <input class="psds-toggle__input" type="checkbox">
-      <span class="sr-only">Aus</span>
-    </label>
-    <label class="psds-toggle psds-toggle--sm psds-toggle--state-text" style="--psds-toggle-text-off:'AUS'; --psds-toggle-text-on:'AN'">
-      <input class="psds-toggle__input" type="checkbox" checked>
-      <span class="sr-only">An</span>
-    </label>
-  </div>
-</div>
-
 <script>
   const STATES = [
     ['', 'Default'],
@@ -209,13 +149,11 @@
   const ACTIVE = [
     ['OFF', false],
     ['ON', true],
-    ['OFF — caption', false, true],
-    ['ON — caption', true, true],
   ];
 
-  const toggle = (checked, caption, stateClass) => {
+  const toggle = (checked, stateClass) => {
     const label = document.createElement('label');
-    label.className = ['psds-toggle', 'psds-toggle--sm', caption ? 'psds-toggle--state-text' : '', stateClass]
+    label.className = ['psds-toggle', 'psds-toggle--sm', stateClass]
       .filter(Boolean).join(' ');
 
     const input = document.createElement('input');
@@ -233,7 +171,7 @@
   };
 
   const activeState = document.getElementById('active-state');
-  for (const [rowLabel, checked, caption] of ACTIVE) {
+  for (const [rowLabel, checked] of ACTIVE) {
     const tr = document.createElement('tr');
     const th = document.createElement('th');
     th.scope = 'row';
@@ -241,7 +179,7 @@
     tr.append(th);
     for (const [stateClass] of STATES) {
       const td = document.createElement('td');
-      td.append(toggle(checked, Boolean(caption), stateClass));
+      td.append(toggle(checked, stateClass));
       tr.append(td);
     }
     activeState.append(tr);

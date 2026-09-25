@@ -50,7 +50,7 @@ the results area (node `2643:9586`). For the whole page around it, see the
 
 | Element | Class | Notes |
 | --- | --- | --- |
-| View | `.psds-table-view` | optional column frame: toolbar on top, table below; give it a height |
+| View | `.psds-table-view` | optional column frame: tabs (optional) and toolbar on top, table below; give it a height |
 | Toolbar | `.psds-table-toolbar` | 42px bar with a light bottom rule |
 | Toolbar group | `.psds-table-toolbar__group` | a cluster of controls with 8px gaps; use two, one at each end |
 | Result count | `.psds-table-toolbar__count` | muted 12px text, e.g. "11 flight legs" |
@@ -104,6 +104,11 @@ The Figma toolbar is built from existing components, all at their smallest size:
 
 Figma's toggle glyph is the Font Awesome Pro `sidebar` icon, which the free set doesn't
 include. `table-columns` is the closest free icon.
+
+A [tab bar](../tabs/tabs.md) (`.psds-tabs --sm`) can sit above the toolbar to switch
+between views of the same records, such as All / Active / Arrived. As a direct child of
+`.psds-table-view` it is inset 12px on both sides, matching the toolbar, while its divider
+still spans the full width.
 
 ## Pagination
 

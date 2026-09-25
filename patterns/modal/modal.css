@@ -12,6 +12,12 @@
  *   .psds-modal__body            Content zone — stacked fields, the only zone that scrolls
  *   .psds-modal__row             Two independent fields side by side, sharing the width
  *   .psds-modal__footer          Footer zone — actions aligned right
+ *   .psds-modal__section         A group of related content; a divider separates sections
+ *   .psds-modal__section-label   Small uppercase heading of a section ("COMMERCIAL")
+ *   .psds-modal__setting         Setting row: title and description left, toggle right
+ *   .psds-modal__setting-title / __setting-description   The row's two text lines
+ *   .psds-modal__nested          Options that only apply when the control before it is on;
+ *                                indented with a guide line, hidden while that control is off
  *   .psds-modal__divider         Inset rule between sections inside the body
  *
  * Surfaces
@@ -78,6 +84,38 @@ dialog.xl {
 dialog.lg,
 dialog.xl {
   border-radius: var(--control-radius-modal-bigger-radius);
+}
+
+/* The <form> that wraps a dialog's zones must not add space. Browsers give <form> a
+ * bottom margin in quirks mode (a page without a doctype, which is how some tools
+ * render prototypes), which would open a gap under the footer. */
+:is(dialog.sm, dialog.md, dialog.lg, dialog.xl) > form {
+  margin: var(--spacing-0);
+}
+
+/* Header and footer stay put and only the body scrolls when the content is taller than
+ * the viewport. The open dialog (the browser caps its height) and a wrapping <form> are
+ * flex columns; the body is the one zone allowed to shrink. [open] matters: a closed
+ * dialog must keep the browser's display: none. */
+:is(dialog.sm, dialog.md, dialog.lg, dialog.xl)[open],
+:is(dialog.sm, dialog.md, dialog.lg, dialog.xl) > form {
+  display       : flex;
+  flex-direction: column;
+  min-height    : 0;
+}
+
+:is(dialog.sm, dialog.md, dialog.lg, dialog.xl) > form {
+  flex: 1 1 auto;
+}
+
+.psds-modal__header,
+.psds-modal__footer {
+  flex: none;
+}
+
+.psds-modal__body {
+  flex      : 1 1 auto;
+  min-height: 0;
 }
 
 dialog::backdrop {
@@ -176,6 +214,90 @@ dialog::backdrop {
 /* Dividers inside the body are the lighter line, inset from both edges. */
 .psds-modal__divider {
   border-block-start: var(--border-1) solid var(--border-light);
+}
+
+/* ---------------------------------------------------------------- Sections */
+/* Figma Avianis WEB V2 › Add Leg (Filled), node 5171:41484. Sections sit 16px apart;
+ * every section after the first opens with the light divider and 16px of padding.
+ * Inside a section, items are 12px apart. */
+
+.psds-modal__body:has(> .psds-modal__section) {
+  gap: var(--spacing-16);
+}
+
+.psds-modal__section {
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--spacing-12);
+  min-width     : 0;
+}
+
+.psds-modal__section + .psds-modal__section {
+  padding-block-start: var(--spacing-16);
+  border-block-start : var(--border-1) solid var(--border-light);
+}
+
+/* Text-X Small, medium, uppercase, secondary colour. Figma sets 12/18; tokens.css has
+ * no 18px line height, so it is written out. */
+.psds-modal__section-label {
+  margin        : var(--spacing-0);
+  font-size     : var(--font-size-xs);
+  line-height   : 18px;
+  font-weight   : var(--font-weight-medium);
+  text-transform: uppercase;
+  color         : var(--foreground-content-text-color-alt2);
+}
+
+/* -------------------------------------------------------------- Setting row */
+/* A standalone on/off behaviour whose effect needs explaining. The toggle (an --sm
+ * .psds-toggle) goes last and centres against the two text lines. */
+
+.psds-modal__setting {
+  display    : flex;
+  align-items: center;
+  gap        : var(--spacing-8);
+}
+
+.psds-modal__setting > :first-child {
+  display       : flex;
+  flex          : 1 1 0;
+  flex-direction: column;
+  gap           : var(--spacing-4);
+  min-width     : 0;
+}
+
+.psds-modal__setting-title {
+  margin     : var(--spacing-0);
+  font-size  : var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  font-weight: var(--font-weight-semibold);
+  color      : var(--foreground-content-text-color);
+}
+
+.psds-modal__setting-description {
+  margin     : var(--spacing-0);
+  font-size  : var(--font-size-xs);
+  line-height: 18px;
+  font-weight: var(--font-weight-normal);
+  color      : var(--foreground-content-text-color-alt2);
+}
+
+/* ------------------------------------------------------------ Nested options */
+/* Options that only mean something when the control just before them is on: a
+ * checkbox, a toggle, or a setting row. Indented 16px behind a light guide line.
+ * While that control is off the group is hidden, with no script. */
+
+.psds-modal__nested {
+  display           : flex;
+  flex-direction    : column;
+  gap               : var(--spacing-12);
+  padding-inline-start: var(--spacing-16);
+  border-inline-start : var(--border-1) solid var(--border-light);
+}
+
+:is(.psds-checkbox, .psds-toggle):has(> input:not(:checked)) + .psds-modal__nested,
+.psds-modal__setting:has(.psds-toggle > input:not(:checked)) + .psds-modal__nested {
+  display: none;
 }
 
 /* Notes
