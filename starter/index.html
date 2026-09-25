@@ -9,6 +9,7 @@ WHAT IT DOES
 - Tabs filter the table by leg status; the search box filters by any column.
 - Create opens a form in a modal; Save adds the leg to the top of the list as "In Review"
   and shows a success message.
+- Checking "Empty leg" reveals "Publish to marketplaces" and a target price.
 - The filter panel's checkboxes, Search and Save are visual only; Reset clears the checkboxes.
 - The moon/sun button in the toolbar switches light and dark theme (a review aid, not a feature).
 
@@ -27,7 +28,8 @@ MOCKED
 
 COMPONENTS USED
 - List page pattern; Tabs --sm; Table (interactive) with toolbar; Badge --lg pill.
-- Modal .md with Text box, Dropdown list, Date picker, Text area and Toggle, all --sm.
+- Modal .md in three sections: fields (Text box, Dropdown list, Date picker, Text area);
+  a setting row with a Toggle; "Commercial" checkboxes with a nested group, all --sm.
 - Alert message --sm success as a toast.
 
 PROPOSED ADDITIONS
@@ -154,58 +156,93 @@ OPEN QUESTIONS
     </div>
 
     <div class="psds-modal__body">
-      <div class="psds-modal__row">
-        <div class="psds-textbox psds-textbox--sm" id="route-field">
-          <label class="psds-textbox__label" for="route">Route<span class="psds-textbox__required" aria-hidden="true">*</span></label>
-          <div class="psds-textbox__control">
-            <input class="psds-textbox__field" id="route" type="text" placeholder="e.g. CYUL → CYYZ" required>
+      <!-- Section 1: the record's fields. The first section has no label or divider. -->
+      <div class="psds-modal__section">
+        <div class="psds-modal__row">
+          <div class="psds-textbox psds-textbox--sm" id="route-field">
+            <label class="psds-textbox__label" for="route">Route<span class="psds-textbox__required" aria-hidden="true">*</span></label>
+            <div class="psds-textbox__control">
+              <input class="psds-textbox__field" id="route" type="text" placeholder="e.g. CYUL → CYYZ" required>
+            </div>
+          </div>
+
+          <div class="psds-dropdown psds-dropdown--sm" id="aircraft-field">
+            <span class="psds-dropdown__label">Aircraft</span>
+            <div class="psds-dropdown__control">
+              <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="aircraft-menu">Select aircraft</button>
+              <span class="psds-dropdown__toggle" aria-hidden="true"></span>
+              <div class="psds-dropdown__menu" id="aircraft-menu" role="listbox" hidden>
+                <div class="psds-dropdown__option" role="option">N34T0</div>
+                <div class="psds-dropdown__option" role="option">C-GXPT</div>
+                <div class="psds-dropdown__option" role="option">G-LUXE</div>
+                <div class="psds-dropdown__option" role="option" aria-disabled="true">N900EX (in maintenance)</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="psds-dropdown psds-dropdown--sm" id="aircraft-field">
-          <span class="psds-dropdown__label">Aircraft</span>
-          <div class="psds-dropdown__control">
-            <button class="psds-dropdown__field" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="aircraft-menu">Select aircraft</button>
-            <span class="psds-dropdown__toggle" aria-hidden="true"></span>
-            <div class="psds-dropdown__menu" id="aircraft-menu" role="listbox" hidden>
-              <div class="psds-dropdown__option" role="option">N34T0</div>
-              <div class="psds-dropdown__option" role="option">C-GXPT</div>
-              <div class="psds-dropdown__option" role="option">G-LUXE</div>
-              <div class="psds-dropdown__option" role="option" aria-disabled="true">N900EX (in maintenance)</div>
+        <div class="psds-modal__row">
+          <div class="psds-datepicker psds-datepicker--sm" id="departure-field">
+            <label class="psds-datepicker__label" for="departure">Departure date<span class="psds-datepicker__required" aria-hidden="true">*</span></label>
+            <div class="psds-datepicker__control">
+              <input class="psds-datepicker__field" id="departure" type="text" placeholder="Choose date" autocomplete="off" required>
+              <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose departure date" aria-haspopup="dialog" aria-expanded="false"></button>
+            </div>
+          </div>
+
+          <div class="psds-datepicker psds-datepicker--sm">
+            <label class="psds-datepicker__label" for="arrival">Arrival date</label>
+            <div class="psds-datepicker__control">
+              <input class="psds-datepicker__field" id="arrival" type="text" placeholder="Choose date" autocomplete="off">
+              <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose arrival date" aria-haspopup="dialog" aria-expanded="false"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="psds-textarea psds-textarea--sm">
+          <label class="psds-textarea__label" for="notes">Notes</label>
+          <div class="psds-textarea__control">
+            <textarea class="psds-textarea__field" id="notes" rows="3" placeholder="Anything the crew should know..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- A standalone behaviour whose effect needs explaining: a setting row with a toggle. -->
+      <div class="psds-modal__section">
+        <div class="psds-modal__setting">
+          <div>
+            <p class="psds-modal__setting-title" id="fbo-notify-title">Arrival FBO notification</p>
+            <p class="psds-modal__setting-description" id="fbo-notify-desc">Notify the arrival FBO when the aircraft departs.</p>
+          </div>
+          <label class="psds-toggle psds-toggle--sm">
+            <input class="psds-toggle__input" type="checkbox" id="fbo-notify" checked
+                   aria-labelledby="fbo-notify-title" aria-describedby="fbo-notify-desc">
+          </label>
+        </div>
+      </div>
+
+      <!-- Related properties of the record: checkboxes under a section label, short labels.
+           An option that only applies when another is on goes in .psds-modal__nested right
+           after it, and stays hidden while that checkbox is off. -->
+      <div class="psds-modal__section">
+        <p class="psds-modal__section-label">Commercial</p>
+        <label class="psds-checkbox psds-checkbox--sm">
+          <input class="psds-checkbox__input" type="checkbox" id="empty-leg">
+          <span class="psds-checkbox__text"><span class="psds-checkbox__label">Empty leg</span></span>
+        </label>
+        <div class="psds-modal__nested">
+          <label class="psds-checkbox psds-checkbox--sm">
+            <input class="psds-checkbox__input" type="checkbox" id="publish">
+            <span class="psds-checkbox__text"><span class="psds-checkbox__label">Publish to marketplaces</span></span>
+          </label>
+          <div class="psds-textbox psds-textbox--sm">
+            <label class="psds-textbox__label" for="price">Target price</label>
+            <div class="psds-textbox__control">
+              <input class="psds-textbox__field" id="price" type="text" inputmode="decimal" placeholder="$ 0.00">
             </div>
           </div>
         </div>
       </div>
-
-      <div class="psds-modal__row">
-        <div class="psds-datepicker psds-datepicker--sm" id="departure-field">
-          <label class="psds-datepicker__label" for="departure">Departure date<span class="psds-datepicker__required" aria-hidden="true">*</span></label>
-          <div class="psds-datepicker__control">
-            <input class="psds-datepicker__field" id="departure" type="text" placeholder="Choose date" autocomplete="off" required>
-            <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose departure date" aria-haspopup="dialog" aria-expanded="false"></button>
-          </div>
-        </div>
-
-        <div class="psds-datepicker psds-datepicker--sm">
-          <label class="psds-datepicker__label" for="arrival">Arrival date</label>
-          <div class="psds-datepicker__control">
-            <input class="psds-datepicker__field" id="arrival" type="text" placeholder="Choose date" autocomplete="off">
-            <button class="psds-datepicker__affix psds-datepicker__toggle" type="button" aria-label="Choose arrival date" aria-haspopup="dialog" aria-expanded="false"></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="psds-textarea psds-textarea--sm">
-        <label class="psds-textarea__label" for="notes">Notes</label>
-        <div class="psds-textarea__control">
-          <textarea class="psds-textarea__field" id="notes" rows="3" placeholder="Anything the crew should know..."></textarea>
-        </div>
-      </div>
-
-      <label class="psds-toggle psds-toggle--sm">
-        <input class="psds-toggle__input" type="checkbox" id="international">
-        <span class="psds-toggle__text"><span class="psds-toggle__label">International leg</span></span>
-      </label>
     </div>
 
     <div class="psds-modal__footer">

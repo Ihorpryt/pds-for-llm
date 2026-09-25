@@ -137,9 +137,10 @@ checked Checkbox, so the three controls stay in step through a rethemed primary.
   one click target and one accessible name. When you use `--state-text` with no visible
   label, give the input a name another way (an `.sr-only` span, `aria-label`, or
   `aria-labelledby`); the caption is a CSS `content` string and is not read out.
-- A checkbox is the right element when the change applies immediately. If the setting only
-  takes effect on submit, use a checkbox that looks like one, not a switch. Add
-  `role="switch"` if you need on/off rather than checked/unchecked announced.
+- A switch is right for a standalone setting that takes effect on its own. For properties
+  of a record that are saved with a form, especially several related ones, use
+  [checkboxes](../checkbox/checkbox.md) instead; see [modal options](../../patterns/modal/modal.md#options-toggle-checkbox-or-nested).
+  Add `role="switch"` if you need on/off rather than checked/unchecked announced.
 - Prefer the real `disabled` attribute over `.is-disabled`; the class is presentational and
   removes pointer events but not keyboard focus or the accessible disabled state.
 - `--xs` is a 40 × 20 target and `--sm` a 44 × 24 one. Only `--sm` and larger meet the 24px
