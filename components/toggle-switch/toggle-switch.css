@@ -157,12 +157,13 @@
   --psds-toggle-state-text: var(--psds-toggle-text-off);
 }
 
-/* ON fills the track with the primary button surface — the same token the filled
- * Primary button and the checked Checkbox use. */
+/* ON fills the track with the toggle's own green (--toggle-on-bg-color), as in the
+ * Figma Add Leg modal, so an enabled setting reads differently from a checked
+ * checkbox. The caption colour and focus ring stay on the primary tokens. */
 
 .psds-toggle__input:checked {
-  --psds-toggle-track         : var(--buttons-primary-bg-color);
-  --psds-toggle-track-disabled: var(--buttons-primary-bg-color-disabled);
+  --psds-toggle-track         : var(--toggle-on-bg-color);
+  --psds-toggle-track-disabled: var(--toggle-on-bg-color-disabled);
 
   --psds-toggle-state-color         : var(--buttons-primary-text);
   --psds-toggle-state-color-disabled: var(--buttons-primary-text-disabled);

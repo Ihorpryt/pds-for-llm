@@ -243,6 +243,10 @@
   --buttons-success-border-color-pressed   : var(--buttons-success-bg-color-pressed);
   --buttons-success-text                   : var(--cool-gray-white);
   --buttons-success-text-disabled          : var(--buttons-success-text);
+
+  /* Toggle switch ON track (Figma Toggle Switch: green-500). */
+  --toggle-on-bg-color                     : var(--green-500);
+  --toggle-on-bg-color-disabled            : var(--green-300);
   --buttons-success-text-focus             : var(--buttons-success-text);
   --buttons-success-text-hover             : var(--buttons-success-text);
   --buttons-success-text-pressed           : var(--buttons-success-text);
@@ -654,6 +658,8 @@
   --buttons-success-bg-color-pressed       : var(--green-900);
   --buttons-success-border-color           : var(--buttons-success-bg-color);
   --buttons-success-text                   : var(--primary-text-color);
+  --toggle-on-bg-color                     : var(--green-500);
+  --toggle-on-bg-color-disabled            : var(--green-900);
   --buttons-warning-bg-color               : var(--orange-500);
   --buttons-warning-bg-color-disabled      : var(--orange-900);
   --buttons-warning-bg-color-hover         : var(--orange-600);
@@ -855,6 +861,8 @@
     --buttons-success-bg-color-pressed       : var(--green-900);
     --buttons-success-border-color           : var(--buttons-success-bg-color);
     --buttons-success-text                   : var(--primary-text-color);
+    --toggle-on-bg-color                     : var(--green-500);
+    --toggle-on-bg-color-disabled            : var(--green-900);
     --buttons-warning-bg-color               : var(--orange-500);
     --buttons-warning-bg-color-disabled      : var(--orange-900);
     --buttons-warning-bg-color-hover         : var(--orange-600);

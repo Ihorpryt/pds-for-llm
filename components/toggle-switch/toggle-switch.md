@@ -86,11 +86,11 @@ width is fixed, does.
 
 | State | Track (OFF) | Track (ON) | Thumb | Caption |
 | --- | --- | --- | --- | --- |
-| Default | `--background-content-bg-color-alt3` | `--buttons-primary-bg-color` | `--cool-gray-white` + shadow | `--foreground-content-text-color` / `--buttons-primary-text` |
+| Default | `--background-content-bg-color-alt3` | `--toggle-on-bg-color` | `--cool-gray-white` + shadow | `--foreground-content-text-color` / `--buttons-primary-text` |
 | Hover | *identical to Default* | *identical to Default* | *identical* | *identical* |
 | Active | Default + ring | Default + ring | *identical* | *identical* |
 | Focus | Default + ring | Default + ring | *identical* | *identical* |
-| Disabled | `--background-content-bg-color-alt2` | `--buttons-primary-bg-color-disabled` | `--background-content-bg-color-disabled`, no shadow | `--foreground-content-text-color-disabled` / `--buttons-primary-text-disabled` |
+| Disabled | `--background-content-bg-color-alt2` | `--toggle-on-bg-color-disabled` | `--background-content-bg-color-disabled`, no shadow | `--foreground-content-text-color-disabled` / `--buttons-primary-text-disabled` |
 
 Two things about that table are deliberate rather than oversights:
 
@@ -121,15 +121,17 @@ rules then consume. Nothing is hard-coded; retheming happens entirely in `tokens
 
 | Channel | OFF resolves to | ON resolves to |
 | --- | --- | --- |
-| `--psds-toggle-track` | `--background-content-bg-color-alt3` | `--buttons-primary-bg-color` |
-| `--psds-toggle-track-disabled` | `--background-content-bg-color-alt2` | `--buttons-primary-bg-color-disabled` |
+| `--psds-toggle-track` | `--background-content-bg-color-alt3` | `--toggle-on-bg-color` |
+| `--psds-toggle-track-disabled` | `--background-content-bg-color-alt2` | `--toggle-on-bg-color-disabled` |
 | `--psds-toggle-thumb-color` | `--cool-gray-white` | `--cool-gray-white` |
 | `--psds-toggle-thumb-color-disabled` | `--background-content-bg-color-disabled` | `--background-content-bg-color-disabled` |
 | `--psds-toggle-state-color` | `--foreground-content-text-color` | `--buttons-primary-text` |
 | `--psds-toggle-state-color-disabled` | `--foreground-content-text-color-disabled` | `--buttons-primary-text-disabled` |
 
-The ON track shares `--buttons-primary-bg-color` with the filled Primary button and the
-checked Checkbox, so the three controls stay in step through a rethemed primary.
+The ON track uses its own `--toggle-on-bg-color` (green, `--green-500`), as in Figma
+Avianis WEB V2 › Add Leg ([node `5171:41484`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=5171-41484)),
+so an enabled setting reads differently from a checked checkbox. The `--state-text`
+caption and the focus ring stay on the primary tokens.
 
 ## Accessibility
 
