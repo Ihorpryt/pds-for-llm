@@ -35,6 +35,12 @@
 /* ---------------------------------------------------------------- Toolbar */
 /* Figma: 42px tall, 12px side padding, 8px between controls, a light bottom rule. */
 
+/* A tab bar above the toolbar (e.g. status views) takes the toolbar's 12px inset so
+ * the first tab doesn't sit on the frame edge; its divider still runs full width. */
+.psds-table-view > .psds-tabs {
+  padding-inline: var(--spacing-12);
+}
+
 .psds-table-toolbar {
   box-sizing     : border-box;
   display        : flex;
