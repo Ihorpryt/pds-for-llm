@@ -176,8 +176,9 @@ Engineers fill these in as they confirm them.
 
 ## Handoff notes
 
-Every prototype starts with handoff notes: an HTML comment at the very top of the file,
-filled in from [`handoff-template.md`](handoff-template.md). When an AI tool builds the
+Every prototype starts with handoff notes: an HTML comment directly after `<!doctype html>`
+(which must stay the first line of the file), filled in from
+[`handoff-template.md`](handoff-template.md). When an AI tool builds the
 prototype, it also repeats the notes in its reply. Keep them short and specific; update
 them whenever the prototype changes.
 

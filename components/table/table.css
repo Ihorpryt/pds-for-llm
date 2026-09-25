@@ -85,6 +85,15 @@
   border-spacing : 0;
   font-family    : var(--psds-table-font-family);
   background     : var(--background-content-bg-color);
+
+  /* Tables inherit these anyway in standards mode. Quirks mode (a page without a
+   * doctype) resets them on <table>, so state the inheritance explicitly. */
+  font-size  : inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  font-style : inherit;
+  white-space: inherit;
+  text-align : inherit;
 }
 
 .psds-table th,

@@ -80,6 +80,13 @@ dialog.xl {
   border-radius: var(--control-radius-modal-bigger-radius);
 }
 
+/* The <form> that wraps a dialog's zones must not add space. Browsers give <form> a
+ * bottom margin in quirks mode (a page without a doctype, which is how some tools
+ * render prototypes), which would open a gap under the footer. */
+:is(dialog.sm, dialog.md, dialog.lg, dialog.xl) > form {
+  margin: var(--spacing-0);
+}
+
 dialog::backdrop {
   background: var(--background-overlay-bg-color);
 }
