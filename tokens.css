@@ -587,6 +587,7 @@
   --background-diagram-palette-hover-background: var(--cool-gray-400);
   --background-flyout-bg-color                 : var(--cool-gray-800);
   --background-glass-bg-color                  : #0e1420e5;
+  --background-overlay-bg-color                : #000000b3;
   --background-table-bg-color-hover            : var(--cool-gray-600);
   --background-table-bg-color-pressed          : var(--cool-gray-500);
   --background-tooltip-bg-color                : var(--cool-gray-50);
@@ -787,6 +788,7 @@
     --background-diagram-palette-hover-background: var(--cool-gray-400);
     --background-flyout-bg-color                 : var(--cool-gray-800);
     --background-glass-bg-color                  : #0e1420e5;
+    --background-overlay-bg-color                : #000000b3;
     --background-table-bg-color-hover            : var(--cool-gray-600);
     --background-table-bg-color-pressed          : var(--cool-gray-500);
     --background-tooltip-bg-color                : var(--cool-gray-50);

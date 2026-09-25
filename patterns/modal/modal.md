@@ -87,7 +87,7 @@ because `tokens.css` declares no `--shadow-*` tokens.
 
 | Token | Value | Use for |
 | --- | --- | --- |
-| `--background-overlay-bg-color` | `#6b7280bf` | Backdrop behind the dialog (`dialog::backdrop`) |
+| `--background-overlay-bg-color` | `#6b7280bf` light, `#000000b3` dark | Backdrop behind the dialog (`dialog::backdrop`); dims the page in both themes |
 | `--control-radius-modal-default-radius` | `--radius-8` | Dialog corner radius |
 | `--control-radius-modal-bigger-radius` | `--radius-12` | Corner radius for `.lg` / `.xl` dialogs |
 

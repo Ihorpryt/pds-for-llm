@@ -39,7 +39,7 @@ Then set up the page once:
 <style>
   body {
     margin: 0;
-    background: var(--background-content-bg-color);
+    background: var(--background-content-bg-color-alt2);
     color: var(--foreground-content-text-color);
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size: var(--font-size-sm);
