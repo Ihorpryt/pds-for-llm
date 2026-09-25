@@ -10,6 +10,7 @@ WHAT IT DOES
 - Create opens a form in a modal; Save adds the leg to the top of the list as "In Review"
   and shows a success message.
 - The filter panel's checkboxes, Search and Save are visual only; Reset clears the checkboxes.
+- The moon/sun button in the toolbar switches light and dark theme (a review aid, not a feature).
 
 STATES SHOWN
 - Empty: search for "zzz".
@@ -104,6 +105,10 @@ OPEN QUESTIONS
           <button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary psds-icon-btn--flat" type="button"
                   id="panel-toggle" aria-controls="filters" aria-expanded="true" aria-label="Hide filters">
             <span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf0db;</span></span>
+          </button>
+          <button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary psds-icon-btn--flat" type="button"
+                  id="theme-toggle" aria-label="Switch to dark theme">
+            <span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon" id="theme-icon">&#xf186;</span></span>
           </button>
         </div>
         <div class="psds-table-toolbar__group">
@@ -293,6 +298,22 @@ OPEN QUESTIONS
     panelToggle.setAttribute('aria-label', open ? 'Hide filters' : 'Show filters');
     document.getElementById('filters').hidden = !open;
   });
+
+  // Theme switch for reviewing both themes. Starts from the system setting.
+  const themeToggle = document.getElementById('theme-toggle');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => (document.documentElement.dataset.theme || (systemDark.matches ? 'dark' : 'light')) === 'dark';
+  function syncThemeToggle() {
+    const dark = isDark();
+    document.getElementById('theme-icon').innerHTML = dark ? '&#xf185;' : '&#xf186;';
+    themeToggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  themeToggle.addEventListener('click', () => {
+    PSDS.setTheme(isDark() ? 'light' : 'dark');
+    syncThemeToggle();
+  });
+  systemDark.addEventListener('change', syncThemeToggle);
+  syncThemeToggle();
 
   // Create form: the form owns its rules; PSDS.setFieldState only draws the result.
   const form = document.getElementById('create-form');
