@@ -7,7 +7,9 @@ component-level overrides.
 
 **Figma source:** UI Kit — Tailwind 3 Theme (Portside Edition) › `Toggle Switch`
 ([node `4755:172855`](https://www.figma.com/design/2JfMgeZuQOt4atDR58pLs9/UI-Kit---Tailwind-3-Theme--Portside-Edition-?node-id=4755-172855))
-— 160 variants: 4 sizes × 2 active states × 5 states × 2 captions × 2 text positions.
+— 160 variants: 4 sizes × 2 active states × 5 states × 2 captions × 2 text positions. The
+caption variant (*Label = Yes*, ON/OFF text inside the track) is deliberately not
+implemented: it added little and its white-on-green text failed contrast.
 
 ```html
 <link rel="stylesheet" href="tokens.css">
@@ -24,7 +26,6 @@ component-level overrides.
 | Axis | Classes | Default |
 | --- | --- | --- |
 | Size | `--xs` `--sm` `--md` `--lg` | `--sm` |
-| Caption | *(none)* `--state-text` | none |
 | Text position | *(none = Right)* `--label-start` | Right |
 
 | Part | Role |
@@ -54,43 +55,15 @@ Label weight is `--font-weight-medium` and tracking `--letter-spacing-normal` at
 size. The thumb travels the free space inside the padding box, so the transform is derived
 — `track − 2 × padding − thumb` — rather than authored per size.
 
-## Caption inside the track
-
-`--state-text` is the Figma *Label = Yes* variant: an ON/OFF caption rides inside the
-track opposite the thumb. The track drops its fixed width and sizes to the caption, keeping
-`--spacing-2` on the thumb side against `--spacing-6` on the caption side.
-
-| Size | Caption font | Caption gap | Track width (OFF / ON) |
-| --- | --- | --- | --- |
-| `--xs` | `--font-size-xxs` 10 | `--spacing-2` | 46 / 40 |
-| `--sm` | `--font-size-xs` 12 | `--spacing-2` | 54 / 49 |
-| `--md` | `--font-size-sm` 14 | `--spacing-4` | 64 / 58 |
-| `--lg` | `--font-size-base` 16 | `--spacing-8` | 76 / 69 |
-
-The caption strings are the tokens `--psds-toggle-text-off` and `--psds-toggle-text-on`,
-so they can be localised without touching the CSS:
-
-```html
-<label class="psds-toggle psds-toggle--sm psds-toggle--state-text"
-       style="--psds-toggle-text-off:'AUS'; --psds-toggle-text-on:'AN'">
-  <input class="psds-toggle__input" type="checkbox">
-  <span class="sr-only">Benachrichtigungen</span>
-</label>
-```
-
-Because the ON and OFF tracks are different widths, the thumb of this variant is placed by
-flex order rather than by the transform, and so does not animate. The plain variant, whose
-width is fixed, does.
-
 ## States
 
-| State | Track (OFF) | Track (ON) | Thumb | Caption |
-| --- | --- | --- | --- | --- |
-| Default | `--background-content-bg-color-alt3` | `--toggle-on-bg-color` | `--cool-gray-white` + shadow | `--foreground-content-text-color` / `--buttons-primary-text` |
-| Hover | *identical to Default* | *identical to Default* | *identical* | *identical* |
-| Active | Default + ring | Default + ring | *identical* | *identical* |
-| Focus | Default + ring | Default + ring | *identical* | *identical* |
-| Disabled | `--background-content-bg-color-alt2` | `--toggle-on-bg-color-disabled` | `--background-content-bg-color-disabled`, no shadow | `--foreground-content-text-color-disabled` / `--buttons-primary-text-disabled` |
+| State | Track (OFF) | Track (ON) | Thumb |
+| --- | --- | --- | --- |
+| Default | `--background-content-bg-color-alt3` | `--toggle-on-bg-color` | `--cool-gray-white` + shadow |
+| Hover | *identical to Default* | *identical to Default* | *identical* |
+| Active | Default + ring | Default + ring | *identical* |
+| Focus | Default + ring | Default + ring | *identical* |
+| Disabled | `--background-content-bg-color-alt2` | `--toggle-on-bg-color-disabled` | `--background-content-bg-color-disabled`, no shadow |
 
 Two things about that table are deliberate rather than oversights:
 
@@ -116,8 +89,8 @@ bound to `:focus-visible`, so pointer clicks do not raise it.
 
 ## Token map
 
-The input maps the shared tokens onto four channels, which the track, thumb and caption
-rules then consume. Nothing is hard-coded; retheming happens entirely in `tokens.css`.
+The input maps the shared tokens onto four channels, which the track and thumb rules then
+consume. Nothing is hard-coded; retheming happens entirely in `tokens.css`.
 
 | Channel | OFF resolves to | ON resolves to |
 | --- | --- | --- |
@@ -125,20 +98,18 @@ rules then consume. Nothing is hard-coded; retheming happens entirely in `tokens
 | `--psds-toggle-track-disabled` | `--background-content-bg-color-alt2` | `--toggle-on-bg-color-disabled` |
 | `--psds-toggle-thumb-color` | `--cool-gray-white` | `--cool-gray-white` |
 | `--psds-toggle-thumb-color-disabled` | `--background-content-bg-color-disabled` | `--background-content-bg-color-disabled` |
-| `--psds-toggle-state-color` | `--foreground-content-text-color` | `--buttons-primary-text` |
-| `--psds-toggle-state-color-disabled` | `--foreground-content-text-color-disabled` | `--buttons-primary-text-disabled` |
 
 The ON track uses its own `--toggle-on-bg-color` (green, `--green-500`), as in Figma
 Avianis WEB V2 › Add Leg ([node `5171:41484`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=5171-41484)),
-so an enabled setting reads differently from a checked checkbox. The `--state-text`
-caption and the focus ring stay on the primary tokens.
+so an enabled setting reads differently from a checked checkbox. The focus ring stays on
+`--primary`.
 
 ## Accessibility
 
 - The `<label>` wraps the input, so the whole control — switch, label, `*` and icon — is
-  one click target and one accessible name. When you use `--state-text` with no visible
-  label, give the input a name another way (an `.sr-only` span, `aria-label`, or
-  `aria-labelledby`); the caption is a CSS `content` string and is not read out.
+  one click target and one accessible name. A toggle with no visible label (as in a modal
+  [setting row](../../patterns/modal/modal.md#setting-rows)) needs a name another way: an
+  `.sr-only` span, `aria-label`, or `aria-labelledby`.
 - A switch is right for a standalone setting that takes effect on its own. For properties
   of a record that are saved with a form, especially several related ones, use
   [checkboxes](../checkbox/checkbox.md) instead; see [modal options](../../patterns/modal/modal.md#options-toggle-checkbox-or-nested).

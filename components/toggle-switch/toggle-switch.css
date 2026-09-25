@@ -5,7 +5,6 @@
  * Class API
  *   .psds-toggle                               base (Size = Small, Text Position = Right)
  *   .psds-toggle--xs | --sm | --md | --lg      Sizes
- *   .psds-toggle--state-text                   Label = Yes — the ON/OFF caption inside the track
  *   .psds-toggle--label-start                  Text Position = Left
  *
  *   .psds-toggle__input                        the native <input type="checkbox">, styled directly
@@ -26,13 +25,6 @@
   --psds-toggle-thumb       : var(--spacing-20);
   --psds-toggle-padding     : var(--spacing-2);
 
-  /* The caption inside the track (Label = Yes): its own type ramp, its own gap, and
-   * 6px of padding on the caption side against 2px on the thumb side. */
-  --psds-toggle-state-font-size  : var(--font-size-xs);
-  --psds-toggle-state-line-height: var(--line-height-xs);
-  --psds-toggle-state-gap        : var(--spacing-2);
-  --psds-toggle-state-padding    : var(--spacing-6);
-
   /* The text beside the switch. */
   --psds-toggle-gap              : var(--spacing-8);
   --psds-toggle-text-gap         : var(--spacing-4);
@@ -40,10 +32,6 @@
   --psds-toggle-line-height      : var(--line-height-sm);
   --psds-toggle-required-font-size: var(--font-size-xs);
   --psds-toggle-icon             : var(--font-icon-14);
-
-  /* Captions of the Label = Yes variant. Overridable so they can be localised. */
-  --psds-toggle-text-off: "OFF";
-  --psds-toggle-text-on : "ON";
 
   /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
   --psds-toggle-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -70,10 +58,6 @@
   --psds-toggle-track-height: var(--spacing-20);
   --psds-toggle-thumb       : var(--spacing-16);
 
-  --psds-toggle-state-font-size  : var(--font-size-xxs);
-  --psds-toggle-state-line-height: var(--line-height-xxs);
-  --psds-toggle-state-gap        : var(--spacing-2);
-
   --psds-toggle-gap              : var(--spacing-8);
   --psds-toggle-font-size        : var(--font-size-xs);
   --psds-toggle-line-height      : var(--line-height-xs);
@@ -85,10 +69,6 @@
   --psds-toggle-track-width : var(--spacing-44);
   --psds-toggle-track-height: var(--form-mouse-small);
   --psds-toggle-thumb       : var(--spacing-20);
-
-  --psds-toggle-state-font-size  : var(--font-size-xs);
-  --psds-toggle-state-line-height: var(--line-height-xs);
-  --psds-toggle-state-gap        : var(--spacing-2);
 
   --psds-toggle-gap              : var(--spacing-8);
   --psds-toggle-font-size        : var(--font-size-sm);
@@ -102,10 +82,6 @@
   --psds-toggle-track-height: var(--spacing-28);
   --psds-toggle-thumb       : var(--spacing-24);
 
-  --psds-toggle-state-font-size  : var(--font-size-sm);
-  --psds-toggle-state-line-height: var(--line-height-sm);
-  --psds-toggle-state-gap        : var(--spacing-4);
-
   --psds-toggle-gap              : var(--spacing-12);
   --psds-toggle-font-size        : var(--font-size-base);
   --psds-toggle-line-height      : var(--line-height-base);
@@ -117,10 +93,6 @@
   --psds-toggle-track-width : var(--spacing-60);
   --psds-toggle-track-height: var(--form-mouse);
   --psds-toggle-thumb       : var(--spacing-28);
-
-  --psds-toggle-state-font-size  : var(--font-size-base);
-  --psds-toggle-state-line-height: var(--line-height-base);
-  --psds-toggle-state-gap        : var(--spacing-8);
 
   --psds-toggle-gap              : var(--spacing-16);
   --psds-toggle-font-size        : var(--font-size-base);
@@ -151,24 +123,16 @@
   --psds-toggle-thumb-color         : var(--cool-gray-white);
   --psds-toggle-thumb-color-disabled: var(--background-content-bg-color-disabled);
 
-  --psds-toggle-state-color         : var(--foreground-content-text-color);
-  --psds-toggle-state-color-disabled: var(--foreground-content-text-color-disabled);
-
-  --psds-toggle-state-text: var(--psds-toggle-text-off);
 }
 
 /* ON fills the track with the toggle's own green (--toggle-on-bg-color), as in the
  * Figma Add Leg modal, so an enabled setting reads differently from a checked
- * checkbox. The caption colour and focus ring stay on the primary tokens. */
+ * checkbox. The focus ring stays on the primary token. */
 
 .psds-toggle__input:checked {
   --psds-toggle-track         : var(--toggle-on-bg-color);
   --psds-toggle-track-disabled: var(--toggle-on-bg-color-disabled);
 
-  --psds-toggle-state-color         : var(--buttons-primary-text);
-  --psds-toggle-state-color-disabled: var(--buttons-primary-text-disabled);
-
-  --psds-toggle-state-text: var(--psds-toggle-text-on);
 }
 
 /* ------------------------------------------------------------------ Track */
@@ -178,7 +142,6 @@
   flex       : none;
   display    : inline-flex;
   align-items: center;
-  gap        : var(--psds-toggle-state-gap);
 
   width         : var(--psds-toggle-track-width);
   height        : var(--psds-toggle-track-height);
@@ -228,50 +191,6 @@
 @media (prefers-reduced-motion: reduce) {
   .psds-toggle__input,
   .psds-toggle__input::before { transition: none; }
-}
-
-/* -------------------------------------------------- Caption inside the track */
-/*
- * Figma "Label = Yes". The track drops its fixed width and sizes to the caption,
- * which sits opposite the thumb: OFF puts the thumb first, ON puts the caption
- * first. So the caption never animates across a width change, the thumb is placed
- * by flex order here rather than by the transform above.
- */
-
-.psds-toggle--state-text .psds-toggle__input {
-  width         : auto;
-  padding-inline: var(--psds-toggle-padding) var(--psds-toggle-state-padding);
-}
-
-.psds-toggle--state-text .psds-toggle__input:checked {
-  padding-inline: var(--psds-toggle-state-padding) var(--psds-toggle-padding);
-}
-
-.psds-toggle--state-text .psds-toggle__input::before {
-  order    : 0;
-  transform: none;
-}
-
-.psds-toggle--state-text .psds-toggle__input:checked::before {
-  order    : 1;
-  transform: none;
-}
-
-.psds-toggle--state-text .psds-toggle__input::after {
-  content: var(--psds-toggle-state-text);
-  order  : 1;
-  flex   : none;
-
-  font-size     : var(--psds-toggle-state-font-size);
-  line-height   : var(--psds-toggle-state-line-height);
-  font-weight   : var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-normal);
-  color         : var(--psds-toggle-state-color);
-  white-space   : nowrap;
-}
-
-.psds-toggle--state-text .psds-toggle__input:checked::after {
-  order: 0;
 }
 
 /* ------------------------------------------------------------------- Text */
@@ -341,11 +260,6 @@
 .psds-toggle.is-disabled .psds-toggle__input::before {
   background-color: var(--psds-toggle-thumb-color-disabled);
   box-shadow      : none;
-}
-
-.psds-toggle__input:disabled::after,
-.psds-toggle.is-disabled .psds-toggle__input::after {
-  color: var(--psds-toggle-state-color-disabled);
 }
 
 .psds-toggle:has(.psds-toggle__input:disabled),
