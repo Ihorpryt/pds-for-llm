@@ -91,10 +91,10 @@
  */
 
 .psds-badge--primary {
-  --psds-badge-ascent-bg: var(--primary);
+  --psds-badge-ascent-bg: var(--primary-solid);
   --psds-badge-ascent-fg: var(--primary-text-color);
   --psds-badge-subtle-bg: var(--primary-lighter);
-  --psds-badge-subtle-fg: var(--primary);
+  --psds-badge-subtle-fg: var(--primary-lighter-text-color);
   --psds-badge-accent   : var(--primary);
 }
 

@@ -21,7 +21,7 @@
   --light-blue-100           : #e0f2fe;
   --light-blue-200           : #bae6fd;
   --light-blue-300           : #8ab0d6;
-  --light-blue-400           : #38bdf8;
+  --light-blue-400           : #64b7dc;
   --light-blue-50            : #f0f9ff;
   --light-blue-500           : #5c98d5;
   --light-blue-600           : #3a75b0;
@@ -101,6 +101,8 @@
   --primary           : var(--light-blue-600);
   --primary-light     : var(--indigo-100);
   --primary-lighter   : var(--indigo-50);
+  --primary-lighter-text-color: var(--primary);
+  --primary-solid     : var(--primary);
   --primary-text-color: var(--cool-gray-white);
   --secondary         : #374151;
   --stats             : "String value";
@@ -569,7 +571,10 @@
   --info-lighter   : var(--cyan-900);
   --primary        : var(--light-blue-500);
   --primary-light  : var(--cyan-600);
-  --primary-lighter: var(--cyan-800);
+  /* A 40% light-blue-600 wash over --surface-2, paired with light-blue-200 text (7.2:1) */
+  --primary-lighter: color-mix(in srgb, var(--light-blue-600) 40%, var(--surface-2));
+  --primary-lighter-text-color: var(--light-blue-200);
+  --primary-solid  : var(--light-blue-600);
   --secondary      : #ffffff03;
   --success        : var(--green-500);
   --success-light  : var(--green-800);
@@ -772,7 +777,10 @@
     --info-lighter   : var(--cyan-900);
     --primary        : var(--light-blue-500);
     --primary-light  : var(--cyan-600);
-    --primary-lighter: var(--cyan-800);
+    /* A 40% light-blue-600 wash over --surface-2, paired with light-blue-200 text (7.2:1) */
+    --primary-lighter: color-mix(in srgb, var(--light-blue-600) 40%, var(--surface-2));
+    --primary-lighter-text-color: var(--light-blue-200);
+    --primary-solid  : var(--light-blue-600);
     --secondary      : #ffffff03;
     --success        : var(--green-500);
     --success-light  : var(--green-800);

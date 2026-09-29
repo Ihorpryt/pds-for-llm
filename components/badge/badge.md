@@ -88,7 +88,7 @@ happens entirely in `tokens.css`.
 
 | Type | Ascent surface | Ascent label | Subtle surface | Subtle label | Outline accent |
 | --- | --- | --- | --- | --- | --- |
-| `--primary` | `--primary` | `--primary-text-color` | `--primary-lighter` | `--primary` | `--primary` |
+| `--primary` | `--primary-solid` | `--primary-text-color` | `--primary-lighter` | `--primary-lighter-text-color` | `--primary` |
 | `--info` | `--info-light` | `--info` | `--info-lighter` | `--info` | `--info` |
 | `--success` | `--success-light` | `--success` | `--success-lighter` | `--success` | `--success` |
 | `--warning` | `--warning-light` | `--warning` | `--warning-lighter` | `--warning` | `--warning` |
