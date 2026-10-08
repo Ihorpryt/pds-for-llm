@@ -130,7 +130,7 @@
   --background-diagram-palette-background      : var(--cool-gray-white);
   --background-diagram-palette-hover-background: var(--cool-gray-100);
   --background-flyout-bg-color                 : var(--cool-gray-white);
-  --background-glass-bg-color                  : #ffffffe5;
+  --background-glass-bg-color                  : #e6f6f9e5;
   --background-glass-bg-color-alt1             : #ffffff40;
   --background-overlay-bg-color                : #6b7280bf;
   --background-table-bg-color-hover            : var(--cool-gray-100);
@@ -246,9 +246,9 @@
   --buttons-success-text                   : var(--cool-gray-white);
   --buttons-success-text-disabled          : var(--buttons-success-text);
 
-  /* Toggle switch ON track (Figma Toggle Switch: green-500). */
+  /* Toggle switch ON track (Figma Toggle Switch: green-500, disabled green-200). */
   --toggle-on-bg-color                     : var(--green-500);
-  --toggle-on-bg-color-disabled            : var(--green-300);
+  --toggle-on-bg-color-disabled            : var(--green-200);
   --buttons-success-text-focus             : var(--buttons-success-text);
   --buttons-success-text-hover             : var(--buttons-success-text);
   --buttons-success-text-pressed           : var(--buttons-success-text);
@@ -278,6 +278,10 @@
   --buttons-secondary-accent               : var(--buttons-secondary-text-color);
   --buttons-success-accent                 : var(--buttons-success-bg-color);
   --buttons-warning-accent                 : var(--buttons-warning-bg-color);
+
+  /* Segmented control (Figma Segmented/segmented-track, segmented-thumb) */
+  --segmented-track                        : var(--background-content-bg-color-alt3);
+  --segmented-thumb                        : var(--background-content-bg-color);
 
   /* Messages */
   --message-danger-close-icon-color-alt2 : var(--cool-gray-white);
@@ -546,7 +550,7 @@
   --control-radius-message-default-radius      : var(--radius-6);
   --control-radius-toast-bigger-radius         : var(--radius-12);
   --control-radius-toast-default-radius        : var(--radius-8);
-  --control-radius-tooltip-bigger-radius       : var(--radius-6);
+  --control-radius-tooltip-bigger-radius       : var(--radius-8);
   --control-radius-tooltip-default-radius      : var(--radius-4);
 }
 
@@ -629,10 +633,10 @@
   --icon-color-pressed   : var(--cool-gray-400);
 
   /* Buttons */
-  --buttons-danger-bg-color                : var(--red-600);
+  --buttons-danger-bg-color                : var(--red-500);
   --buttons-danger-bg-color-disabled       : var(--orange-800);
-  --buttons-danger-bg-color-hover          : var(--red-500);
-  --buttons-danger-bg-color-pressed        : var(--red-600);
+  --buttons-danger-bg-color-hover          : var(--red-600);
+  --buttons-danger-bg-color-pressed        : var(--red-700);
   --buttons-danger-text                    : var(--primary-text-color);
   --buttons-danger-text-pressed            : var(--cool-gray-white);
   --buttons-info-bg-color                  : var(--cyan-700);
@@ -664,7 +668,7 @@
   --buttons-success-border-color           : var(--buttons-success-bg-color);
   --buttons-success-text                   : var(--primary-text-color);
   --toggle-on-bg-color                     : var(--green-500);
-  --toggle-on-bg-color-disabled            : var(--green-900);
+  --toggle-on-bg-color-disabled            : var(--green-200);
   --buttons-warning-bg-color               : var(--orange-500);
   --buttons-warning-bg-color-disabled      : var(--orange-900);
   --buttons-warning-bg-color-hover         : var(--orange-600);
@@ -680,6 +684,10 @@
   --buttons-primary-accent-pressed: var(--light-blue-200);
   --buttons-success-accent: var(--success);
   --buttons-warning-accent: var(--warning);
+
+  /* Segmented control */
+  --segmented-track: var(--background-content-bg-color-alt2);
+  --segmented-thumb: var(--background-content-bg-color-alt3);
   
   /* Messages */
   --message-danger-close-icon-color-alt2 : var(--cool-gray-800);
@@ -835,10 +843,10 @@
     --icon-color-pressed   : var(--cool-gray-400);
 
     /* Buttons */
-    --buttons-danger-bg-color                : var(--red-600);
+    --buttons-danger-bg-color                : var(--red-500);
     --buttons-danger-bg-color-disabled       : var(--orange-800);
-    --buttons-danger-bg-color-hover          : var(--red-500);
-    --buttons-danger-bg-color-pressed        : var(--red-600);
+    --buttons-danger-bg-color-hover          : var(--red-600);
+    --buttons-danger-bg-color-pressed        : var(--red-700);
     --buttons-danger-text                    : var(--primary-text-color);
     --buttons-danger-text-pressed            : var(--cool-gray-white);
     --buttons-info-bg-color                  : var(--cyan-700);
@@ -870,7 +878,7 @@
     --buttons-success-border-color           : var(--buttons-success-bg-color);
     --buttons-success-text                   : var(--primary-text-color);
     --toggle-on-bg-color                     : var(--green-500);
-    --toggle-on-bg-color-disabled            : var(--green-900);
+    --toggle-on-bg-color-disabled            : var(--green-200);
     --buttons-warning-bg-color               : var(--orange-500);
     --buttons-warning-bg-color-disabled      : var(--orange-900);
     --buttons-warning-bg-color-hover         : var(--orange-600);
@@ -886,6 +894,10 @@
     --buttons-primary-accent-pressed: var(--light-blue-200);
     --buttons-success-accent: var(--success);
     --buttons-warning-accent: var(--warning);
+
+    /* Segmented control */
+    --segmented-track: var(--background-content-bg-color-alt2);
+    --segmented-thumb: var(--background-content-bg-color-alt3);
     
     /* Messages */
     --message-danger-close-icon-color-alt2 : var(--cool-gray-800);

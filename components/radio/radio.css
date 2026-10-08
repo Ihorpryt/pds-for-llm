@@ -23,6 +23,7 @@
   --psds-radio-ring       : var(--border-5);
   --psds-radio-font-size  : var(--font-size-sm);
   --psds-radio-line-height: var(--line-height-sm);
+  --psds-radio-font-weight: var(--font-weight-normal);
   --psds-radio-icon       : var(--font-icon-14);
   --psds-radio-gap        : var(--spacing-8);
   --psds-radio-text-gap   : var(--spacing-4);
@@ -50,6 +51,7 @@
   --psds-radio-ring       : var(--border-4);
   --psds-radio-font-size  : var(--font-size-xs);
   --psds-radio-line-height: var(--line-height-xs);
+  --psds-radio-font-weight: var(--font-weight-medium);
   --psds-radio-icon       : var(--font-icon-12);
   --psds-radio-gap        : var(--spacing-8);
   --psds-radio-text-gap   : var(--spacing-4);
@@ -60,6 +62,7 @@
   --psds-radio-ring       : var(--border-5);
   --psds-radio-font-size  : var(--font-size-sm);
   --psds-radio-line-height: var(--line-height-sm);
+  --psds-radio-font-weight: var(--font-weight-normal);
   --psds-radio-icon       : var(--font-icon-14);
   --psds-radio-gap        : var(--spacing-8);
   --psds-radio-text-gap   : var(--spacing-4);
@@ -70,6 +73,7 @@
   --psds-radio-ring       : var(--border-6);
   --psds-radio-font-size  : var(--font-size-base);
   --psds-radio-line-height: var(--line-height-base);
+  --psds-radio-font-weight: var(--font-weight-medium);
   --psds-radio-icon       : var(--font-icon-16);
   --psds-radio-gap        : var(--spacing-12);
   --psds-radio-text-gap   : var(--spacing-6);
@@ -80,6 +84,7 @@
   --psds-radio-ring       : var(--border-7);
   --psds-radio-font-size  : var(--font-size-base);
   --psds-radio-line-height: var(--line-height-base);
+  --psds-radio-font-weight: var(--font-weight-medium);
   --psds-radio-icon       : var(--font-icon-18);
   --psds-radio-gap        : var(--spacing-12);
   --psds-radio-text-gap   : var(--spacing-6);
@@ -119,7 +124,7 @@
 .psds-radio__input:checked {
   --psds-radio-border-width: var(--psds-radio-ring);
 
-  --psds-radio-border         : var(--buttons-primary-bg-color);
+  --psds-radio-border         : var(--primary);
   --psds-radio-border-hover   : var(--buttons-primary-bg-color-hover);
   --psds-radio-border-pressed : var(--buttons-primary-bg-color-pressed);
   --psds-radio-border-focus   : var(--buttons-primary-bg-color-focus);
@@ -162,7 +167,7 @@
 .psds-radio__label {
   font-size     : var(--psds-radio-font-size);
   line-height   : var(--psds-radio-line-height);
-  font-weight   : var(--font-weight-medium);
+  font-weight   : var(--psds-radio-font-weight);
   letter-spacing: var(--letter-spacing-normal);
   color         : var(--foreground-content-text-color);
   transition    : color 120ms ease;

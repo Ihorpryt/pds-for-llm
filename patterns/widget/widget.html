@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget — Portside Design System</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="../../foundations/icons.css">
+<link rel="stylesheet" href="../../components/button/button.css">
+<link rel="stylesheet" href="../../components/icon-button/icon-button.css">
+<link rel="stylesheet" href="../../components/badge/badge.css">
+<link rel="stylesheet" href="../../components/table/table.css">
+<link rel="stylesheet" href="widget.css">
+<style>
+  /* Page chrome only — not part of the pattern. */
+  body {
+    margin: 0;
+    padding: var(--spacing-32);
+    background: var(--background-content-bg-color-alt2);
+    color: var(--foreground-content-text-color);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+  h1 { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); margin: 0 0 var(--spacing-8); color: var(--foreground-content-text-color-hover); }
+  .gallery-h { font-size: var(--font-size-xl); line-height: var(--line-height-xl); margin: var(--spacing-40) 0 var(--spacing-16); color: var(--foreground-content-text-color-hover); }
+  .sub { margin: 0 0 var(--spacing-24); color: var(--foreground-content-text-color-alt2); }
+  .toolbar { display: flex; gap: var(--spacing-8); align-items: center; margin-bottom: var(--spacing-24); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--font-size-xs); color: var(--foreground-content-text-color-alt2); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .column { display: flex; flex-direction: column; gap: var(--spacing-16); max-width: 480px; }
+</style>
+</head>
+<body>
+
+<h1>Widget</h1>
+<p class="sub">A titled card for one block of a detail page. The body's 16px padding keeps the contained table off the card's edges.</p>
+
+<div class="toolbar">
+  <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
+</div>
+
+<h2 class="gallery-h">With a table</h2>
+<div class="column">
+  <section class="psds-widget">
+    <div class="psds-widget__header">
+      <div class="psds-widget__heading">
+        <h2 class="psds-widget__title">Invoice</h2>
+        <span class="psds-badge psds-badge--sm psds-badge--secondary psds-badge--pill">5</span>
+      </div>
+      <div class="psds-widget__actions">
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button"><span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--plus"></span></span>Add New</button>
+        <button class="psds-widget__toggle" type="button" aria-expanded="true" aria-controls="invoice-body" aria-label="Invoice section"></button>
+      </div>
+    </div>
+    <div class="psds-widget__body" id="invoice-body">
+      <table class="psds-table psds-table--contained">
+        <caption class="sr-only">Invoices</caption>
+        <colgroup><col style="width: 80px"><col style="width: 110px"><col style="width: 110px"><col><col style="width: 40px"></colgroup>
+        <thead>
+          <tr><th scope="col">Number</th><th scope="col">Status</th><th scope="col">Due Date</th><th scope="col" class="psds-table__num">Total</th><th scope="col"><span class="sr-only">Actions</span></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="psds-table__link" href="#">2812</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--info psds-badge--pill">Open</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$18,450.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2812"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2732</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--secondary psds-badge--pill">Draft</span></td>
+            <td>08/15/2026</td>
+            <td class="psds-table__num">$0.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2732"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2554</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--warning psds-badge--pill">Partially Paid</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$42,300.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2554"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2497</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--success psds-badge--pill">Paid</span></td>
+            <td>08/15/2026</td>
+            <td class="psds-table__num">$9,875.50</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2497"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2209</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--danger psds-badge--pill">Void</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$9,875.50</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2209"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<h2 class="gallery-h">Empty</h2>
+<div class="column">
+  <section class="psds-widget">
+    <div class="psds-widget__header">
+      <div class="psds-widget__heading">
+        <h2 class="psds-widget__title">Invoice</h2>
+        <span class="psds-badge psds-badge--sm psds-badge--secondary psds-badge--pill">0</span>
+      </div>
+      <div class="psds-widget__actions">
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button"><span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--plus"></span></span>Add New</button>
+        <button class="psds-widget__toggle" type="button" aria-expanded="true" aria-controls="invoice-empty-body" aria-label="Invoice section"></button>
+      </div>
+    </div>
+    <div class="psds-widget__body" id="invoice-empty-body">
+      <table class="psds-table psds-table--contained">
+        <caption class="sr-only">Invoices, empty</caption>
+        <colgroup><col style="width: 80px"><col style="width: 110px"><col style="width: 110px"><col><col style="width: 40px"></colgroup>
+        <thead>
+          <tr><th scope="col">Number</th><th scope="col">Status</th><th scope="col">Due Date</th><th scope="col" class="psds-table__num">Total</th><th scope="col"><span class="sr-only">Actions</span></th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="psds-table__empty" colspan="5">No invoices yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<h2 class="gallery-h">Collapsed</h2>
+<div class="column">
+  <section class="psds-widget">
+    <div class="psds-widget__header">
+      <div class="psds-widget__heading">
+        <h2 class="psds-widget__title">Invoice</h2>
+        <span class="psds-badge psds-badge--sm psds-badge--secondary psds-badge--pill">5</span>
+      </div>
+      <div class="psds-widget__actions">
+        <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button"><span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--plus"></span></span>Add New</button>
+        <button class="psds-widget__toggle" type="button" aria-expanded="false" aria-controls="invoice-collapsed-body" aria-label="Invoice section"></button>
+      </div>
+    </div>
+    <div class="psds-widget__body" id="invoice-collapsed-body" hidden>
+      <table class="psds-table psds-table--contained">
+        <caption class="sr-only">Invoices</caption>
+        <colgroup><col style="width: 80px"><col style="width: 110px"><col style="width: 110px"><col><col style="width: 40px"></colgroup>
+        <thead>
+          <tr><th scope="col">Number</th><th scope="col">Status</th><th scope="col">Due Date</th><th scope="col" class="psds-table__num">Total</th><th scope="col"><span class="sr-only">Actions</span></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="psds-table__link" href="#">2812</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--info psds-badge--pill">Open</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$18,450.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2812"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2732</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--secondary psds-badge--pill">Draft</span></td>
+            <td>08/15/2026</td>
+            <td class="psds-table__num">$0.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2732"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2554</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--warning psds-badge--pill">Partially Paid</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$42,300.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2554"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2497</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--success psds-badge--pill">Paid</span></td>
+            <td>08/15/2026</td>
+            <td class="psds-table__num">$9,875.50</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2497"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2209</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--danger psds-badge--pill">Void</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$9,875.50</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2209"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script src="../../src/behaviour.js"></script>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

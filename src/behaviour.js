@@ -5,7 +5,7 @@
  * the components; this file only opens, closes, selects and moves focus.
  *
  * Covered: dropdown list, tabs and segmented tabs, date picker, text box clear, alert
- * dismiss, tooltip Escape, dialogs. Page-specific logic (data, filtering, saving) stays
+ * dismiss, widget collapse, tooltip Escape, dialogs. Page-specific logic (data, filtering, saving) stays
  * in the prototype.
  *
  * Events: a dropdown or date picker that changes value dispatches `psds:change` on its
@@ -418,6 +418,17 @@
     if (!alert) return;
     emit(alert, 'psds:dismiss');
     alert.remove();
+  });
+
+  // Widget toggle shows or hides the body named by its aria-controls.
+  on('click', function (e) {
+    var toggle = closest(e.target, '.psds-widget__toggle');
+    if (!toggle) return;
+    var body = document.getElementById(toggle.getAttribute('aria-controls'));
+    if (!body) return;
+    var open = toggle.getAttribute('aria-expanded') === 'false';
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    body.hidden = !open;
   });
 
   // WCAG 1.4.13: Escape hides an open tooltip until hover and focus leave its anchor.

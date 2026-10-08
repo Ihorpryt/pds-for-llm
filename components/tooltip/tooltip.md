@@ -70,7 +70,7 @@ trigger the tooltip opens on.
 | Size | Figma | Max width | Padding | Font | Line height | Title↔description | Header gap | Icon | Close | Radius |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `--sm` | Small | 260 | `--spacing-8` | `--font-size-xs` 12 | `--line-height-xs` 16 | `--spacing-8` | `--spacing-4` | `--font-icon-12` | `--font-icon-14` | `--control-radius-tooltip-default-radius` (4) |
-| `--lg` | Large | 320 | `--spacing-12` | `--font-size-sm` 14 | `--line-height-sm` 20 | `--spacing-12` | `--spacing-6` | `--font-icon-14` | `--font-icon-14` | `--control-radius-tooltip-bigger-radius` (6) |
+| `--lg` | Large | 320 | `--spacing-12` | `--font-size-sm` 14 | `--line-height-sm` 20 | `--spacing-12` | `--spacing-6` | `--font-icon-14` | `--font-icon-14` | `--control-radius-tooltip-bigger-radius` (8) |
 
 Description weight is `--font-weight-normal`, title weight `--font-weight-medium`, and
 tracking `--letter-spacing-normal` at both sizes. `--sm` is the default per
@@ -189,8 +189,7 @@ case.
 - **Radius:** Figma binds the Small variants inconsistently — most use
   `tooltip-bigger-radius`, while Small *Bottom Center*, *Bottom Right*, *Center Left* and
   *Center Right* use `tooltip-default-radius`. This file uses `default` for `--sm` and `bigger`
-  for `--lg` throughout, so the radius never changes with pointer position. The Figma fallback
-  for `tooltip-bigger-radius` is 8, but `tokens.css` resolves it to `--radius-6`; the token wins.
+  for `--lg` throughout, so the radius never changes with pointer position.
 - The Figma Clock and Close icons are replaced by the Font Awesome `clock` (`f017`) and `xmark`
   (`f00d`) glyphs per [`guidance.md`](../../guidance.md).
 - The pointer uses `mask-image` (with the `-webkit-` prefix) and the individual `translate` /

@@ -1,7 +1,7 @@
 /* Portside Design System — Segmented Controls
  * Source: Figma "UI Kit - Tailwind 3 Theme (Portside Edition)" › Segment Tabs (node 52442:37223)
  * Every value below resolves through a token declared in tokens.css, except the two
- * component-level literals noted inline (font family and the $Shadow-sm effect).
+ * component-level literals noted inline (font family and the thumb shadow colours).
  *
  * Class API
  *   .psds-segmented                            track (the grey container)
@@ -20,24 +20,32 @@
 .psds-segmented {
   /* --- Size channel (set by the size modifiers) --- */
   --psds-segmented-height     : var(--form-mouse);
-  --psds-segmented-padding    : var(--spacing-2);
-  --psds-segmented-item-px    : var(--spacing-10);
   --psds-segmented-font-size  : var(--font-size-sm);
   --psds-segmented-line-height: var(--line-height-sm);
 
+  /* Same at both sizes */
+  --psds-segmented-padding: var(--spacing-2);
+  --psds-segmented-gap    : var(--spacing-2);
+  --psds-segmented-item-px: var(--spacing-9);
+
   /* tokens.css declares no font-family token; Inter comes from the Figma text style. */
   --psds-segmented-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  /* tokens.css declares no shadow tokens; this is the Figma effect $Shadow-sm. */
-  --psds-segmented-shadow: 0 1px 2px #0000000d;
+  /* tokens.css declares no shadow tokens; this is the effect on the Figma thumb:
+     a 1px hairline around it and a soft drop below. */
+  --psds-segmented-shadow: 0 0 0 var(--border-1) #0000000f, 0 var(--spacing-1) var(--spacing-2) #0000001f;
 
   box-sizing : border-box;
   display    : inline-flex;
   align-items: stretch;
+  gap        : var(--psds-segmented-gap);
   max-width  : 100%;
 
+  /* Figma draws the track border as an inside stroke, so the padding is measured from
+     the outer edge and the border takes one pixel of it. */
   height          : var(--psds-segmented-height);
-  padding         : var(--psds-segmented-padding);
-  background-color: var(--background-content-bg-color-alt3);
+  padding         : calc(var(--psds-segmented-padding) - var(--border-1));
+  background-color: var(--segmented-track);
+  border          : var(--border-1) solid var(--border);
   border-radius   : var(--radius-8);
 
   font-family   : var(--psds-segmented-font-family);
@@ -51,16 +59,12 @@
 
 .psds-segmented--xs {
   --psds-segmented-height     : var(--form-mouse-small);
-  --psds-segmented-padding    : var(--spacing-1);
-  --psds-segmented-item-px    : var(--spacing-6);
   --psds-segmented-font-size  : var(--font-size-xs);
   --psds-segmented-line-height: var(--line-height-xs);
 }
 
 .psds-segmented--sm {
   --psds-segmented-height     : var(--form-mouse);
-  --psds-segmented-padding    : var(--spacing-2);
-  --psds-segmented-item-px    : var(--spacing-10);
   --psds-segmented-font-size  : var(--font-size-sm);
   --psds-segmented-line-height: var(--line-height-sm);
 }
@@ -79,10 +83,8 @@
 
 /* ---------------------------------------------------------------- Segment */
 /*
- * Figma draws the selected border as an inside stroke, so selecting a segment never
- * changes its size. Here every segment carries a 1px border (transparent until
- * selected) and the inline padding gives that pixel back, so the text sits exactly
- * where Figma puts it.
+ * A segment has no border of its own. The selected one is a thumb: a surface plus a
+ * shadow that draws its hairline, so selecting a segment never changes its size.
  */
 
 .psds-segmented__item {
@@ -95,7 +97,7 @@
   gap            : var(--spacing-6);
 
   padding-block : var(--spacing-0);
-  padding-inline: calc(var(--psds-segmented-item-px) - var(--border-1));
+  padding-inline: var(--psds-segmented-item-px);
   margin        : var(--spacing-0);
 
   font          : inherit;
@@ -104,13 +106,13 @@
   color         : var(--foreground-content-text-color-alt2);
 
   background-color: var(--transparent);
-  border          : var(--border-1) solid var(--transparent);
+  border          : var(--border-0);
   border-radius   : var(--control-radius-btn-bigger-small-radius);
 
   cursor    : pointer;
   appearance: none;
   user-select: none;
-  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -128,19 +130,26 @@
   cursor  : inherit;
 }
 
+/* ------------------------------------------------------------------ Hover */
+/* Only the label darkens; an unselected segment gets no surface on hover. */
+
+.psds-segmented__item:hover,
+.psds-segmented__item.is-hover {
+  color: var(--foreground-content-text-color-hover);
+}
+
 /* --------------------------------------------------------------- Selected */
 
 .psds-segmented__item:has(> .psds-segmented__input:checked),
 .psds-segmented__item[aria-selected="true"],
 .psds-segmented__item.is-selected {
-  color           : var(--buttons-secondary-text-color);
-  background-color: var(--buttons-secondary-bg-color);
-  border-color    : var(--buttons-secondary-border-color);
+  color           : var(--foreground-content-text-color-hover);
+  background-color: var(--segmented-thumb);
   box-shadow      : var(--psds-segmented-shadow);
 }
 
 /* ------------------------------------------------------------- Disabled */
-/* Not drawn in the Figma node; mapped onto the existing disabled tokens. */
+/* Only the label changes: a disabled selected segment keeps its thumb. */
 
 .psds-segmented__item:has(> .psds-segmented__input:disabled),
 .psds-segmented__item:disabled,
@@ -150,25 +159,14 @@
   cursor: not-allowed;
 }
 
-.psds-segmented__item:has(> .psds-segmented__input:checked:disabled),
-.psds-segmented__item[aria-selected="true"]:disabled,
-.psds-segmented__item[aria-selected="true"][aria-disabled="true"],
-.psds-segmented__item.is-selected.is-disabled {
-  color           : var(--buttons-secondary-text-color-disabled);
-  background-color: var(--buttons-secondary-bg-color-disabled);
-  border-color    : var(--buttons-secondary-border-color-disabled);
-  box-shadow      : none;
-}
-
 .psds-segmented__item.is-disabled {
   pointer-events: none;
 }
 
 /* ----------------------------------------------------------- Focus ring */
 /*
- * Figma effect $shadow-focus-ring2 — the segment ships it at zero spread. A 2px ring in
- * the content background colour separates the segment from a 4px ring in `primary`.
- * Declared last so it replaces the selected shadow while focused. It sits above the
+ * Figma draws focus as a 2px outside stroke in `primary`, hugging the segment with no
+ * gap. Declared last so it replaces the thumb shadow while focused. It sits above the
  * neighbouring segments, so the ring is never clipped by them.
  */
 
@@ -177,6 +175,5 @@
 .psds-segmented__item.is-focus {
   z-index   : 1;
   outline   : var(--border-2) solid var(--transparent);
-  box-shadow: 0 0 0 var(--border-2) var(--background-content-bg-color),
-              0 0 0 var(--border-4) var(--primary);
+  box-shadow: 0 0 0 var(--border-2) var(--primary);
 }
