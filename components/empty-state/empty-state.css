@@ -1,0 +1,82 @@
+/* Portside Design System — Empty state
+ * Source: Figma "Avianis WEB V2" › Invoice, State = Empty (node 8494:115104), the block
+ * under the header (node 8494:115110): an icon, a title and one line of explanation.
+ * Every value below resolves through a token declared in tokens.css.
+ *
+ * Class API
+ *   .psds-empty                  the centred stack
+ *   .psds-empty__icon            48px icon box holding a 40px icon
+ *   .psds-empty__icon--invoices  built-in two-tone illustration for invoices
+ *   .psds-empty__title           what is missing ("No invoices")
+ *   .psds-empty__description     what will appear here, or what to do next
+ */
+
+.psds-empty {
+  --psds-empty-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  box-sizing    : border-box;
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+  gap           : var(--spacing-8);
+  min-width     : 0;
+  /* Inside a widget body (16px padding) this gives Figma's 24px above and below. */
+  padding-block : var(--spacing-8);
+  font-family   : var(--psds-empty-font-family);
+  font-size     : var(--font-size-sm);
+  line-height   : var(--line-height-sm);
+  letter-spacing: var(--letter-spacing-normal);
+  text-align    : center;
+}
+
+/* ------------------------------------------------------------------- Icon */
+/* A glyph in the slot is drawn at half strength, like the outline of the two-tone
+ * illustrations. */
+
+.psds-empty__icon {
+  display        : flex;
+  flex           : none;
+  align-items    : center;
+  justify-content: center;
+  width          : var(--spacing-48);
+  height         : var(--spacing-48);
+  color          : var(--icon-color);
+  font-size      : var(--spacing-40);
+  line-height    : 1;
+}
+
+.psds-empty__icon > .psds-icon {
+  opacity: 0.5;
+}
+
+/* Figma "Empty State Icons / Invoices": Font Awesome Duotone Thin file-invoice, the fill
+ * at 15% and the outline at 50% of --icon-color. Both layers are carried in one mask. */
+.psds-empty__icon--invoices {
+  --psds-empty-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill-opacity='.15' d='M6.25 5V35C6.25 37.11 7.97 38.75 10 38.75H30C32.11 38.75 33.75 37.11 33.75 35V14.61C33.75 14.3 33.75 13.98 33.67 13.75H25.62C23.2 13.75 21.25 11.8 21.25 9.38V1.33C21.02 1.25 20.7 1.25 20.47 1.25H10C7.97 1.25 6.25 2.97 6.25 5ZM10 8.12C10 7.81 10.31 7.5 10.62 7.5H16.88C17.19 7.5 17.5 7.81 17.5 8.12C17.5 8.44 17.19 8.75 16.88 8.75H10.62C10.31 8.75 10 8.44 10 8.12ZM10 13.12C10 12.81 10.31 12.5 10.62 12.5H16.88C17.19 12.5 17.5 12.81 17.5 13.12C17.5 13.44 17.19 13.75 16.88 13.75H10.62C10.31 13.75 10 13.44 10 13.12ZM10 23.12C10 21.41 11.41 20 13.12 20H26.88C28.59 20 30 21.41 30 23.12V29.38C30 31.09 28.59 32.5 26.88 32.5H13.12C11.41 32.5 10 31.09 10 29.38V23.12Z'/%3E%3Cpath fill-opacity='.5' d='M10 1.25C7.97 1.25 6.25 2.97 6.25 5V35C6.25 37.11 7.97 38.75 10 38.75H30C32.11 38.75 33.75 37.11 33.75 35V14.61C33.75 14.3 33.75 13.98 33.67 13.75H25.62C23.2 13.75 21.25 11.8 21.25 9.38V1.33C21.02 1.25 20.7 1.25 20.47 1.25H10ZM33.12 12.5C32.97 12.27 32.81 12.11 32.66 11.95L23.05 2.34C22.89 2.19 22.73 2.03 22.5 1.88V9.38C22.5 11.09 23.91 12.5 25.62 12.5H33.12ZM5 5C5 2.27 7.27 0 10 0H20.47C21.8 0 23.05 0.55 23.98 1.48L33.52 11.02C34.45 11.95 35 13.28 35 14.61V35C35 37.73 32.73 40 30 40H10C7.27 40 5 37.73 5 35V5ZM10 8.12C10 7.81 10.31 7.5 10.62 7.5H16.88C17.19 7.5 17.5 7.81 17.5 8.12C17.5 8.44 17.19 8.75 16.88 8.75H10.62C10.31 8.75 10 8.44 10 8.12ZM10 13.12C10 12.81 10.31 12.5 10.62 12.5H16.88C17.19 12.5 17.5 12.81 17.5 13.12C17.5 13.44 17.19 13.75 16.88 13.75H10.62C10.31 13.75 10 13.44 10 13.12ZM11.25 29.38C11.25 30.39 12.11 31.25 13.12 31.25H26.88C27.89 31.25 28.75 30.39 28.75 29.38V23.12C28.75 22.11 27.89 21.25 26.88 21.25H13.12C12.11 21.25 11.25 22.11 11.25 23.12V29.38ZM10 29.38V23.12C10 21.41 11.41 20 13.12 20H26.88C28.59 20 30 21.41 30 23.12V29.38C30 31.09 28.59 32.5 26.88 32.5H13.12C11.41 32.5 10 31.09 10 29.38Z'/%3E%3C/svg%3E");
+}
+
+.psds-empty__icon--invoices::before {
+  content         : "";
+  width           : 1em;
+  height          : 1em;
+  background-color: currentColor;
+  -webkit-mask    : var(--psds-empty-image) center / contain no-repeat;
+  mask            : var(--psds-empty-image) center / contain no-repeat;
+}
+
+/* ------------------------------------------------------------------- Text */
+
+.psds-empty__title {
+  margin     : var(--spacing-0);
+  font-size  : inherit;
+  line-height: inherit;
+  font-weight: var(--font-weight-semibold);
+  color      : var(--foreground-content-text-color);
+}
+
+.psds-empty__description {
+  /* Title and description sit 2px apart inside the 8px stack. */
+  margin     : calc(var(--spacing-2) - var(--spacing-8)) var(--spacing-0) var(--spacing-0);
+  font-weight: var(--font-weight-normal);
+  color      : var(--foreground-content-text-color-alt1);
+}

@@ -9,7 +9,7 @@
  *   .psds-widget__header         44px bar — title group left, actions right
  *   .psds-widget__heading        the title and its count badge
  *   .psds-widget__title          the title text (an <h2> or <h3>)
- *   .psds-widget__actions        buttons on the right, then the collapse toggle
+ *   .psds-widget__actions        right-hand cluster: the collapse toggle, after any action
  *   .psds-widget__toggle         plain chevron button that collapses the body
  *   .psds-widget__body           the content, with 16px padding on every side
  *

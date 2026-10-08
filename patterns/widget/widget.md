@@ -17,7 +17,7 @@ instead.
 ```text
 ┌ .psds-widget ──────────────────────────────────────────────┐
 │ .psds-widget__header                                  44px │
-│  __heading: title · count        __actions: button · ⌃     │
+│  __heading: title · count                    __actions: ⌃  │
 ├────────────────────────────────────────────────────────────┤
 │ .psds-widget__body                            16px padding │
 │  ┌ .psds-table.psds-table--contained ───────────────────┐  │
@@ -30,7 +30,6 @@ instead.
 ```html
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="foundations/icons.css">
-<link rel="stylesheet" href="components/button/button.css">
 <link rel="stylesheet" href="components/icon-button/icon-button.css">
 <link rel="stylesheet" href="components/badge/badge.css">
 <link rel="stylesheet" href="components/table/table.css">
@@ -43,9 +42,6 @@ instead.
       <span class="psds-badge psds-badge--sm psds-badge--secondary psds-badge--pill">5</span>
     </div>
     <div class="psds-widget__actions">
-      <button class="psds-btn psds-btn--xs psds-btn--secondary" type="button">
-        <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--plus"></span></span>Add New
-      </button>
       <button class="psds-widget__toggle" type="button" aria-expanded="true"
               aria-controls="invoice-body" aria-label="Invoice section"></button>
     </div>
@@ -90,19 +86,20 @@ instead.
 | Header | `.psds-widget__header` | 44px, `--spacing-16` side padding, 1px bottom rule |
 | Heading | `.psds-widget__heading` | the title and its count, `--spacing-8` apart |
 | Title | `.psds-widget__title` | `Text-Small/Semibold` (14 / 20, 600); use the heading level that fits the page |
-| Actions | `.psds-widget__actions` | right-hand cluster, `--spacing-16` gaps; the toggle goes last |
+| Actions | `.psds-widget__actions` | right-hand cluster, `--spacing-16` gaps; holds the toggle, which goes last |
 | Toggle | `.psds-widget__toggle` | plain 16px chevron button; optional. Leave it empty: the CSS draws the chevron |
 | Body | `.psds-widget__body` | `--spacing-16` padding; stacks its children `--spacing-16` apart |
 
 ## Header
 
-- Icons are the outline ones from [`icons.md`](../../foundations/icons.md#outline-icons):
-  `.psds-icon--plus` on "Add New", `.psds-icon--pen` on row edit buttons.
+- Row edit buttons use the outline pen, `.psds-icon--pen`
+  ([`icons.md`](../../foundations/icons.md#outline-icons)).
 - The count is a Small, Secondary, Subtle, pill [badge](../../components/badge/badge.md).
-  Leave it out when the widget doesn't hold a list.
-- Header buttons are `--xs` (24px) and **Secondary**: the widget is one of several blocks
-  on the page, so its action must not compete with the page's primary button.
-- The title sits on the left and the chevron on the far right, after the actions.
+  Leave it out when the widget doesn't hold a list or the list is empty.
+- The header has no action button by default. Add one only when the request asks for
+  it; it is then `--xs` (24px) and **Secondary**, placed before the chevron, so it doesn't
+  compete with the page's primary button.
+- The title sits on the left and the chevron on the far right.
 
 ## Collapse
 
@@ -115,8 +112,9 @@ Leave the toggle out for a widget that is always open.
 
 - **A table:** always `.psds-table--contained`. Don't wrap it in `.psds-table-view` or
   `.psds-table-scroll`, and don't put a full-bleed `.psds-table` straight into the card.
-- **No data:** keep the table and its header, with one `.psds-table__empty` cell
-  ("No invoices yet.").
+- **No data:** an [empty state](../../components/empty-state/empty-state.md) in place of
+  the table (icon, "No invoices", one line of explanation). Don't show an empty table,
+  and leave the count badge out of the header.
 - **Loading or error:** a spinner glyph or an [alert](../../components/alert-message/alert-message.md)
   in the body, in place of the table.
 - Anything else (a summary, fields) sits directly in the body and gets the same padding.

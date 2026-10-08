@@ -92,8 +92,9 @@ Then set up the page once:
    row with a toggle; related properties of the record are checkboxes under a section
    label; an option that only applies when another is on is nested after it and hidden
    until it's on. See [modal options](patterns/modal/modal.md#options-toggle-checkbox-or-nested).
-10. **States.** Show what happens when there is no data (`.psds-table__empty`), when
-   something fails (an alert or a field error), while waiting (the `spinner` glyph), and
+10. **States.** Show what happens when there is no data (`.psds-table__empty` in a
+   full-page table, an [empty state](components/empty-state/empty-state.md) in a widget),
+   when something fails (an alert or a field error), while waiting (the `spinner` glyph), and
    after success (a success alert).
 11. **Accessibility basics.** Every field has a label (use `.sr-only` to hide one visually);
     actions are `<button>`s; links are `<a>`; dialogs have `aria-labelledby`; decorative
@@ -166,6 +167,7 @@ Engineers fill these in as they confirm them.
 | [Date picker](components/date-picker/date-picker.md) | Choosing a date | `.psds-datepicker` | psds.js | Unverified |
 | [Dropdown button](components/dropdown-button/dropdown-button.md) | A button that opens a menu of actions | `.psds-dropdown-btn` | Page script | Unverified |
 | [Dropdown list](components/dropdown-list/dropdown-list.md) | Choosing one value from a list | `.psds-dropdown` | psds.js / native `<select>` | Unverified |
+| [Empty state](components/empty-state/empty-state.md) | A block with no data: icon, title, one line | `.psds-empty` | None | Unverified |
 | [Icon button](components/icon-button/icon-button.md) | Icon-only actions (needs `aria-label`) | `.psds-icon-btn` | Native | Unverified |
 | [Link button](components/link-button/link-button.md) | Text-only actions that read as links | `.psds-link-btn` | Native | Unverified |
 | [Multiselect](components/multiselect/multiselect.md) | Choosing several values, with search | `.psds-multiselect` | Page script | Unverified |
