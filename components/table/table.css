@@ -11,8 +11,13 @@
  *   .psds-table-scroll               scroll container; keeps the header row in view
  *
  *   .psds-table                      a native <table>
+ *   .psds-table--contained           a table that is one block of a page (inside a widget,
+ *                                    modal or section): rounded outer border, 40px rows,
+ *                                    row rules only, no stripes
  *   .psds-table--interactive         rows highlight on hover (not in Figma)
  *   .psds-table__link                the primary-coloured link in a cell (e.g. Route)
+ *   .psds-table__num                 a right-aligned numeric cell or header (amounts, totals)
+ *   .psds-table__actions             a right-aligned cell of row actions (icon buttons)
  *   .psds-table__empty               a single full-width cell for "no results"
  *
  * Set column widths with <col style="width: …"> in a <colgroup>; leave the last column
@@ -147,6 +152,70 @@
 /* A badge in a cell keeps its own 24px height inside the 32px row. */
 .psds-table .psds-badge {
   vertical-align: middle;
+}
+
+/* ------------------------------------------------------------- Cell kinds */
+
+.psds-table :is(th, td).psds-table__num {
+  text-align          : end;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Row actions keep their focus ring: the cell doesn't clip. */
+.psds-table :is(th, td).psds-table__actions {
+  text-align   : end;
+  overflow     : visible;
+  text-overflow: clip;
+}
+
+.psds-table .psds-icon-btn {
+  vertical-align: middle;
+}
+
+/* -------------------------------------------------------------- Contained */
+/* Source: Figma "Avianis WEB V2" › Invoice widget (node 8534:114806). The table is one
+ * block inside a padded container instead of filling the page: its own rounded border,
+ * taller rows, a rule under each row and no column rules or stripes. */
+
+.psds-table--contained {
+  --psds-table-row-height: var(--spacing-40);
+  --psds-table-radius    : var(--control-radius-card-default-radius);
+
+  border       : var(--border-1) solid var(--border-light);
+  border-radius: var(--psds-table-radius);
+}
+
+.psds-table--contained :is(th, td) {
+  border-right: none;
+}
+
+.psds-table--contained thead th {
+  height: var(--form-mouse);
+}
+
+.psds-table--contained tbody tr:nth-child(even) > :is(td, th) {
+  background: var(--background-content-bg-color);
+}
+
+.psds-table--contained tbody tr:last-child > :is(td, th) {
+  border-bottom: none;
+}
+
+/* The corner cells follow the frame's inner curve so their fills don't square it off. */
+.psds-table--contained thead tr:first-child > :first-child {
+  border-top-left-radius: calc(var(--psds-table-radius) - var(--border-1));
+}
+
+.psds-table--contained thead tr:first-child > :last-child {
+  border-top-right-radius: calc(var(--psds-table-radius) - var(--border-1));
+}
+
+.psds-table--contained tbody tr:last-child > :first-child {
+  border-bottom-left-radius: calc(var(--psds-table-radius) - var(--border-1));
+}
+
+.psds-table--contained tbody tr:last-child > :last-child {
+  border-bottom-right-radius: calc(var(--psds-table-radius) - var(--border-1));
 }
 
 /* ------------------------------------------------------------------- Link */

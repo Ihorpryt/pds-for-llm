@@ -10,6 +10,9 @@
  *   .psds-icon--primary | --info | --success
  *          | --warning | --danger              Semantic colours
  *   .psds-icon--spin                           Continuous rotation, for busy states
+ *   .psds-icon--pen | --plus                   Outline icons drawn from an embedded SVG,
+ *                                              for the cases the Free font has no outline
+ *                                              cut of; the span stays empty
  *
  * The glyph goes in the markup as its Unicode escape — there is no name-to-codepoint
  * map. Look the value up on fontawesome.com/icons.
@@ -73,6 +76,24 @@
   display: block;
   width  : 100%;
   height : 100%;
+}
+
+/* --- Outline icons -------------------------------------------------------------- */
+
+/* The Free font has no outline pen or plus, which the designs use (edit buttons,
+ * "Add New"). These carry the outline as a mask, so they take the size and colour
+ * modifiers like any glyph. The element has no content. */
+.psds-icon--pen  { --psds-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.13 11.07C1.28 10.6 1.5 10.19 1.85 9.85L11.03 0.66C11.44 0.25 12.03 0 12.63 0C13.22 0 13.82 0.25 14.22 0.66L15.35 1.79C15.75 2.19 16 2.79 16 3.38C16 3.97 15.75 4.57 15.35 4.97L6.16 14.16C5.82 14.5 5.41 14.75 4.94 14.88L0.94 15.97C0.69 16.04 0.41 15.97 0.22 15.79C0.03 15.6 -0.06 15.32 0.03 15.07L1.13 11.07ZM12.1 1.72 10.44 3.38 12.63 5.57 14.28 3.91C14.44 3.79 14.5 3.6 14.5 3.38C14.5 3.19 14.41 2.97 14.28 2.85L13.16 1.72C13.03 1.6 12.82 1.5 12.63 1.5C12.44 1.5 12.22 1.6 12.1 1.72ZM9.38 4.44 2.91 10.91C2.75 11.07 2.66 11.25 2.6 11.47L1.85 14.19L4.53 13.44C4.75 13.38 4.94 13.25 5.1 13.1L11.57 6.63L9.38 4.44Z'/%3E%3C/svg%3E"); }
+.psds-icon--plus { --psds-icon-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8.75 1.75C8.75 1.34 8.41 1 8 1C7.59 1 7.25 1.34 7.25 1.75V7.25H1.75C1.34 7.25 1 7.59 1 8C1 8.41 1.34 8.75 1.75 8.75H7.25V14.25C7.25 14.66 7.59 15 8 15C8.41 15 8.75 14.66 8.75 14.25V8.75H14.25C14.66 8.75 15 8.41 15 8C15 7.59 14.66 7.25 14.25 7.25H8.75V1.75Z'/%3E%3C/svg%3E"); }
+
+.psds-icon--pen::before,
+.psds-icon--plus::before {
+  content         : "";
+  width           : 100%;
+  height          : 100%;
+  background-color: currentColor;
+  -webkit-mask    : var(--psds-icon-image) center / contain no-repeat;
+  mask            : var(--psds-icon-image) center / contain no-repeat;
 }
 
 /* --- Sizes ---------------------------------------------------------------------- */

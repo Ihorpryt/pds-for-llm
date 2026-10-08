@@ -119,6 +119,55 @@
       </table>
 </div>
 
+<h2>Contained</h2>
+<p class="sub"><code>.psds-table--contained</code> for a table that is one block of a page (inside a widget or modal): rounded border, 40px rows, row rules only. <code>.psds-table__num</code> right-aligns amounts; <code>.psds-table__actions</code> holds row buttons.</p>
+<div class="panel" style="max-width: 480px">
+      <table class="psds-table psds-table--contained">
+        <caption class="sr-only">Invoices</caption>
+        <colgroup><col style="width: 80px"><col style="width: 110px"><col style="width: 110px"><col><col style="width: 40px"></colgroup>
+        <thead>
+          <tr><th scope="col">Number</th><th scope="col">Status</th><th scope="col">Due Date</th><th scope="col" class="psds-table__num">Total</th><th scope="col"><span class="sr-only">Actions</span></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="psds-table__link" href="#">2812</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--info psds-badge--pill">Open</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$18,450.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2812"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2732</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--secondary psds-badge--pill">Draft</span></td>
+            <td>08/15/2026</td>
+            <td class="psds-table__num">$0.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2732"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2554</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--warning psds-badge--pill">Partially Paid</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$42,300.00</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2554"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2497</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--success psds-badge--pill">Paid</span></td>
+            <td>08/15/2026</td>
+            <td class="psds-table__num">$9,875.50</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2497"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+          <tr>
+            <td><a class="psds-table__link" href="#">2209</a></td>
+            <td><span class="psds-badge psds-badge--lg psds-badge--danger psds-badge--pill">Void</span></td>
+            <td>07/02/2026</td>
+            <td class="psds-table__num">$9,875.50</td>
+            <td class="psds-table__actions"><button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Edit invoice 2209"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--pen"></span></span></button></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
 <h2>Empty</h2>
 <div class="frame">
   <table class="psds-table">

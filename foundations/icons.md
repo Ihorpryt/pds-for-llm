@@ -88,6 +88,25 @@ Enough to build most screens without a lookup. Everything else is on fontawesome
 
 Every code above was checked against the cmap of the two bundled font files.
 
+## Outline icons
+
+The designs draw some icons in an outline cut that the Free font doesn't have. Those are
+built in as classes; the span stays empty and takes the usual size and colour modifiers:
+
+| Icon | Class | Use for |
+| --- | --- | --- |
+| pen | `.psds-icon--pen` | every **edit** action (row edit buttons, "Edit" buttons) |
+| plus | `.psds-icon--plus` | every **add / create** action ("Add New", "New invoice") |
+
+```html
+<button class="psds-btn psds-btn--xs psds-btn--secondary" type="button">
+  <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--plus"></span></span>Add New
+</button>
+```
+
+Use these two instead of the solid `pen` / `plus` glyphs and instead of pen-to-square, so
+the same action looks the same everywhere.
+
 ## Custom icons
 
 Per [`guidance.md`](../guidance.md), reach for a Font Awesome glyph first. When there is no

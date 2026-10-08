@@ -30,6 +30,10 @@ overrides.
 interaction states — the source node defines none — so there are no hover, focus or
 disabled rules.
 
+Status badges in a table share one contrast, size and shape, and vary only the type; use
+Subtle there. Where a single badge has to stand out, such as the status next to a page
+title, use `--ascent`.
+
 Cascade order in the stylesheet is **Size → Type → Contrast → Mode → Shape**. Each block may
 redefine `--psds-badge-radius`, and Shape is declared last so `--pill` always wins.
 

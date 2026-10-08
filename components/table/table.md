@@ -56,8 +56,11 @@ the results area (node `2643:9586`). For the whole page around it, see the
 | Result count | `.psds-table-toolbar__count` | muted 12px text, e.g. "11 flight legs" |
 | Scroll area | `.psds-table-scroll` | scrolls both ways; the header row stays pinned |
 | Table | `.psds-table` | a native `<table>` |
+| Contained | `.psds-table--contained` | for a table that is one block of a page; see [Contained](#contained) |
 | Interactive rows | `.psds-table--interactive` | rows tint on hover (not in Figma) |
 | Link | `.psds-table__link` | the primary-coloured record link (the Route column) |
+| Numeric cell | `.psds-table__num` | on a `<td>` and its `<th>`: right-aligned, tabular figures (amounts, totals) |
+| Actions cell | `.psds-table__actions` | on a `<td>`: right-aligned row buttons (`.psds-icon-btn--xs`) |
 | Empty cell | `.psds-table__empty` | one `<td colspan="…">` for "no results" |
 
 ## Layout
@@ -76,7 +79,35 @@ Figma widths are 150px for Route, 170px for most columns, 250px for Crew, and th
 the last column.
 
 A badge in a cell is `.psds-badge--lg` (24px) with `--pill`, which sits inside the 32px
-row with 4px above and below.
+row with 4px above and below. Every badge in a column uses the same contrast, Subtle by
+default (no `--outline` or `--ascent`); only the type class changes with the status.
+
+## Contained
+
+The default table is **full-bleed**: it runs edge to edge, and its frame is the page (the
+[list page](../../patterns/list-page/list-page.md)). When the table is only one block of a
+page — inside a [widget](../../patterns/widget/widget.md), a modal or a section of a
+detail page — add `.psds-table--contained` and place it in a padded container:
+
+```html
+<div class="psds-widget__body">
+  <table class="psds-table psds-table--contained">…</table>
+</div>
+```
+
+| | Full-bleed (default) | `--contained` |
+| --- | --- | --- |
+| Use when | the table is the page | the table is a block within a page |
+| Outer edge | none; the page frames it | 1px `--border-light`, `--control-radius-card-default-radius` 8 |
+| Space around it | none | the container's padding (`--spacing-16` in a widget) |
+| Header row | `--form-mouse` 32 | `--form-mouse` 32 |
+| Body rows | `--form-mouse` 32, striped | `--spacing-40` 40, not striped |
+| Cell rules | right and bottom | bottom only; none under the last row |
+
+Don't use `.psds-table-view`, `.psds-table-toolbar` or `.psds-table-scroll` with a
+contained table: its title and actions belong to the container's header. Source: Figma
+Avianis WEB V2 › Invoice
+([node `8534:114806`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=8534-114806)).
 
 ## Styles
 
