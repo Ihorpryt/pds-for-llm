@@ -89,10 +89,10 @@ happens entirely in `tokens.css`.
 | Type | Ascent surface | Ascent label | Subtle surface | Subtle label | Outline accent |
 | --- | --- | --- | --- | --- | --- |
 | `--primary` | `--primary-solid` | `--primary-text-color` | `--primary-lighter` | `--primary-lighter-text-color` | `--primary` |
-| `--info` | `--info-light` | `--info` | `--info-lighter` | `--info` | `--info` |
-| `--success` | `--success-light` | `--success` | `--success-lighter` | `--success` | `--success` |
-| `--warning` | `--warning-light` | `--warning` | `--warning-lighter` | `--warning` | `--warning` |
-| `--danger` | `--danger-light` | `--danger` | `--danger-lighter` | `--danger` | `--danger` |
+| `--info` | `--buttons-info-bg-color` | `--buttons-info-text` | `--info-lighter` | `--info` | `--info` |
+| `--success` | `--buttons-success-bg-color` | `--buttons-success-text` | `--success-lighter` | `--success` | `--success` |
+| `--warning` | `--buttons-warning-bg-color` | `--buttons-warning-text` | `--warning-lighter` | `--warning` | `--warning` |
+| `--danger` | `--buttons-danger-bg-color` | `--buttons-danger-text` | `--danger-lighter` | `--danger` | `--danger` |
 | `--secondary` | `--background-content-bg-color` | `--foreground-content-text-color-alt1` | `--background-content-bg-color-alt1` | `--foreground-content-text-color-alt1` | `--foreground-content-text-color-alt1` |
 | `--light` | `--background-content-bg-color-alt1` | `--foreground-content-text-color-alt1` | `--background-content-bg-color-alt1` | `--foreground-content-text-color-alt1` | `--foreground-content-text-color-alt1` |
 | `--dark` | `--foreground-content-text-color-alt2` | `--background-content-bg-color-alt2` | `--foreground-content-text-color-alt2` | `--background-content-bg-color-alt2` | `--foreground-content-text-color-alt2` |
@@ -103,8 +103,10 @@ Transparent surfaces use `--transparent`, not `transparent`, so the value stays 
 
 These are reproduced as authored. Raise them with design before relying on them:
 
-- **Primary Ascent is the only solid fill.** It is `--primary` with a white label; every
-  other accent type's Ascent is a tinted surface (`-light`) with the accent as the label.
+- **Ascent borrows the button fills.** Info, Success, Warning and Danger Ascent use that
+  type's filled-button surface and label (`--buttons-{type}-bg-color` /
+  `--buttons-{type}-text`), so an Ascent badge is as strong as a filled button of the same
+  type. Primary Ascent uses `--primary-solid` with `--primary-text-color`.
 - **Light and Dark resolve Ascent and Subtle to the same pair**, so the two contrasts are
   visually identical for those types.
 - **Secondary Ascent is `--background-content-bg-color`** — invisible on a default content

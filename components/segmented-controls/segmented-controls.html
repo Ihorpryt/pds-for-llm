@@ -64,11 +64,11 @@
 </div>
 
 <h2>States</h2>
-<p class="sub">Rendered with the forced-state helpers <code>.is-selected</code>, <code>.is-focus</code>, <code>.is-disabled</code>. Hover and active are not drawn in Figma and have no treatment.</p>
+<p class="sub">Rendered with the forced-state helpers <code>.is-selected</code>, <code>.is-hover</code>, <code>.is-focus</code>, <code>.is-disabled</code>. Active is not drawn in Figma and has no treatment.</p>
 <div class="panel">
   <table>
     <thead>
-      <tr><th>Size</th><th>Unselected</th><th>Selected</th><th>Focus</th><th>Selected + focus</th><th>Disabled</th><th>Selected + disabled</th></tr>
+      <tr><th>Size</th><th>Unselected</th><th>Selected</th><th>Hover</th><th>Focus</th><th>Selected + focus</th><th>Disabled</th><th>Selected + disabled</th></tr>
     </thead>
     <tbody id="states"></tbody>
   </table>
@@ -107,6 +107,7 @@
   const STATES = [
     [],
     ['is-selected'],
+    ['is-hover'],
     ['is-focus'],
     ['is-selected', 'is-focus'],
     ['is-disabled'],

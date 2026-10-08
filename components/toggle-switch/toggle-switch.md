@@ -101,8 +101,9 @@ consume. Nothing is hard-coded; retheming happens entirely in `tokens.css`.
 
 The ON track uses its own `--toggle-on-bg-color` (green, `--green-500`), as in Figma
 Avianis WEB V2 › Add Leg ([node `5171:41484`](https://www.figma.com/design/EVpOUjWdmWXGSQ3CazkzqM/Avianis-WEB-V2?node-id=5171-41484)),
-so an enabled setting reads differently from a checked checkbox. The focus ring stays on
-`--primary`.
+so an enabled setting reads differently from a checked checkbox. Disabled ON is
+`--toggle-on-bg-color-disabled` (`--green-200`, the UI Kit's Toggle Switch binding, in both
+themes). The focus ring stays on `--primary`.
 
 ## Accessibility
 

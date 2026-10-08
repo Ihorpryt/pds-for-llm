@@ -72,9 +72,10 @@ interaction is handled by `:hover`, `:active`, `:focus-visible` and `[disabled]`
 | `--md` | `--spacing-20` 20 | `--border-6` | 8 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-12` | `--spacing-6` | `--font-icon-16` |
 | `--lg` | `--spacing-24` 24 | `--border-7` | 10 | `--font-size-base` 16 | `--line-height-base` 24 | `--spacing-12` | `--spacing-6` | `--font-icon-18` |
 
-The label is `--font-weight-medium` at every size (all four Figma sizes bind a
-**/Medium** text style) and tracking is `--letter-spacing-normal`. Unlike the checkbox,
-the gaps grow with size: `--md` and `--lg` use 12 / 6 rather than 8 / 4.
+Label weight follows the Figma text styles, which are not uniform: `--sm` binds
+*Text-Small/Normal* (`--font-weight-normal`), the other three sizes a **/Medium** style
+(`--font-weight-medium`), the same split as the checkbox. Tracking is
+`--letter-spacing-normal`. Unlike the checkbox, the gaps grow with size: `--md` and `--lg` use 12 / 6 rather than 8 / 4.
 
 `--sm` is the default per [`guidance.md`](../../guidance.md), and is also the default
 variant of the Figma component set.
@@ -84,7 +85,7 @@ variant of the Figma component set.
 | Checked | Circle | Border |
 | --- | --- | --- |
 | OFF | `--background-content-bg-color` | 1px `--border` |
-| ON | `--background-content-bg-color` | size's ring width in `--buttons-primary-bg-color` |
+| ON | `--background-content-bg-color` | size's ring width in `--primary` |
 
 Figma draws ON as a circle with a thick primary stroke and a white centre. That is
 reproduced literally: checking widens the border from 1px to the ring width, and the
@@ -95,11 +96,11 @@ matches the content surface in both themes.
 
 | State | OFF | ON | Label |
 | --- | --- | --- | --- |
-| Default | `--border` | `--buttons-primary-bg-color` | `--foreground-content-text-color` |
-| Hover | *unchanged* | `-hover` | unchanged |
-| Active | *unchanged* | `-pressed` | unchanged |
-| Focus | unchanged + ring | `-focus` + ring | unchanged |
-| Disabled | `--border-light`, surface `-disabled` | `-disabled` | `--foreground-content-text-color-disabled` |
+| Default | `--border` | `--primary` | `--foreground-content-text-color` |
+| Hover | *unchanged* | `--buttons-primary-bg-color-hover` | unchanged |
+| Active | *unchanged* | `--buttons-primary-bg-color-pressed` | unchanged |
+| Focus | unchanged + ring | `--buttons-primary-bg-color-focus` + ring | unchanged |
+| Disabled | `--border-light`, surface `-disabled` | `--buttons-primary-bg-color-disabled` | `--foreground-content-text-color-disabled` |
 
 The Figma *Active* state maps to the `-pressed` token suffix.
 
@@ -132,7 +133,7 @@ entirely in `tokens.css`.
 | Channel | OFF resolves to | ON resolves to |
 | --- | --- | --- |
 | `--psds-radio-bg[-disabled]` | `--background-content-bg-color`, disabled `--background-content-bg-color-disabled` | same |
-| `--psds-radio-border[-state]` | `--border`, disabled `--border-light` | `--buttons-primary-bg-color[-state]` |
+| `--psds-radio-border[-state]` | `--border`, disabled `--border-light` | `--primary`, then `--buttons-primary-bg-color-{hover,pressed,focus,disabled}` |
 | `--psds-radio-border-width` | `--border-1` | `--psds-radio-ring` (from the size) |
 
 State suffixes are `-hover`, `-pressed`, `-focus` and `-disabled`.
@@ -172,8 +173,9 @@ Use `currentColor` in the icon so it follows `--icon-color` and dims to
 - `tokens.css` declares no font-family token, so the Inter stack from the Figma text style
   is held in `--psds-radio-font-family` on the component. Promote it to a global token
   when one is added.
-- `tokens.css` has no `--radio-*` colour tokens; the Figma node draws the ring in the
-  primary **button** colours, and that binding is reproduced here, as in the checkbox.
+- `tokens.css` has no `--radio-*` colour tokens; the Figma node draws the resting ring in
+  `--primary` and every other state in the primary **button** colours, and those bindings
+  are reproduced here.
 - Circle sizes 12 / 16 / 20 / 24 and ring widths 4 / 5 / 6 / 7 are literals in Figma, not
   variables; they map onto the `--spacing-*` and `--border-*` tokens of the same value.
 - The root uses `align-items: center`, as the Figma frames do. A label that wraps to two

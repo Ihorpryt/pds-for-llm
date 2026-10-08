@@ -99,32 +99,32 @@
 }
 
 .psds-badge--info {
-  --psds-badge-ascent-bg: var(--info-light);
-  --psds-badge-ascent-fg: var(--info);
+  --psds-badge-ascent-bg: var(--buttons-info-bg-color);
+  --psds-badge-ascent-fg: var(--buttons-info-text);
   --psds-badge-subtle-bg: var(--info-lighter);
   --psds-badge-subtle-fg: var(--info);
   --psds-badge-accent   : var(--info);
 }
 
 .psds-badge--success {
-  --psds-badge-ascent-bg: var(--success-light);
-  --psds-badge-ascent-fg: var(--success);
+  --psds-badge-ascent-bg: var(--buttons-success-bg-color);
+  --psds-badge-ascent-fg: var(--buttons-success-text);
   --psds-badge-subtle-bg: var(--success-lighter);
   --psds-badge-subtle-fg: var(--success);
   --psds-badge-accent   : var(--success);
 }
 
 .psds-badge--warning {
-  --psds-badge-ascent-bg: var(--warning-light);
-  --psds-badge-ascent-fg: var(--warning);
+  --psds-badge-ascent-bg: var(--buttons-warning-bg-color);
+  --psds-badge-ascent-fg: var(--buttons-warning-text);
   --psds-badge-subtle-bg: var(--warning-lighter);
   --psds-badge-subtle-fg: var(--warning);
   --psds-badge-accent   : var(--warning);
 }
 
 .psds-badge--danger {
-  --psds-badge-ascent-bg: var(--danger-light);
-  --psds-badge-ascent-fg: var(--danger);
+  --psds-badge-ascent-bg: var(--buttons-danger-bg-color);
+  --psds-badge-ascent-fg: var(--buttons-danger-text);
   --psds-badge-subtle-bg: var(--danger-lighter);
   --psds-badge-subtle-fg: var(--danger);
   --psds-badge-accent   : var(--danger);
