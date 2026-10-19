@@ -3,7 +3,7 @@
 HANDOFF NOTES
 Feature:        Browse flight legs and create a new one
 Design system:  portside-pds 0.1.0-beta.8
-Last updated:   2026-09-25
+Last updated:   2026-10-19
 
 WHAT IT DOES
 - Tabs filter the table by leg status; the search box filters by any column.
@@ -115,14 +115,14 @@ OPEN QUESTIONS
         </div>
         <div class="psds-table-toolbar__group">
           <span class="psds-table-toolbar__count" id="count" aria-live="polite"></span>
-          <div class="psds-textbox psds-textbox--xs" style="width: 230px">
+          <div class="psds-textbox psds-textbox--sm" style="width: 230px">
             <label class="sr-only" for="table-search">Search flight legs</label>
             <div class="psds-textbox__control">
               <input class="psds-textbox__field" id="table-search" type="search" placeholder="Search...">
-              <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--xs">&#xf002;</span></span>
+              <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--md">&#xf002;</span></span>
             </div>
           </div>
-          <button class="psds-btn psds-btn--xs psds-btn--primary" type="button" data-psds-open="create-dialog">
+          <button class="psds-btn psds-btn--sm psds-btn--primary" type="button" data-psds-open="create-dialog">
             <span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon psds-icon--plus"></span></span>Create
           </button>
         </div>

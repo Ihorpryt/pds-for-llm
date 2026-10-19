@@ -1,7 +1,7 @@
 # Table
 
-A dense data table for lists of records, with an optional toolbar above it: 32px rows, a
-striped body, and light rules between every cell. It styles a native `<table>`. Every
+A dense data table for lists of records, with an optional toolbar above it: 32px rows on a
+plain surface, separated by a light rule under each row. It styles a native `<table>`. Every
 visual value resolves through a token declared in [`tokens.css`](../../tokens.css), so
 light and dark themes need no component-level overrides.
 
@@ -51,7 +51,7 @@ the results area (node `2643:9586`). For the whole page around it, see the
 | Element | Class | Notes |
 | --- | --- | --- |
 | View | `.psds-table-view` | optional column frame: tabs (optional) and toolbar on top, table below; give it a height |
-| Toolbar | `.psds-table-toolbar` | 42px bar with a light bottom rule |
+| Toolbar | `.psds-table-toolbar` | 48px bar with a light bottom rule |
 | Toolbar group | `.psds-table-toolbar__group` | a cluster of controls with 8px gaps; use two, one at each end |
 | Result count | `.psds-table-toolbar__count` | muted 12px text, e.g. "11 flight legs" |
 | Scroll area | `.psds-table-scroll` | scrolls both ways; the header row stays pinned |
@@ -69,8 +69,8 @@ the results area (node `2643:9586`). For the whole page around it, see the
 | --- | --- |
 | Row height (header and body) | `--form-mouse` 32, including the 1px bottom rule |
 | Cell padding | `--spacing-8` left and right |
-| Cell rules | 1px `--border-light`, right and bottom of every cell |
-| Toolbar | 42px, `--spacing-8` / `--spacing-12` padding, `--spacing-8` gap, 1px `--border-light` bottom rule |
+| Row rules | 1px `--border-light` under every row, header included; no rules between columns |
+| Toolbar | `--spacing-48` 48, `--spacing-12` side padding, controls 8px from the top, `--spacing-8` gap, 1px `--border-light` bottom rule |
 
 **Column widths** come from a `<colgroup>`. The table uses `table-layout: fixed`, so the
 widths are exact and long text is cut off with an ellipsis instead of widening the column.
@@ -86,23 +86,23 @@ default (no `--outline` or `--ascent`); only the type class changes with the sta
 
 The default table is **full-bleed**: it runs edge to edge, and its frame is the page (the
 [list page](../../patterns/list-page/list-page.md)). When the table is only one block of a
-page — inside a [widget](../../patterns/widget/widget.md), a modal or a section of a
-detail page — add `.psds-table--contained` and place it in a padded container:
+page — inside a card, a modal or a section of a detail page — add
+`.psds-table--contained` and place it in a padded container:
 
 ```html
-<div class="psds-widget__body">
+<section class="proto-card"> <!-- any container with --spacing-16 padding -->
   <table class="psds-table psds-table--contained">…</table>
-</div>
+</section>
 ```
 
 | | Full-bleed (default) | `--contained` |
 | --- | --- | --- |
 | Use when | the table is the page | the table is a block within a page |
 | Outer edge | none; the page frames it | 1px `--border-light`, `--control-radius-card-default-radius` 8 |
-| Space around it | none | the container's padding (`--spacing-16` in a widget) |
+| Space around it | none | the container's padding (`--spacing-16` in a card or section) |
 | Header row | `--form-mouse` 32 | `--form-mouse` 32 |
-| Body rows | `--form-mouse` 32, striped | `--spacing-40` 40, not striped |
-| Cell rules | right and bottom | bottom only; none under the last row |
+| Body rows | `--form-mouse` 32 | `--spacing-40` 40 |
+| Row rules | under every row | under every row except the last |
 
 Don't use `.psds-table-view`, `.psds-table-toolbar` or `.psds-table-scroll` with a
 contained table: its title and actions belong to the container's header. Source: Figma
@@ -114,8 +114,7 @@ Avianis WEB V2 › Invoice
 | Part | Background | Text |
 | --- | --- | --- |
 | Header row | `--background-content-bg-color-alt2` | `--font-size-xs` 12 / `--line-height-xs`, `--font-weight-normal`, `--foreground-content-text-color-alt2` |
-| Odd body rows | `--background-content-bg-color` | `--font-size-sm` 14 / `--line-height-sm`, `--font-weight-normal`, `--foreground-content-text-color` |
-| Even body rows | `--background-content-bg-color-alt1` | same |
+| Body rows | `--background-content-bg-color` | `--font-size-sm` 14 / `--line-height-sm`, `--font-weight-normal`, `--foreground-content-text-color` |
 | Link | — | `--font-weight-medium`, `--buttons-primary-bg-color`; underlined `-pressed` on hover |
 | Toolbar | `--background-content-bg-color` | count: `--font-size-xs`, `--foreground-content-text-color-alt2` |
 
@@ -124,14 +123,15 @@ are additions; Figma shows only the resting state.
 
 ## Toolbar
 
-The Figma toolbar is built from existing components, all at their smallest size:
+The Figma toolbar is built from existing components. The view controls on the left are
+`--xs` (24px); the search and actions on the right are `--sm` (32px):
 
-| Left group | Right group |
+| Left group (`--xs`) | Right group (`--sm`) |
 | --- | --- |
 | Filter-panel toggle: [icon button](../icon-button/icon-button.md) `--xs --secondary --flat` with `table-columns` (`f0db`) | Result count: `.psds-table-toolbar__count` |
-| **Columns**: [button](../button/button.md) `--xs --secondary --outlined --pill` | Search: [text box](../text-box/text-box.md) `--xs`, 230px wide, with a `magnifying-glass` (`f002`) affix |
-| | Export: icon button `--xs --secondary` with `download` (`f019`) |
-| | **Create**: button `--xs --primary` with a `plus` (`2b`) icon |
+| **Columns**: [button](../button/button.md) `--xs --secondary --outlined --pill` | Search: [text box](../text-box/text-box.md) `--sm`, 230px wide, with a `magnifying-glass` (`f002`) affix at `.psds-icon--md` |
+| | Export: icon button `--sm --secondary` with `download` (`f019`) |
+| | **Create**: button `--sm --primary` with a `plus` (`2b`) icon |
 
 Figma's toggle glyph is the Font Awesome Pro `sidebar` icon, which the free set doesn't
 include. `table-columns` is the closest free icon.

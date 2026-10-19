@@ -20,7 +20,7 @@
   align-items   : center;
   gap           : var(--spacing-8);
   min-width     : 0;
-  /* Inside a widget body (16px padding) this gives Figma's 24px above and below. */
+  /* Inside a card or section with 16px padding this gives Figma's 24px above and below. */
   padding-block : var(--spacing-8);
   font-family   : var(--psds-empty-font-family);
   font-size     : var(--font-size-sm);

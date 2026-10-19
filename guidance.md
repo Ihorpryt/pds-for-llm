@@ -93,7 +93,7 @@ Then set up the page once:
    label; an option that only applies when another is on is nested after it and hidden
    until it's on. See [modal options](patterns/modal/modal.md#options-toggle-checkbox-or-nested).
 10. **States.** Show what happens when there is no data (`.psds-table__empty` in a
-   full-page table, an [empty state](components/empty-state/empty-state.md) in a widget),
+   full-page table, an [empty state](components/empty-state/empty-state.md) in a card or section),
    when something fails (an alert or a field error), while waiting (the `spinner` glyph), and
    after success (a success alert).
 11. **Accessibility basics.** Every field has a label (use `.sr-only` to hide one visually);
@@ -108,9 +108,9 @@ Then set up the page once:
 13. **A table is either the page or a block in it.** When the table is the page (search
     and browse), use the [list page](patterns/list-page/list-page.md) with the default
     full-bleed `.psds-table`. When it is one block among others (a section of a detail
-    page, a card, a modal), put it in a [widget](patterns/widget/widget.md) as
+    page, a card, a modal), put it in a padded card or section as
     `.psds-table psds-table--contained`. Never let a table touch the edges of a card: the
-    widget body's padding goes around it.
+    container's padding goes around it.
 14. **Sample data.** Use realistic aviation data (routes, tail numbers, crew names), and
     keep it in one array at the top of the page script so it is easy to find and replace.
 
@@ -126,7 +126,6 @@ Then set up the page once:
 | Date picker | Calendar, month navigation, keyboard, Today, fills `YYYY/MM/DD` | `.psds-datepicker__field` + `.psds-datepicker__toggle` |
 | Text box clear | Empties the field | `.psds-textbox__clear` button |
 | Alert close | Removes the alert | `.psds-alert__close` button |
-| Widget collapse | Shows or hides the body, flips `aria-expanded` | `.psds-widget__toggle[aria-expanded][aria-controls="body-id"]` |
 | Tooltip | Escape hides it (hover and focus show it through CSS) | `.psds-tooltip-anchor` |
 | Modal | `showModal()`, focus trap, Escape, backdrop click | `<button data-psds-open="dialog-id">`; `data-psds-close` on buttons inside the `<dialog>` |
 
@@ -174,7 +173,7 @@ Engineers fill these in as they confirm them.
 | [Pagination](components/pagination/pagination.md) | Paging a table inside a modal | `.psds-pagination` | Page script | Unverified |
 | [Radio](components/radio/radio.md) | Exactly one choice from a small set | `.psds-radio` | Native | Unverified |
 | [Segmented controls](components/segmented-controls/segmented-controls.md) | A small set of options or views | `.psds-segmented` | Native radios / psds.js (tabs) | Unverified |
-| [Table](components/table/table.md) | Lists of records: full-bleed with a toolbar, or `--contained` inside a widget | `.psds-table`, `.psds-table-toolbar` | None | Unverified |
+| [Table](components/table/table.md) | Lists of records: full-bleed with a toolbar, or `--contained` inside a card or section | `.psds-table`, `.psds-table-toolbar` | None | Unverified |
 | [Tabs](components/tabs/tabs.md) | Panels of related content in one place | `.psds-tabs` | psds.js | Unverified |
 | [Text area](components/text-area/text-area.md) | Multi-line text | `.psds-textarea` | Native | Unverified |
 | [Text box](components/text-box/text-box.md) | Single-line text, search | `.psds-textbox` | Native / psds.js (clear) | Unverified |
@@ -184,7 +183,6 @@ Engineers fill these in as they confirm them.
 | Pattern | Use for | Root |
 | --- | --- | --- |
 | [List page](patterns/list-page/list-page.md) | Filter panel beside a results table | `.psds-list-page` |
-| [Widget](patterns/widget/widget.md) | A titled card for one block of a detail page, usually a small table | `.psds-widget` with `__header`, `__heading`, `__title`, `__actions`, `__toggle`, `__body`; tables inside are `.psds-table--contained` |
 | [Modal](patterns/modal/modal.md) | Dialogs and forms over the page | `<dialog class="md">` (`.sm`, `.md`, `.lg`, `.xl`) with `.psds-modal__header`, `__title`, `__close`, `__body`, `__section`, `__section-label`, `__row`, `__setting`, `__nested`, `__footer` |
 
 ## Foundations

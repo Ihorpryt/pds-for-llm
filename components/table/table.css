@@ -1,19 +1,18 @@
 /* Portside Design System — Table
  * Source: Figma "Avianis WEB V2" › Operations -> Flight Leg Search (node 2643:9982),
- * the results area (node 2643:9586): toolbar, header row and striped body rows.
- * Every value below resolves through a token declared in tokens.css.
+ * the results area (node 2643:9586): toolbar, header row and body rows with a rule
+ * under each row. Every value below resolves through a token declared in tokens.css.
  *
  * Class API
  *   .psds-table-view                 optional frame: toolbar on top, scrolling table below
- *   .psds-table-toolbar              the 42px bar above the table
+ *   .psds-table-toolbar              the 48px bar above the table
  *   .psds-table-toolbar__group       a left- or right-hand cluster of controls
  *   .psds-table-toolbar__count       the muted result count ("11 flight legs")
  *   .psds-table-scroll               scroll container; keeps the header row in view
  *
  *   .psds-table                      a native <table>
- *   .psds-table--contained           a table that is one block of a page (inside a widget,
- *                                    modal or section): rounded outer border, 40px rows,
- *                                    row rules only, no stripes
+ *   .psds-table--contained           a table that is one block of a page (inside a card,
+ *                                    modal or section): rounded outer border, 40px rows
  *   .psds-table--interactive         rows highlight on hover (not in Figma)
  *   .psds-table__link                the primary-coloured link in a cell (e.g. Route)
  *   .psds-table__num                 a right-aligned numeric cell or header (amounts, totals)
@@ -38,7 +37,9 @@
 }
 
 /* ---------------------------------------------------------------- Toolbar */
-/* Figma: 42px tall, 12px side padding, 8px between controls, a light bottom rule. */
+/* Figma: 48px tall, 12px side padding, 8px between controls, a light bottom rule. The
+ * 32px controls sit 8px from the top; the bottom padding is 1px less because the rule
+ * is drawn inside the 48px, as Figma's inside stroke is. */
 
 /* A tab bar above the toolbar (e.g. status views) takes the toolbar's 12px inset so
  * the first tab doesn't sit on the frame edge; its divider still runs full width. */
@@ -53,8 +54,8 @@
   align-items    : center;
   justify-content: space-between;
   gap            : var(--spacing-8);
-  min-height     : calc(var(--spacing-40) + var(--spacing-2));
-  padding        : var(--spacing-8) var(--spacing-12);
+  min-height     : var(--spacing-48);
+  padding        : var(--spacing-8) var(--spacing-12) var(--spacing-7);
   border-bottom  : var(--border-1) solid var(--border-light);
   background     : var(--background-content-bg-color);
 }
@@ -113,7 +114,6 @@
   height        : var(--psds-table-row-height);
   padding-block : var(--spacing-0);
   padding-inline: var(--spacing-8);
-  border-right  : var(--border-1) solid var(--border-light);
   border-bottom : var(--border-1) solid var(--border-light);
   text-align    : start;
   vertical-align: middle;
@@ -135,7 +135,7 @@
   color      : var(--foreground-content-text-color-alt2);
 }
 
-/* Body: 14px text, every second row striped. */
+/* Body: 14px text on the content surface; rows are separated by their bottom rule only. */
 .psds-table tbody td,
 .psds-table tbody th {
   font-size  : var(--font-size-sm);
@@ -143,10 +143,6 @@
   font-weight: var(--font-weight-normal);
   color      : var(--foreground-content-text-color);
   background : var(--background-content-bg-color);
-}
-
-.psds-table tbody tr:nth-child(even) > :is(td, th) {
-  background: var(--background-content-bg-color-alt1);
 }
 
 /* A badge in a cell keeps its own 24px height inside the 32px row. */
@@ -173,9 +169,9 @@
 }
 
 /* -------------------------------------------------------------- Contained */
-/* Source: Figma "Avianis WEB V2" › Invoice widget (node 8534:114806). The table is one
+/* Source: Figma "Avianis WEB V2" › Invoice (node 8534:114806). The table is one
  * block inside a padded container instead of filling the page: its own rounded border,
- * taller rows, a rule under each row and no column rules or stripes. */
+ * taller body rows and no rule under the last row. */
 
 .psds-table--contained {
   --psds-table-row-height: var(--spacing-40);
@@ -185,16 +181,8 @@
   border-radius: var(--psds-table-radius);
 }
 
-.psds-table--contained :is(th, td) {
-  border-right: none;
-}
-
 .psds-table--contained thead th {
   height: var(--form-mouse);
-}
-
-.psds-table--contained tbody tr:nth-child(even) > :is(td, th) {
-  background: var(--background-content-bg-color);
 }
 
 .psds-table--contained tbody tr:last-child > :is(td, th) {

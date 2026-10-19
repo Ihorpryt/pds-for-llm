@@ -43,7 +43,7 @@
 <body>
 
 <h1>Table</h1>
-<p class="sub">A dense data table with a toolbar: 32px rows, striped body, light cell rules. All values resolve through <code>tokens.css</code>.</p>
+<p class="sub">A dense data table with a toolbar: 32px rows, a light rule under each row. All values resolve through <code>tokens.css</code>.</p>
 
 <div class="toolbar">
   <button class="psds-btn psds-btn--sm psds-btn--secondary" id="theme-toggle" type="button">Toggle dark theme</button>
@@ -60,14 +60,14 @@
       </div>
       <div class="psds-table-toolbar__group">
         <span class="psds-table-toolbar__count">8 flight legs</span>
-        <div class="psds-textbox psds-textbox--xs" style="width: 230px">
+        <div class="psds-textbox psds-textbox--sm" style="width: 230px">
           <div class="psds-textbox__control">
             <input class="psds-textbox__field" type="search" placeholder="Search..." aria-label="Search flight legs">
-            <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--xs">&#xf002;</span></span>
+            <span class="psds-textbox__affix" aria-hidden="true"><span class="psds-icon psds-icon--md">&#xf002;</span></span>
           </div>
         </div>
-        <button class="psds-icon-btn psds-icon-btn--xs psds-icon-btn--secondary" type="button" aria-label="Download"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf019;</span></span></button>
-        <button class="psds-btn psds-btn--xs psds-btn--primary" type="button"><span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon">&#x2b;</span></span>Create</button>
+        <button class="psds-icon-btn psds-icon-btn--sm psds-icon-btn--secondary" type="button" aria-label="Download"><span class="psds-icon-btn__icon" aria-hidden="true"><span class="psds-icon">&#xf019;</span></span></button>
+        <button class="psds-btn psds-btn--sm psds-btn--primary" type="button"><span class="psds-btn__icon" aria-hidden="true"><span class="psds-icon">&#x2b;</span></span>Create</button>
       </div>
     </div>
     <div class="psds-table-scroll">
@@ -120,7 +120,7 @@
 </div>
 
 <h2>Contained</h2>
-<p class="sub"><code>.psds-table--contained</code> for a table that is one block of a page (inside a widget or modal): rounded border, 40px rows, row rules only. <code>.psds-table__num</code> right-aligns amounts; <code>.psds-table__actions</code> holds row buttons.</p>
+<p class="sub"><code>.psds-table--contained</code> for a table that is one block of a page (inside a card, section or modal): rounded border, 40px rows, no rule under the last row. <code>.psds-table__num</code> right-aligns amounts; <code>.psds-table__actions</code> holds row buttons.</p>
 <div class="panel" style="max-width: 480px">
       <table class="psds-table psds-table--contained">
         <caption class="sr-only">Invoices</caption>

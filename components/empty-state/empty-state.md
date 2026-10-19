@@ -1,8 +1,7 @@
 # Empty state
 
 What a block shows when it has no data yet: an icon, a short title and one line that says
-what will appear there. Use it inside a [widget](../../patterns/widget/widget.md) or any
-other bounded block. A full-page results table keeps its own
+what will appear there. Use it inside a card, a section or any other bounded block. A full-page results table keeps its own
 [`.psds-table__empty`](../table/table.md) row instead.
 
 **Figma source:** Avianis WEB V2 › `Invoice`, State = Empty
@@ -31,19 +30,13 @@ other bounded block. A full-page results table keeps its own
 | Title | `.psds-empty__title` | `Text-Small/Semibold` (14 / 20, 600), `--foreground-content-text-color` |
 | Description | `.psds-empty__description` | `Text-Small/Normal` (14 / 20), `--foreground-content-text-color-alt1`, 2px under the title |
 
-## In a widget
+## In a card or section
 
 The empty state **replaces the table**: don't show an empty table with its header row.
-Leave the count badge out of the widget header too.
+Leave any count badge out of the block's heading too.
 
-```html
-<div class="psds-widget__body" id="invoice-body">
-  <div class="psds-empty">…</div>
-</div>
-```
-
-Inside `.psds-widget__body` it sits 24px from the header rule and the bottom edge, and
-16px from the sides, as in Figma.
+Inside a container with `--spacing-16` padding it sits 24px from the top and bottom edges
+and 16px from the sides, as in Figma.
 
 ## Icons
 
