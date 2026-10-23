@@ -1,7 +1,9 @@
 /* Portside Design System — Table
  * Source: Figma "Avianis WEB V2" › Operations -> Flight Leg Search (node 2643:9982),
  * the results area (node 2643:9586): toolbar, header row and body rows with a rule
- * under each row. Every value below resolves through a token declared in tokens.css.
+ * under each row. Body rows are 36px, 4px taller than Figma, to match the Syncfusion
+ * Data Grid in portside-overrides.css. Every value below resolves through a token
+ * declared in tokens.css.
  *
  * Class API
  *   .psds-table-view                 optional frame: toolbar on top, scrolling table below
@@ -88,8 +90,9 @@
 /* ------------------------------------------------------------------ Table */
 
 .psds-table {
-  --psds-table-row-height : var(--form-mouse);
-  --psds-table-font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --psds-table-row-height   : var(--spacing-36);
+  --psds-table-header-height: var(--form-mouse);
+  --psds-table-font-family  : Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   width          : 100%;
   table-layout   : fixed;
@@ -123,8 +126,9 @@
   text-overflow : ellipsis;
 }
 
-/* Header: muted 12px text on the alt surface, pinned while the body scrolls. */
+/* Header: 32px, muted 12px text on the alt surface, pinned while the body scrolls. */
 .psds-table thead th {
+  height     : var(--psds-table-header-height);
   position   : sticky;
   top        : 0;
   z-index    : 1;
@@ -145,7 +149,7 @@
   background : var(--background-content-bg-color);
 }
 
-/* A badge in a cell keeps its own 24px height inside the 32px row. */
+/* A badge in a cell keeps its own 24px height inside the 36px row. */
 .psds-table .psds-badge {
   vertical-align: middle;
 }
@@ -171,7 +175,7 @@
 /* -------------------------------------------------------------- Contained */
 /* Source: Figma "Avianis WEB V2" › Invoice (node 8534:114806). The table is one
  * block inside a padded container instead of filling the page: its own rounded border,
- * taller body rows and no rule under the last row. */
+ * taller body rows (40px; the header stays 32px) and no rule under the last row. */
 
 .psds-table--contained {
   --psds-table-row-height: var(--spacing-40);
@@ -179,10 +183,6 @@
 
   border       : var(--border-1) solid var(--border-light);
   border-radius: var(--psds-table-radius);
-}
-
-.psds-table--contained thead th {
-  height: var(--form-mouse);
 }
 
 .psds-table--contained tbody tr:last-child > :is(td, th) {

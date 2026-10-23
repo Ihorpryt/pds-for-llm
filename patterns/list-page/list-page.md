@@ -15,7 +15,7 @@ the area below the navigation. [`list-page.html`](list-page.html) is a working c
 ┌ .psds-list-page ───────────────────────────────────────────────────────┐
 │ .psds-filter-panel │ .psds-list-page__main > .psds-table-view          │
 │  search            │  .psds-table-toolbar                         48px │
-│  match all / any   │  .psds-table (sticky header, 32px rows)            │
+│  match all / any   │  .psds-table (sticky header, 36px rows)            │
 │  preset            │                                                   │
 │  accordions        │                                                   │
 │  ── footer ──      │                                                   │
