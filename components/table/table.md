@@ -1,6 +1,6 @@
 # Table
 
-A dense data table for lists of records, with an optional toolbar above it: 36px rows under
+A dense data table for lists of records, with an optional toolbar above it: 38px rows under
 a 32px header on a plain surface, separated by a light rule under each row. It styles a native `<table>`. Every
 visual value resolves through a token declared in [`tokens.css`](../../tokens.css), so
 light and dark themes need no component-level overrides.
@@ -68,7 +68,7 @@ the results area (node `2643:9586`). For the whole page around it, see the
 | Part | Value |
 | --- | --- |
 | Header row | `--form-mouse` 32, including the 1px bottom rule |
-| Body rows | `--spacing-36` 36, including the 1px bottom rule. Figma has 32; Portside uses 36 to match the Syncfusion Data Grid |
+| Body rows | 38, `calc(var(--spacing-36) + var(--spacing-2))` (no `--spacing-38` token yet), including the 1px bottom rule. Figma has 32; Portside uses 38 to match the Syncfusion Data Grid |
 | Cell padding | `--spacing-8` left and right |
 | Row rules | 1px `--border-light` under every row, header included; no rules between columns |
 | Toolbar | `--spacing-48` 48, `--spacing-12` side padding, controls 8px from the top, `--spacing-8` gap, 1px `--border-light` bottom rule |
@@ -79,8 +79,8 @@ Leave the last `<col>` without a width so it takes the remaining space, as in Fi
 Figma widths are 150px for Route, 170px for most columns, 250px for Crew, and the rest for
 the last column.
 
-A badge in a cell is `.psds-badge--lg` (24px) with `--pill`, which sits inside the 36px
-row with 6px above and below. Every badge in a column uses the same contrast, Subtle by
+A badge in a cell is `.psds-badge--lg` (24px) with `--pill`, which sits inside the 38px
+row with 6.5px above and below. Every badge in a column uses the same contrast, Subtle by
 default (no `--outline` or `--ascent`); only the type class changes with the status.
 
 ## Contained
@@ -102,7 +102,7 @@ page — inside a card, a modal or a section of a detail page — add
 | Outer edge | none; the page frames it | 1px `--border-light`, `--control-radius-card-default-radius` 8 |
 | Space around it | none | the container's padding (`--spacing-16` in a card or section) |
 | Header row | `--form-mouse` 32 | `--form-mouse` 32 |
-| Body rows | `--spacing-36` 36 | `--spacing-40` 40 |
+| Body rows | 38 (`--spacing-36` + `--spacing-2`) | `--spacing-40` 40 |
 | Row rules | under every row | under every row except the last |
 
 Don't use `.psds-table-view`, `.psds-table-toolbar` or `.psds-table-scroll` with a
